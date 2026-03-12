@@ -82,7 +82,7 @@
             font-weight: 600;
         }
 
-        /* Filters */
+        /* Category Filters with Icons */
         .filters-section {
             padding: 20px 4%;
             display: flex;
@@ -93,22 +93,32 @@
 
         .filters-section::-webkit-scrollbar { display: none; }
 
-        .filter-btn {
-            padding: 10px 20px;
+        .category-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
             border: 1px solid var(--border);
             background: white;
-            border-radius: 20px;
+            border-radius: 16px;
             font-weight: 500;
             cursor: pointer;
             white-space: nowrap;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: all 0.2s;
+            min-width: 80px;
         }
 
-        .filter-btn:hover, .filter-btn.active {
+        .category-btn:hover, .category-btn.active {
             background: var(--text);
             color: white;
             border-color: var(--text);
+        }
+
+        .category-icon {
+            font-size: 1.8rem;
+            line-height: 1;
         }
 
         /* Main Content */
@@ -123,7 +133,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* Restaurant Grid - Uber Eats Style */
+        /* Restaurant Grid */
         .restaurants-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -310,6 +320,15 @@
             .section-title {
                 font-size: 1.3rem;
             }
+
+            .category-btn {
+                min-width: 70px;
+                padding: 10px 12px;
+            }
+
+            .category-icon {
+                font-size: 1.5rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -336,18 +355,68 @@
         <span>Deliver to: <strong>123 Main Street, Johannesburg</strong></span>
     </div>
 
-    <!-- Filters -->
+    <!-- Category Filters with Icons -->
     <div class="filters-section">
-        <button class="filter-btn active">All</button>
-        <button class="filter-btn">Offers</button>
-        <button class="filter-btn">Pizza</button>
-        <button class="filter-btn">Burgers</button>
-        <button class="filter-btn">Sushi</button>
-        <button class="filter-btn">Indian</button>
-        <button class="filter-btn">Healthy</button>
-        <button class="filter-btn">Fast Food</button>
-        <button class="filter-btn">Desserts</button>
-        <button class="filter-btn">Grocery</button>
+        <button class="category-btn active">
+            <span class="category-icon">🍽️</span>
+            <span>All</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🏷️</span>
+            <span>Offers</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🍕</span>
+            <span>Pizza</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🍔</span>
+            <span>Burgers</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🍣</span>
+            <span>Sushi</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🍛</span>
+            <span>Indian</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🥗</span>
+            <span>Healthy</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🍟</span>
+            <span>Fast Food</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🍰</span>
+            <span>Desserts</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🛒</span>
+            <span>Grocery</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🥡</span>
+            <span>Chinese</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🌮</span>
+            <span>Mexican</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🥪</span>
+            <span>Sandwiches</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">☕</span>
+            <span>Coffee</span>
+        </button>
+        <button class="category-btn">
+            <span class="category-icon">🍗</span>
+            <span>Chicken</span>
+        </button>
     </div>
 
     <!-- Main Content -->
