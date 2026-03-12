@@ -3,201 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vynix Eats | Premium Delivery</title>
+    <title>Vynix Eats | Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS STYLES --- */
         :root {
-            --bg-light: #ffffff;
-            --secondary-bg: #f8f9fa;
-            --card-bg: #ffffff;
-            --accent-blue: #007aff;
-            --text-main: #1d1d1f;
-            --text-dim: #6e6e73;
+            --bg: #ffffff;
+            --text: #1d1d1f;
+            --dim: #6e6e73;
+            --accent: #007aff;
             --border: #e5e5e7;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --gradient: linear-gradient(135deg, #007aff 0%, #00d4ff 100%);
+            --surface: #fbfbfd;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { margin: 0; font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); }
 
         /* Navbar */
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 6%;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
+            display: flex; justify-content: space-between; padding: 15px 6%;
+            align-items: center; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); z-index: 1000;
         }
 
-        .logo { font-weight: 700; font-size: 1.4rem; letter-spacing: -0.5px; }
-        .logo span { color: var(--accent-blue); }
+        .btn-back { background: none; border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 500; }
 
-        .nav-right { display: flex; align-items: center; gap: 15px; }
-        
-        .btn-auth {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 8px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
+        /* Restaurant Header */
+        .res-header { padding: 40px 6%; background: var(--surface); border-bottom: 1px solid var(--border); }
+        .res-header h1 { font-size: 2.5rem; margin: 0 0 10px 0; letter-spacing: -1px; }
+        .res-meta { display: flex; gap: 20px; color: var(--dim); font-size: 0.9rem; font-weight: 500; }
+
+        /* Menu Content */
+        .menu-container { display: grid; grid-template-columns: 1fr 350px; gap: 40px; padding: 40px 6%; }
+
+        .category-title { font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .category-title:first-child { margin-top: 0; }
+
+        .menu-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 0; border-bottom: 1px solid #f2f2f7;
             transition: 0.2s;
         }
-        .btn-auth:hover { background: #f2f2f7; border-color: #d1d1d6; }
-        .btn-signup { background: var(--text-main); color: white; border: none; }
-        .btn-signup:hover { background: #000; }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 100px 10% 70px 10%;
-            background-color: var(--secondary-bg);
-            border-bottom: 1px solid var(--border);
+        .item-info h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
+        .item-info p { margin: 0; color: var(--dim); font-size: 0.85rem; max-width: 400px; }
+        .item-price { font-weight: 600; margin-top: 10px; display: block; }
+
+        .btn-add {
+            background: var(--text); color: white; border: none; width: 40px; height: 40px;
+            border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: 0.2s;
+        }
+        .btn-add:hover { transform: scale(1.1); background: var(--accent); }
+
+        /* Floating Cart Sidebar */
+        .cart-card {
+            background: white; border: 1px solid var(--border); border-radius: 20px;
+            padding: 25px; position: sticky; top: 100px; height: fit-content;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 25px; color: var(--text-main); }
-        .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .cart-card h2 { margin-top: 0; font-size: 1.3rem; }
+        .cart-empty { color: var(--dim); text-align: center; padding: 40px 0; }
 
-        .search-wrapper {
-            max-width: 580px;
-            margin: 0 auto;
-            background: white;
-            padding: 6px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            display: flex;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-        }
-
-        .search-wrapper input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            padding: 15px 20px;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .btn-search {
-            background: var(--text-main);
-            border: none;
-            padding: 0 25px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-search:hover { transform: scale(1.02); }
-
-        /* Restaurants Grid */
-        .content-section { padding: 50px 6%; }
-        .section-title { font-size: 1.4rem; margin-bottom: 25px; font-weight: 600; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .btn-checkout {
+            width: 100%; background: var(--accent); color: white; border: none;
+            padding: 15px; border-radius: 12px; font-weight: 600; margin-top: 20px;
             cursor: pointer;
         }
 
-        .card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-            border-color: #d1d1d6;
-        }
-
-        .card-img { width: 100%; height: 210px; background: #eee; object-fit: cover; }
-        
-        .card-content { padding: 18px; }
-        .card-content h3 { margin: 0 0 6px 0; font-size: 1.15rem; font-weight: 600; }
-        
-        .card-tags { display: flex; gap: 10px; color: var(--text-dim); font-size: 0.85rem; align-items: center; }
-        .badge { background: #f2f2f7; color: #1d1d1f; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .search-wrapper { flex-direction: column; gap: 10px; padding: 10px; }
-            .btn-search { padding: 15px; }
+        @media (max-width: 900px) {
+            .menu-container { grid-template-columns: 1fr; }
+            .cart-card { display: none; } /* On mobile, we'd use a bottom bar */
         }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
+        <button class="btn-back" onclick="window.history.back()">← Back</button>
         <div class="logo">VYNIX<span>EATS</span></div>
         <div class="nav-right">
-            <button class="btn-auth">Log In</button>
-            <button class="btn-auth btn-signup">Sign Up</button>
+            <span>🛒 0 items</span>
         </div>
     </nav>
 
-    <header class="hero">
-        <h1>Fresh food, <br><span class="gradient-text">delivered to your door.</span></h1>
-        <div class="search-wrapper">
-            <input type="text" placeholder="Enter delivery address...">
-            <button class="btn-search">Find Food</button>
+    <header class="res-header">
+        <h1>Artisan Pizza Co.</h1>
+        <div class="res-meta">
+            <span>⭐ 4.7 (200+ Ratings)</span>
+            <span>•</span>
+            <span>Italian • Pizza • Gourmet</span>
+            <span>•</span>
+            <span>25-30 min</span>
         </div>
     </header>
 
-    <section class="content-section">
-        <h2 class="section-title">Trending Now</h2>
-        <div class="grid" id="restaurantGrid">
-            </div>
-    </section>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        // UI LOGIC
-        const restaurantGrid = document.getElementById('restaurantGrid');
-
-        const mockRestaurants = [
-            { name: "The Green Bowl", rating: "4.9", time: "15-20 min", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80" },
-            { name: "Artisan Pizza Co.", rating: "4.7", time: "25-30 min", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80" },
-            { name: "Urban Sushi", rating: "4.8", time: "20-25 min", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=500&q=80" }
-        ];
-
-        function renderRestaurants(data) {
-            restaurantGrid.innerHTML = data.map(res => `
-                <div class="card">
-                    <img src="${res.img}" class="card-img" alt="${res.name}">
-                    <div class="card-content">
-                        <h3>${res.name}</h3>
-                        <div class="card-tags">
-                            <span class="badge">⭐ ${res.rating}</span>
-                            <span>${res.time}</span>
-                        </div>
-                    </div>
+    <div class="menu-container">
+        <main class="menu-sections">
+            <h2 class="category-title">Popular Items</h2>
+            
+            <div class="menu-item">
+                <div class="item-info">
+                    <h3>Signature Margherita</h3>
+                    <p>San Marzano tomatoes, fresh mozzarella, basil, and extra virgin olive oil.</p>
+                    <span class="item-price">R 125.00</span>
                 </div>
-            `).join('');
-        }
+                <button class="btn-add">+</button>
+            </div>
 
-        renderRestaurants(mockRestaurants);
-    </script>
+            <div class="menu-item">
+                <div class="item-info">
+                    <h3>Truffle Mushroom Pizza</h3>
+                    <p>Roasted forest mushrooms, truffle oil, and creamy béchamel sauce.</p>
+                    <span class="item-price">R 165.00</span>
+                </div>
+                <button class="btn-add">+</button>
+            </div>
+
+            <h2 class="category-title">Sides</h2>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h3>Garlic Focaccia</h3>
+                    <p>Stone-baked with garlic butter and fresh rosemary.</p>
+                    <span class="item-price">R 55.00</span>
+                </div>
+                <button class="btn-add">+</button>
+            </div>
+        </main>
+
+        <aside class="cart-sidebar">
+            <div class="cart-card">
+                <h2>Your Basket</h2>
+                <div class="cart-empty">
+                    <p>Your basket is empty.<br>Add items to get started.</p>
+                </div>
+                <button class="btn-checkout" disabled>Go to Checkout</button>
+            </div>
+        </aside>
+    </div>
+
 </body>
 </html>
