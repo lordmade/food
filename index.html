@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vynix Eats | Menu</title>
+    <title>Vynix Eats | Restaurants</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,357 +12,649 @@
             --dim: #6e6e73;
             --accent: #007aff;
             --border: #e5e5e7;
-            --surface: #fbfbfd;
+            --surface: #f5f5f7;
         }
 
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); }
 
-        /* Navbar */
-        .navbar {
-            display: flex; justify-content: space-between; padding: 15px 6%;
-            align-items: center; border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); z-index: 1000;
-        }
-        .btn-back { background: none; border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 500; }
-        .logo { font-weight: 700; font-size: 1.2rem; }
-        .logo span { color: var(--accent); }
-
-        /* Restaurant Header */
-        .res-header { padding: 40px 6%; background: var(--surface); border-bottom: 1px solid var(--border); }
-        .res-header h1 { font-size: 2.5rem; margin: 0 0 10px 0; letter-spacing: -1px; }
-        .res-meta { display: flex; gap: 20px; color: var(--dim); font-size: 0.9rem; font-weight: 500; flex-wrap: wrap; }
-
-        /* Menu Content - Horizontal Cards Layout */
-        .menu-container { display: grid; grid-template-columns: 1fr 350px; gap: 40px; padding: 40px 6%; }
-
-        .category-title { 
-            font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px 0; 
-            border-bottom: 1px solid var(--border); padding-bottom: 10px; 
-        }
-        .category-title:first-child { margin-top: 0; }
-
-        /* Horizontal Card Style - Uber Eats inspired */
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            background: white;
-            transition: all 0.2s ease;
-            margin-bottom: 16px;
-            cursor: pointer;
-            height: 160px;
-        }
-
-        .menu-item:hover {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transform: translateY(-2px);
-            border-color: #d1d1d6;
-        }
-
-        .item-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .item-info h3 { 
-            margin: 0 0 8px 0; 
-            font-size: 1.1rem; 
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .item-info p { 
-            margin: 0; 
-            color: var(--dim); 
-            font-size: 0.85rem; 
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .item-footer {
+        /* Header */
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: auto;
+            padding: 16px 4%;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
         }
 
-        .item-price { 
-            font-weight: 600; 
-            font-size: 1rem;
-            color: var(--text);
+        .logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        .btn-add {
-            background: var(--text); 
-            color: white; 
-            border: none; 
-            width: 36px; 
-            height: 36px;
-            border-radius: 50%; 
-            font-size: 1.3rem; 
-            cursor: pointer; 
-            transition: 0.2s;
+        .cart-btn {
+            background: var(--text);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-        }
-        .btn-add:hover { 
-            transform: scale(1.1); 
-            background: var(--accent); 
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 1px solid var(--border);
         }
 
-        /* Image Container - Fills the right side */
-        .item-image-container {
-            width: 140px;
-            height: 100%;
-            flex-shrink: 0;
+        /* Location Bar */
+        .location-bar {
+            padding: 12px 4%;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--dim);
+        }
+
+        .location-bar strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Filters */
+        .filters-section {
+            padding: 20px 4%;
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filters-section::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--text);
+            color: white;
+            border-color: var(--text);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px 4% 60px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Restaurant Grid - Uber Eats Style */
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px 24px;
+        }
+
+        /* Restaurant Card */
+        .restaurant-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Image Container */
+        .card-image-container {
             position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border-radius: 16px;
             overflow: hidden;
+            margin-bottom: 12px;
         }
 
-        .item-image {
+        .card-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
 
-        .menu-item:hover .item-image {
-            transform: scale(1.05);
+        .restaurant-card:hover .card-image {
+            transform: scale(1.03);
         }
 
-        /* Floating Cart Sidebar */
-        .cart-card {
-            background: white; 
-            border: 1px solid var(--border); 
+        /* Badges */
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: white;
+            padding: 6px 12px;
             border-radius: 20px;
-            padding: 25px; 
-            position: sticky; 
-            top: 100px; 
-            height: fit-content;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .cart-card h2 { margin-top: 0; font-size: 1.3rem; }
-        .cart-empty { color: var(--dim); text-align: center; padding: 40px 0; }
+        .card-badge.promo {
+            background: #34c759;
+            color: white;
+        }
 
-        .btn-checkout {
-            width: 100%; 
-            background: var(--accent); 
-            color: white; 
-            border: none;
-            padding: 15px; 
-            border-radius: 12px; 
-            font-weight: 600; 
-            margin-top: 20px;
+        .delivery-time {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.95);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Card Info */
+        .card-info {
+            padding: 0 4px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .restaurant-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.3px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .rating-star {
+            color: #f5a623;
+        }
+
+        .card-details {
+            color: var(--dim);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .card-details span {
+            margin-right: 8px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            background: var(--dim);
+            border-radius: 50%;
+            margin: 0 6px;
+            vertical-align: middle;
+        }
+
+        /* Featured Section */
+        .featured-section {
+            margin-bottom: 48px;
+        }
+
+        .featured-scroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+
+        .featured-scroll::-webkit-scrollbar { display: none; }
+
+        .featured-card {
+            flex: 0 0 auto;
+            width: 280px;
             cursor: pointer;
-            opacity: 0.5;
-        }
-        
-        .btn-checkout:not(:disabled) {
-            opacity: 1;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 900px) {
-            .menu-container { grid-template-columns: 1fr; }
-            .cart-card { display: none; }
-            
-            .menu-item { height: 140px; }
-            .item-image-container { width: 120px; }
+        .featured-image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 12px;
         }
-        
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-label {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .featured-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .restaurants-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .header {
+                padding: 12px 4%;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+        }
+
         @media (max-width: 480px) {
-            .menu-item { height: 120px; }
-            .item-image-container { width: 100px; }
-            .item-content { padding: 15px; }
-            .item-info h3 { font-size: 1rem; }
-            .item-info p { font-size: 0.8rem; }
+            .card-image-container {
+                aspect-ratio: 16 / 9;
+            }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <button class="btn-back" onclick="window.history.back()">← Back</button>
+    <!-- Header -->
+    <header class="header">
         <div class="logo">VYNIX<span>EATS</span></div>
-        <div class="nav-right">
-            <span>🛒 0 items</span>
-        </div>
-    </nav>
-
-    <header class="res-header">
-        <h1>Artisan Pizza Co.</h1>
-        <div class="res-meta">
-            <span>⭐ 4.7 (200+ Ratings)</span>
-            <span>•</span>
-            <span>Italian • Pizza • Gourmet</span>
-            <span>•</span>
-            <span>25-30 min</span>
+        <div class="header-right">
+            <button class="cart-btn">🛒 Cart • 0</button>
+            <div class="user-avatar">👤</div>
         </div>
     </header>
 
-    <div class="menu-container">
-        <main class="menu-sections">
-            <h2 class="category-title">Popular Items</h2>
-            
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Signature Margherita</h3>
-                        <p>San Marzano tomatoes, fresh mozzarella, basil, and extra virgin olive oil on our hand-tossed sourdough crust.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 125.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=400&fit=crop" alt="Margherita Pizza" class="item-image">
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Truffle Mushroom Pizza</h3>
-                        <p>Roasted forest mushrooms, truffle oil, and creamy béchamel sauce with parmesan shavings.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 165.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=400&fit=crop" alt="Truffle Mushroom Pizza" class="item-image">
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Pepperoni Feast</h3>
-                        <p>Double pepperoni, mozzarella, and our signature tomato sauce with a hint of chili flakes.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 145.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&h=400&fit=crop" alt="Pepperoni Pizza" class="item-image">
-                </div>
-            </div>
-
-            <h2 class="category-title">Sides & Starters</h2>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Garlic Focaccia</h3>
-                        <p>Stone-baked with garlic butter, fresh rosemary, and sea salt flakes.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 55.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&h=400&fit=crop" alt="Garlic Focaccia" class="item-image">
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Bruschetta Trio</h3>
-                        <p>Three ways - classic tomato & basil, mushroom & thyme, and ricotta & honey.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 75.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1572695157366-5e585ab2db69?w=400&h=400&fit=crop" alt="Bruschetta" class="item-image">
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Arancini Balls</h3>
-                        <p>Crispy risotto balls filled with mozzarella, served with spicy marinara sauce.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 65.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=400&h=400&fit=crop" alt="Arancini" class="item-image">
-                </div>
-            </div>
-
-            <h2 class="category-title">Desserts</h2>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Tiramisu</h3>
-                        <p>Classic Italian dessert with espresso-soaked ladyfingers and mascarpone cream.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 85.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=400&fit=crop" alt="Tiramisu" class="item-image">
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <div class="item-content">
-                    <div class="item-info">
-                        <h3>Nutella Pizza</h3>
-                        <p>Mini pizza dough baked and topped with Nutella, strawberries, and powdered sugar.</p>
-                    </div>
-                    <div class="item-footer">
-                        <span class="item-price">R 95.00</span>
-                        <button class="btn-add">+</button>
-                    </div>
-                </div>
-                <div class="item-image-container">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" alt="Nutella Pizza" class="item-image">
-                </div>
-            </div>
-        </main>
-
-        <aside class="cart-sidebar">
-            <div class="cart-card">
-                <h2>Your Basket</h2>
-                <div class="cart-empty">
-                    <p>Your basket is empty.<br>Add items to get started.</p>
-                </div>
-                <button class="btn-checkout" disabled>Go to Checkout</button>
-            </div>
-        </aside>
+    <!-- Location -->
+    <div class="location-bar">
+        <span>📍</span>
+        <span>Deliver to: <strong>123 Main Street, Johannesburg</strong></span>
     </div>
+
+    <!-- Filters -->
+    <div class="filters-section">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Offers</button>
+        <button class="filter-btn">Pizza</button>
+        <button class="filter-btn">Burgers</button>
+        <button class="filter-btn">Sushi</button>
+        <button class="filter-btn">Indian</button>
+        <button class="filter-btn">Healthy</button>
+        <button class="filter-btn">Fast Food</button>
+        <button class="filter-btn">Desserts</button>
+        <button class="filter-btn">Grocery</button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Featured Categories -->
+        <section class="featured-section">
+            <h2 class="section-title">Featured</h2>
+            <div class="featured-scroll">
+                <div class="featured-card">
+                    <div class="featured-image-container">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" alt="Pizza" class="featured-image">
+                        <span class="featured-label">Pizza Deals</span>
+                    </div>
+                    <h3 class="featured-title">Buy 1 Get 1 Free</h3>
+                </div>
+                <div class="featured-card">
+                    <div class="featured-image-container">
+                        <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400&h=400&fit=crop" alt="Burgers" class="featured-image">
+                        <span class="featured-label">Burger Week</span>
+                    </div>
+                    <h3 class="featured-title">20% Off All Burgers</h3>
+                </div>
+                <div class="featured-card">
+                    <div class="featured-image-container">
+                        <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400&h=400&fit=crop" alt="Sushi" class="featured-image">
+                        <span class="featured-label">Sushi Special</span>
+                    </div>
+                    <h3 class="featured-title">50% Off Platters</h3>
+                </div>
+                <div class="featured-card">
+                    <div class="featured-image-container">
+                        <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&h=400&fit=crop" alt="Desserts" class="featured-image">
+                        <span class="featured-label">Sweet Treats</span>
+                    </div>
+                    <h3 class="featured-title">Free Delivery</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Restaurants -->
+        <section>
+            <h2 class="section-title">All Restaurants</h2>
+            <div class="restaurants-grid">
+
+                <!-- Restaurant 1 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop" alt="Artisan Pizza" class="card-image">
+                        <span class="card-badge promo">PROMO</span>
+                        <span class="delivery-time">25-35 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Artisan Pizza Co.</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.7</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 15 delivery</span>
+                            <span class="dot"></span>
+                            <span>Italian • Pizza</span>
+                            <span class="dot"></span>
+                            <span>2.5 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 2 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&h=400&fit=crop" alt="Burger Joint" class="card-image">
+                        <span class="delivery-time">15-25 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">The Burger Lab</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.5</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 10 delivery</span>
+                            <span class="dot"></span>
+                            <span>American • Burgers</span>
+                            <span class="dot"></span>
+                            <span>1.8 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 3 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600&h=400&fit=crop" alt="Sushi Bar" class="card-image">
+                        <span class="card-badge">NEW</span>
+                        <span class="delivery-time">35-45 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Tokyo Sushi Bar</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.8</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 20 delivery</span>
+                            <span class="dot"></span>
+                            <span>Japanese • Sushi</span>
+                            <span class="dot"></span>
+                            <span>3.2 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 4 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&h=400&fit=crop" alt="Indian Food" class="card-image">
+                        <span class="delivery-time">30-40 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Spice Route</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.4</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 12 delivery</span>
+                            <span class="dot"></span>
+                            <span>Indian • Curry</span>
+                            <span class="dot"></span>
+                            <span>2.1 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 5 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&h=400&fit=crop" alt="Healthy Food" class="card-image">
+                        <span class="card-badge promo">PROMO</span>
+                        <span class="delivery-time">20-30 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Green Bowl</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.6</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 15 delivery</span>
+                            <span class="dot"></span>
+                            <span>Healthy • Salads</span>
+                            <span class="dot"></span>
+                            <span>1.5 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 6 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop" alt="Fried Chicken" class="card-image">
+                        <span class="delivery-time">20-30 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Crispy Chicken</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.3</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 10 delivery</span>
+                            <span class="dot"></span>
+                            <span>Fast Food • Chicken</span>
+                            <span class="dot"></span>
+                            <span>1.2 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 7 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=400&fit=crop" alt="Desserts" class="card-image">
+                        <span class="card-badge">POPULAR</span>
+                        <span class="delivery-time">25-35 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Sweet Dreams</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.9</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 18 delivery</span>
+                            <span class="dot"></span>
+                            <span>Desserts • Ice Cream</span>
+                            <span class="dot"></span>
+                            <span>2.8 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 8 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop" alt="Mexican" class="card-image">
+                        <span class="delivery-time">30-40 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Taco Fiesta</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.5</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 14 delivery</span>
+                            <span class="dot"></span>
+                            <span>Mexican • Tacos</span>
+                            <span class="dot"></span>
+                            <span>2.4 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 9 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&h=400&fit=crop" alt="Coffee" class="card-image">
+                        <span class="delivery-time">15-25 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Brew & Co.</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.7</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 8 delivery</span>
+                            <span class="dot"></span>
+                            <span>Cafe • Breakfast</span>
+                            <span class="dot"></span>
+                            <span>0.9 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 10 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&h=400&fit=crop" alt="Steakhouse" class="card-image">
+                        <span class="card-badge promo">PROMO</span>
+                        <span class="delivery-time">40-50 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Prime Steakhouse</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.8</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 25 delivery</span>
+                            <span class="dot"></span>
+                            <span>Steakhouse • Grill</span>
+                            <span class="dot"></span>
+                            <span>4.1 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 11 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=600&h=400&fit=crop" alt="Pasta" class="card-image">
+                        <span class="delivery-time">25-35 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Pasta Palace</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.4</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 12 delivery</span>
+                            <span class="dot"></span>
+                            <span>Italian • Pasta</span>
+                            <span class="dot"></span>
+                            <span>1.9 km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant 12 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1541544537156-21c5299228d8?w=600&h=400&fit=crop" alt="Sandwiches" class="card-image">
+                        <span class="card-badge">NEW</span>
+                        <span class="delivery-time">15-25 min</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <h3 class="restaurant-name">Sub Station</h3>
+                            <span class="rating"><span class="rating-star">★</span> 4.2</span>
+                        </div>
+                        <div class="card-details">
+                            <span>R 9 delivery</span>
+                            <span class="dot"></span>
+                            <span>Sandwiches • Subs</span>
+                            <span class="dot"></span>
+                            <span>1.1 km</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
 
 </body>
 </html>
