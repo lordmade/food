@@ -15,48 +15,145 @@
             --surface: #fbfbfd;
         }
 
+        * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); }
 
         /* Navbar */
         .navbar {
             display: flex; justify-content: space-between; padding: 15px 6%;
             align-items: center; border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); z-index: 1000;
+            position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); z-index: 1000;
         }
-
         .btn-back { background: none; border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 500; }
+        .logo { font-weight: 700; font-size: 1.2rem; }
+        .logo span { color: var(--accent); }
 
         /* Restaurant Header */
         .res-header { padding: 40px 6%; background: var(--surface); border-bottom: 1px solid var(--border); }
         .res-header h1 { font-size: 2.5rem; margin: 0 0 10px 0; letter-spacing: -1px; }
-        .res-meta { display: flex; gap: 20px; color: var(--dim); font-size: 0.9rem; font-weight: 500; }
+        .res-meta { display: flex; gap: 20px; color: var(--dim); font-size: 0.9rem; font-weight: 500; flex-wrap: wrap; }
 
-        /* Menu Content */
+        /* Menu Content - Horizontal Cards Layout */
         .menu-container { display: grid; grid-template-columns: 1fr 350px; gap: 40px; padding: 40px 6%; }
 
-        .category-title { font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .category-title { 
+            font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px 0; 
+            border-bottom: 1px solid var(--border); padding-bottom: 10px; 
+        }
         .category-title:first-child { margin-top: 0; }
 
+        /* Horizontal Card Style - Uber Eats inspired */
         .menu-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 0; border-bottom: 1px solid #f2f2f7;
-            transition: 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            background: white;
+            transition: all 0.2s ease;
+            margin-bottom: 16px;
+            cursor: pointer;
+            height: 160px;
         }
 
-        .item-info h3 { margin: 0 0 5px 0; font-size: 1.1rem; }
-        .item-info p { margin: 0; color: var(--dim); font-size: 0.85rem; max-width: 400px; }
-        .item-price { font-weight: 600; margin-top: 10px; display: block; }
+        .menu-item:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+            border-color: #d1d1d6;
+        }
+
+        .item-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-info h3 { 
+            margin: 0 0 8px 0; 
+            font-size: 1.1rem; 
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .item-info p { 
+            margin: 0; 
+            color: var(--dim); 
+            font-size: 0.85rem; 
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .item-price { 
+            font-weight: 600; 
+            font-size: 1rem;
+            color: var(--text);
+        }
 
         .btn-add {
-            background: var(--text); color: white; border: none; width: 40px; height: 40px;
-            border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: 0.2s;
+            background: var(--text); 
+            color: white; 
+            border: none; 
+            width: 36px; 
+            height: 36px;
+            border-radius: 50%; 
+            font-size: 1.3rem; 
+            cursor: pointer; 
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
-        .btn-add:hover { transform: scale(1.1); background: var(--accent); }
+        .btn-add:hover { 
+            transform: scale(1.1); 
+            background: var(--accent); 
+        }
+
+        /* Image Container - Fills the right side */
+        .item-image-container {
+            width: 140px;
+            height: 100%;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover .item-image {
+            transform: scale(1.05);
+        }
 
         /* Floating Cart Sidebar */
         .cart-card {
-            background: white; border: 1px solid var(--border); border-radius: 20px;
-            padding: 25px; position: sticky; top: 100px; height: fit-content;
+            background: white; 
+            border: 1px solid var(--border); 
+            border-radius: 20px;
+            padding: 25px; 
+            position: sticky; 
+            top: 100px; 
+            height: fit-content;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
@@ -64,14 +161,37 @@
         .cart-empty { color: var(--dim); text-align: center; padding: 40px 0; }
 
         .btn-checkout {
-            width: 100%; background: var(--accent); color: white; border: none;
-            padding: 15px; border-radius: 12px; font-weight: 600; margin-top: 20px;
+            width: 100%; 
+            background: var(--accent); 
+            color: white; 
+            border: none;
+            padding: 15px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            margin-top: 20px;
             cursor: pointer;
+            opacity: 0.5;
+        }
+        
+        .btn-checkout:not(:disabled) {
+            opacity: 1;
         }
 
+        /* Mobile Responsive */
         @media (max-width: 900px) {
             .menu-container { grid-template-columns: 1fr; }
-            .cart-card { display: none; } /* On mobile, we'd use a bottom bar */
+            .cart-card { display: none; }
+            
+            .menu-item { height: 140px; }
+            .item-image-container { width: 120px; }
+        }
+        
+        @media (max-width: 480px) {
+            .menu-item { height: 120px; }
+            .item-image-container { width: 100px; }
+            .item-content { padding: 15px; }
+            .item-info h3 { font-size: 1rem; }
+            .item-info p { font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -101,32 +221,135 @@
             <h2 class="category-title">Popular Items</h2>
             
             <div class="menu-item">
-                <div class="item-info">
-                    <h3>Signature Margherita</h3>
-                    <p>San Marzano tomatoes, fresh mozzarella, basil, and extra virgin olive oil.</p>
-                    <span class="item-price">R 125.00</span>
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Signature Margherita</h3>
+                        <p>San Marzano tomatoes, fresh mozzarella, basil, and extra virgin olive oil on our hand-tossed sourdough crust.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 125.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
                 </div>
-                <button class="btn-add">+</button>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=400&fit=crop" alt="Margherita Pizza" class="item-image">
+                </div>
             </div>
 
             <div class="menu-item">
-                <div class="item-info">
-                    <h3>Truffle Mushroom Pizza</h3>
-                    <p>Roasted forest mushrooms, truffle oil, and creamy béchamel sauce.</p>
-                    <span class="item-price">R 165.00</span>
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Truffle Mushroom Pizza</h3>
+                        <p>Roasted forest mushrooms, truffle oil, and creamy béchamel sauce with parmesan shavings.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 165.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
                 </div>
-                <button class="btn-add">+</button>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=400&fit=crop" alt="Truffle Mushroom Pizza" class="item-image">
+                </div>
             </div>
 
-            <h2 class="category-title">Sides</h2>
+            <div class="menu-item">
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Pepperoni Feast</h3>
+                        <p>Double pepperoni, mozzarella, and our signature tomato sauce with a hint of chili flakes.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 145.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
+                </div>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&h=400&fit=crop" alt="Pepperoni Pizza" class="item-image">
+                </div>
+            </div>
+
+            <h2 class="category-title">Sides & Starters</h2>
 
             <div class="menu-item">
-                <div class="item-info">
-                    <h3>Garlic Focaccia</h3>
-                    <p>Stone-baked with garlic butter and fresh rosemary.</p>
-                    <span class="item-price">R 55.00</span>
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Garlic Focaccia</h3>
+                        <p>Stone-baked with garlic butter, fresh rosemary, and sea salt flakes.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 55.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
                 </div>
-                <button class="btn-add">+</button>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=400&h=400&fit=crop" alt="Garlic Focaccia" class="item-image">
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Bruschetta Trio</h3>
+                        <p>Three ways - classic tomato & basil, mushroom & thyme, and ricotta & honey.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 75.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
+                </div>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1572695157366-5e585ab2db69?w=400&h=400&fit=crop" alt="Bruschetta" class="item-image">
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Arancini Balls</h3>
+                        <p>Crispy risotto balls filled with mozzarella, served with spicy marinara sauce.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 65.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
+                </div>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=400&h=400&fit=crop" alt="Arancini" class="item-image">
+                </div>
+            </div>
+
+            <h2 class="category-title">Desserts</h2>
+
+            <div class="menu-item">
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Tiramisu</h3>
+                        <p>Classic Italian dessert with espresso-soaked ladyfingers and mascarpone cream.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 85.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
+                </div>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=400&fit=crop" alt="Tiramisu" class="item-image">
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-content">
+                    <div class="item-info">
+                        <h3>Nutella Pizza</h3>
+                        <p>Mini pizza dough baked and topped with Nutella, strawberries, and powdered sugar.</p>
+                    </div>
+                    <div class="item-footer">
+                        <span class="item-price">R 95.00</span>
+                        <button class="btn-add">+</button>
+                    </div>
+                </div>
+                <div class="item-image-container">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" alt="Nutella Pizza" class="item-image">
+                </div>
             </div>
         </main>
 
