@@ -365,10 +365,15 @@
             padding: 20px 4%;
             border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             background: var(--surface);
             flex-shrink: 0;
+        }
+        .menu-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
         .menu-header h3 {
             font-size: 1.5rem;
@@ -389,6 +394,25 @@
             justify-content: center;
         }
         .menu-close:hover { background: var(--border); }
+        .menu-info-bar {
+            display: flex;
+            gap: 24px;
+            margin-top: 12px;
+            padding: 8px 0;
+            color: var(--dim);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+        .menu-info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface2);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: 500;
+        }
+        .menu-info-item i { font-size: 1.1rem; color: var(--accent); }
         .menu-body {
             flex: 1;
             overflow-y: auto;
@@ -459,6 +483,7 @@
             .cart-drawer { width: 100%; }
             .featured-card { flex: 0 0 220px; }
             .menu-body { grid-template-columns: 1fr; }
+            .menu-info-bar { gap: 12px; }
         }
     </style>
 </head>
@@ -601,8 +626,13 @@
 <div class="menu-modal-overlay" id="menuModal">
     <div class="menu-modal">
         <div class="menu-header">
-            <h3 id="menuRestaurantName">Restaurant Name</h3>
-            <button class="menu-close" onclick="closeMenuModal()">✕</button>
+            <div class="menu-header-top">
+                <h3 id="menuRestaurantName">Restaurant Name</h3>
+                <button class="menu-close" onclick="closeMenuModal()">✕</button>
+            </div>
+            <div class="menu-info-bar" id="menuInfoBar">
+                <!-- dynamically filled: opening hours, trading hours, distance -->
+            </div>
         </div>
         <div class="menu-body" id="menuBody">
             <div class="loading-state"><div class="loading-spinner"></div><p>Loading menu...</p></div>
@@ -731,7 +761,11 @@
                             categories: getCuisineCategory(v.cuisine),
                             featured: v.featured === true,
                             featuredTag: v.featuredTag || null,
-                            featuredMessage: v.featuredMessage || null
+                            featuredMessage: v.featuredMessage || null,
+                            // New fields for restaurant details
+                            openingHours: v.openingHours || "Mon–Sun, 10:00–22:00",
+                            tradingHours: v.tradingHours || "Open now",
+                            distance: v.distance || "1.2 km"
                         });
                     }
                 });
@@ -790,6 +824,13 @@
     window.openMenuModal = function(vendor) {
         currentVendor = vendor;
         document.getElementById("menuRestaurantName").textContent = vendor.name;
+        // Populate info bar
+        const infoBar = document.getElementById("menuInfoBar");
+        infoBar.innerHTML = `
+            <div class="menu-info-item"><i>🕒</i> ${vendor.openingHours}</div>
+            <div class="menu-info-item"><i>⏳</i> ${vendor.tradingHours}</div>
+            <div class="menu-info-item"><i>📍</i> ${vendor.distance}</div>
+        `;
         document.getElementById("menuModal").classList.add("open");
         loadMenuItems(vendor.key);
     };
