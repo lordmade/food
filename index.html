@@ -78,150 +78,204 @@
         }
         .user-btn:hover { border-color: var(--accent); transform: scale(1.06); }
 
-        /* CUSTOM ALERT / MODAL */
-        #customModalOverlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.6); z-index: 4000;
-            display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(6px);
-        }
-        #customModalOverlay.show { display: flex; }
-        .custom-modal {
-            background: white; border-radius: 20px;
-            width: 90%; max-width: 420px; padding: 32px 28px;
-            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.85) translateY(30px); }
-            to   { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .custom-modal-icon { font-size: 3.6rem; margin-bottom: 16px; line-height: 1; }
-        .custom-modal-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .custom-modal-message { color: var(--dim); font-size: 0.98rem; line-height: 1.5; margin-bottom: 28px; }
-        .custom-modal-buttons { display: flex; gap: 12px; justify-content: center; }
-        .btn-modal {
-            min-width: 110px; padding: 12px 24px;
-            border-radius: 12px; font-weight: 600; font-size: 0.96rem;
-            cursor: pointer; transition: var(--transition);
-        }
-        .btn-confirm { background: var(--accent); color: white; border: none; }
-        .btn-confirm:hover { background: #0062cc; transform: translateY(-1px); }
-        .btn-cancel { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-        .btn-cancel:hover { background: #e5e5e7; }
-
         /* SEARCH BAR */
         .search-container {
-            padding: 12px 5%; background: var(--surface);
+            padding: 12px 5%;
+            background: var(--surface);
             border-bottom: 1px solid var(--border);
-            position: sticky; top: 64px; z-index: 980;
+            position: sticky;
+            top: 64px;
+            z-index: 980;
             backdrop-filter: blur(10px);
         }
-        .search-input-wrapper { position: relative; max-width: 600px; margin: 0 auto; }
+        .search-input-wrapper {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
         .search-input {
-            width: 100%; padding: 14px 16px 14px 48px;
-            border: 1px solid var(--border); border-radius: 16px;
-            font-size: 1rem; background: var(--surface2);
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            font-size: 1rem;
+            background: var(--surface2);
             transition: all 0.2s ease;
         }
         .search-input:focus {
-            outline: none; border-color: var(--accent);
+            outline: none;
+            border-color: var(--accent);
             box-shadow: 0 0 0 4px rgba(0,122,255,0.12);
         }
         .search-icon {
-            position: absolute; left: 16px; top: 50%;
-            transform: translateY(-50%); color: var(--dim);
-            font-size: 1.3rem; pointer-events: none;
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dim);
+            font-size: 1.3rem;
+            pointer-events: none;
         }
 
-        /* CATEGORY FILTERS + ARROWS */
-        .filters-section {
-            position: relative; background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 14px 5% 8px; position: sticky;
-            top: 108px; z-index: 970; backdrop-filter: blur(10px);
+        /* AUTH MODAL */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 2000;
+            align-items: center; justify-content: center; backdrop-filter: blur(8px);
         }
-        .filters-wrapper { position: relative; display: flex; align-items: center; }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; padding: 36px; width: 420px; max-width: 90vw; position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal h2 { font-weight: 800; font-size: 1.5rem; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 28px; }
+        .modal-close {
+            position: absolute; top: 16px; right: 16px;
+            background: var(--surface2); border: none; color: var(--dim);
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem;
+            transition: var(--transition);
+        }
+        .modal-close:hover { background: var(--border); color: var(--text); }
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block; font-size: 0.75rem; font-weight: 700; color: var(--dim);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 13px 16px; color: var(--text);
+            font-size: 0.95rem; outline: none; transition: var(--transition);
+        }
+        .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0,122,255,0.1); }
+        .btn-primary {
+            width: 100%; background: var(--accent); color: white; border: none;
+            padding: 14px; border-radius: 12px; font-weight: 600; font-size: 1rem;
+            cursor: pointer; transition: var(--transition); margin-top: 4px;
+            box-shadow: 0 4px 12px rgba(0,122,255,0.3);
+        }
+        .btn-primary:hover { background: #0066dd; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,122,255,0.4); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .auth-toggle { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--dim); }
+        .auth-toggle a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .auth-toggle a:hover { text-decoration: underline; }
+        .auth-error {
+            background: rgba(255,59,48,0.08); border: 1px solid rgba(255,59,48,0.3);
+            border-radius: 10px; padding: 10px 14px; font-size: 0.85rem; color: var(--danger);
+            margin-bottom: 16px; display: none; font-weight: 500;
+        }
+        .btn-google {
+            width: 100%; background: white; color: #3c4043; border: 1.5px solid var(--border);
+            padding: 13px 14px; border-radius: 12px; font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px;
+        }
+        .btn-google:hover { background: #f8f8f8; border-color: #aaa; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transform: translateY(-1px); }
+        .btn-google:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* SUCCESS MODAL */
+        .success-modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6); z-index: 3000;
+            align-items: center; justify-content: center; backdrop-filter: blur(8px);
+        }
+        .success-modal-overlay.open { display: flex; }
+        .success-modal {
+            background: white; border-radius: 24px; padding: 40px 36px;
+            text-align: center; width: 360px; max-width: 90vw;
+            animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+        .success-modal h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .success-modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6; }
+        .success-modal .btn-primary { width: auto; padding: 12px 32px; border-radius: 12px; font-size: 0.95rem; }
+
+        /* LOCATION BAR */
+        .location-bar {
+            padding: 10px 5%; background: var(--surface); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 0.85rem; color: var(--dim);
+        }
+        .location-left { display: flex; align-items: center; gap: 6px; }
+        .location-left strong { color: var(--text); font-weight: 600; }
+        .user-greeting { font-size: 0.82rem; color: var(--dim); }
+        .user-greeting span { color: var(--accent); font-weight: 600; }
+
+        /* CATEGORY FILTERS */
+        .filters-wrap {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 5% 8px;
+            position: sticky;
+            top: 64px;
+            z-index: 970;
+            backdrop-filter: blur(10px);
+        }
         .filters-scroll {
-            display: flex; gap: 10px; overflow-x: auto;
-            padding: 0 48px; -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; scroll-behavior: smooth;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
         .filters-scroll::-webkit-scrollbar { display: none; }
-        .scroll-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            width: 40px; height: 40px; background: rgba(255,255,255,0.95);
-            border: 1px solid var(--border); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: all 0.25s ease; color: var(--dim);
-        }
-        .scroll-arrow:hover {
-            background: var(--accent); color: white;
-            border-color: var(--accent); transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 4px 16px rgba(0,122,255,0.25);
-        }
-        .scroll-arrow.left { left: 8px; }
-        .scroll-arrow.right { right: 8px; }
-
         .cat-btn {
-            flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
-            min-width: 100px; padding: 12px 18px;
-            background: var(--surface2); border: 1px solid var(--border);
-            border-radius: var(--pill-radius); color: var(--dim);
-            font-size: 0.92rem; font-weight: 600; white-space: nowrap;
-            cursor: pointer; transition: var(--transition);
-            touch-action: manipulation; user-select: none;
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+            padding: 12px 18px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--pill-radius);
+            color: var(--dim);
+            font-size: 0.92rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: var(--transition);
+            touch-action: manipulation;
+            user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
         .cat-btn .cat-icon { font-size: 1.4rem; line-height: 1; }
         .cat-btn:hover {
-            background: #111; color: white; border-color: #111;
+            background: #111;
+            color: white;
+            border-color: #111;
             transform: translateY(-1px);
         }
-        .cat-btn:active { transform: scale(0.96); }
+        .cat-btn:active {
+            transform: scale(0.96);
+        }
         .cat-btn.active {
-            background: var(--accent); color: white;
-            border-color: var(--accent); box-shadow: 0 3px 12px rgba(0,122,255,0.28);
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 3px 12px rgba(0,122,255,0.28);
         }
 
-        /* Hide arrows on mobile */
-        @media (max-width: 768px) {
-            .scroll-arrow { display: none; }
-            .filters-scroll { padding: 0; }
-        }
-
-        @media (max-width: 640px) {
-            .header { height: 58px; padding: 0 5%; }
-            .search-container { top: 58px; padding: 10px 5%; }
-            .filters-section { top: 102px; padding: 12px 5% 6px; }
-            .cat-btn {
-                min-width: 92px; padding: 11px 16px;
-                font-size: 0.88rem; gap: 7px;
-            }
-            .cat-btn .cat-icon { font-size: 1.32rem; }
-        }
-
-        @media (max-width: 480px) {
-            .cat-btn {
-                min-width: 86px; padding: 10px 14px;
-                font-size: 0.84rem;
-            }
-            .cat-btn .cat-icon { font-size: 1.24rem; }
-        }
-
-        /* MAIN */
-        .main { padding: 24px 5% 100px; }
+        .main { padding: 20px 5% 100px; }
         .section-label {
             font-size: 1.38rem; font-weight: 800;
             letter-spacing: -0.6px; margin-bottom: 18px;
             background: linear-gradient(135deg, var(--text), var(--dim));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .featured-section { margin-bottom: 48px; }
-        .featured-scroll { display: flex; gap: 18px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+        .featured-section { margin-bottom: 40px; }
+        .featured-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; }
         .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card { flex: 0 0 260px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
+        .featured-card { flex: 0 0 240px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
         .featured-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
         .featured-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
         .featured-overlay {
@@ -236,7 +290,7 @@
         }
         .featured-title { font-size: 1rem; font-weight: 700; color: white; }
 
-        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px 20px; }
+        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .r-card {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 20px; overflow: hidden; cursor: pointer; transition: var(--transition);
@@ -378,24 +432,42 @@
             cursor: pointer; width: 100%;
         }
         .add-btn:hover { background: #0066dd; }
+
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 640px) {
+            .header { height: 58px; padding: 0 5%; }
+            .logo { font-size: 1.4rem; }
+            .search-container { top: 58px; padding: 10px 5%; }
+            .filters-wrap { top: 108px; padding: 12px 5% 6px; }
+            .cat-btn {
+                min-width: 92px;
+                padding: 11px 16px;
+                font-size: 0.88rem;
+                gap: 7px;
+            }
+            .cat-btn .cat-icon { font-size: 1.32rem; }
+            .cart-drawer { width: 100%; }
+            .restaurants-grid { grid-template-columns: 1fr; }
+            .main { padding: 16px 5% 90px; }
+            .menu-body { grid-template-columns: 1fr; }
+            .menu-info-bar { gap: 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .cat-btn {
+                min-width: 86px;
+                padding: 10px 14px;
+                font-size: 0.84rem;
+            }
+            .cat-btn .cat-icon { font-size: 1.24rem; }
+        }
     </style>
 </head>
 <body>
-
-<!-- CUSTOM MODAL -->
-<div id="customModalOverlay">
-    <div class="custom-modal" id="customModal">
-        <div class="custom-modal-icon" id="modalIcon"></div>
-        <div class="custom-modal-title" id="modalTitle"></div>
-        <div class="custom-modal-message" id="modalMessage"></div>
-        <div class="custom-modal-buttons" id="modalButtons"></div>
-    </div>
-</div>
-
 <div id="toast"></div>
 <div class="backdrop" id="backdrop" onclick="closeCart()"></div>
 
-<!-- SUCCESS MODAL (kept as fallback / alternative style) -->
+<!-- SUCCESS MODAL -->
 <div class="success-modal-overlay" id="successModal">
     <div class="success-modal">
         <div class="success-icon" id="successIcon">✅</div>
@@ -418,7 +490,7 @@
             🛒 Cart
             <span class="cart-count" id="cartCount">0</span>
         </button>
-        <button class="user-btn" id="userBtn">👤</button>
+        <button class="user-btn" onclick="openAuthModal()" id="userBtn">👤</button>
     </div>
 </header>
 
@@ -439,32 +511,22 @@
     </div>
 </div>
 
-<!-- CATEGORIES WITH LUCIDE ICON ARROWS -->
-<div class="filters-section">
-    <div class="filters-wrapper">
-        <button class="scroll-arrow left" onclick="scrollCategories('left')" title="Scroll left">
-            <i data-lucide="chevron-left" style="width:24px;height:24px;"></i>
-        </button>
-
-        <div class="filters-scroll" id="filtersScroll">
-            <button class="cat-btn active" onclick="filterCategory('all', this)"><span class="cat-icon">🍽️</span>All</button>
-            <button class="cat-btn" onclick="filterCategory('pizza', this)"><span class="cat-icon">🍕</span>Pizza</button>
-            <button class="cat-btn" onclick="filterCategory('burgers', this)"><span class="cat-icon">🍔</span>Burgers</button>
-            <button class="cat-btn" onclick="filterCategory('sushi', this)"><span class="cat-icon">🍣</span>Sushi</button>
-            <button class="cat-btn" onclick="filterCategory('indian', this)"><span class="cat-icon">🍛</span>Indian</button>
-            <button class="cat-btn" onclick="filterCategory('healthy', this)"><span class="cat-icon">🥗</span>Healthy</button>
-            <button class="cat-btn" onclick="filterCategory('fastfood', this)"><span class="cat-icon">🍟</span>Fast Food</button>
-            <button class="cat-btn" onclick="filterCategory('desserts', this)"><span class="cat-icon">🍰</span>Desserts</button>
-            <button class="cat-btn" onclick="filterCategory('mexican', this)"><span class="cat-icon">🌮</span>Mexican</button>
-            <button class="cat-btn" onclick="filterCategory('coffee', this)"><span class="cat-icon">☕</span>Coffee</button>
-            <button class="cat-btn" onclick="filterCategory('steak', this)"><span class="cat-icon">🥩</span>Steak</button>
-            <button class="cat-btn" onclick="filterCategory('italian', this)"><span class="cat-icon">🍝</span>Italian</button>
-            <button class="cat-btn" onclick="filterCategory('sandwiches', this)"><span class="cat-icon">🥪</span>Sandwiches</button>
-        </div>
-
-        <button class="scroll-arrow right" onclick="scrollCategories('right')" title="Scroll right">
-            <i data-lucide="chevron-right" style="width:24px;height:24px;"></i>
-        </button>
+<!-- CATEGORIES -->
+<div class="filters-wrap">
+    <div class="filters-scroll">
+        <button class="cat-btn active" onclick="filterCategory('all', this)"><span class="cat-icon">🍽️</span><span>All</span></button>
+        <button class="cat-btn" onclick="filterCategory('pizza', this)"><span class="cat-icon">🍕</span><span>Pizza</span></button>
+        <button class="cat-btn" onclick="filterCategory('burgers', this)"><span class="cat-icon">🍔</span><span>Burgers</span></button>
+        <button class="cat-btn" onclick="filterCategory('sushi', this)"><span class="cat-icon">🍣</span><span>Sushi</span></button>
+        <button class="cat-btn" onclick="filterCategory('indian', this)"><span class="cat-icon">🍛</span><span>Indian</span></button>
+        <button class="cat-btn" onclick="filterCategory('healthy', this)"><span class="cat-icon">🥗</span><span>Healthy</span></button>
+        <button class="cat-btn" onclick="filterCategory('fastfood', this)"><span class="cat-icon">🍟</span><span>Fast Food</span></button>
+        <button class="cat-btn" onclick="filterCategory('desserts', this)"><span class="cat-icon">🍰</span><span>Desserts</span></button>
+        <button class="cat-btn" onclick="filterCategory('mexican', this)"><span class="cat-icon">🌮</span><span>Mexican</span></button>
+        <button class="cat-btn" onclick="filterCategory('coffee', this)"><span class="cat-icon">☕</span><span>Coffee</span></button>
+        <button class="cat-btn" onclick="filterCategory('steak', this)"><span class="cat-icon">🥩</span><span>Steak</span></button>
+        <button class="cat-btn" onclick="filterCategory('italian', this)"><span class="cat-icon">🍝</span><span>Italian</span></button>
+        <button class="cat-btn" onclick="filterCategory('sandwiches', this)"><span class="cat-icon">🥪</span><span>Sandwiches</span></button>
     </div>
 </div>
 
@@ -684,10 +746,12 @@
     function applyFilters() {
         let filtered = allVendors;
 
+        // Category filter
         if (currentCategory !== "all") {
             filtered = filtered.filter(v => v.categories.includes(currentCategory));
         }
 
+        // Search filter
         if (searchTerm.trim()) {
             const term = searchTerm.toLowerCase().trim();
             filtered = filtered.filter(v => v.name.toLowerCase().includes(term));
@@ -700,6 +764,11 @@
         searchTerm = document.getElementById("searchInput").value;
         applyFilters();
     };
+
+    function filterByCategory(vendors, cat) {
+        if (cat === "all") return vendors;
+        return vendors.filter(v => v.categories.includes(cat));
+    }
 
     window.filterCategory = function(cat, btn) {
         document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
@@ -812,18 +881,14 @@
         else cart.push({ id: cartId, name, price, restaurant, qty: 1, emoji: "🍽️" });
         saveCart();
         renderCart();
-        showCustomModal("✅", "Added to Cart", `${name} has been added successfully!`, [
-            { text: "OK", class: "btn-confirm" }
-        ]);
+        showToast(`Added ${name}`, "success");
     };
 
     window.handleRestaurantClick = function(e, key) {
         e.preventDefault();
         if (!currentUser) {
-            showCustomModal("🔒", "Sign In Required", "Please sign in to view restaurant menus and place orders.", [
-                { text: "Sign In", class: "btn-confirm", onClick: openAuthModal },
-                { text: "Cancel", class: "btn-cancel" }
-            ]);
+            showToast("Please sign in first", "error");
+            openAuthModal();
             return false;
         }
         const vendor = allVendors.find(v => v.key === key);
@@ -898,19 +963,11 @@
 
     window.placeOrder = async function() {
         if (!currentUser) {
-            showCustomModal("🔒", "Sign In Required", "Please sign in to place an order.", [
-                { text: "Sign In", class: "btn-confirm", onClick: openAuthModal },
-                { text: "Cancel", class: "btn-cancel" }
-            ]);
+            showToast("Please sign in to place order", "error");
+            openAuthModal();
             return;
         }
-        if (!cart.length) {
-            showCustomModal("🛒", "Cart is Empty", "Add some delicious items before placing an order!", [
-                { text: "OK", class: "btn-confirm" }
-            ]);
-            return;
-        }
-
+        if (!cart.length) return;
         const total = cart.reduce((s,i)=>s + i.price * i.qty, 0);
         const order = {
             userId: currentUser.uid,
@@ -921,7 +978,6 @@
             createdAt: serverTimestamp(),
             address: "123 Main Street, Johannesburg"
         };
-
         try {
             await push(ref(db, "orders"), order);
             await set(ref(db, `carts/${currentUser.uid}`), { items: [], updatedAt: serverTimestamp() });
@@ -929,13 +985,9 @@
             renderCart();
             closeCart();
             showOrderStatus();
-            showCustomModal("🎉", "Order Placed Successfully!", `Total: R ${total}\nEstimated delivery: 25–40 min`, [
-                { text: "OK", class: "btn-confirm" }
-            ]);
+            showSuccessModal("🎉", "Order Placed!", `Total: R ${total}. Estimated delivery: 25–40 min.`);
         } catch (e) {
-            showCustomModal("❌", "Order Failed", "Something went wrong while placing your order. Please try again.", [
-                { text: "OK", class: "btn-confirm" }
-            ]);
+            showToast("Failed to place order", "error");
         }
     };
 
@@ -972,6 +1024,17 @@
         document.getElementById("backdrop").classList.remove("open");
     };
 
+    window.showSuccessModal = function(icon, title, msg) {
+        document.getElementById("successIcon").textContent = icon;
+        document.getElementById("successTitle").textContent = title;
+        document.getElementById("successMessage").textContent = msg;
+        document.getElementById("successModal").classList.add("open");
+    };
+
+    window.closeSuccessModal = function() {
+        document.getElementById("successModal").classList.remove("open");
+    };
+
     window.openAuthModal = function() { document.getElementById("authModal").classList.add("open"); };
     window.closeAuthModal = function() { document.getElementById("authModal").classList.remove("open"); };
 
@@ -997,19 +1060,19 @@
             const user = result.user;
             const isNew = result._tokenResponse?.isNewUser;
             closeAuthModal();
-            showCustomModal(isNew ? "🎉" : "✅", isNew ? "Welcome to Vynix Eats!" : "Signed In!", 
-                isNew ? `Your account has been created! You can now browse menus and place orders.` : `Welcome back! You can now browse restaurants and place orders.`, [
-                { text: "OK", class: "btn-confirm" }
-            ]);
+            const name = user.displayName || user.email.split("@")[0];
+            showSuccessModal(isNew ? "🎉" : "✅",
+                isNew ? "Welcome to Vynix Eats!" : "Signed In!",
+                isNew ? `Your account has been created, ${name}! You can now browse menus and place orders.`
+                      : `Welcome back, ${name}! You can now browse restaurants and place orders.`);
         } catch (e) {
             let friendly = "Google sign-in failed. Please try again.";
             const code = e.code || "";
             if (code.includes("popup-closed") || code.includes("cancelled")) friendly = "Sign-in cancelled.";
             else if (code.includes("popup-blocked")) friendly = "Pop-up blocked by browser. Allow pop-ups.";
             else if (code.includes("network")) friendly = "Network error. Check connection.";
-            showCustomModal("❌", "Sign-in Error", friendly, [
-                { text: "OK", class: "btn-confirm" }
-            ]);
+            errEl.style.display = "block";
+            errEl.textContent = friendly;
         } finally {
             btn.disabled = false;
             btn.innerHTML = `${GOOGLE_SVG} Continue with Google`;
@@ -1048,15 +1111,11 @@
                 const cred = await createUserWithEmailAndPassword(auth, email, password);
                 await updateProfile(cred.user, { displayName: name }).catch(()=>{});
                 closeAuthModal();
-                showCustomModal("🎉", "Account Created", `Welcome to Vynix Eats, ${name}! You can now browse menus and place orders.`, [
-                    { text: "OK", class: "btn-confirm" }
-                ]);
+                showSuccessModal("🎉", "Welcome!", `Account created, ${name}!`);
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
                 closeAuthModal();
-                showCustomModal("✅", "Signed In", "Welcome back! You can now browse restaurants and place orders.", [
-                    { text: "OK", class: "btn-confirm" }
-                ]);
+                showSuccessModal("✅", "Signed In!", "Welcome back!");
             }
         } catch (e) {
             let msg = "Something went wrong";
@@ -1066,9 +1125,8 @@
             else if (code === "auth/weak-password") msg = "Password too weak";
             else if (code === "auth/user-not-found") msg = "No account found";
             else if (code === "auth/wrong-password") msg = "Wrong password";
-            showCustomModal("❌", "Authentication Error", msg, [
-                { text: "OK", class: "btn-confirm" }
-            ]);
+            errEl.textContent = msg;
+            errEl.style.display = "block";
         } finally {
             btn.disabled = false;
             btn.textContent = authMode === "signup" ? "Sign Up" : "Sign In";
@@ -1082,10 +1140,8 @@
         if (user) {
             const name = user.displayName || user.email.split("@")[0];
             btn.textContent = "👋";
-            btn.onclick = () => {
-                customConfirm(`Signed in as ${user.email}\n\nSign out?`, () => logout(), "Sign Out", "👋");
-            };
-            greeting.innerHTML = `Hello, <span>${name}</span> <a href="#" onclick="customConfirm('Sign out?', () => logout(), 'Sign Out', '👋'); return false;" style="color:var(--accent)">logout</a>`;
+            btn.onclick = () => { if (confirm(`Signed in as ${user.email}\nSign out?`)) logout(); };
+            greeting.innerHTML = `Hello, <span>${name}</span> <a href="#" onclick="logout();return false;" style="color:var(--accent)">logout</a>`;
         } else {
             btn.textContent = "👤";
             btn.onclick = openAuthModal;
@@ -1103,85 +1159,8 @@
         toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
     };
 
-    // Custom modal helper
-    function showCustomModal(icon, title, message, buttons = []) {
-        const overlay = document.getElementById('customModalOverlay');
-        const modal = document.getElementById('customModal');
-        const iconEl = document.getElementById('modalIcon');
-        const titleEl = document.getElementById('modalTitle');
-        const msgEl = document.getElementById('modalMessage');
-        const btnContainer = document.getElementById('modalButtons');
-
-        iconEl.textContent = icon;
-        titleEl.textContent = title;
-        msgEl.textContent = message;
-
-        btnContainer.innerHTML = '';
-        buttons.forEach(btn => {
-            const b = document.createElement('button');
-            b.className = `btn-modal ${btn.class || 'btn-cancel'}`;
-            b.textContent = btn.text;
-            b.onclick = () => {
-                overlay.classList.remove('show');
-                if (btn.onClick) btn.onClick();
-            };
-            btnContainer.appendChild(b);
-        });
-
-        overlay.classList.add('show');
-    }
-
-    window.customAlert = function(message, title = "Alert", icon = "⚠️") {
-        showCustomModal(icon, title, message, [
-            { text: "OK", class: "btn-confirm" }
-        ]);
-    };
-
-    window.customConfirm = function(message, onConfirm, title = "Confirm", icon = "❓") {
-        showCustomModal(icon, title, message, [
-            { text: "Cancel", class: "btn-cancel" },
-            { text: "Yes", class: "btn-confirm", onClick: onConfirm }
-        ]);
-    };
-
-    // Arrow scrolling
-    window.scrollCategories = function(direction) {
-        const scrollContainer = document.getElementById('filtersScroll');
-        const scrollAmount = 240;
-        if (direction === 'left') {
-            scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        } else {
-            scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-    };
-
-    function updateArrowVisibility() {
-        const scroll = document.getElementById('filtersScroll');
-        if (!scroll) return;
-        const leftArrow = document.querySelector('.scroll-arrow.left');
-        const rightArrow = document.querySelector('.scroll-arrow.right');
-
-        leftArrow.style.opacity = scroll.scrollLeft > 20 ? '1' : '0.5';
-        leftArrow.style.pointerEvents = scroll.scrollLeft > 20 ? 'auto' : 'none';
-
-        const atEnd = scroll.scrollLeft + scroll.clientWidth >= scroll.scrollWidth - 20;
-        rightArrow.style.opacity = atEnd ? '0.5' : '1';
-        rightArrow.style.pointerEvents = atEnd ? 'none' : 'auto';
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        lucide.createIcons();
-
-        const scroll = document.getElementById('filtersScroll');
-        if (scroll) {
-            scroll.addEventListener('scroll', updateArrowVisibility);
-            window.addEventListener('resize', updateArrowVisibility);
-            updateArrowVisibility();
-        }
-
-        loadVendors();
-        renderCart();
-    });
+    loadVendors();
+    renderCart();
 </script>
 </body>
 </html>
