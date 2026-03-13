@@ -4,99 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vynix Eats | Restaurants</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --surface: #f5f5f7;
-            --surface2: #ebebed;
+            --bg: #f4f7f6;
+            --surface: #ffffff;
+            --surface2: #f0f0f5;
             --border: #e5e5e7;
             --text: #1d1d1f;
-            --dim: #6e6e73;
-            --accent: #ff5c35;
+            --dim: #8e8e93;
+            --accent: #007aff;
             --accent2: #f5a623;
-            --green: #2ecc71;
+            --green: #34c759;
+            --danger: #ff3b30;
             --radius: 14px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-        /* HEADER */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+
+        /* HEADER — matches admin sidebar logo style */
         .header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 4%; height: 64px;
-            background: rgba(255,255,255,0.92); backdrop-filter: blur(24px);
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border);
             position: sticky; top: 0; z-index: 1000;
+            box-shadow: var(--shadow);
         }
-        .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; letter-spacing: -1px; color: var(--text); }
+        .logo {
+            font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.5rem;
+            letter-spacing: -1px; color: var(--text);
+            display: flex; align-items: center; gap: 10px;
+            transition: var(--transition);
+        }
+        .logo:hover { transform: scale(1.02); }
         .logo span { color: var(--accent); }
+        .logo-icon { display: flex; align-items: center; color: var(--accent); }
         .header-actions { display: flex; align-items: center; gap: 12px; }
         .cart-btn {
             display: flex; align-items: center; gap: 8px;
             background: var(--text); color: white; border: none;
-            padding: 9px 18px; border-radius: 30px;
-            font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem;
-            cursor: pointer; transition: all 0.2s;
+            padding: 9px 18px; border-radius: 12px;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .cart-btn:hover { background: #333; transform: translateY(-1px); }
+        .cart-btn:hover { background: #333; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
         .cart-count {
             background: var(--accent); color: white; border-radius: 50%;
             width: 20px; height: 20px; display: flex; align-items: center;
-            justify-content: center; font-size: 0.75rem; font-weight: 700;
+            justify-content: center; font-size: 0.72rem; font-weight: 700;
         }
         .user-btn {
             width: 40px; height: 40px; border-radius: 50%;
             background: var(--surface2); border: 1px solid var(--border);
             color: var(--text); font-size: 1.1rem; cursor: pointer;
-            transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition); display: flex; align-items: center; justify-content: center;
         }
-        .user-btn:hover { border-color: var(--accent); }
+        .user-btn:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
 
         /* AUTH MODAL */
         .modal-overlay {
             display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.7); z-index: 2000;
-            align-items: center; justify-content: center; backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.5); z-index: 2000;
+            align-items: center; justify-content: center; backdrop-filter: blur(8px);
         }
         .modal-overlay.open { display: flex; }
         .modal {
             background: var(--surface); border: 1px solid var(--border);
-            border-radius: 20px; padding: 36px; width: 400px; max-width: 90vw; position: relative;
+            border-radius: 24px; padding: 36px; width: 420px; max-width: 90vw; position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
         }
-        .modal h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem; margin-bottom: 6px; }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal h2 { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 6px; letter-spacing: -0.5px; }
         .modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 28px; }
         .modal-close {
             position: absolute; top: 16px; right: 16px;
             background: var(--surface2); border: none; color: var(--dim);
             width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem;
+            transition: var(--transition);
         }
+        .modal-close:hover { background: var(--border); color: var(--text); }
         .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .form-group label {
+            display: block; font-size: 0.75rem; font-weight: 700; color: var(--dim);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+        }
         .form-group input {
             width: 100%; background: var(--surface2); border: 1px solid var(--border);
-            border-radius: 10px; padding: 12px 14px; color: var(--text);
-            font-family: 'DM Sans', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s;
+            border-radius: 12px; padding: 13px 16px; color: var(--text);
+            font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: var(--transition);
         }
-        .form-group input:focus { border-color: var(--accent); }
+        .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0,122,255,0.1); }
         .btn-primary {
             width: 100%; background: var(--accent); color: white; border: none;
-            padding: 14px; border-radius: 12px; font-family: 'DM Sans', sans-serif;
-            font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; margin-top: 4px;
+            padding: 14px; border-radius: 12px; font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 1rem; cursor: pointer; transition: var(--transition); margin-top: 4px;
+            box-shadow: 0 4px 12px rgba(0,122,255,0.3);
         }
-        .btn-primary:hover { background: #ff3d17; transform: translateY(-1px); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-primary:hover { background: #0066dd; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,122,255,0.4); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
         .auth-toggle { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--dim); }
         .auth-toggle a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .auth-toggle a:hover { text-decoration: underline; }
         .auth-error {
-            background: rgba(255,92,53,0.15); border: 1px solid rgba(255,92,53,0.3);
-            border-radius: 8px; padding: 10px 14px; font-size: 0.85rem; color: var(--accent);
-            margin-bottom: 16px; display: none;
+            background: rgba(255,59,48,0.08); border: 1px solid rgba(255,59,48,0.3);
+            border-radius: 10px; padding: 10px 14px; font-size: 0.85rem; color: var(--danger);
+            margin-bottom: 16px; display: none; font-weight: 500;
         }
         .btn-google {
             width: 100%; background: white; color: #3c4043; border: 1.5px solid var(--border);
-            padding: 13px 14px; border-radius: 12px; font-family: 'DM Sans', sans-serif;
-            font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;
+            padding: 13px 14px; border-radius: 12px; font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: var(--transition);
             display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px;
         }
         .btn-google:hover { background: #f8f8f8; border-color: #aaa; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transform: translateY(-1px); }
@@ -106,30 +138,26 @@
             display: flex; align-items: center; gap: 12px;
             margin-bottom: 16px; color: var(--dim); font-size: 0.8rem;
         }
-        .auth-divider::before, .auth-divider::after {
-            content: ''; flex: 1; height: 1px; background: var(--border);
-        }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
         /* SUCCESS MODAL */
         .success-modal-overlay {
             display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.7); z-index: 3000;
-            align-items: center; justify-content: center; backdrop-filter: blur(6px);
+            background: rgba(0,0,0,0.6); z-index: 3000;
+            align-items: center; justify-content: center; backdrop-filter: blur(8px);
         }
         .success-modal-overlay.open { display: flex; }
         .success-modal {
             background: white; border-radius: 24px; padding: 40px 36px;
             text-align: center; width: 360px; max-width: 90vw;
             animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
-        .success-modal h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
-        .success-modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.5; }
-        .success-modal .btn-primary { width: auto; padding: 12px 32px; border-radius: 30px; font-size: 0.95rem; }
+        .success-modal h3 { font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .success-modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6; }
+        .success-modal .btn-primary { width: auto; padding: 12px 32px; border-radius: 12px; font-size: 0.95rem; }
 
         /* MOBILE BOTTOM SHEET */
         @media (max-width: 640px) {
@@ -138,10 +166,7 @@
                 width: 100%; border-radius: 24px 24px 0 0; padding: 28px 24px 40px;
                 animation: slideUp 0.3s ease;
             }
-            @keyframes slideUp {
-                from { transform: translateY(100%); }
-                to { transform: translateY(0); }
-            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         }
 
         /* LOCATION BAR */
@@ -151,35 +176,40 @@
             font-size: 0.85rem; color: var(--dim);
         }
         .location-left { display: flex; align-items: center; gap: 6px; }
-        .location-left strong { color: var(--text); }
+        .location-left strong { color: var(--text); font-weight: 600; }
         .user-greeting { font-size: 0.82rem; color: var(--dim); }
-        .user-greeting span { color: var(--accent2); font-weight: 600; }
+        .user-greeting span { color: var(--accent); font-weight: 600; }
 
         /* CATEGORY FILTERS */
-        .filters-wrap { padding: 20px 0 4px 4%; border-bottom: 1px solid var(--border); }
+        .filters-wrap { padding: 20px 0 4px 4%; border-bottom: 1px solid var(--border); background: var(--surface); }
         .filters-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-right: 4%; padding-bottom: 16px; }
         .filters-scroll::-webkit-scrollbar { display: none; }
         .cat-btn {
             display: flex; flex-direction: column; align-items: center; gap: 6px;
-            padding: 12px 14px; background: var(--surface); border: 1px solid var(--border);
-            border-radius: 14px; color: var(--dim); font-family: 'DM Sans', sans-serif;
-            font-size: 0.78rem; font-weight: 500; cursor: pointer; white-space: nowrap;
-            min-width: 72px; transition: all 0.2s;
+            padding: 12px 14px; background: var(--bg); border: 1px solid var(--border);
+            border-radius: 14px; color: var(--dim); font-family: 'Inter', sans-serif;
+            font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+            min-width: 72px; transition: var(--transition);
         }
         .cat-btn .cat-icon { font-size: 1.6rem; }
-        .cat-btn:hover { border-color: var(--accent); color: var(--text); }
-        .cat-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+        .cat-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+        .cat-btn.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
 
         /* MAIN */
         .main { padding: 32px 4% 80px; }
-        .section-label { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 22px; }
+        .section-label {
+            font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 800;
+            letter-spacing: -0.5px; margin-bottom: 22px;
+            background: linear-gradient(135deg, var(--text), var(--dim));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
         /* FEATURED */
         .featured-section { margin-bottom: 48px; }
         .featured-scroll { display: flex; gap: 18px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
         .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card { flex: 0 0 260px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: transform 0.25s; }
-        .featured-card:hover { transform: translateY(-4px); }
+        .featured-card { flex: 0 0 260px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
+        .featured-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
         .featured-card img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
         .featured-overlay {
             position: absolute; inset: 0;
@@ -187,40 +217,39 @@
             display: flex; flex-direction: column; justify-content: flex-end; padding: 16px;
         }
         .featured-tag {
-            background: var(--accent); color: white; font-size: 0.7rem; font-weight: 700;
+            background: var(--accent); color: white; font-size: 0.68rem; font-weight: 700;
             padding: 4px 10px; border-radius: 20px; width: fit-content;
             margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .featured-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: white; }
+        .featured-title { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: white; }
 
         /* RESTAURANT GRID */
-        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px 20px; }
+        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px 20px; }
         .r-card {
             background: var(--surface); border: 1px solid var(--border);
-            border-radius: 18px; overflow: hidden; cursor: pointer; transition: all 0.25s;
+            border-radius: 20px; overflow: hidden; cursor: pointer; transition: var(--transition);
             text-decoration: none; color: inherit; display: block;
+            box-shadow: var(--shadow);
         }
-        .r-card:hover { border-color: #444; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+        .r-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
         .r-img-wrap { position: relative; aspect-ratio: 16/10; overflow: hidden; }
         .r-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
         .r-card:hover .r-img-wrap img { transform: scale(1.04); }
-        .r-badge { position: absolute; top: 10px; left: 10px; padding: 5px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .r-badge { position: absolute; top: 10px; left: 10px; padding: 5px 10px; border-radius: 20px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .r-badge.promo { background: var(--green); color: #0a2e18; }
         .r-badge.new { background: var(--accent2); color: #3d2400; }
         .r-badge.popular { background: var(--accent); color: white; }
-        .r-eta { position: absolute; bottom: 10px; right: 10px; background: rgba(15,15,15,0.85); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--border); }
+        .r-eta { position: absolute; bottom: 10px; right: 10px; background: rgba(15,15,15,0.85); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); }
         .r-info { padding: 16px; }
         .r-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        .r-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.3px; }
-        .r-rating { display: flex; align-items: center; gap: 3px; font-size: 0.85rem; font-weight: 600; color: var(--accent2); }
-        .r-meta { font-size: 0.82rem; color: var(--dim); }
+        .r-name { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.3px; }
+        .r-rating { display: flex; align-items: center; gap: 3px; font-size: 0.85rem; font-weight: 700; color: var(--accent2); }
+        .r-meta { font-size: 0.8rem; color: var(--dim); }
         .r-meta .dot { display: inline-block; width: 3px; height: 3px; background: var(--border); border-radius: 50%; margin: 0 6px; vertical-align: middle; }
-
-        /* Vendor avatar fallback */
         .r-img-placeholder {
             width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; background: linear-gradient(135deg, #f5f5f7, #e5e5e7);
+            font-size: 3rem; background: linear-gradient(135deg, #f0f0f5, #e5e5e7);
         }
 
         /* CART DRAWER */
@@ -232,54 +261,59 @@
         }
         .cart-drawer.open { transform: translateX(0); }
         .cart-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .cart-header h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
-        .cart-close { background: var(--surface2); border: none; color: var(--text); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
+        .cart-header h3 { font-family: 'Inter', sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: -0.3px; }
+        .cart-close { background: var(--surface2); border: none; color: var(--text); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; transition: var(--transition); }
+        .cart-close:hover { background: var(--border); }
         .cart-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
         .cart-empty { text-align: center; padding: 60px 20px; color: var(--dim); }
         .cart-empty .empty-icon { font-size: 3rem; margin-bottom: 12px; }
         .cart-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); animation: slideIn 0.2s ease; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-        .cart-item-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
         .cart-item-info { flex: 1; }
         .cart-item-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 3px; }
         .cart-item-from { font-size: 0.78rem; color: var(--dim); margin-bottom: 6px; }
         .cart-item-price { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
         .cart-item-actions { display: flex; align-items: center; gap: 8px; }
-        .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
         .qty-btn:hover { border-color: var(--accent); color: var(--accent); }
         .qty-num { font-weight: 700; font-size: 0.9rem; min-width: 16px; text-align: center; }
         .cart-footer { padding: 20px 24px; border-top: 1px solid var(--border); }
-        .cart-total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 600; margin-bottom: 16px; }
-        .cart-total .amount { color: var(--accent); font-family: 'Syne', sans-serif; font-size: 1.2rem; }
-        .checkout-btn { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
-        .checkout-btn:hover { background: #ff3d17; }
-        .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+        .cart-total .amount { color: var(--accent); font-family: 'Inter', sans-serif; font-size: 1.2rem; }
+        .checkout-btn {
+            width: 100%; background: var(--accent); color: white; border: none;
+            padding: 15px; border-radius: 12px; font-family: 'Inter', sans-serif;
+            font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0,122,255,0.3);
+        }
+        .checkout-btn:hover { background: #0066dd; box-shadow: 0 8px 24px rgba(0,122,255,0.4); }
+        .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 
         /* TOAST */
         #toast {
             position: fixed; bottom: 30px; left: 50%;
             transform: translateX(-50%) translateY(80px);
-            background: var(--surface2); border: 1px solid var(--border);
-            color: var(--text); padding: 12px 22px; border-radius: 30px;
+            background: var(--text); border: 1px solid var(--border);
+            color: white; padding: 13px 22px; border-radius: 12px;
             font-size: 0.9rem; font-weight: 500; z-index: 9999;
             transition: transform 0.3s ease; white-space: nowrap;
+            box-shadow: var(--shadow-hover);
         }
         #toast.show { transform: translateX(-50%) translateY(0); }
-        #toast.success { border-color: var(--green); color: var(--green); }
-        #toast.error { border-color: var(--accent); color: var(--accent); }
+        #toast.success { border-left: 4px solid var(--green); }
+        #toast.error { border-left: 4px solid var(--danger); }
 
         /* ORDER STATUS */
         .order-status {
             position: fixed; bottom: 24px; right: 24px;
             background: var(--surface); border: 1px solid var(--accent);
             border-radius: 16px; padding: 16px 20px; z-index: 1200; display: none;
-            min-width: 240px; box-shadow: 0 8px 32px rgba(255,92,53,0.2);
-            animation: slideUp 0.3s ease;
+            min-width: 240px; box-shadow: 0 8px 32px rgba(0,122,255,0.2);
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .order-status.visible { display: block; }
-        .os-title { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-        .os-message { font-size: 0.9rem; font-weight: 500; }
+        .order-status.visible { display: block; animation: slideUpToast 0.3s ease; }
+        @keyframes slideUpToast { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .os-title { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .os-message { font-size: 0.9rem; font-weight: 600; }
         .os-sub { font-size: 0.78rem; color: var(--dim); margin-top: 4px; }
         .pulse { animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -323,9 +357,14 @@
     </div>
 </div>
 
-<!-- HEADER -->
+<!-- HEADER — same logo style as admin (utensils icon + VYNIX + coloured word) -->
 <header class="header">
-    <div class="logo">VYNIX<span>EATS</span></div>
+    <div class="logo">
+        <span class="logo-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+        </span>
+        VYNIX<span>EATS</span>
+    </div>
     <div class="header-actions">
         <button class="cart-btn" onclick="toggleCart()">
             🛒 Cart
@@ -347,45 +386,19 @@
 <!-- CATEGORIES -->
 <div class="filters-wrap">
     <div class="filters-scroll">
-        <button class="cat-btn active" onclick="filterCategory('all', this)">
-            <span class="cat-icon">🍽️</span><span>All</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('pizza', this)">
-            <span class="cat-icon">🍕</span><span>Pizza</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('burgers', this)">
-            <span class="cat-icon">🍔</span><span>Burgers</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('sushi', this)">
-            <span class="cat-icon">🍣</span><span>Sushi</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('indian', this)">
-            <span class="cat-icon">🍛</span><span>Indian</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('healthy', this)">
-            <span class="cat-icon">🥗</span><span>Healthy</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('fastfood', this)">
-            <span class="cat-icon">🍟</span><span>Fast Food</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('desserts', this)">
-            <span class="cat-icon">🍰</span><span>Desserts</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('mexican', this)">
-            <span class="cat-icon">🌮</span><span>Mexican</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('coffee', this)">
-            <span class="cat-icon">☕</span><span>Coffee</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('steak', this)">
-            <span class="cat-icon">🥩</span><span>Steak</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('italian', this)">
-            <span class="cat-icon">🍝</span><span>Italian</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('sandwiches', this)">
-            <span class="cat-icon">🥪</span><span>Sandwiches</span>
-        </button>
+        <button class="cat-btn active" onclick="filterCategory('all', this)"><span class="cat-icon">🍽️</span><span>All</span></button>
+        <button class="cat-btn" onclick="filterCategory('pizza', this)"><span class="cat-icon">🍕</span><span>Pizza</span></button>
+        <button class="cat-btn" onclick="filterCategory('burgers', this)"><span class="cat-icon">🍔</span><span>Burgers</span></button>
+        <button class="cat-btn" onclick="filterCategory('sushi', this)"><span class="cat-icon">🍣</span><span>Sushi</span></button>
+        <button class="cat-btn" onclick="filterCategory('indian', this)"><span class="cat-icon">🍛</span><span>Indian</span></button>
+        <button class="cat-btn" onclick="filterCategory('healthy', this)"><span class="cat-icon">🥗</span><span>Healthy</span></button>
+        <button class="cat-btn" onclick="filterCategory('fastfood', this)"><span class="cat-icon">🍟</span><span>Fast Food</span></button>
+        <button class="cat-btn" onclick="filterCategory('desserts', this)"><span class="cat-icon">🍰</span><span>Desserts</span></button>
+        <button class="cat-btn" onclick="filterCategory('mexican', this)"><span class="cat-icon">🌮</span><span>Mexican</span></button>
+        <button class="cat-btn" onclick="filterCategory('coffee', this)"><span class="cat-icon">☕</span><span>Coffee</span></button>
+        <button class="cat-btn" onclick="filterCategory('steak', this)"><span class="cat-icon">🥩</span><span>Steak</span></button>
+        <button class="cat-btn" onclick="filterCategory('italian', this)"><span class="cat-icon">🍝</span><span>Italian</span></button>
+        <button class="cat-btn" onclick="filterCategory('sandwiches', this)"><span class="cat-icon">🥪</span><span>Sandwiches</span></button>
     </div>
 </div>
 
@@ -396,31 +409,19 @@
         <div class="featured-scroll">
             <div class="featured-card">
                 <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" alt="Pizza">
-                <div class="featured-overlay">
-                    <div class="featured-tag">Pizza Deals</div>
-                    <div class="featured-title">Buy 1 Get 1 Free</div>
-                </div>
+                <div class="featured-overlay"><div class="featured-tag">Pizza Deals</div><div class="featured-title">Buy 1 Get 1 Free</div></div>
             </div>
             <div class="featured-card">
                 <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400&h=400&fit=crop" alt="Burgers">
-                <div class="featured-overlay">
-                    <div class="featured-tag">Burger Week</div>
-                    <div class="featured-title">20% Off All Burgers</div>
-                </div>
+                <div class="featured-overlay"><div class="featured-tag">Burger Week</div><div class="featured-title">20% Off All Burgers</div></div>
             </div>
             <div class="featured-card">
                 <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400&h=400&fit=crop" alt="Sushi">
-                <div class="featured-overlay">
-                    <div class="featured-tag">Sushi Special</div>
-                    <div class="featured-title">50% Off Platters</div>
-                </div>
+                <div class="featured-overlay"><div class="featured-tag">Sushi Special</div><div class="featured-title">50% Off Platters</div></div>
             </div>
             <div class="featured-card">
                 <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&h=400&fit=crop" alt="Desserts">
-                <div class="featured-overlay">
-                    <div class="featured-tag">Sweet Treats</div>
-                    <div class="featured-title">Free Delivery</div>
-                </div>
+                <div class="featured-overlay"><div class="featured-tag">Sweet Treats</div><div class="featured-title">Free Delivery</div></div>
             </div>
         </div>
     </section>
@@ -443,17 +444,10 @@
         <button class="cart-close" onclick="closeCart()">✕</button>
     </div>
     <div class="cart-body" id="cartBody">
-        <div class="cart-empty">
-            <div class="empty-icon">🍽️</div>
-            <p>Your cart is empty</p>
-            <p style="font-size:0.8rem;margin-top:6px;color:#666">Add items to get started</p>
-        </div>
+        <div class="cart-empty"><div class="empty-icon">🍽️</div><p>Your cart is empty</p><p style="font-size:0.8rem;margin-top:6px;color:var(--dim)">Add items to get started</p></div>
     </div>
     <div class="cart-footer">
-        <div class="cart-total">
-            <span>Total</span>
-            <span class="amount" id="cartTotal">R 0</span>
-        </div>
+        <div class="cart-total"><span>Total</span><span class="amount" id="cartTotal">R 0</span></div>
         <button class="checkout-btn" id="checkoutBtn" onclick="placeOrder()" disabled>Place Order</button>
     </div>
 </div>
@@ -466,7 +460,6 @@
         <p id="authSubtitle">Sign in to your account to continue</p>
         <div class="auth-error" id="authError"></div>
 
-        <!-- Google Sign-In -->
         <button class="btn-google" id="googleBtn" onclick="handleGoogleAuth()">
             <svg width="20" height="20" viewBox="0 0 48 48">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -501,7 +494,7 @@
 
 <!-- ORDER STATUS -->
 <div class="order-status" id="orderStatus">
-    <div class="os-title">🔴 <span class="pulse">Live Order</span></div>
+    <div class="os-title">🔵 <span class="pulse">Live Order</span></div>
     <div class="os-message" id="osMessage">Preparing your food...</div>
     <div class="os-sub" id="osSub"></div>
 </div>
@@ -532,13 +525,13 @@
     let allVendors = [];
     let currentCategory = "all";
 
-    // ── CUISINE EMOJI MAP ──
+    // ── CUISINE HELPERS ──
     const cuisineEmoji = {
-        pizza: "🍕", burger: "🍔", burgers: "🍔", sushi: "🍣", indian: "🍛",
-        healthy: "🥗", salad: "🥗", fastfood: "🍟", fast: "🍟", chicken: "🍗",
-        dessert: "🍰", desserts: "🍰", mexican: "🌮", coffee: "☕", cafe: "☕",
-        steak: "🥩", grill: "🥩", italian: "🍝", pasta: "🍝", sandwich: "🥪",
-        sandwiches: "🥪", chinese: "🥡", thai: "🍜", seafood: "🦐", default: "🍽️"
+        pizza:"🍕",burger:"🍔",burgers:"🍔",sushi:"🍣",indian:"🍛",
+        healthy:"🥗",salad:"🥗",fastfood:"🍟",fast:"🍟",chicken:"🍗",
+        dessert:"🍰",desserts:"🍰",mexican:"🌮",coffee:"☕",cafe:"☕",
+        steak:"🥩",grill:"🥩",italian:"🍝",pasta:"🍝",sandwich:"🥪",
+        sandwiches:"🥪",chinese:"🥡",thai:"🍜",seafood:"🦐",default:"🍽️"
     };
 
     function getCuisineEmoji(cuisine) {
@@ -569,19 +562,16 @@
         return cats;
     }
 
-    // ── LOAD VENDORS FROM FIREBASE ──
+    // ── LOAD VENDORS (real-time) ──
     function loadVendors() {
         onValue(ref(db, "vendors"), (snapshot) => {
             const data = snapshot.val();
             allVendors = [];
-
             if (data) {
                 Object.entries(data).forEach(([key, v]) => {
                     if (v.status === "active") {
                         allVendors.push({
-                            key,
-                            name: v.name,
-                            cuisine: v.cuisine,
+                            key, name: v.name, cuisine: v.cuisine,
                             imageURL: v.imageURL || "",
                             vendorID: v.vendorID || key,
                             createdAt: v.createdAt || 0,
@@ -589,10 +579,8 @@
                         });
                     }
                 });
-                // Newest first
                 allVendors.sort((a, b) => b.createdAt - a.createdAt);
             }
-
             renderVendors(filterByCategory(allVendors, currentCategory));
         });
     }
@@ -611,23 +599,15 @@
 
     function renderVendors(vendors) {
         const grid = document.getElementById("restaurantsGrid");
-
         if (!vendors.length) {
-            grid.innerHTML = `
-                <div class="empty-vendors">
-                    <div class="empty-icon">🍽️</div>
-                    <p style="font-size:1rem;font-weight:600;margin-bottom:8px">No restaurants available</p>
-                    <p style="font-size:0.85rem">Check back soon — new restaurants are being added!</p>
-                </div>`;
+            grid.innerHTML = `<div class="empty-vendors"><div class="empty-icon">🍽️</div><p style="font-size:1rem;font-weight:700;margin-bottom:8px">No restaurants available</p><p style="font-size:0.85rem">Check back soon — new restaurants are being added!</p></div>`;
             return;
         }
-
         grid.innerHTML = vendors.map(v => {
             const emoji = getCuisineEmoji(v.cuisine);
             const imgContent = v.imageURL
                 ? `<img src="${v.imageURL}" alt="${v.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=r-img-placeholder>${emoji}</div>'">`
                 : `<div class="r-img-placeholder">${emoji}</div>`;
-
             return `
                 <a class="r-card" href="restaurant.html?id=${v.key}" onclick="return handleRestaurantClick(event, '${v.key}')">
                     <div class="r-img-wrap">
@@ -664,8 +644,7 @@
         if (idx === -1) return;
         cart[idx].qty += delta;
         if (cart[idx].qty <= 0) cart.splice(idx, 1);
-        saveCart();
-        renderCart();
+        saveCart(); renderCart();
     };
 
     function renderCart() {
@@ -675,9 +654,8 @@
         document.getElementById("cartCount").textContent = count;
         document.getElementById("cartTotal").textContent = `R ${total}`;
         document.getElementById("checkoutBtn").disabled = cart.length === 0;
-
         if (!cart.length) {
-            body.innerHTML = `<div class="cart-empty"><div class="empty-icon">🍽️</div><p>Your cart is empty</p><p style="font-size:0.8rem;margin-top:6px;color:#666">Browse a restaurant to add items</p></div>`;
+            body.innerHTML = `<div class="cart-empty"><div class="empty-icon">🍽️</div><p>Your cart is empty</p><p style="font-size:0.8rem;margin-top:6px;color:var(--dim)">Browse a restaurant to add items</p></div>`;
             return;
         }
         body.innerHTML = cart.map(item => `
@@ -787,12 +765,14 @@
     document.getElementById("authModal").addEventListener("click", function(e) { if (e.target === this) closeAuthModal(); });
 
     // ── GOOGLE AUTH ──
+    const GOOGLE_SVG = `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>`;
+
     window.handleGoogleAuth = async function() {
         const btn = document.getElementById("googleBtn");
         const errEl = document.getElementById("authError");
         errEl.style.display = "none";
         btn.disabled = true;
-        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg> Signing in...`;
+        btn.innerHTML = `${GOOGLE_SVG} Signing in...`;
         try {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
@@ -800,11 +780,10 @@
             const isNew = result._tokenResponse?.isNewUser;
             closeAuthModal();
             const name = user.displayName || user.email.split("@")[0];
-            if (isNew) {
-                showSuccessModal("🎉", "Welcome to Vynix Eats!", `Your account has been created, ${name}! You can now browse menus and place orders.`);
-            } else {
-                showSuccessModal("✅", "Signed In!", `Welcome back, ${name}! You can now browse restaurants and place orders.`);
-            }
+            showSuccessModal(isNew ? "🎉" : "✅",
+                isNew ? "Welcome to Vynix Eats!" : "Signed In!",
+                isNew ? `Your account has been created, ${name}! You can now browse menus and place orders.`
+                      : `Welcome back, ${name}! You can now browse restaurants and place orders.`);
         } catch (e) {
             const code = e.code || "";
             let friendly = "Google sign-in failed. Please try again.";
@@ -816,7 +795,7 @@
             errEl.textContent = friendly;
         } finally {
             btn.disabled = false;
-            btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg> Continue with Google`;
+            btn.innerHTML = `${GOOGLE_SVG} Continue with Google`;
         }
     };
 
@@ -838,35 +817,14 @@
         const password = document.getElementById("authPassword").value;
         const errEl = document.getElementById("authError");
         const btn = document.getElementById("authSubmit");
-
-        // Clear previous errors
-        errEl.style.display = "none";
-        errEl.textContent = "";
-
-        // Basic client-side validation
-        if (!email) {
-            errEl.style.display = "block";
-            errEl.textContent = "Please enter your email address.";
-            return;
-        }
-        if (!password || password.length < 6) {
-            errEl.style.display = "block";
-            errEl.textContent = "Password must be at least 6 characters.";
-            return;
-        }
-
+        errEl.style.display = "none"; errEl.textContent = "";
+        if (!email) { errEl.style.display = "block"; errEl.textContent = "Please enter your email address."; return; }
+        if (!password || password.length < 6) { errEl.style.display = "block"; errEl.textContent = "Password must be at least 6 characters."; return; }
         if (authMode === "signup") {
             const name = document.getElementById("authName").value.trim();
-            if (!name) {
-                errEl.style.display = "block";
-                errEl.textContent = "Please enter your full name.";
-                return;
-            }
+            if (!name) { errEl.style.display = "block"; errEl.textContent = "Please enter your full name."; return; }
         }
-
-        btn.disabled = true;
-        btn.textContent = "Please wait...";
-
+        btn.disabled = true; btn.textContent = "Please wait...";
         try {
             if (authMode === "signup") {
                 const name = document.getElementById("authName").value.trim();
@@ -880,7 +838,6 @@
                 showSuccessModal("✅", "Signed In!", "Welcome back! You can now browse restaurants and place orders.");
             }
         } catch (e) {
-            // Map Firebase error codes to friendly messages
             const code = e.code || "";
             let friendly = "Something went wrong. Please try again.";
             if (code === "auth/email-already-in-use") friendly = "This email is already registered. Try signing in instead.";
@@ -893,11 +850,8 @@
             else if (code === "auth/network-request-failed") friendly = "Network error. Check your connection and try again.";
             else if (code === "auth/operation-not-allowed") friendly = "Email/password sign-in is not enabled. Please contact support.";
             else if (e.message) friendly = e.message.replace("Firebase: ", "").replace(/\s*\(auth\/[^)]+\)\.?/, "").trim();
-
-            errEl.style.display = "block";
-            errEl.textContent = friendly;
-            btn.disabled = false;
-            btn.textContent = authMode === "signup" ? "Sign Up" : "Sign In";
+            errEl.style.display = "block"; errEl.textContent = friendly;
+            btn.disabled = false; btn.textContent = authMode === "signup" ? "Sign Up" : "Sign In";
         }
     };
 
