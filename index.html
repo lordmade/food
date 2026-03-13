@@ -73,7 +73,7 @@
         }
         .user-btn:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
 
-        /* AUTH MODAL (unchanged, keep existing) */
+        /* AUTH MODAL (unchanged) */
         .modal-overlay {
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,0.5); z-index: 2000;
@@ -179,13 +179,15 @@
         .user-greeting { font-size: 0.82rem; color: var(--dim); }
         .user-greeting span { color: var(--accent); font-weight: 600; }
 
+        /* CATEGORY FILTERS – pill shape */
         .filters-wrap { padding: 20px 0 4px 4%; border-bottom: 1px solid var(--border); background: var(--surface); }
         .filters-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-right: 4%; padding-bottom: 16px; }
         .filters-scroll::-webkit-scrollbar { display: none; }
         .cat-btn {
             display: flex; flex-direction: column; align-items: center; gap: 6px;
             padding: 12px 14px; background: var(--bg); border: 1px solid var(--border);
-            border-radius: 14px; color: var(--dim); font-family: 'Inter', sans-serif;
+            border-radius: 9999px; /* pill shape */
+            color: var(--dim); font-family: 'Inter', sans-serif;
             font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap;
             min-width: 72px; transition: var(--transition);
         }
@@ -517,7 +519,7 @@
     <div class="user-greeting" id="userGreeting"></div>
 </div>
 
-<!-- CATEGORIES -->
+<!-- CATEGORIES (hardcoded – pill shape) -->
 <div class="filters-wrap">
     <div class="filters-scroll">
         <button class="cat-btn active" onclick="filterCategory('all', this)"><span class="cat-icon">🍽️</span><span>All</span></button>
@@ -751,7 +753,6 @@
                             featured: v.featured === true,
                             featuredTag: v.featuredTag || null,
                             featuredMessage: v.featuredMessage || null,
-                            // New fields from vendor portal
                             address: v.address || "Address not provided",
                             distance: v.distance || "2.5 km",
                             deliveryTime: v.deliveryTime || "30 min",
@@ -816,7 +817,6 @@
     window.openMenuModal = function(vendor) {
         currentVendor = vendor;
         document.getElementById("menuRestaurantName").textContent = vendor.name;
-        // Build info bar from vendor data
         const infoBar = document.getElementById("menuInfoBar");
         const hoursStr = vendor.hours ? formatHours(vendor.hours) : "Hours not set";
         infoBar.innerHTML = `
@@ -829,11 +829,9 @@
         loadMenuItems(vendor.key);
     };
 
-    // Simple hours formatting
     function formatHours(hours) {
         if (!hours || typeof hours !== 'object') return "Open today";
-        // Get current day (simplified: show Monday as sample)
-        const day = "Monday"; // You can improve with actual current day
+        const day = "Monday";
         const today = hours[day];
         if (today && !today.closed) {
             return `${today.open} – ${today.close}`;
@@ -924,7 +922,6 @@
         return false;
     };
 
-    // Cart functions (unchanged)
     window.changeQty = function(id, delta) {
         const idx = cart.findIndex(x => x.id === id);
         if (idx === -1) return;
@@ -1165,7 +1162,6 @@
     loadVendors();
     renderCart();
 
-    // Close menu modal when clicking overlay
     document.getElementById("menuModal").addEventListener("click", function(e) {
         if (e.target === this) closeMenuModal();
     });
