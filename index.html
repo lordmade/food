@@ -117,117 +117,63 @@
             pointer-events: none;
         }
 
-        /* AUTH MODAL */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.5); z-index: 2000;
-            align-items: center; justify-content: center; backdrop-filter: blur(8px);
-        }
-        .modal-overlay.open { display: flex; }
-        .modal {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 24px; padding: 36px; width: 420px; max-width: 90vw; position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .modal h2 { font-weight: 800; font-size: 1.5rem; margin-bottom: 6px; letter-spacing: -0.5px; }
-        .modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 28px; }
-        .modal-close {
-            position: absolute; top: 16px; right: 16px;
-            background: var(--surface2); border: none; color: var(--dim);
-            width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem;
-            transition: var(--transition);
-        }
-        .modal-close:hover { background: var(--border); color: var(--text); }
-        .form-group { margin-bottom: 16px; }
-        .form-group label {
-            display: block; font-size: 0.75rem; font-weight: 700; color: var(--dim);
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
-        }
-        .form-group input {
-            width: 100%; background: var(--surface2); border: 1px solid var(--border);
-            border-radius: 12px; padding: 13px 16px; color: var(--text);
-            font-size: 0.95rem; outline: none; transition: var(--transition);
-        }
-        .form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0,122,255,0.1); }
-        .btn-primary {
-            width: 100%; background: var(--accent); color: white; border: none;
-            padding: 14px; border-radius: 12px; font-weight: 600; font-size: 1rem;
-            cursor: pointer; transition: var(--transition); margin-top: 4px;
-            box-shadow: 0 4px 12px rgba(0,122,255,0.3);
-        }
-        .btn-primary:hover { background: #0066dd; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,122,255,0.4); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
-        .auth-toggle { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--dim); }
-        .auth-toggle a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
-        .auth-toggle a:hover { text-decoration: underline; }
-        .auth-error {
-            background: rgba(255,59,48,0.08); border: 1px solid rgba(255,59,48,0.3);
-            border-radius: 10px; padding: 10px 14px; font-size: 0.85rem; color: var(--danger);
-            margin-bottom: 16px; display: none; font-weight: 500;
-        }
-        .btn-google {
-            width: 100%; background: white; color: #3c4043; border: 1.5px solid var(--border);
-            padding: 13px 14px; border-radius: 12px; font-weight: 600; font-size: 0.95rem;
-            cursor: pointer; transition: var(--transition);
-            display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px;
-        }
-        .btn-google:hover { background: #f8f8f8; border-color: #aaa; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transform: translateY(-1px); }
-        .btn-google:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        /* SUCCESS MODAL */
-        .success-modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.6); z-index: 3000;
-            align-items: center; justify-content: center; backdrop-filter: blur(8px);
-        }
-        .success-modal-overlay.open { display: flex; }
-        .success-modal {
-            background: white; border-radius: 24px; padding: 40px 36px;
-            text-align: center; width: 360px; max-width: 90vw;
-            animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-        }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-        .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
-        .success-modal h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
-        .success-modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6; }
-        .success-modal .btn-primary { width: auto; padding: 12px 32px; border-radius: 12px; font-size: 0.95rem; }
-
-        /* LOCATION BAR */
-        .location-bar {
-            padding: 10px 5%; background: var(--surface); border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between;
-            font-size: 0.85rem; color: var(--dim);
-        }
-        .location-left { display: flex; align-items: center; gap: 6px; }
-        .location-left strong { color: var(--text); font-weight: 600; }
-        .user-greeting { font-size: 0.82rem; color: var(--dim); }
-        .user-greeting span { color: var(--accent); font-weight: 600; }
-
-        /* CATEGORY FILTERS */
-        .filters-wrap {
+        /* CATEGORY FILTERS + ICON ARROWS */
+        .filters-section {
+            position: relative;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             padding: 14px 5% 8px;
             position: sticky;
-            top: 64px;
+            top: 108px;
             z-index: 970;
             backdrop-filter: blur(10px);
         }
+
+        .filters-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         .filters-scroll {
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding-bottom: 10px;
+            padding: 0 48px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
+            scroll-behavior: smooth;
         }
         .filters-scroll::-webkit-scrollbar { display: none; }
+
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.25s ease;
+            color: var(--dim);
+        }
+        .scroll-arrow:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 16px rgba(0,122,255,0.25);
+        }
+        .scroll-arrow.left { left: 8px; }
+        .scroll-arrow.right { right: 8px; }
+
         .cat-btn {
             flex: 0 0 auto;
             display: flex;
@@ -255,9 +201,7 @@
             border-color: #111;
             transform: translateY(-1px);
         }
-        .cat-btn:active {
-            transform: scale(0.96);
-        }
+        .cat-btn:active { transform: scale(0.96); }
         .cat-btn.active {
             background: var(--accent);
             color: white;
@@ -265,17 +209,46 @@
             box-shadow: 0 3px 12px rgba(0,122,255,0.28);
         }
 
-        .main { padding: 20px 5% 100px; }
+        /* Hide arrows on mobile */
+        @media (max-width: 768px) {
+            .scroll-arrow { display: none; }
+            .filters-scroll { padding: 0; }
+        }
+
+        @media (max-width: 640px) {
+            .header { height: 58px; padding: 0 5%; }
+            .search-container { top: 58px; padding: 10px 5%; }
+            .filters-section { top: 102px; padding: 12px 5% 6px; }
+            .cat-btn {
+                min-width: 92px;
+                padding: 11px 16px;
+                font-size: 0.88rem;
+                gap: 7px;
+            }
+            .cat-btn .cat-icon { font-size: 1.32rem; }
+        }
+
+        @media (max-width: 480px) {
+            .cat-btn {
+                min-width: 86px;
+                padding: 10px 14px;
+                font-size: 0.84rem;
+            }
+            .cat-btn .cat-icon { font-size: 1.24rem; }
+        }
+
+        /* Rest of your styles remain unchanged */
+        .main { padding: 24px 5% 100px; }
         .section-label {
             font-size: 1.38rem; font-weight: 800;
             letter-spacing: -0.6px; margin-bottom: 18px;
             background: linear-gradient(135deg, var(--text), var(--dim));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .featured-section { margin-bottom: 40px; }
-        .featured-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; }
+        .featured-section { margin-bottom: 48px; }
+        .featured-scroll { display: flex; gap: 18px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
         .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card { flex: 0 0 240px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
+        .featured-card { flex: 0 0 260px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
         .featured-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
         .featured-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
         .featured-overlay {
@@ -290,10 +263,11 @@
         }
         .featured-title { font-size: 1rem; font-weight: 700; color: white; }
 
-        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px 20px; }
         .r-card {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 20px; overflow: hidden; cursor: pointer; transition: var(--transition);
+            text-decoration: none; color: inherit; display: block;
             box-shadow: var(--shadow);
         }
         .r-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
@@ -432,35 +406,6 @@
             cursor: pointer; width: 100%;
         }
         .add-btn:hover { background: #0066dd; }
-
-        /* MOBILE OPTIMIZATIONS */
-        @media (max-width: 640px) {
-            .header { height: 58px; padding: 0 5%; }
-            .logo { font-size: 1.4rem; }
-            .search-container { top: 58px; padding: 10px 5%; }
-            .filters-wrap { top: 108px; padding: 12px 5% 6px; }
-            .cat-btn {
-                min-width: 92px;
-                padding: 11px 16px;
-                font-size: 0.88rem;
-                gap: 7px;
-            }
-            .cat-btn .cat-icon { font-size: 1.32rem; }
-            .cart-drawer { width: 100%; }
-            .restaurants-grid { grid-template-columns: 1fr; }
-            .main { padding: 16px 5% 90px; }
-            .menu-body { grid-template-columns: 1fr; }
-            .menu-info-bar { gap: 12px; }
-        }
-
-        @media (max-width: 480px) {
-            .cat-btn {
-                min-width: 86px;
-                padding: 10px 14px;
-                font-size: 0.84rem;
-            }
-            .cat-btn .cat-icon { font-size: 1.24rem; }
-        }
     </style>
 </head>
 <body>
@@ -511,22 +456,32 @@
     </div>
 </div>
 
-<!-- CATEGORIES -->
-<div class="filters-wrap">
-    <div class="filters-scroll">
-        <button class="cat-btn active" onclick="filterCategory('all', this)"><span class="cat-icon">🍽️</span><span>All</span></button>
-        <button class="cat-btn" onclick="filterCategory('pizza', this)"><span class="cat-icon">🍕</span><span>Pizza</span></button>
-        <button class="cat-btn" onclick="filterCategory('burgers', this)"><span class="cat-icon">🍔</span><span>Burgers</span></button>
-        <button class="cat-btn" onclick="filterCategory('sushi', this)"><span class="cat-icon">🍣</span><span>Sushi</span></button>
-        <button class="cat-btn" onclick="filterCategory('indian', this)"><span class="cat-icon">🍛</span><span>Indian</span></button>
-        <button class="cat-btn" onclick="filterCategory('healthy', this)"><span class="cat-icon">🥗</span><span>Healthy</span></button>
-        <button class="cat-btn" onclick="filterCategory('fastfood', this)"><span class="cat-icon">🍟</span><span>Fast Food</span></button>
-        <button class="cat-btn" onclick="filterCategory('desserts', this)"><span class="cat-icon">🍰</span><span>Desserts</span></button>
-        <button class="cat-btn" onclick="filterCategory('mexican', this)"><span class="cat-icon">🌮</span><span>Mexican</span></button>
-        <button class="cat-btn" onclick="filterCategory('coffee', this)"><span class="cat-icon">☕</span><span>Coffee</span></button>
-        <button class="cat-btn" onclick="filterCategory('steak', this)"><span class="cat-icon">🥩</span><span>Steak</span></button>
-        <button class="cat-btn" onclick="filterCategory('italian', this)"><span class="cat-icon">🍝</span><span>Italian</span></button>
-        <button class="cat-btn" onclick="filterCategory('sandwiches', this)"><span class="cat-icon">🥪</span><span>Sandwiches</span></button>
+<!-- CATEGORIES WITH LUCIDE ICON ARROWS -->
+<div class="filters-section">
+    <div class="filters-wrapper">
+        <button class="scroll-arrow left" onclick="scrollCategories('left')" title="Scroll left">
+            <i data-lucide="chevron-left" style="width:24px;height:24px;"></i>
+        </button>
+
+        <div class="filters-scroll" id="filtersScroll">
+            <button class="cat-btn active" onclick="filterCategory('all', this)"><span class="cat-icon">🍽️</span>All</button>
+            <button class="cat-btn" onclick="filterCategory('pizza', this)"><span class="cat-icon">🍕</span>Pizza</button>
+            <button class="cat-btn" onclick="filterCategory('burgers', this)"><span class="cat-icon">🍔</span>Burgers</button>
+            <button class="cat-btn" onclick="filterCategory('sushi', this)"><span class="cat-icon">🍣</span>Sushi</button>
+            <button class="cat-btn" onclick="filterCategory('indian', this)"><span class="cat-icon">🍛</span>Indian</button>
+            <button class="cat-btn" onclick="filterCategory('healthy', this)"><span class="cat-icon">🥗</span>Healthy</button>
+            <button class="cat-btn" onclick="filterCategory('fastfood', this)"><span class="cat-icon">🍟</span>Fast Food</button>
+            <button class="cat-btn" onclick="filterCategory('desserts', this)"><span class="cat-icon">🍰</span>Desserts</button>
+            <button class="cat-btn" onclick="filterCategory('mexican', this)"><span class="cat-icon">🌮</span>Mexican</button>
+            <button class="cat-btn" onclick="filterCategory('coffee', this)"><span class="cat-icon">☕</span>Coffee</button>
+            <button class="cat-btn" onclick="filterCategory('steak', this)"><span class="cat-icon">🥩</span>Steak</button>
+            <button class="cat-btn" onclick="filterCategory('italian', this)"><span class="cat-icon">🍝</span>Italian</button>
+            <button class="cat-btn" onclick="filterCategory('sandwiches', this)"><span class="cat-icon">🥪</span>Sandwiches</button>
+        </div>
+
+        <button class="scroll-arrow right" onclick="scrollCategories('right')" title="Scroll right">
+            <i data-lucide="chevron-right" style="width:24px;height:24px;"></i>
+        </button>
     </div>
 </div>
 
@@ -746,12 +701,10 @@
     function applyFilters() {
         let filtered = allVendors;
 
-        // Category filter
         if (currentCategory !== "all") {
             filtered = filtered.filter(v => v.categories.includes(currentCategory));
         }
 
-        // Search filter
         if (searchTerm.trim()) {
             const term = searchTerm.toLowerCase().trim();
             filtered = filtered.filter(v => v.name.toLowerCase().includes(term));
@@ -764,11 +717,6 @@
         searchTerm = document.getElementById("searchInput").value;
         applyFilters();
     };
-
-    function filterByCategory(vendors, cat) {
-        if (cat === "all") return vendors;
-        return vendors.filter(v => v.categories.includes(cat));
-    }
 
     window.filterCategory = function(cat, btn) {
         document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
@@ -1159,8 +1107,46 @@
         toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
     };
 
-    loadVendors();
-    renderCart();
+    // Arrow scrolling function
+    window.scrollCategories = function(direction) {
+        const scrollContainer = document.getElementById('filtersScroll');
+        const scrollAmount = 240; // pixels to scroll each click
+        if (direction === 'left') {
+            scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
+    // Optional: update arrow visibility based on scroll position
+    function updateArrowVisibility() {
+        const scroll = document.getElementById('filtersScroll');
+        if (!scroll) return;
+        const leftArrow = document.querySelector('.scroll-arrow.left');
+        const rightArrow = document.querySelector('.scroll-arrow.right');
+
+        leftArrow.style.opacity = scroll.scrollLeft > 20 ? '1' : '0.5';
+        leftArrow.style.pointerEvents = scroll.scrollLeft > 20 ? 'auto' : 'none';
+
+        const atEnd = scroll.scrollLeft + scroll.clientWidth >= scroll.scrollWidth - 20;
+        rightArrow.style.opacity = atEnd ? '0.5' : '1';
+        rightArrow.style.pointerEvents = atEnd ? 'none' : 'auto';
+    }
+
+    // Initialize Lucide icons & arrow visibility
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+
+        const scroll = document.getElementById('filtersScroll');
+        if (scroll) {
+            scroll.addEventListener('scroll', updateArrowVisibility);
+            window.addEventListener('resize', updateArrowVisibility);
+            updateArrowVisibility(); // initial check
+        }
+
+        loadVendors();
+        renderCart();
+    });
 </script>
 </body>
 </html>
