@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vynix Eats | Restaurants</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --bg: #ffffff;
@@ -19,819 +18,289 @@
             --green: #2ecc71;
             --radius: 14px;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-        }
-
-        /* ── HEADER ── */
+        /* HEADER */
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 4%;
-            height: 64px;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(24px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 4%; height: 64px;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
         }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 1.35rem;
-            letter-spacing: -1px;
-            color: var(--text);
-        }
-
+        .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; letter-spacing: -1px; color: var(--text); }
         .logo span { color: var(--accent); }
-
         .header-actions { display: flex; align-items: center; gap: 12px; }
-
         .cart-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--text);
-            color: white;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 30px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
+            display: flex; align-items: center; gap: 8px;
+            background: var(--text); color: white; border: none;
+            padding: 9px 18px; border-radius: 30px;
+            font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; transition: all 0.2s;
         }
-
         .cart-btn:hover { background: #333; transform: translateY(-1px); }
-
         .cart-count {
-            background: var(--accent);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
+            background: var(--accent); color: white; border-radius: 50%;
+            width: 20px; height: 20px; display: flex; align-items: center;
+            justify-content: center; font-size: 0.75rem; font-weight: 700;
         }
-
         .user-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--surface2); border: 1px solid var(--border);
+            color: var(--text); font-size: 1.1rem; cursor: pointer;
+            transition: all 0.2s; display: flex; align-items: center; justify-content: center;
         }
-
         .user-btn:hover { border-color: var(--accent); }
 
-        /* ── AUTH MODAL ── */
+        /* AUTH MODAL */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7); z-index: 2000;
+            align-items: center; justify-content: center; backdrop-filter: blur(4px);
         }
-
         .modal-overlay.open { display: flex; }
-
         .modal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 36px;
-            width: 400px;
-            max-width: 90vw;
-            position: relative;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 36px; width: 400px; max-width: 90vw; position: relative;
         }
-
-        .modal h2 {
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 6px;
-        }
-
+        .modal h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem; margin-bottom: 6px; }
         .modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 28px; }
-
         .modal-close {
-            position: absolute;
-            top: 16px; right: 16px;
-            background: var(--surface2);
-            border: none;
-            color: var(--dim);
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
+            position: absolute; top: 16px; right: 16px;
+            background: var(--surface2); border: none; color: var(--dim);
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem;
         }
-
         .form-group { margin-bottom: 16px; }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
         .form-group input {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 14px;
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
+            width: 100%; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 12px 14px; color: var(--text);
+            font-family: 'DM Sans', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.2s;
         }
-
         .form-group input:focus { border-color: var(--accent); }
-
         .btn-primary {
-            width: 100%;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 4px;
+            width: 100%; background: var(--accent); color: white; border: none;
+            padding: 14px; border-radius: 12px; font-family: 'DM Sans', sans-serif;
+            font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; margin-top: 4px;
         }
-
         .btn-primary:hover { background: #ff3d17; transform: translateY(-1px); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        .auth-toggle {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--dim);
-        }
-
-        .auth-toggle a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
+        .auth-toggle { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--dim); }
+        .auth-toggle a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
         .auth-error {
-            background: rgba(255, 92, 53, 0.15);
-            border: 1px solid rgba(255,92,53,0.3);
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 0.85rem;
-            color: var(--accent);
-            margin-bottom: 16px;
-            display: none;
+            background: rgba(255,92,53,0.15); border: 1px solid rgba(255,92,53,0.3);
+            border-radius: 8px; padding: 10px 14px; font-size: 0.85rem; color: var(--accent);
+            margin-bottom: 16px; display: none;
+        }
+        .btn-google {
+            width: 100%; background: white; color: #3c4043; border: 1.5px solid var(--border);
+            padding: 13px 14px; border-radius: 12px; font-family: 'DM Sans', sans-serif;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px;
+        }
+        .btn-google:hover { background: #f8f8f8; border-color: #aaa; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transform: translateY(-1px); }
+        .btn-google:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-google svg { flex-shrink: 0; }
+        .auth-divider {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 16px; color: var(--dim); font-size: 0.8rem;
+        }
+        .auth-divider::before, .auth-divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--border);
         }
 
-        /* ── LOCATION BAR ── */
+        /* SUCCESS MODAL */
+        .success-modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7); z-index: 3000;
+            align-items: center; justify-content: center; backdrop-filter: blur(6px);
+        }
+        .success-modal-overlay.open { display: flex; }
+        .success-modal {
+            background: white; border-radius: 24px; padding: 40px 36px;
+            text-align: center; width: 360px; max-width: 90vw;
+            animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+        .success-modal h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+        .success-modal p { color: var(--dim); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.5; }
+        .success-modal .btn-primary { width: auto; padding: 12px 32px; border-radius: 30px; font-size: 0.95rem; }
+
+        /* MOBILE BOTTOM SHEET */
+        @media (max-width: 640px) {
+            .modal-overlay { align-items: flex-end; }
+            .modal {
+                width: 100%; border-radius: 24px 24px 0 0; padding: 28px 24px 40px;
+                animation: slideUp 0.3s ease;
+            }
+            @keyframes slideUp {
+                from { transform: translateY(100%); }
+                to { transform: translateY(0); }
+            }
+        }
+
+        /* LOCATION BAR */
         .location-bar {
-            padding: 10px 4%;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            color: var(--dim);
+            padding: 10px 4%; background: var(--surface); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 0.85rem; color: var(--dim);
         }
-
         .location-left { display: flex; align-items: center; gap: 6px; }
         .location-left strong { color: var(--text); }
-
-        .user-greeting {
-            font-size: 0.82rem;
-            color: var(--dim);
-        }
-
+        .user-greeting { font-size: 0.82rem; color: var(--dim); }
         .user-greeting span { color: var(--accent2); font-weight: 600; }
 
-        /* ── CATEGORY FILTERS ── */
-        .filters-wrap {
-            padding: 20px 0 4px 4%;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .filters-scroll {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            padding-right: 4%;
-            padding-bottom: 16px;
-        }
-
+        /* CATEGORY FILTERS */
+        .filters-wrap { padding: 20px 0 4px 4%; border-bottom: 1px solid var(--border); }
+        .filters-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-right: 4%; padding-bottom: 16px; }
         .filters-scroll::-webkit-scrollbar { display: none; }
-
         .cat-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            padding: 12px 14px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            color: var(--dim);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 500;
-            cursor: pointer;
-            white-space: nowrap;
-            min-width: 72px;
-            transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 12px 14px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; color: var(--dim); font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem; font-weight: 500; cursor: pointer; white-space: nowrap;
+            min-width: 72px; transition: all 0.2s;
         }
-
         .cat-btn .cat-icon { font-size: 1.6rem; }
-
         .cat-btn:hover { border-color: var(--accent); color: var(--text); }
+        .cat-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 
-        .cat-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
-        }
-
-        /* ── MAIN ── */
+        /* MAIN */
         .main { padding: 32px 4% 80px; }
+        .section-label { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 22px; }
 
-        .section-label {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 22px;
-        }
-
-        /* ── FEATURED ── */
+        /* FEATURED */
         .featured-section { margin-bottom: 48px; }
-
-        .featured-scroll {
-            display: flex;
-            gap: 18px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            scrollbar-width: none;
-        }
-
+        .featured-scroll { display: flex; gap: 18px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
         .featured-scroll::-webkit-scrollbar { display: none; }
-
-        .featured-card {
-            flex: 0 0 260px;
-            border-radius: var(--radius);
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.25s;
-        }
-
+        .featured-card { flex: 0 0 260px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: transform 0.25s; }
         .featured-card:hover { transform: translateY(-4px); }
-
-        .featured-card img {
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-            display: block;
-        }
-
+        .featured-card img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
         .featured-overlay {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.75) 40%, transparent);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 16px;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 16px;
         }
-
         .featured-tag {
-            background: var(--accent);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 20px;
-            width: fit-content;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: var(--accent); color: white; font-size: 0.7rem; font-weight: 700;
+            padding: 4px 10px; border-radius: 20px; width: fit-content;
+            margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;
         }
+        .featured-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: white; }
 
-        .featured-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        /* ── RESTAURANT GRID ── */
-        .restaurants-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 28px 20px;
-        }
-
+        /* RESTAURANT GRID */
+        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px 20px; }
         .r-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.25s;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; overflow: hidden; cursor: pointer; transition: all 0.25s;
+            text-decoration: none; color: inherit; display: block;
         }
-
-        .r-card:hover {
-            border-color: #444;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-        }
-
-        .r-img-wrap {
-            position: relative;
-            aspect-ratio: 16/10;
-            overflow: hidden;
-        }
-
-        .r-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
+        .r-card:hover { border-color: #444; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+        .r-img-wrap { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+        .r-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
         .r-card:hover .r-img-wrap img { transform: scale(1.04); }
-
-        .r-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
+        .r-badge { position: absolute; top: 10px; left: 10px; padding: 5px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .r-badge.promo { background: var(--green); color: #0a2e18; }
         .r-badge.new { background: var(--accent2); color: #3d2400; }
         .r-badge.popular { background: var(--accent); color: white; }
-
-        .r-eta {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(15,15,15,0.85);
-            color: var(--text);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            border: 1px solid var(--border);
-        }
-
+        .r-eta { position: absolute; bottom: 10px; right: 10px; background: rgba(15,15,15,0.85); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--border); }
         .r-info { padding: 16px; }
+        .r-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .r-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.3px; }
+        .r-rating { display: flex; align-items: center; gap: 3px; font-size: 0.85rem; font-weight: 600; color: var(--accent2); }
+        .r-meta { font-size: 0.82rem; color: var(--dim); }
+        .r-meta .dot { display: inline-block; width: 3px; height: 3px; background: var(--border); border-radius: 50%; margin: 0 6px; vertical-align: middle; }
 
-        .r-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
+        /* Vendor avatar fallback */
+        .r-img-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; background: linear-gradient(135deg, #f5f5f7, #e5e5e7);
         }
 
-        .r-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-
-        .r-rating {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--accent2);
-        }
-
-        .r-meta {
-            font-size: 0.82rem;
-            color: var(--dim);
-        }
-
-        .r-meta .dot {
-            display: inline-block;
-            width: 3px; height: 3px;
-            background: var(--border);
-            border-radius: 50%;
-            margin: 0 6px;
-            vertical-align: middle;
-        }
-
-        /* ── CART DRAWER ── */
+        /* CART DRAWER */
         .cart-drawer {
-            position: fixed;
-            right: 0; top: 0; bottom: 0;
-            width: 380px;
-            max-width: 100vw;
-            background: var(--surface);
-            border-left: 1px solid var(--border);
-            z-index: 1500;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
+            position: fixed; right: 0; top: 0; bottom: 0; width: 380px; max-width: 100vw;
+            background: var(--surface); border-left: 1px solid var(--border);
+            z-index: 1500; transform: translateX(100%); transition: transform 0.3s ease;
+            display: flex; flex-direction: column;
         }
-
         .cart-drawer.open { transform: translateX(0); }
-
-        .cart-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-header h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .cart-close {
-            background: var(--surface2);
-            border: none;
-            color: var(--text);
-            width: 34px; height: 34px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .cart-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 24px;
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--dim);
-        }
-
+        .cart-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h3 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
+        .cart-close { background: var(--surface2); border: none; color: var(--text); width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
+        .cart-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+        .cart-empty { text-align: center; padding: 60px 20px; color: var(--dim); }
         .cart-empty .empty-icon { font-size: 3rem; margin-bottom: 12px; }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-            animation: slideIn 0.2s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .cart-item-img {
-            width: 60px; height: 60px;
-            border-radius: 10px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
+        .cart-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); animation: slideIn 0.2s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .cart-item-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
         .cart-item-info { flex: 1; }
-
-        .cart-item-name {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .cart-item-from {
-            font-size: 0.78rem;
-            color: var(--dim);
-            margin-bottom: 6px;
-        }
-
-        .cart-item-price {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .qty-btn {
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--text);
-            font-size: 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s;
-        }
-
+        .cart-item-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 3px; }
+        .cart-item-from { font-size: 0.78rem; color: var(--dim); margin-bottom: 6px; }
+        .cart-item-price { font-size: 0.9rem; font-weight: 700; color: var(--accent); }
+        .cart-item-actions { display: flex; align-items: center; gap: 8px; }
+        .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
         .qty-btn:hover { border-color: var(--accent); color: var(--accent); }
-
         .qty-num { font-weight: 700; font-size: 0.9rem; min-width: 16px; text-align: center; }
-
-        .cart-footer {
-            padding: 20px 24px;
-            border-top: 1px solid var(--border);
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
+        .cart-footer { padding: 20px 24px; border-top: 1px solid var(--border); }
+        .cart-total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 600; margin-bottom: 16px; }
         .cart-total .amount { color: var(--accent); font-family: 'Syne', sans-serif; font-size: 1.2rem; }
-
-        .checkout-btn {
-            width: 100%;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
+        .checkout-btn { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
         .checkout-btn:hover { background: #ff3d17; }
         .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* ── TOAST ── */
+        /* TOAST */
         #toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
+            position: fixed; bottom: 30px; left: 50%;
             transform: translateX(-50%) translateY(80px);
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 12px 22px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            z-index: 9999;
-            transition: transform 0.3s ease;
-            white-space: nowrap;
+            background: var(--surface2); border: 1px solid var(--border);
+            color: var(--text); padding: 12px 22px; border-radius: 30px;
+            font-size: 0.9rem; font-weight: 500; z-index: 9999;
+            transition: transform 0.3s ease; white-space: nowrap;
         }
-
         #toast.show { transform: translateX(-50%) translateY(0); }
         #toast.success { border-color: var(--green); color: var(--green); }
         #toast.error { border-color: var(--accent); color: var(--accent); }
 
-        /* ── RESTAURANT MODAL ── */
-        .restaurant-modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(6px);
-            padding: 20px;
-        }
-
-        .restaurant-modal-overlay.open { display: flex; }
-
-        .restaurant-modal {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            width: 560px;
-            max-width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .rm-hero {
-            position: relative;
-            aspect-ratio: 16/7;
-            overflow: hidden;
-            border-radius: 24px 24px 0 0;
-        }
-
-        .rm-hero img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .rm-hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.75) 30%, transparent);
-            display: flex;
-            align-items: flex-end;
-            padding: 20px;
-        }
-
-        .rm-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: white;
-        }
-
-        .rm-close {
-            position: absolute;
-            top: 14px; right: 14px;
-            background: rgba(15,15,15,0.7);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .rm-body { padding: 24px; }
-
-        .rm-meta {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        .rm-chip {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 6px 14px;
-            font-size: 0.82rem;
-            color: var(--dim);
-        }
-
-        .rm-chip strong { color: var(--text); }
-
-        .menu-section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .menu-items { display: flex; flex-direction: column; gap: 12px; }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            transition: border-color 0.2s;
-        }
-
-        .menu-item:hover { border-color: #444; }
-
-        .menu-item-img {
-            width: 70px; height: 70px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .menu-item-details { flex: 1; }
-
-        .menu-item-name { font-weight: 600; margin-bottom: 4px; font-size: 0.95rem; }
-        .menu-item-desc { font-size: 0.8rem; color: var(--dim); margin-bottom: 6px; line-height: 1.4; }
-        .menu-item-price { font-weight: 700; color: var(--accent); font-size: 0.95rem; }
-
-        .add-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .add-btn:hover { background: #ff3d17; transform: scale(1.1); }
-
-        /* ── ORDER STATUS ── */
+        /* ORDER STATUS */
         .order-status {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--surface);
-            border: 1px solid var(--accent);
-            border-radius: 16px;
-            padding: 16px 20px;
-            z-index: 1200;
-            display: none;
-            min-width: 240px;
-            box-shadow: 0 8px 32px rgba(255,92,53,0.2);
+            position: fixed; bottom: 24px; right: 24px;
+            background: var(--surface); border: 1px solid var(--accent);
+            border-radius: 16px; padding: 16px 20px; z-index: 1200; display: none;
+            min-width: 240px; box-shadow: 0 8px 32px rgba(255,92,53,0.2);
             animation: slideUp 0.3s ease;
         }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .order-status.visible { display: block; }
-
-        .os-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
+        .os-title { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
         .os-message { font-size: 0.9rem; font-weight: 500; }
         .os-sub { font-size: 0.78rem; color: var(--dim); margin-top: 4px; }
-
         .pulse { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* ── OVERLAY BACKDROP ── */
-        .backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1490;
-            display: none;
-        }
-
+        /* BACKDROP */
+        .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1490; display: none; }
         .backdrop.open { display: block; }
 
-        /* ── RESPONSIVE ── */
+        /* LOADING */
+        .loading-state { text-align: center; padding: 60px 24px; color: var(--dim); grid-column: 1/-1; }
+        .loading-spinner {
+            width: 40px; height: 40px; border: 3px solid var(--border);
+            border-top-color: var(--accent); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* EMPTY STATE */
+        .empty-vendors { text-align: center; padding: 80px 24px; color: var(--dim); grid-column: 1/-1; }
+        .empty-vendors .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+
         @media (max-width: 640px) {
             .restaurants-grid { grid-template-columns: 1fr; }
             .cart-drawer { width: 100%; }
@@ -841,13 +310,20 @@
 </head>
 <body>
 
-<!-- Toast -->
 <div id="toast"></div>
-
-<!-- Backdrop -->
 <div class="backdrop" id="backdrop" onclick="closeCart()"></div>
 
-<!-- ── HEADER ── -->
+<!-- SUCCESS MODAL -->
+<div class="success-modal-overlay" id="successModal">
+    <div class="success-modal">
+        <div class="success-icon" id="successIcon">✅</div>
+        <h3 id="successTitle">Success!</h3>
+        <p id="successMessage"></p>
+        <button class="btn-primary" onclick="closeSuccessModal()">Got it</button>
+    </div>
+</div>
+
+<!-- HEADER -->
 <header class="header">
     <div class="logo">VYNIX<span>EATS</span></div>
     <div class="header-actions">
@@ -859,7 +335,7 @@
     </div>
 </header>
 
-<!-- ── LOCATION BAR ── -->
+<!-- LOCATION BAR -->
 <div class="location-bar">
     <div class="location-left">
         <span>📍</span>
@@ -868,14 +344,11 @@
     <div class="user-greeting" id="userGreeting"></div>
 </div>
 
-<!-- ── CATEGORIES ── -->
+<!-- CATEGORIES -->
 <div class="filters-wrap">
     <div class="filters-scroll">
         <button class="cat-btn active" onclick="filterCategory('all', this)">
             <span class="cat-icon">🍽️</span><span>All</span>
-        </button>
-        <button class="cat-btn" onclick="filterCategory('offers', this)">
-            <span class="cat-icon">🏷️</span><span>Offers</span>
         </button>
         <button class="cat-btn" onclick="filterCategory('pizza', this)">
             <span class="cat-icon">🍕</span><span>Pizza</span>
@@ -916,10 +389,8 @@
     </div>
 </div>
 
-<!-- ── MAIN ── -->
+<!-- MAIN -->
 <main class="main">
-
-    <!-- FEATURED -->
     <section class="featured-section">
         <h2 class="section-label">Featured</h2>
         <div class="featured-scroll">
@@ -954,15 +425,18 @@
         </div>
     </section>
 
-    <!-- RESTAURANTS -->
     <section>
         <h2 class="section-label">All Restaurants</h2>
-        <div class="restaurants-grid" id="restaurantsGrid"></div>
+        <div class="restaurants-grid" id="restaurantsGrid">
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading restaurants...</p>
+            </div>
+        </div>
     </section>
-
 </main>
 
-<!-- ── CART DRAWER ── -->
+<!-- CART DRAWER -->
 <div class="cart-drawer" id="cartDrawer">
     <div class="cart-header">
         <h3>Your Cart 🛒</h3>
@@ -980,19 +454,31 @@
             <span>Total</span>
             <span class="amount" id="cartTotal">R 0</span>
         </div>
-        <button class="checkout-btn" id="checkoutBtn" onclick="placeOrder()" disabled>
-            Place Order
-        </button>
+        <button class="checkout-btn" id="checkoutBtn" onclick="placeOrder()" disabled>Place Order</button>
     </div>
 </div>
 
-<!-- ── AUTH MODAL ── -->
+<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
     <div class="modal">
         <button class="modal-close" onclick="closeAuthModal()">✕</button>
         <h2 id="authTitle">Welcome back</h2>
         <p id="authSubtitle">Sign in to your account to continue</p>
         <div class="auth-error" id="authError"></div>
+
+        <!-- Google Sign-In -->
+        <button class="btn-google" id="googleBtn" onclick="handleGoogleAuth()">
+            <svg width="20" height="20" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+            Continue with Google
+        </button>
+
+        <div class="auth-divider">or</div>
 
         <div id="signupNameGroup" class="form-group" style="display:none">
             <label>Full Name</label>
@@ -1013,22 +499,17 @@
     </div>
 </div>
 
-<!-- ── RESTAURANT MODAL ── -->
-<div class="restaurant-modal-overlay" id="restaurantModal">
-    <div class="restaurant-modal" id="restaurantModalContent"></div>
-</div>
-
-<!-- ── ORDER STATUS ── -->
+<!-- ORDER STATUS -->
 <div class="order-status" id="orderStatus">
     <div class="os-title">🔴 <span class="pulse">Live Order</span></div>
     <div class="os-message" id="osMessage">Preparing your food...</div>
     <div class="os-sub" id="osSub"></div>
 </div>
 
-<!-- ── FIREBASE ── -->
+<!-- FIREBASE -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getDatabase, ref, set, get, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const firebaseConfig = {
@@ -1045,241 +526,148 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // ── RESTAURANT DATA ──
-    const restaurants = [
-        {
-            id: 1, name: "Artisan Pizza Co.", rating: 4.7, delivery: "R 15",
-            eta: "25–35 min", cuisine: "Italian • Pizza", distance: "2.5 km",
-            badge: "promo", badgeText: "PROMO", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop",
-            categories: ["pizza", "italian", "offers"],
-            menu: [
-                { id: "ap1", name: "Margherita", price: 89, desc: "Fresh tomato, mozzarella, basil", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=200&h=200&fit=crop" },
-                { id: "ap2", name: "Pepperoni Feast", price: 109, desc: "Double pepperoni, extra cheese", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200&h=200&fit=crop" },
-                { id: "ap3", name: "Veggie Supreme", price: 99, desc: "Roasted peppers, mushrooms, olives", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 2, name: "The Burger Lab", rating: 4.5, delivery: "R 10",
-            eta: "15–25 min", cuisine: "American • Burgers", distance: "1.8 km",
-            badge: null, img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&h=400&fit=crop",
-            categories: ["burgers", "fastfood", "offers"],
-            menu: [
-                { id: "bl1", name: "Classic Smash", price: 79, desc: "Double smash patty, American cheese", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=200&fit=crop" },
-                { id: "bl2", name: "BBQ Bacon Stack", price: 99, desc: "Bacon, BBQ sauce, caramelised onion", img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=200&h=200&fit=crop" },
-                { id: "bl3", name: "Loaded Fries", price: 49, desc: "Cheese sauce, jalapeños, spring onion", img: "https://images.unsplash.com/photo-1576107232684-1279f8604f2c?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 3, name: "Tokyo Sushi Bar", rating: 4.8, delivery: "R 20",
-            eta: "35–45 min", cuisine: "Japanese • Sushi", distance: "3.2 km",
-            badge: "new", badgeText: "NEW", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600&h=400&fit=crop",
-            categories: ["sushi"],
-            menu: [
-                { id: "ts1", name: "Dragon Roll (8pc)", price: 129, desc: "Prawn tempura, avocado, tobiko", img: "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=200&h=200&fit=crop" },
-                { id: "ts2", name: "Salmon Sashimi (6pc)", price: 99, desc: "Fresh Norwegian salmon", img: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=200&h=200&fit=crop" },
-                { id: "ts3", name: "Edamame", price: 35, desc: "Steamed salted soybeans", img: "https://images.unsplash.com/photo-1485893226355-b43c8e5c83e6?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 4, name: "Spice Route", rating: 4.4, delivery: "R 12",
-            eta: "30–40 min", cuisine: "Indian • Curry", distance: "2.1 km",
-            badge: null, img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&h=400&fit=crop",
-            categories: ["indian"],
-            menu: [
-                { id: "sr1", name: "Butter Chicken", price: 119, desc: "Creamy tomato sauce, basmati rice", img: "https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=200&h=200&fit=crop" },
-                { id: "sr2", name: "Lamb Biryani", price: 139, desc: "Slow-cooked, fragrant spices", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=200&h=200&fit=crop" },
-                { id: "sr3", name: "Naan Bread", price: 25, desc: "Freshly baked, garlic butter", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 5, name: "Green Bowl", rating: 4.6, delivery: "R 15",
-            eta: "20–30 min", cuisine: "Healthy • Salads", distance: "1.5 km",
-            badge: "promo", badgeText: "PROMO", img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&h=400&fit=crop",
-            categories: ["healthy", "offers"],
-            menu: [
-                { id: "gb1", name: "Buddha Bowl", price: 89, desc: "Quinoa, roasted veg, tahini dressing", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&h=200&fit=crop" },
-                { id: "gb2", name: "Caesar Salad", price: 69, desc: "Grilled chicken, croutons, parmesan", img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 6, name: "Crispy Chicken", rating: 4.3, delivery: "R 10",
-            eta: "20–30 min", cuisine: "Fast Food • Chicken", distance: "1.2 km",
-            badge: null, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop",
-            categories: ["fastfood"],
-            menu: [
-                { id: "cc1", name: "Crispy Bucket (8pc)", price: 129, desc: "Original spice blend, served with fries", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=200&h=200&fit=crop" },
-                { id: "cc2", name: "Chicken Wrap", price: 69, desc: "Sriracha mayo, slaw, pickles", img: "https://images.unsplash.com/photo-1550317138-10000687a72b?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 7, name: "Sweet Dreams", rating: 4.9, delivery: "R 18",
-            eta: "25–35 min", cuisine: "Desserts • Ice Cream", distance: "2.8 km",
-            badge: "popular", badgeText: "POPULAR", img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=400&fit=crop",
-            categories: ["desserts"],
-            menu: [
-                { id: "sd1", name: "Waffle Stack", price: 79, desc: "Belgian waffles, ice cream, berries", img: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=200&h=200&fit=crop" },
-                { id: "sd2", name: "Chocolate Lava Cake", price: 65, desc: "Warm dark chocolate, vanilla gelato", img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 8, name: "Taco Fiesta", rating: 4.5, delivery: "R 14",
-            eta: "30–40 min", cuisine: "Mexican • Tacos", distance: "2.4 km",
-            badge: null, img: "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&h=400&fit=crop",
-            categories: ["mexican"],
-            menu: [
-                { id: "tf1", name: "Street Tacos (3pc)", price: 79, desc: "Carne asada, salsa verde, lime", img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=200&h=200&fit=crop" },
-                { id: "tf2", name: "Burrito Bowl", price: 89, desc: "Rice, beans, guac, sour cream", img: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 9, name: "Brew & Co.", rating: 4.7, delivery: "R 8",
-            eta: "15–25 min", cuisine: "Cafe • Breakfast", distance: "0.9 km",
-            badge: null, img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&h=400&fit=crop",
-            categories: ["coffee"],
-            menu: [
-                { id: "bc1", name: "Flat White", price: 35, desc: "Double ristretto, microfoam milk", img: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=200&h=200&fit=crop" },
-                { id: "bc2", name: "Avo Toast", price: 69, desc: "Sourdough, poached egg, dukkah", img: "https://images.unsplash.com/photo-1603046891744-76e6300f82ef?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 10, name: "Prime Steakhouse", rating: 4.8, delivery: "R 25",
-            eta: "40–50 min", cuisine: "Steakhouse • Grill", distance: "4.1 km",
-            badge: "promo", badgeText: "PROMO", img: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&h=400&fit=crop",
-            categories: ["steak", "offers"],
-            menu: [
-                { id: "ps1", name: "Ribeye 300g", price: 279, desc: "Grain-fed, medium-rare recommended", img: "https://images.unsplash.com/photo-1558030006-450675393462?w=200&h=200&fit=crop" },
-                { id: "ps2", name: "Sirloin 250g", price: 229, desc: "Herb butter, garlic, rosemary", img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 11, name: "Pasta Palace", rating: 4.4, delivery: "R 12",
-            eta: "25–35 min", cuisine: "Italian • Pasta", distance: "1.9 km",
-            badge: null, img: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=600&h=400&fit=crop",
-            categories: ["italian"],
-            menu: [
-                { id: "pp1", name: "Spaghetti Carbonara", price: 109, desc: "Guanciale, egg yolk, pecorino", img: "https://images.unsplash.com/photo-1612874742237-6526221588e3?w=200&h=200&fit=crop" },
-                { id: "pp2", name: "Penne Arrabiata", price: 89, desc: "Spicy tomato, garlic, fresh basil", img: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=200&h=200&fit=crop" },
-            ]
-        },
-        {
-            id: 12, name: "Sub Station", rating: 4.2, delivery: "R 9",
-            eta: "15–25 min", cuisine: "Sandwiches • Subs", distance: "1.1 km",
-            badge: "new", badgeText: "NEW", img: "https://images.unsplash.com/photo-1541544537156-21c5299228d8?w=600&h=400&fit=crop",
-            categories: ["sandwiches"],
-            menu: [
-                { id: "ss1", name: "Italian BMT", price: 69, desc: "Pepperoni, salami, ham, provolone", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=200&h=200&fit=crop" },
-                { id: "ss2", name: "Turkey Avocado", price: 75, desc: "Roast turkey, avocado, swiss cheese", img: "https://images.unsplash.com/photo-1553909489-cd47e0907980?w=200&h=200&fit=crop" },
-            ]
-        },
-    ];
-
-    // ── STATE ──
     let cart = [];
     let currentUser = null;
     let authMode = "signin";
-    let unsubscribeCart = null;
+    let allVendors = [];
+    let currentCategory = "all";
 
-    // ── RENDER RESTAURANTS ──
-    function renderRestaurants(list) {
-        const grid = document.getElementById("restaurantsGrid");
-        if (!list.length) {
-            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--dim)">No restaurants found in this category.</div>`;
-            return;
+    // ── CUISINE EMOJI MAP ──
+    const cuisineEmoji = {
+        pizza: "🍕", burger: "🍔", burgers: "🍔", sushi: "🍣", indian: "🍛",
+        healthy: "🥗", salad: "🥗", fastfood: "🍟", fast: "🍟", chicken: "🍗",
+        dessert: "🍰", desserts: "🍰", mexican: "🌮", coffee: "☕", cafe: "☕",
+        steak: "🥩", grill: "🥩", italian: "🍝", pasta: "🍝", sandwich: "🥪",
+        sandwiches: "🥪", chinese: "🥡", thai: "🍜", seafood: "🦐", default: "🍽️"
+    };
+
+    function getCuisineEmoji(cuisine) {
+        if (!cuisine) return "🍽️";
+        const lower = cuisine.toLowerCase();
+        for (const key of Object.keys(cuisineEmoji)) {
+            if (lower.includes(key)) return cuisineEmoji[key];
         }
-        grid.innerHTML = list.map(r => `
-            <div class="r-card" onclick="openRestaurant(${r.id})">
-                <div class="r-img-wrap">
-                    <img src="${r.img}" alt="${r.name}" loading="lazy">
-                    ${r.badge ? `<span class="r-badge ${r.badge}">${r.badgeText}</span>` : ""}
-                    <span class="r-eta">${r.eta}</span>
-                </div>
-                <div class="r-info">
-                    <div class="r-header">
-                        <h3 class="r-name">${r.name}</h3>
-                        <span class="r-rating">★ ${r.rating}</span>
-                    </div>
-                    <div class="r-meta">
-                        ${r.delivery} <span class="dot"></span> ${r.cuisine} <span class="dot"></span> ${r.distance}
-                    </div>
-                </div>
-            </div>
-        `).join("");
+        return "🍽️";
     }
 
-    renderRestaurants(restaurants);
+    function getCuisineCategory(cuisine) {
+        if (!cuisine) return [];
+        const lower = cuisine.toLowerCase();
+        const cats = [];
+        if (lower.includes("pizza")) cats.push("pizza");
+        if (lower.includes("burger")) cats.push("burgers");
+        if (lower.includes("sushi")) cats.push("sushi");
+        if (lower.includes("indian") || lower.includes("curry")) cats.push("indian");
+        if (lower.includes("healthy") || lower.includes("salad") || lower.includes("veg")) cats.push("healthy");
+        if (lower.includes("fast") || lower.includes("chicken") || lower.includes("fried")) cats.push("fastfood");
+        if (lower.includes("dessert") || lower.includes("ice cream") || lower.includes("cake") || lower.includes("sweet")) cats.push("desserts");
+        if (lower.includes("mexican") || lower.includes("taco")) cats.push("mexican");
+        if (lower.includes("coffee") || lower.includes("cafe") || lower.includes("breakfast")) cats.push("coffee");
+        if (lower.includes("steak") || lower.includes("grill")) cats.push("steak");
+        if (lower.includes("italian") || lower.includes("pasta")) cats.push("italian");
+        if (lower.includes("sandwich") || lower.includes("sub")) cats.push("sandwiches");
+        return cats;
+    }
 
-    // ── CATEGORY FILTER ──
+    // ── LOAD VENDORS FROM FIREBASE ──
+    function loadVendors() {
+        onValue(ref(db, "vendors"), (snapshot) => {
+            const data = snapshot.val();
+            allVendors = [];
+
+            if (data) {
+                Object.entries(data).forEach(([key, v]) => {
+                    if (v.status === "active") {
+                        allVendors.push({
+                            key,
+                            name: v.name,
+                            cuisine: v.cuisine,
+                            imageURL: v.imageURL || "",
+                            vendorID: v.vendorID || key,
+                            createdAt: v.createdAt || 0,
+                            categories: getCuisineCategory(v.cuisine)
+                        });
+                    }
+                });
+                // Newest first
+                allVendors.sort((a, b) => b.createdAt - a.createdAt);
+            }
+
+            renderVendors(filterByCategory(allVendors, currentCategory));
+        });
+    }
+
+    function filterByCategory(vendors, cat) {
+        if (cat === "all") return vendors;
+        return vendors.filter(v => v.categories.includes(cat));
+    }
+
     window.filterCategory = function(cat, btn) {
         document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        const filtered = cat === "all" ? restaurants : restaurants.filter(r => r.categories.includes(cat));
-        renderRestaurants(filtered);
+        currentCategory = cat;
+        renderVendors(filterByCategory(allVendors, cat));
     };
 
-    // ── RESTAURANT MODAL ──
-    window.openRestaurant = function(id) {
-        const r = restaurants.find(x => x.id === id);
-        if (!r) return;
-        const modal = document.getElementById("restaurantModal");
-        document.getElementById("restaurantModalContent").innerHTML = `
-            <div class="rm-hero">
-                <img src="${r.img}" alt="${r.name}">
-                <div class="rm-hero-overlay">
-                    <div class="rm-title">${r.name}</div>
-                </div>
-                <button class="rm-close" onclick="closeRestaurantModal()">✕</button>
-            </div>
-            <div class="rm-body">
-                <div class="rm-meta">
-                    <span class="rm-chip">★ <strong>${r.rating}</strong></span>
-                    <span class="rm-chip">⏱ <strong>${r.eta}</strong></span>
-                    <span class="rm-chip">🛵 <strong>${r.delivery}</strong></span>
-                    <span class="rm-chip">📍 <strong>${r.distance}</strong></span>
-                </div>
-                <div class="menu-section-title">Menu</div>
-                <div class="menu-items">
-                    ${r.menu.map(item => `
-                        <div class="menu-item">
-                            <img class="menu-item-img" src="${item.img}" alt="${item.name}" loading="lazy">
-                            <div class="menu-item-details">
-                                <div class="menu-item-name">${item.name}</div>
-                                <div class="menu-item-desc">${item.desc}</div>
-                                <div class="menu-item-price">R ${item.price}</div>
-                            </div>
-                            <button class="add-btn" onclick="addToCart(${r.id}, '${item.id}', event)">+</button>
-                        </div>
-                    `).join("")}
-                </div>
-            </div>
-        `;
-        modal.classList.add("open");
-    };
+    function renderVendors(vendors) {
+        const grid = document.getElementById("restaurantsGrid");
 
-    window.closeRestaurantModal = function() {
-        document.getElementById("restaurantModal").classList.remove("open");
-    };
-
-    document.getElementById("restaurantModal").addEventListener("click", function(e) {
-        if (e.target === this) closeRestaurantModal();
-    });
-
-    // ── ADD TO CART ──
-    window.addToCart = function(restaurantId, itemId, e) {
-        e.stopPropagation();
-        const r = restaurants.find(x => x.id === restaurantId);
-        const item = r.menu.find(x => x.id === itemId);
-        const existing = cart.find(x => x.id === itemId);
-        if (existing) {
-            existing.qty++;
-        } else {
-            cart.push({ id: itemId, name: item.name, price: item.price, img: item.img, restaurant: r.name, qty: 1 });
+        if (!vendors.length) {
+            grid.innerHTML = `
+                <div class="empty-vendors">
+                    <div class="empty-icon">🍽️</div>
+                    <p style="font-size:1rem;font-weight:600;margin-bottom:8px">No restaurants available</p>
+                    <p style="font-size:0.85rem">Check back soon — new restaurants are being added!</p>
+                </div>`;
+            return;
         }
+
+        grid.innerHTML = vendors.map(v => {
+            const emoji = getCuisineEmoji(v.cuisine);
+            const imgContent = v.imageURL
+                ? `<img src="${v.imageURL}" alt="${v.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=r-img-placeholder>${emoji}</div>'">`
+                : `<div class="r-img-placeholder">${emoji}</div>`;
+
+            return `
+                <a class="r-card" href="restaurant.html?id=${v.key}" onclick="return handleRestaurantClick(event, '${v.key}')">
+                    <div class="r-img-wrap">
+                        ${imgContent}
+                        <span class="r-eta">20–35 min</span>
+                    </div>
+                    <div class="r-info">
+                        <div class="r-header">
+                            <h3 class="r-name">${v.name}</h3>
+                            <span class="r-rating">★ 4.5</span>
+                        </div>
+                        <div class="r-meta">
+                            R 15 delivery <span class="dot"></span> ${v.cuisine} <span class="dot"></span> ID #${v.vendorID}
+                        </div>
+                    </div>
+                </a>`;
+        }).join("");
+    }
+
+    window.handleRestaurantClick = function(e, vendorKey) {
+        e.preventDefault();
+        if (!currentUser) {
+            showToast("Please sign in to browse menus", "error");
+            openAuthModal();
+            return false;
+        }
+        window.location.href = `restaurant.html?id=${vendorKey}`;
+        return false;
+    };
+
+    // ── CART ──
+    window.changeQty = function(id, delta) {
+        const idx = cart.findIndex(x => x.id === id);
+        if (idx === -1) return;
+        cart[idx].qty += delta;
+        if (cart[idx].qty <= 0) cart.splice(idx, 1);
         saveCart();
         renderCart();
-        showToast(`Added ${item.name} to cart ✓`, "success");
     };
 
-    // ── CART RENDER ──
     function renderCart() {
         const body = document.getElementById("cartBody");
         const count = cart.reduce((s, i) => s + i.qty, 0);
@@ -1289,13 +677,12 @@
         document.getElementById("checkoutBtn").disabled = cart.length === 0;
 
         if (!cart.length) {
-            body.innerHTML = `<div class="cart-empty"><div class="empty-icon">🍽️</div><p>Your cart is empty</p><p style="font-size:0.8rem;margin-top:6px;color:#666">Add items to get started</p></div>`;
+            body.innerHTML = `<div class="cart-empty"><div class="empty-icon">🍽️</div><p>Your cart is empty</p><p style="font-size:0.8rem;margin-top:6px;color:#666">Browse a restaurant to add items</p></div>`;
             return;
         }
-
         body.innerHTML = cart.map(item => `
             <div class="cart-item">
-                <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+                <div style="width:60px;height:60px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">${item.emoji || "🍽️"}</div>
                 <div class="cart-item-info">
                     <div class="cart-item-name">${item.name}</div>
                     <div class="cart-item-from">${item.restaurant}</div>
@@ -1306,43 +693,24 @@
                     <span class="qty-num">${item.qty}</span>
                     <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
                 </div>
-            </div>
-        `).join("");
+            </div>`).join("");
     }
 
-    window.changeQty = function(id, delta) {
-        const idx = cart.findIndex(x => x.id === id);
-        if (idx === -1) return;
-        cart[idx].qty += delta;
-        if (cart[idx].qty <= 0) cart.splice(idx, 1);
-        saveCart();
-        renderCart();
-    };
-
-    // ── CART PERSISTENCE (Firebase) ──
     function saveCart() {
-        if (!currentUser) {
-            localStorage.setItem("vynix_cart", JSON.stringify(cart));
-            return;
-        }
-        set(ref(db, `carts/${currentUser.uid}`), {
-            items: cart,
-            updatedAt: serverTimestamp()
-        }).catch(() => localStorage.setItem("vynix_cart", JSON.stringify(cart)));
+        if (!currentUser) { localStorage.setItem("vynix_cart", JSON.stringify(cart)); return; }
+        set(ref(db, `carts/${currentUser.uid}`), { items: cart, updatedAt: serverTimestamp() })
+            .catch(() => localStorage.setItem("vynix_cart", JSON.stringify(cart)));
     }
 
     async function loadCart() {
         if (!currentUser) {
             const stored = localStorage.getItem("vynix_cart");
             if (stored) cart = JSON.parse(stored);
-            renderCart();
-            return;
+            renderCart(); return;
         }
         try {
             const snap = await get(ref(db, `carts/${currentUser.uid}`));
-            if (snap.exists() && snap.val().items) {
-                cart = snap.val().items;
-            }
+            if (snap.exists() && snap.val().items) cart = snap.val().items;
         } catch (e) {
             const stored = localStorage.getItem("vynix_cart");
             if (stored) cart = JSON.parse(stored);
@@ -1352,57 +720,37 @@
 
     // ── PLACE ORDER ──
     window.placeOrder = async function() {
-        if (!currentUser) {
-            showToast("Please sign in to place an order", "error");
-            openAuthModal();
-            return;
-        }
+        if (!currentUser) { showToast("Please sign in to place an order", "error"); openAuthModal(); return; }
         if (!cart.length) return;
-
         const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-        const orderId = Date.now().toString();
-
         const order = {
-            id: orderId,
-            userId: currentUser.uid,
-            userEmail: currentUser.email,
-            items: [...cart],
-            total,
-            status: "preparing",
-            createdAt: serverTimestamp(),
-            address: "123 Main Street, Johannesburg"
+            userId: currentUser.uid, userEmail: currentUser.email,
+            items: [...cart], total, status: "preparing",
+            createdAt: serverTimestamp(), address: "123 Main Street, Johannesburg"
         };
-
         try {
-            await push(ref(db, `orders`), order);
+            await push(ref(db, "orders"), order);
             await set(ref(db, `carts/${currentUser.uid}`), { items: [], updatedAt: serverTimestamp() });
-            cart = [];
-            renderCart();
-            closeCart();
-            showOrderStatus(orderId);
-            showToast("Order placed successfully! 🎉", "success");
+            cart = []; renderCart(); closeCart();
+            showOrderStatus();
+            showSuccessModal("🎉", "Order Placed!", `Your order has been placed successfully! Total: R ${total}. Estimated delivery: 25–40 min.`);
         } catch (e) {
             showToast("Failed to place order. Please try again.", "error");
         }
     };
 
-    // ── ORDER STATUS ──
-    function showOrderStatus(orderId) {
+    function showOrderStatus() {
         const el = document.getElementById("orderStatus");
         const messages = [
-            { msg: "Order received!", sub: "Restaurant is confirming your order..." },
-            { msg: "Preparing your food 👨‍🍳", sub: "Your order is being made fresh" },
+            { msg: "Order received!", sub: "Restaurant is confirming..." },
+            { msg: "Preparing your food 👨‍🍳", sub: "Being made fresh for you" },
             { msg: "Out for delivery 🛵", sub: "Driver is on the way!" },
             { msg: "Delivered! Enjoy 🎉", sub: "" },
         ];
         let step = 0;
         el.classList.add("visible");
-
         const update = () => {
-            if (step >= messages.length) {
-                setTimeout(() => el.classList.remove("visible"), 3000);
-                return;
-            }
+            if (step >= messages.length) { setTimeout(() => el.classList.remove("visible"), 3000); return; }
             document.getElementById("osMessage").textContent = messages[step].msg;
             document.getElementById("osSub").textContent = messages[step].sub;
             step++;
@@ -1417,24 +765,60 @@
         document.getElementById("cartDrawer").classList.toggle("open");
         document.getElementById("backdrop").classList.toggle("open");
     };
-
     window.closeCart = function() {
         document.getElementById("cartDrawer").classList.remove("open");
         document.getElementById("backdrop").classList.remove("open");
     };
 
+    // ── SUCCESS MODAL ──
+    window.showSuccessModal = function(icon, title, msg) {
+        document.getElementById("successIcon").textContent = icon;
+        document.getElementById("successTitle").textContent = title;
+        document.getElementById("successMessage").textContent = msg;
+        document.getElementById("successModal").classList.add("open");
+    };
+    window.closeSuccessModal = function() {
+        document.getElementById("successModal").classList.remove("open");
+    };
+
     // ── AUTH ──
-    window.openAuthModal = function() {
-        document.getElementById("authModal").classList.add("open");
-    };
+    window.openAuthModal = function() { document.getElementById("authModal").classList.add("open"); };
+    window.closeAuthModal = function() { document.getElementById("authModal").classList.remove("open"); };
+    document.getElementById("authModal").addEventListener("click", function(e) { if (e.target === this) closeAuthModal(); });
 
-    window.closeAuthModal = function() {
-        document.getElementById("authModal").classList.remove("open");
+    // ── GOOGLE AUTH ──
+    window.handleGoogleAuth = async function() {
+        const btn = document.getElementById("googleBtn");
+        const errEl = document.getElementById("authError");
+        errEl.style.display = "none";
+        btn.disabled = true;
+        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg> Signing in...`;
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            const isNew = result._tokenResponse?.isNewUser;
+            closeAuthModal();
+            const name = user.displayName || user.email.split("@")[0];
+            if (isNew) {
+                showSuccessModal("🎉", "Welcome to Vynix Eats!", `Your account has been created, ${name}! You can now browse menus and place orders.`);
+            } else {
+                showSuccessModal("✅", "Signed In!", `Welcome back, ${name}! You can now browse restaurants and place orders.`);
+            }
+        } catch (e) {
+            const code = e.code || "";
+            let friendly = "Google sign-in failed. Please try again.";
+            if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") friendly = "Sign-in was cancelled. Please try again.";
+            else if (code === "auth/popup-blocked") friendly = "Pop-up was blocked by your browser. Please allow pop-ups for this site.";
+            else if (code === "auth/network-request-failed") friendly = "Network error. Check your connection and try again.";
+            else if (code === "auth/operation-not-allowed") friendly = "Google sign-in is not enabled. Please contact support.";
+            errEl.style.display = "block";
+            errEl.textContent = friendly;
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg> Continue with Google`;
+        }
     };
-
-    document.getElementById("authModal").addEventListener("click", function(e) {
-        if (e.target === this) closeAuthModal();
-    });
 
     window.switchAuthMode = function() {
         authMode = authMode === "signin" ? "signup" : "signin";
@@ -1454,7 +838,32 @@
         const password = document.getElementById("authPassword").value;
         const errEl = document.getElementById("authError");
         const btn = document.getElementById("authSubmit");
+
+        // Clear previous errors
         errEl.style.display = "none";
+        errEl.textContent = "";
+
+        // Basic client-side validation
+        if (!email) {
+            errEl.style.display = "block";
+            errEl.textContent = "Please enter your email address.";
+            return;
+        }
+        if (!password || password.length < 6) {
+            errEl.style.display = "block";
+            errEl.textContent = "Password must be at least 6 characters.";
+            return;
+        }
+
+        if (authMode === "signup") {
+            const name = document.getElementById("authName").value.trim();
+            if (!name) {
+                errEl.style.display = "block";
+                errEl.textContent = "Please enter your full name.";
+                return;
+            }
+        }
+
         btn.disabled = true;
         btn.textContent = "Please wait...";
 
@@ -1462,15 +871,31 @@
             if (authMode === "signup") {
                 const name = document.getElementById("authName").value.trim();
                 const cred = await createUserWithEmailAndPassword(auth, email, password);
-                if (name) await updateProfile(cred.user, { displayName: name });
+                try { await updateProfile(cred.user, { displayName: name }); } catch(_) {}
+                closeAuthModal();
+                showSuccessModal("🎉", "Welcome to Vynix Eats!", `Your account has been created, ${name}! You can now browse menus and place orders.`);
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
+                closeAuthModal();
+                showSuccessModal("✅", "Signed In!", "Welcome back! You can now browse restaurants and place orders.");
             }
-            closeAuthModal();
-            showToast("Signed in successfully ✓", "success");
         } catch (e) {
+            // Map Firebase error codes to friendly messages
+            const code = e.code || "";
+            let friendly = "Something went wrong. Please try again.";
+            if (code === "auth/email-already-in-use") friendly = "This email is already registered. Try signing in instead.";
+            else if (code === "auth/invalid-email") friendly = "Please enter a valid email address.";
+            else if (code === "auth/weak-password") friendly = "Password must be at least 6 characters.";
+            else if (code === "auth/user-not-found") friendly = "No account found with this email. Sign up first.";
+            else if (code === "auth/wrong-password") friendly = "Incorrect password. Please try again.";
+            else if (code === "auth/invalid-credential") friendly = "Incorrect email or password. Please try again.";
+            else if (code === "auth/too-many-requests") friendly = "Too many attempts. Please wait a moment and try again.";
+            else if (code === "auth/network-request-failed") friendly = "Network error. Check your connection and try again.";
+            else if (code === "auth/operation-not-allowed") friendly = "Email/password sign-in is not enabled. Please contact support.";
+            else if (e.message) friendly = e.message.replace("Firebase: ", "").replace(/\s*\(auth\/[^)]+\)\.?/, "").trim();
+
             errEl.style.display = "block";
-            errEl.textContent = e.message.replace("Firebase: ", "").replace(/\(auth\/.*\)/, "").trim();
+            errEl.textContent = friendly;
             btn.disabled = false;
             btn.textContent = authMode === "signup" ? "Sign Up" : "Sign In";
         }
@@ -1484,9 +909,7 @@
         if (user) {
             const name = user.displayName || user.email.split("@")[0];
             btn.textContent = "👋";
-            btn.onclick = () => {
-                if (confirm(`Signed in as ${user.email}\n\nSign out?`)) signOut(auth);
-            };
+            btn.onclick = () => { if (confirm(`Signed in as ${user.email}\n\nSign out?`)) signOut(auth); };
             greeting.innerHTML = `Hello, <span>${name}</span>`;
         } else {
             btn.textContent = "👤";
@@ -1506,6 +929,8 @@
         toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
     };
 
+    // ── INIT ──
+    loadVendors();
     renderCart();
 </script>
 </body>
