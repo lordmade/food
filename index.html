@@ -37,122 +37,52 @@
 
         /* HEADER */
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5%;
-            height: 80px;
-            background: var(--surface);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; height: 80px; background: var(--surface);
+            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border);
         }
 
-        .logo {
-            font-weight: 800;
-            font-size: 1.75rem;
-            letter-spacing: -1px;
-        }
-
+        .logo { font-weight: 800; font-size: 1.75rem; letter-spacing: -1px; }
         .logo span { color: var(--accent); }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
 
         .cart-btn {
-            background: var(--text);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 100px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: var(--transition);
+            background: var(--text); color: white; border: none; padding: 12px 20px;
+            border-radius: 100px; font-weight: 700; display: flex; align-items: center;
+            gap: 8px; cursor: pointer; transition: var(--transition);
         }
-
-        .cart-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        .cart-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
         .cart-count {
-            background: var(--accent);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.75rem;
+            background: var(--accent); color: white; padding: 2px 8px;
+            border-radius: 10px; font-size: 0.75rem;
         }
 
         /* SEARCH & FILTERS */
         .search-section { padding: 24px 5% 0; background: var(--surface); }
-
-        .search-input-wrapper {
-            position: relative;
-            max-width: 680px;
-            margin: 0 auto;
-        }
-
+        .search-input-wrapper { position: relative; max-width: 680px; margin: 0 auto; }
         .search-input {
-            width: 100%;
-            padding: 16px 20px 16px 52px;
-            background: var(--surface2);
-            border: none;
-            border-radius: 18px;
-            font-size: 1rem;
-            outline: none;
+            width: 100%; padding: 16px 20px 16px 52px; background: var(--surface2);
+            border: none; border-radius: 18px; font-size: 1rem; outline: none;
             transition: var(--transition);
         }
-
-        .search-input:focus {
-            background: white;
-            box-shadow: 0 0 0 3px rgba(6, 193, 103, 0.12);
-        }
-
+        .search-input:focus { background: white; box-shadow: 0 0 0 3px rgba(6, 193, 103, 0.12); }
         .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--dim);
-            font-size: 1.3rem;
+            position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+            color: var(--dim); font-size: 1.3rem;
         }
 
-        .filters-wrap {
-            padding: 20px 5% 30px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .filters-scroll {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-        }
+        .filters-wrap { padding: 20px 5% 30px; background: var(--surface); border-bottom: 1px solid var(--border); }
+        .filters-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
 
         .cat-btn {
-            flex: 0 0 auto;
-            padding: 12px 24px;
-            border-radius: 100px;
-            background: var(--surface2);
-            border: 1px solid transparent;
-            font-weight: 700;
-            color: var(--dim);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
+            flex: 0 0 auto; padding: 12px 24px; border-radius: 100px;
+            background: var(--surface2); border: 1px solid transparent;
+            font-weight: 700; color: var(--dim); cursor: pointer;
+            transition: var(--transition); display: flex; align-items: center;
+            gap: 8px; white-space: nowrap;
         }
-
         .cat-btn.active { background: var(--accent); color: white; }
         .cat-btn:hover:not(.active) { background: var(--border); color: var(--text); }
 
@@ -162,25 +92,16 @@
 
         /* RESTAURANT CARDS */
         .restaurants-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;
         }
 
         .r-card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            overflow: hidden;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
+            background: var(--surface); border-radius: var(--radius); overflow: hidden;
+            cursor: pointer; transition: var(--transition); box-shadow: var(--shadow);
+            border: 1px solid var(--border); display: flex; flex-direction: column;
         }
-
         .r-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
         .r-img-wrap { position: relative; height: 200px; }
@@ -188,27 +109,20 @@
         .r-card:hover .r-img-wrap img { transform: scale(1.06); }
 
         .r-eta {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(6px);
-            padding: 6px 14px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.85rem;
+            position: absolute; bottom: 15px; right: 15px;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(6px);
+            padding: 6px 14px; border-radius: 12px; font-weight: 700; font-size: 0.85rem;
         }
 
-        .r-info { padding: 20px; }
+        .r-info { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;}
         .r-name { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
         .r-meta { color: var(--dim); font-size: 0.92rem; font-weight: 500; }
 
         /* CART DRAWER */
         .cart-drawer {
             position: fixed; right: 0; top: 0; bottom: 0; width: 400px; max-width: 100%;
-            background: var(--surface); z-index: 2000;
-            transform: translateX(100%); transition: var(--transition);
-            display: flex; flex-direction: column;
+            background: var(--surface); z-index: 2000; transform: translateX(100%);
+            transition: var(--transition); display: flex; flex-direction: column;
             box-shadow: -10px 0 50px rgba(0,0,0,0.12);
         }
         .cart-drawer.open { transform: translateX(0); }
@@ -223,7 +137,7 @@
         .checkout-btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
         .checkout-btn:disabled { background: var(--border); cursor: not-allowed; }
 
-        /* AUTH MODAL & BOTTOM SHEET */
+        /* AUTH MODALS */
         .auth-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.5); z-index: 3000;
@@ -239,24 +153,24 @@
             padding: 30px; box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
         }
 
-        .google-btn {
+        .action-btn {
             display: flex; align-items: center; justify-content: center; gap: 12px;
             background: white; border: 1px solid var(--border);
             padding: 16px; border-radius: 100px; font-weight: 700; font-size: 1rem;
             cursor: pointer; width: 100%; transition: var(--transition);
             color: var(--text); box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            font-family: inherit;
         }
-        .google-btn:hover { background: var(--surface2); transform: translateY(-2px); }
-        .google-btn img { width: 24px; height: 24px; }
+        .action-btn:hover { background: var(--surface2); transform: translateY(-2px); }
+        
+        .danger-btn { background: var(--danger); color: white; border: none; }
+        .danger-btn:hover { background: #e0352b; color: white; }
 
-        /* Auth Profile Avatar */
+        /* Profile Avatar */
         .profile-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
 
         /* TOAST */
         #toast {
-            position: fixed; bottom: 30px; left: 50%;
-            transform: translateX(-50%) translateY(100px);
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
             background: var(--text); color: white; padding: 15px 30px;
             border-radius: 15px; z-index: 4000; transition: var(--transition);
             font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.2);
@@ -265,15 +179,12 @@
 
         /* RESPONSIVE DESIGN */
         @media (min-width: 769px) {
-            /* Desktop Modal View */
             .auth-modal {
                 top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
-                width: 420px; border-radius: var(--radius);
-                opacity: 0; pointer-events: none;
+                width: 420px; border-radius: var(--radius); opacity: 0; pointer-events: none;
             }
             .auth-overlay.active + .auth-modal, .auth-modal.active {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1; pointer-events: auto;
+                transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto;
             }
         }
 
@@ -282,17 +193,11 @@
             .header { height: 70px; }
             .restaurants-grid { grid-template-columns: 1fr; }
             .section-title { font-size: 1.45rem; }
-            
-            /* Mobile Bottom Sheet View */
             .auth-modal {
-                bottom: 0; left: 0; right: 0;
-                transform: translateY(100%);
-                border-radius: var(--radius) var(--radius) 0 0;
-                padding-bottom: 50px; /* Safe area for modern phones */
+                bottom: 0; left: 0; right: 0; transform: translateY(100%);
+                border-radius: var(--radius) var(--radius) 0 0; padding-bottom: 50px;
             }
-            .auth-overlay.active + .auth-modal, .auth-modal.active {
-                transform: translateY(0);
-            }
+            .auth-overlay.active + .auth-modal, .auth-modal.active { transform: translateY(0); }
         }
     </style>
 </head>
@@ -313,18 +218,32 @@
         </div>
     </header>
 
-    <div class="auth-overlay" id="authOverlay" onclick="toggleAuthModal()"></div>
-    <div class="auth-modal" id="authModal">
+    <div class="auth-overlay" id="signInOverlay" onclick="closeAuthModals()"></div>
+    <div class="auth-modal" id="signInModal">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <h3 style="font-weight: 800; font-size: 1.4rem;">Welcome back</h3>
-            <button onclick="toggleAuthModal()" style="background:none;border:none;cursor:pointer;color:var(--dim);"><i data-lucide="x"></i></button>
+            <button onclick="closeAuthModals()" style="background:none;border:none;cursor:pointer;color:var(--dim);"><i data-lucide="x"></i></button>
         </div>
         <p style="color:var(--dim); font-size: 0.95rem; line-height: 1.5;">Sign in to view your orders, save your favorite restaurants, and checkout faster.</p>
         
-        <button class="google-btn" onclick="signInWithGoogle()">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+        <button class="action-btn" onclick="signInWithGoogle()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 24px;">
             Continue with Google
         </button>
+    </div>
+
+    <div class="auth-overlay" id="signOutOverlay" onclick="closeAuthModals()"></div>
+    <div class="auth-modal" id="signOutModal">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-weight: 800; font-size: 1.4rem;">Sign Out</h3>
+            <button onclick="closeAuthModals()" style="background:none;border:none;cursor:pointer;color:var(--dim);"><i data-lucide="x"></i></button>
+        </div>
+        <p style="color:var(--dim); font-size: 0.95rem; line-height: 1.5;">Are you sure you want to sign out, <span id="signOutName" style="font-weight:700; color:var(--text);"></span>?</p>
+        
+        <div style="display:flex; gap: 12px; margin-top: 8px;">
+            <button class="action-btn" style="background: var(--surface2); border: none;" onclick="closeAuthModals()">Cancel</button>
+            <button class="action-btn danger-btn" onclick="confirmSignOut()">Sign Out</button>
+        </div>
     </div>
 
     <div class="search-section">
@@ -348,8 +267,23 @@
     </div>
 
     <main class="main">
-        <h2 class="section-title">Popular Near You</h2>
-        <div class="restaurants-grid" id="restaurantsGrid"></div>
+        <div id="emptyState" style="display: none; text-align:center; padding: 60px 0; color: var(--dim);">
+            <i data-lucide="search-X" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+            <p style="font-size: 1.1rem; font-weight: 500;">No restaurants found.</p>
+            <p style="font-size: 0.95rem;">Try adjusting your search or category filter.</p>
+        </div>
+
+        <div id="featuredSection" style="margin-bottom: 50px;">
+            <h2 class="section-title" style="display:flex; align-items:center; gap:8px;">
+                Top Rated <span style="color: var(--yellow); font-size: 1.4rem;">★</span>
+            </h2>
+            <div class="restaurants-grid" id="featuredGrid"></div>
+        </div>
+
+        <div id="popularSection">
+            <h2 class="section-title">Popular Near You</h2>
+            <div class="restaurants-grid" id="restaurantsGrid"></div>
+        </div>
     </main>
 
     <div class="cart-drawer" id="cartDrawer">
@@ -374,7 +308,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-        // Import Auth modules
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -389,17 +322,14 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        
-        // Initialize Auth
         const auth = getAuth(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // State
         let allVendors = [];
         let cart = [];
         let currentFilter = 'all';
         let searchTerm = "";
-        let currentUser = null; // Track logged-in user
+        let currentUser = null; 
 
         // Listen for Authentication State Changes
         onAuthStateChanged(auth, (user) => {
@@ -407,30 +337,29 @@
             const profileBtn = document.getElementById('profileBtn');
             
             if (user) {
-                // Change icon to user's Google profile picture
                 profileBtn.innerHTML = `<img src="${user.photoURL}" class="profile-avatar" alt="Profile" referrerpolicy="no-referrer">`;
             } else {
-                // Revert to Lucide user icon
                 profileBtn.innerHTML = `<i data-lucide="user"></i>`;
-                lucide.createIcons(); // Re-render the icon
+                lucide.createIcons(); 
             }
         });
 
-        // Auth Logic Exposed to Window
-        window.toggleAuthModal = () => {
-            document.getElementById('authOverlay').classList.toggle('active');
-            document.getElementById('authModal').classList.toggle('active');
+        // Modal Management
+        window.closeAuthModals = () => {
+            document.querySelectorAll('.auth-overlay').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.auth-modal').forEach(el => el.classList.remove('active'));
         };
 
         window.handleProfileClick = () => {
             if (currentUser) {
-                // If user is logged in, confirm logout
-                if (confirm(`Logged in as ${currentUser.displayName}.\nDo you want to sign out?`)) {
-                    signOut(auth).then(() => showToast("Signed out successfully"));
-                }
+                // Show custom sign out modal
+                document.getElementById('signOutName').textContent = currentUser.displayName.split(" ")[0]; // First name
+                document.getElementById('signOutOverlay').classList.add('active');
+                document.getElementById('signOutModal').classList.add('active');
             } else {
-                // Open auth modal if not logged in
-                toggleAuthModal();
+                // Show sign in modal
+                document.getElementById('signInOverlay').classList.add('active');
+                document.getElementById('signInModal').classList.add('active');
             }
         };
 
@@ -438,7 +367,7 @@
             try {
                 showToast("Signing in...");
                 const result = await signInWithPopup(auth, googleProvider);
-                toggleAuthModal(); // Close modal
+                closeAuthModals();
                 showToast(`Welcome, ${result.user.displayName}!`);
             } catch (error) {
                 console.error("Auth error:", error);
@@ -446,18 +375,24 @@
             }
         };
 
+        window.confirmSignOut = () => {
+            signOut(auth).then(() => {
+                closeAuthModals();
+                showToast("Signed out successfully");
+            });
+        };
+
         window.handleCheckout = () => {
             if (!currentUser) {
                 showToast("Please sign in to checkout");
-                toggleCart(); // Close cart
-                toggleAuthModal(); // Open sign-in
+                toggleCart(); 
+                handleProfileClick(); // Opens sign-in modal
             } else {
                 showToast("Order processing...");
             }
         };
 
-        // --- Rest of your original functionality ---
-
+        // Restaurant Fetching and Rendering
         function mapCategory(cuisine = "") {
             const lower = cuisine.toLowerCase();
             if (lower.includes("pizza")) return "pizza";
@@ -487,38 +422,18 @@
                                 rating: v.rating || (4.3 + Math.random() * 0.6).toFixed(1),
                                 deliveryFee: v.deliveryFee || 20,
                                 minOrder: v.minOrder || 50,
-                                category: mapCategory(v.cuisine),
-                                featured: v.featured === true
+                                category: mapCategory(v.cuisine)
                             });
                         }
                     });
                 }
-                allVendors.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 applyFilters();
             });
         }
 
-        function applyFilters() {
-            let filtered = allVendors;
-            if (currentFilter !== 'all') filtered = filtered.filter(v => v.category === currentFilter);
-            if (searchTerm.trim()) {
-                const term = searchTerm.toLowerCase().trim();
-                filtered = filtered.filter(v => v.name.toLowerCase().includes(term));
-            }
-            renderRestaurants(filtered);
-        }
-
-        function renderRestaurants(vendors) {
-            const grid = document.getElementById("restaurantsGrid");
-            if (!vendors.length) {
-                grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:80px;color:var(--dim);font-size:1.1rem;">
-                    No restaurants found. Try another category or search term.
-                </p>`;
-                return;
-            }
-
-            grid.innerHTML = vendors.map(v => `
-                <div class="r-card" onclick="showToast('Opening ${v.name} menu... (coming soon)')">
+        function generateCardHTML(v) {
+            return `
+                <div class="r-card" onclick="showToast('Opening ${v.name} menu...')">
                     <div class="r-img-wrap">
                         <img src="${v.image}" alt="${v.name}" loading="lazy">
                         <div class="r-eta">${v.eta} min</div>
@@ -533,7 +448,59 @@
                         </p>
                     </div>
                 </div>
-            `).join('');
+            `;
+        }
+
+        function applyFilters() {
+            let filtered = allVendors;
+            
+            // Apply category filter
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(v => v.category === currentFilter);
+            }
+            
+            // Apply search filter
+            if (searchTerm.trim()) {
+                const term = searchTerm.toLowerCase().trim();
+                filtered = filtered.filter(v => v.name.toLowerCase().includes(term));
+            }
+
+            const emptyState = document.getElementById("emptyState");
+            const featuredSection = document.getElementById("featuredSection");
+            const popularSection = document.getElementById("popularSection");
+
+            if (filtered.length === 0) {
+                emptyState.style.display = "block";
+                featuredSection.style.display = "none";
+                popularSection.style.display = "none";
+                return;
+            }
+
+            // Hide empty state if there are results
+            emptyState.style.display = "none";
+
+            // Sort by rating (Highest to lowest)
+            filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+
+            // Split into Top 3 Featured and the rest for Popular
+            const featuredVendors = filtered.slice(0, 3);
+            const popularVendors = filtered.slice(3);
+
+            // Render Featured
+            if (featuredVendors.length > 0) {
+                featuredSection.style.display = "block";
+                document.getElementById("featuredGrid").innerHTML = featuredVendors.map(v => generateCardHTML(v)).join('');
+            } else {
+                featuredSection.style.display = "none";
+            }
+
+            // Render Popular
+            if (popularVendors.length > 0) {
+                popularSection.style.display = "block";
+                document.getElementById("restaurantsGrid").innerHTML = popularVendors.map(v => generateCardHTML(v)).join('');
+            } else {
+                popularSection.style.display = "none";
+            }
         }
 
         window.filterCategory = (cat, btn) => {
@@ -548,6 +515,7 @@
             applyFilters();
         };
 
+        // Cart functionality 
         window.addToCart = (name, price) => {
             cart.push({ name, price });
             updateCartUI();
