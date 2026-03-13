@@ -78,135 +78,111 @@
         }
         .user-btn:hover { border-color: var(--accent); transform: scale(1.06); }
 
+        /* CUSTOM ALERT / MODAL */
+        #customModalOverlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6); z-index: 4000;
+            display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+        #customModalOverlay.show { display: flex; }
+        .custom-modal {
+            background: white; border-radius: 20px;
+            width: 90%; max-width: 420px; padding: 32px 28px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.85) translateY(30px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .custom-modal-icon { font-size: 3.6rem; margin-bottom: 16px; line-height: 1; }
+        .custom-modal-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+        .custom-modal-message { color: var(--dim); font-size: 0.98rem; line-height: 1.5; margin-bottom: 28px; }
+        .custom-modal-buttons { display: flex; gap: 12px; justify-content: center; }
+        .btn-modal {
+            min-width: 110px; padding: 12px 24px;
+            border-radius: 12px; font-weight: 600; font-size: 0.96rem;
+            cursor: pointer; transition: var(--transition);
+        }
+        .btn-confirm { background: var(--accent); color: white; border: none; }
+        .btn-confirm:hover { background: #0062cc; transform: translateY(-1px); }
+        .btn-cancel { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-cancel:hover { background: #e5e5e7; }
+
         /* SEARCH BAR */
         .search-container {
-            padding: 12px 5%;
-            background: var(--surface);
+            padding: 12px 5%; background: var(--surface);
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 64px;
-            z-index: 980;
+            position: sticky; top: 64px; z-index: 980;
             backdrop-filter: blur(10px);
         }
-        .search-input-wrapper {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .search-input-wrapper { position: relative; max-width: 600px; margin: 0 auto; }
         .search-input {
-            width: 100%;
-            padding: 14px 16px 14px 48px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            font-size: 1rem;
-            background: var(--surface2);
+            width: 100%; padding: 14px 16px 14px 48px;
+            border: 1px solid var(--border); border-radius: 16px;
+            font-size: 1rem; background: var(--surface2);
             transition: all 0.2s ease;
         }
         .search-input:focus {
-            outline: none;
-            border-color: var(--accent);
+            outline: none; border-color: var(--accent);
             box-shadow: 0 0 0 4px rgba(0,122,255,0.12);
         }
         .search-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--dim);
-            font-size: 1.3rem;
-            pointer-events: none;
+            position: absolute; left: 16px; top: 50%;
+            transform: translateY(-50%); color: var(--dim);
+            font-size: 1.3rem; pointer-events: none;
         }
 
-        /* CATEGORY FILTERS + ICON ARROWS */
+        /* CATEGORY FILTERS + ARROWS */
         .filters-section {
-            position: relative;
-            background: var(--surface);
+            position: relative; background: var(--surface);
             border-bottom: 1px solid var(--border);
-            padding: 14px 5% 8px;
-            position: sticky;
-            top: 108px;
-            z-index: 970;
-            backdrop-filter: blur(10px);
+            padding: 14px 5% 8px; position: sticky;
+            top: 108px; z-index: 970; backdrop-filter: blur(10px);
         }
-
-        .filters-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
+        .filters-wrapper { position: relative; display: flex; align-items: center; }
         .filters-scroll {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 0 48px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            scroll-behavior: smooth;
+            display: flex; gap: 10px; overflow-x: auto;
+            padding: 0 48px; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; scroll-behavior: smooth;
         }
         .filters-scroll::-webkit-scrollbar { display: none; }
-
         .scroll-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.95);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: all 0.25s ease;
-            color: var(--dim);
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 40px; height: 40px; background: rgba(255,255,255,0.95);
+            border: 1px solid var(--border); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.25s ease; color: var(--dim);
         }
         .scroll-arrow:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-            transform: translateY(-50%) scale(1.1);
+            background: var(--accent); color: white;
+            border-color: var(--accent); transform: translateY(-50%) scale(1.1);
             box-shadow: 0 4px 16px rgba(0,122,255,0.25);
         }
         .scroll-arrow.left { left: 8px; }
         .scroll-arrow.right { right: 8px; }
 
         .cat-btn {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 100px;
-            padding: 12px 18px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: var(--pill-radius);
-            color: var(--dim);
-            font-size: 0.92rem;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: var(--transition);
-            touch-action: manipulation;
-            user-select: none;
+            flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
+            min-width: 100px; padding: 12px 18px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: var(--pill-radius); color: var(--dim);
+            font-size: 0.92rem; font-weight: 600; white-space: nowrap;
+            cursor: pointer; transition: var(--transition);
+            touch-action: manipulation; user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
         .cat-btn .cat-icon { font-size: 1.4rem; line-height: 1; }
         .cat-btn:hover {
-            background: #111;
-            color: white;
-            border-color: #111;
+            background: #111; color: white; border-color: #111;
             transform: translateY(-1px);
         }
         .cat-btn:active { transform: scale(0.96); }
         .cat-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-            box-shadow: 0 3px 12px rgba(0,122,255,0.28);
+            background: var(--accent); color: white;
+            border-color: var(--accent); box-shadow: 0 3px 12px rgba(0,122,255,0.28);
         }
 
         /* Hide arrows on mobile */
@@ -220,24 +196,21 @@
             .search-container { top: 58px; padding: 10px 5%; }
             .filters-section { top: 102px; padding: 12px 5% 6px; }
             .cat-btn {
-                min-width: 92px;
-                padding: 11px 16px;
-                font-size: 0.88rem;
-                gap: 7px;
+                min-width: 92px; padding: 11px 16px;
+                font-size: 0.88rem; gap: 7px;
             }
             .cat-btn .cat-icon { font-size: 1.32rem; }
         }
 
         @media (max-width: 480px) {
             .cat-btn {
-                min-width: 86px;
-                padding: 10px 14px;
+                min-width: 86px; padding: 10px 14px;
                 font-size: 0.84rem;
             }
             .cat-btn .cat-icon { font-size: 1.24rem; }
         }
 
-        /* Rest of your styles remain unchanged */
+        /* MAIN */
         .main { padding: 24px 5% 100px; }
         .section-label {
             font-size: 1.38rem; font-weight: 800;
@@ -267,7 +240,6 @@
         .r-card {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 20px; overflow: hidden; cursor: pointer; transition: var(--transition);
-            text-decoration: none; color: inherit; display: block;
             box-shadow: var(--shadow);
         }
         .r-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
@@ -409,10 +381,21 @@
     </style>
 </head>
 <body>
+
+<!-- CUSTOM MODAL -->
+<div id="customModalOverlay">
+    <div class="custom-modal" id="customModal">
+        <div class="custom-modal-icon" id="modalIcon"></div>
+        <div class="custom-modal-title" id="modalTitle"></div>
+        <div class="custom-modal-message" id="modalMessage"></div>
+        <div class="custom-modal-buttons" id="modalButtons"></div>
+    </div>
+</div>
+
 <div id="toast"></div>
 <div class="backdrop" id="backdrop" onclick="closeCart()"></div>
 
-<!-- SUCCESS MODAL -->
+<!-- SUCCESS MODAL (kept as fallback / alternative style) -->
 <div class="success-modal-overlay" id="successModal">
     <div class="success-modal">
         <div class="success-icon" id="successIcon">✅</div>
@@ -435,7 +418,7 @@
             🛒 Cart
             <span class="cart-count" id="cartCount">0</span>
         </button>
-        <button class="user-btn" onclick="openAuthModal()" id="userBtn">👤</button>
+        <button class="user-btn" id="userBtn">👤</button>
     </div>
 </header>
 
@@ -829,14 +812,18 @@
         else cart.push({ id: cartId, name, price, restaurant, qty: 1, emoji: "🍽️" });
         saveCart();
         renderCart();
-        showToast(`Added ${name}`, "success");
+        showCustomModal("✅", "Added to Cart", `${name} has been added successfully!`, [
+            { text: "OK", class: "btn-confirm" }
+        ]);
     };
 
     window.handleRestaurantClick = function(e, key) {
         e.preventDefault();
         if (!currentUser) {
-            showToast("Please sign in first", "error");
-            openAuthModal();
+            showCustomModal("🔒", "Sign In Required", "Please sign in to view restaurant menus and place orders.", [
+                { text: "Sign In", class: "btn-confirm", onClick: openAuthModal },
+                { text: "Cancel", class: "btn-cancel" }
+            ]);
             return false;
         }
         const vendor = allVendors.find(v => v.key === key);
@@ -911,11 +898,19 @@
 
     window.placeOrder = async function() {
         if (!currentUser) {
-            showToast("Please sign in to place order", "error");
-            openAuthModal();
+            showCustomModal("🔒", "Sign In Required", "Please sign in to place an order.", [
+                { text: "Sign In", class: "btn-confirm", onClick: openAuthModal },
+                { text: "Cancel", class: "btn-cancel" }
+            ]);
             return;
         }
-        if (!cart.length) return;
+        if (!cart.length) {
+            showCustomModal("🛒", "Cart is Empty", "Add some delicious items before placing an order!", [
+                { text: "OK", class: "btn-confirm" }
+            ]);
+            return;
+        }
+
         const total = cart.reduce((s,i)=>s + i.price * i.qty, 0);
         const order = {
             userId: currentUser.uid,
@@ -926,6 +921,7 @@
             createdAt: serverTimestamp(),
             address: "123 Main Street, Johannesburg"
         };
+
         try {
             await push(ref(db, "orders"), order);
             await set(ref(db, `carts/${currentUser.uid}`), { items: [], updatedAt: serverTimestamp() });
@@ -933,9 +929,13 @@
             renderCart();
             closeCart();
             showOrderStatus();
-            showSuccessModal("🎉", "Order Placed!", `Total: R ${total}. Estimated delivery: 25–40 min.`);
+            showCustomModal("🎉", "Order Placed Successfully!", `Total: R ${total}\nEstimated delivery: 25–40 min`, [
+                { text: "OK", class: "btn-confirm" }
+            ]);
         } catch (e) {
-            showToast("Failed to place order", "error");
+            showCustomModal("❌", "Order Failed", "Something went wrong while placing your order. Please try again.", [
+                { text: "OK", class: "btn-confirm" }
+            ]);
         }
     };
 
@@ -972,17 +972,6 @@
         document.getElementById("backdrop").classList.remove("open");
     };
 
-    window.showSuccessModal = function(icon, title, msg) {
-        document.getElementById("successIcon").textContent = icon;
-        document.getElementById("successTitle").textContent = title;
-        document.getElementById("successMessage").textContent = msg;
-        document.getElementById("successModal").classList.add("open");
-    };
-
-    window.closeSuccessModal = function() {
-        document.getElementById("successModal").classList.remove("open");
-    };
-
     window.openAuthModal = function() { document.getElementById("authModal").classList.add("open"); };
     window.closeAuthModal = function() { document.getElementById("authModal").classList.remove("open"); };
 
@@ -1008,19 +997,19 @@
             const user = result.user;
             const isNew = result._tokenResponse?.isNewUser;
             closeAuthModal();
-            const name = user.displayName || user.email.split("@")[0];
-            showSuccessModal(isNew ? "🎉" : "✅",
-                isNew ? "Welcome to Vynix Eats!" : "Signed In!",
-                isNew ? `Your account has been created, ${name}! You can now browse menus and place orders.`
-                      : `Welcome back, ${name}! You can now browse restaurants and place orders.`);
+            showCustomModal(isNew ? "🎉" : "✅", isNew ? "Welcome to Vynix Eats!" : "Signed In!", 
+                isNew ? `Your account has been created! You can now browse menus and place orders.` : `Welcome back! You can now browse restaurants and place orders.`, [
+                { text: "OK", class: "btn-confirm" }
+            ]);
         } catch (e) {
             let friendly = "Google sign-in failed. Please try again.";
             const code = e.code || "";
             if (code.includes("popup-closed") || code.includes("cancelled")) friendly = "Sign-in cancelled.";
             else if (code.includes("popup-blocked")) friendly = "Pop-up blocked by browser. Allow pop-ups.";
             else if (code.includes("network")) friendly = "Network error. Check connection.";
-            errEl.style.display = "block";
-            errEl.textContent = friendly;
+            showCustomModal("❌", "Sign-in Error", friendly, [
+                { text: "OK", class: "btn-confirm" }
+            ]);
         } finally {
             btn.disabled = false;
             btn.innerHTML = `${GOOGLE_SVG} Continue with Google`;
@@ -1059,11 +1048,15 @@
                 const cred = await createUserWithEmailAndPassword(auth, email, password);
                 await updateProfile(cred.user, { displayName: name }).catch(()=>{});
                 closeAuthModal();
-                showSuccessModal("🎉", "Welcome!", `Account created, ${name}!`);
+                showCustomModal("🎉", "Account Created", `Welcome to Vynix Eats, ${name}! You can now browse menus and place orders.`, [
+                    { text: "OK", class: "btn-confirm" }
+                ]);
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
                 closeAuthModal();
-                showSuccessModal("✅", "Signed In!", "Welcome back!");
+                showCustomModal("✅", "Signed In", "Welcome back! You can now browse restaurants and place orders.", [
+                    { text: "OK", class: "btn-confirm" }
+                ]);
             }
         } catch (e) {
             let msg = "Something went wrong";
@@ -1073,8 +1066,9 @@
             else if (code === "auth/weak-password") msg = "Password too weak";
             else if (code === "auth/user-not-found") msg = "No account found";
             else if (code === "auth/wrong-password") msg = "Wrong password";
-            errEl.textContent = msg;
-            errEl.style.display = "block";
+            showCustomModal("❌", "Authentication Error", msg, [
+                { text: "OK", class: "btn-confirm" }
+            ]);
         } finally {
             btn.disabled = false;
             btn.textContent = authMode === "signup" ? "Sign Up" : "Sign In";
@@ -1088,8 +1082,10 @@
         if (user) {
             const name = user.displayName || user.email.split("@")[0];
             btn.textContent = "👋";
-            btn.onclick = () => { if (confirm(`Signed in as ${user.email}\nSign out?`)) logout(); };
-            greeting.innerHTML = `Hello, <span>${name}</span> <a href="#" onclick="logout();return false;" style="color:var(--accent)">logout</a>`;
+            btn.onclick = () => {
+                customConfirm(`Signed in as ${user.email}\n\nSign out?`, () => logout(), "Sign Out", "👋");
+            };
+            greeting.innerHTML = `Hello, <span>${name}</span> <a href="#" onclick="customConfirm('Sign out?', () => logout(), 'Sign Out', '👋'); return false;" style="color:var(--accent)">logout</a>`;
         } else {
             btn.textContent = "👤";
             btn.onclick = openAuthModal;
@@ -1107,10 +1103,51 @@
         toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
     };
 
-    // Arrow scrolling function
+    // Custom modal helper
+    function showCustomModal(icon, title, message, buttons = []) {
+        const overlay = document.getElementById('customModalOverlay');
+        const modal = document.getElementById('customModal');
+        const iconEl = document.getElementById('modalIcon');
+        const titleEl = document.getElementById('modalTitle');
+        const msgEl = document.getElementById('modalMessage');
+        const btnContainer = document.getElementById('modalButtons');
+
+        iconEl.textContent = icon;
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+
+        btnContainer.innerHTML = '';
+        buttons.forEach(btn => {
+            const b = document.createElement('button');
+            b.className = `btn-modal ${btn.class || 'btn-cancel'}`;
+            b.textContent = btn.text;
+            b.onclick = () => {
+                overlay.classList.remove('show');
+                if (btn.onClick) btn.onClick();
+            };
+            btnContainer.appendChild(b);
+        });
+
+        overlay.classList.add('show');
+    }
+
+    window.customAlert = function(message, title = "Alert", icon = "⚠️") {
+        showCustomModal(icon, title, message, [
+            { text: "OK", class: "btn-confirm" }
+        ]);
+    };
+
+    window.customConfirm = function(message, onConfirm, title = "Confirm", icon = "❓") {
+        showCustomModal(icon, title, message, [
+            { text: "Cancel", class: "btn-cancel" },
+            { text: "Yes", class: "btn-confirm", onClick: onConfirm }
+        ]);
+    };
+
+    // Arrow scrolling
     window.scrollCategories = function(direction) {
         const scrollContainer = document.getElementById('filtersScroll');
-        const scrollAmount = 240; // pixels to scroll each click
+        const scrollAmount = 240;
         if (direction === 'left') {
             scrollContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         } else {
@@ -1118,7 +1155,6 @@
         }
     };
 
-    // Optional: update arrow visibility based on scroll position
     function updateArrowVisibility() {
         const scroll = document.getElementById('filtersScroll');
         if (!scroll) return;
@@ -1133,7 +1169,6 @@
         rightArrow.style.pointerEvents = atEnd ? 'none' : 'auto';
     }
 
-    // Initialize Lucide icons & arrow visibility
     document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
 
@@ -1141,7 +1176,7 @@
         if (scroll) {
             scroll.addEventListener('scroll', updateArrowVisibility);
             window.addEventListener('resize', updateArrowVisibility);
-            updateArrowVisibility(); // initial check
+            updateArrowVisibility();
         }
 
         loadVendors();
