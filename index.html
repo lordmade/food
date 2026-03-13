@@ -78,6 +78,45 @@
         }
         .user-btn:hover { border-color: var(--accent); transform: scale(1.06); }
 
+        /* SEARCH BAR */
+        .search-container {
+            padding: 12px 5%;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 64px;
+            z-index: 980;
+            backdrop-filter: blur(10px);
+        }
+        .search-input-wrapper {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .search-input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            font-size: 1rem;
+            background: var(--surface2);
+            transition: all 0.2s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(0,122,255,0.12);
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dim);
+            font-size: 1.3rem;
+            pointer-events: none;
+        }
+
         /* AUTH MODAL */
         .modal-overlay {
             display: none; position: fixed; inset: 0;
@@ -139,11 +178,6 @@
         }
         .btn-google:hover { background: #f8f8f8; border-color: #aaa; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transform: translateY(-1px); }
         .btn-google:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .auth-divider {
-            display: flex; align-items: center; gap: 12px;
-            margin-bottom: 16px; color: var(--dim); font-size: 0.8rem;
-        }
-        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
         /* SUCCESS MODAL */
         .success-modal-overlay {
@@ -175,14 +209,14 @@
         .user-greeting { font-size: 0.82rem; color: var(--dim); }
         .user-greeting span { color: var(--accent); font-weight: 600; }
 
-        /* CATEGORY FILTERS – pill shaped + mobile optimized */
+        /* CATEGORY FILTERS */
         .filters-wrap {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
             padding: 14px 5% 8px;
             position: sticky;
             top: 64px;
-            z-index: 990;
+            z-index: 970;
             backdrop-filter: blur(10px);
         }
         .filters-scroll {
@@ -223,7 +257,6 @@
         }
         .cat-btn:active {
             transform: scale(0.96);
-            transition: transform 0.12s ease;
         }
         .cat-btn.active {
             background: var(--accent);
@@ -232,17 +265,17 @@
             box-shadow: 0 3px 12px rgba(0,122,255,0.28);
         }
 
-        .main { padding: 24px 5% 100px; }
+        .main { padding: 20px 5% 100px; }
         .section-label {
             font-size: 1.38rem; font-weight: 800;
             letter-spacing: -0.6px; margin-bottom: 18px;
             background: linear-gradient(135deg, var(--text), var(--dim));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .featured-section { margin-bottom: 48px; }
-        .featured-scroll { display: flex; gap: 18px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+        .featured-section { margin-bottom: 40px; }
+        .featured-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; }
         .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card { flex: 0 0 260px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
+        .featured-card { flex: 0 0 240px; border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; transition: var(--transition); }
         .featured-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
         .featured-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
         .featured-overlay {
@@ -257,11 +290,10 @@
         }
         .featured-title { font-size: 1rem; font-weight: 700; color: white; }
 
-        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px 20px; }
+        .restaurants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .r-card {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 20px; overflow: hidden; cursor: pointer; transition: var(--transition);
-            text-decoration: none; color: inherit; display: block;
             box-shadow: var(--shadow);
         }
         .r-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
@@ -405,7 +437,8 @@
         @media (max-width: 640px) {
             .header { height: 58px; padding: 0 5%; }
             .logo { font-size: 1.4rem; }
-            .filters-wrap { padding: 12px 5% 6px; top: 58px; }
+            .search-container { top: 58px; padding: 10px 5%; }
+            .filters-wrap { top: 108px; padding: 12px 5% 6px; }
             .cat-btn {
                 min-width: 92px;
                 padding: 11px 16px;
@@ -415,7 +448,7 @@
             .cat-btn .cat-icon { font-size: 1.32rem; }
             .cart-drawer { width: 100%; }
             .restaurants-grid { grid-template-columns: 1fr; }
-            .main { padding: 20px 5% 90px; }
+            .main { padding: 16px 5% 90px; }
             .menu-body { grid-template-columns: 1fr; }
             .menu-info-bar { gap: 12px; }
         }
@@ -468,6 +501,14 @@
         <span>Deliver to: <strong>123 Main Street, Johannesburg</strong></span>
     </div>
     <div class="user-greeting" id="userGreeting"></div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-container">
+    <div class="search-input-wrapper">
+        <i class="search-icon">🔍</i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search restaurants..." oninput="handleSearch()">
+    </div>
 </div>
 
 <!-- CATEGORIES -->
@@ -582,7 +623,7 @@
     <div class="os-sub" id="osSub"></div>
 </div>
 
-<!-- FIREBASE & LOGIC -->
+<!-- JAVASCRIPT -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -610,6 +651,7 @@
     let allVendors = [];
     let currentCategory = "all";
     let currentVendor = null;
+    let searchTerm = "";
 
     const cuisineEmoji = {
         pizza:"🍕",burger:"🍔",burgers:"🍔",sushi:"🍣",indian:"🍛",
@@ -696,10 +738,32 @@
                 });
                 allVendors.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             }
-            renderVendors(filterByCategory(allVendors, currentCategory));
+            applyFilters();
             renderFeatured();
         });
     }
+
+    function applyFilters() {
+        let filtered = allVendors;
+
+        // Category filter
+        if (currentCategory !== "all") {
+            filtered = filtered.filter(v => v.categories.includes(currentCategory));
+        }
+
+        // Search filter
+        if (searchTerm.trim()) {
+            const term = searchTerm.toLowerCase().trim();
+            filtered = filtered.filter(v => v.name.toLowerCase().includes(term));
+        }
+
+        renderVendors(filtered);
+    }
+
+    window.handleSearch = function() {
+        searchTerm = document.getElementById("searchInput").value;
+        applyFilters();
+    };
 
     function filterByCategory(vendors, cat) {
         if (cat === "all") return vendors;
@@ -710,16 +774,16 @@
         document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentCategory = cat;
-        renderVendors(filterByCategory(allVendors, cat));
+        applyFilters();
     };
 
     function renderVendors(vendors) {
         const grid = document.getElementById("restaurantsGrid");
         if (!vendors.length) {
-            grid.innerHTML = `<div class="empty-vendors" style="text-align:center;padding:80px 24px;color:var(--dim);grid-column:1/-1;">
-                <div style="font-size:3rem;margin-bottom:16px;">🍽️</div>
-                <p style="font-size:1rem;font-weight:700;margin-bottom:8px">No restaurants available</p>
-                <p style="font-size:0.85rem">Check back soon — new restaurants are being added!</p>
+            grid.innerHTML = `<div style="text-align:center;padding:80px 24px;color:var(--dim);grid-column:1/-1;">
+                <div style="font-size:3.5rem;margin-bottom:16px;">🔍</div>
+                <p style="font-size:1.1rem;font-weight:600;margin-bottom:8px">No restaurants found</p>
+                <p style="font-size:0.9rem;color:var(--dim)">Try a different search term or category</p>
             </div>`;
             return;
         }
