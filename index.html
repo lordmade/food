@@ -50,10 +50,12 @@
         .logo span { color: var(--accent); }
         .logo-icon { display: flex; align-items: center; color: var(--accent); }
         .header-actions { display: flex; align-items: center; gap: 12px; }
+        /* Cart button pill shape */
         .cart-btn {
             display: flex; align-items: center; gap: 8px;
             background: var(--text); color: white; border: none;
-            padding: 9px 18px; border-radius: 12px;
+            padding: 9px 18px;
+            border-radius: 9999px; /* pill shape */
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem;
             cursor: pointer; transition: var(--transition);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -192,7 +194,13 @@
             min-width: 72px; transition: var(--transition);
         }
         .cat-btn .cat-icon { font-size: 1.6rem; }
-        .cat-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+        /* Hover effect: black background, white text */
+        .cat-btn:hover {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+            transform: translateY(-2px);
+        }
         .cat-btn.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
 
         /* MAIN */
