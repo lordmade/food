@@ -343,6 +343,48 @@
         .empty-vendors { text-align: center; padding: 80px 24px; color: var(--dim); grid-column: 1/-1; }
         .empty-vendors .empty-icon { font-size: 3rem; margin-bottom: 16px; }
 
+        /* MENU MODAL */
+        .menu-modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 2500;
+            align-items: center; justify-content: center; backdrop-filter: blur(8px);
+        }
+        .menu-modal-overlay.open { display: flex; }
+        .menu-modal {
+            background: var(--surface); border-radius: 24px; width: 600px; max-width: 95vw;
+            max-height: 80vh; overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .menu-header {
+            padding: 20px 24px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .menu-header h3 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+        .menu-close {
+            background: var(--surface2); border: none; width: 34px; height: 34px;
+            border-radius: 50%; cursor: pointer; font-size: 1rem;
+            transition: var(--transition);
+        }
+        .menu-close:hover { background: var(--border); }
+        .menu-body {
+            padding: 24px; overflow-y: auto; flex: 1;
+        }
+        .menu-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 0; border-bottom: 1px solid var(--border);
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .item-info h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .item-info p { font-size: 0.85rem; color: var(--dim); margin-bottom: 4px; }
+        .item-price { font-weight: 700; color: var(--accent); }
+        .add-btn {
+            background: var(--accent); color: white; border: none;
+            padding: 8px 16px; border-radius: 9999px; font-weight: 600;
+            cursor: pointer; transition: var(--transition);
+        }
+        .add-btn:hover { background: #0066dd; transform: scale(1.05); }
+
         @media (max-width: 640px) {
             .restaurants-grid { grid-template-columns: 1fr; }
             .cart-drawer { width: 100%; }
@@ -481,6 +523,19 @@
         <button class="btn-primary" id="authSubmit" onclick="handleAuth()">Sign In</button>
         <div class="auth-toggle" id="authToggle">
             Don't have an account? <a onclick="switchAuthMode()">Sign up</a>
+        </div>
+    </div>
+</div>
+
+<!-- MENU MODAL -->
+<div class="menu-modal-overlay" id="menuModal">
+    <div class="menu-modal">
+        <div class="menu-header">
+            <h3 id="menuRestaurantName">Restaurant Name</h3>
+            <button class="menu-close" onclick="closeMenuModal()">✕</button>
+        </div>
+        <div class="menu-body" id="menuBody">
+            <div class="loading-state"><div class="loading-spinner"></div><p>Loading menu...</p></div>
         </div>
     </div>
 </div>
@@ -641,7 +696,7 @@
                 ? `<img src="${v.imageURL}" alt="${v.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=r-img-placeholder>${emoji}</div>'">`
                 : `<div class="r-img-placeholder">${emoji}</div>`;
             return `
-                <a class="r-card" href="restaurant.html?id=${v.key}" onclick="return handleRestaurantClick(event, '${v.key}')">
+                <a class="r-card" href="#" onclick="return handleRestaurantClick(event, '${v.key}')">
                     <div class="r-img-wrap">
                         ${imgContent}
                         <span class="r-eta">20–35 min</span>
@@ -659,6 +714,86 @@
         }).join("");
     }
 
+    // Menu modal functions
+    let currentVendor = null;
+
+    window.openMenuModal = function(vendor) {
+        currentVendor = vendor;
+        document.getElementById("menuRestaurantName").textContent = vendor.name;
+        document.getElementById("menuModal").classList.add("open");
+        loadMenuItems(vendor.key);
+    };
+
+    window.closeMenuModal = function() {
+        document.getElementById("menuModal").classList.remove("open");
+        currentVendor = null;
+    };
+
+    async function loadMenuItems(vendorKey) {
+        const menuBody = document.getElementById("menuBody");
+        menuBody.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div><p>Loading menu...</p></div>`;
+        try {
+            // Try to get items from vendors/{vendorKey}/items
+            const itemsRef = ref(db, `vendors/${vendorKey}/items`);
+            const snapshot = await get(itemsRef);
+            let items = [];
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                items = Object.entries(data).map(([key, val]) => ({ id: key, ...val }));
+            } else {
+                // Fallback placeholder items for demo
+                items = [
+                    { id: 'item1', name: 'Margherita Pizza', description: 'Classic tomato and mozzarella', price: 85 },
+                    { id: 'item2', name: 'Pepperoni Pizza', description: 'Spicy pepperoni with extra cheese', price: 99 },
+                    { id: 'item3', name: 'Caesar Salad', description: 'Fresh romaine with Caesar dressing', price: 65 },
+                ];
+            }
+            renderMenuItems(items);
+        } catch (e) {
+            console.error("Error loading menu items:", e);
+            menuBody.innerHTML = `<p style="color:var(--danger); text-align:center;">Failed to load menu. Please try again.</p>`;
+        }
+    }
+
+    function renderMenuItems(items) {
+        const menuBody = document.getElementById("menuBody");
+        if (!items.length) {
+            menuBody.innerHTML = `<p style="text-align:center; color:var(--dim);">No menu items available for this restaurant.</p>`;
+            return;
+        }
+        menuBody.innerHTML = items.map(item => `
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.description || ''}</p>
+                    <span class="item-price">R ${item.price}</span>
+                </div>
+                <button class="add-btn" onclick="addToCart('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${item.price}, '${currentVendor.name.replace(/'/g, "\\'")}', '${currentVendor.key}')">Add</button>
+            </div>
+        `).join("");
+    }
+
+    window.addToCart = function(itemId, itemName, itemPrice, restaurantName, vendorKey) {
+        // Create a unique cart item id combining vendor and item
+        const cartId = vendorKey + '_' + itemId;
+        const existing = cart.find(x => x.id === cartId);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({
+                id: cartId,
+                name: itemName,
+                price: itemPrice,
+                restaurant: restaurantName,
+                qty: 1,
+                emoji: "🍽️"
+            });
+        }
+        saveCart();
+        renderCart();
+        showToast(`Added ${itemName} to cart`, "success");
+    };
+
     window.handleRestaurantClick = function(e, vendorKey) {
         e.preventDefault();
         if (!currentUser) {
@@ -666,11 +801,17 @@
             openAuthModal();
             return false;
         }
-        window.location.href = `restaurant.html?id=${vendorKey}`;
+        // Find vendor in allVendors
+        const vendor = allVendors.find(v => v.key === vendorKey);
+        if (vendor) {
+            openMenuModal(vendor);
+        } else {
+            showToast("Restaurant not found", "error");
+        }
         return false;
     };
 
-    // Cart functions (unchanged)
+    // Cart functions (unchanged but addToCart used)
     window.changeQty = function(id, delta) {
         const idx = cart.findIndex(x => x.id === id);
         if (idx === -1) return;
@@ -910,6 +1051,11 @@
 
     loadVendors();
     renderCart();
+
+    // Close menu modal when clicking overlay
+    document.getElementById("menuModal").addEventListener("click", function(e) {
+        if (e.target === this) closeMenuModal();
+    });
 </script>
 </body>
 </html>
