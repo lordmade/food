@@ -955,6 +955,8 @@
         let currentUser = null;
         let menuData = {};
         let currentCategory = 'all';
+        let allMenuItems = [];
+        let categories = new Set(['all']);
 
         // Show/Hide shimmer loading
         function showShimmer() {
@@ -967,12 +969,12 @@
             document.body.style.overflow = '';
         }
 
-        // Load vendor data and menu
+        // Load vendor data and menu from vendor panel structure
         async function loadMenu() {
             showShimmer();
 
             try {
-                // Load vendor info
+                // Load vendor info from vendors/{vendorId}
                 const vendorSnapshot = await get(ref(db, `vendors/${vendorId}`));
                 if (vendorSnapshot.exists()) {
                     const vendor = vendorSnapshot.val();
@@ -983,20 +985,13 @@
                     return;
                 }
 
-                // Load menu items
-                const menuSnapshot = await get(ref(db, `vendorMenus/${vendorId}`));
+                // Load menu from vendors/{vendorId}/menu (vendor panel structure)
+                const menuSnapshot = await get(ref(db, `vendors/${vendorId}/menu`));
                 if (menuSnapshot.exists()) {
                     menuData = menuSnapshot.val();
-                    displayMenu(menuData);
+                    processAndDisplayMenu(menuData);
                 } else {
-                    // Try alternative path
-                    const altSnapshot = await get(ref(db, `menus/${vendorId}`));
-                    if (altSnapshot.exists()) {
-                        menuData = altSnapshot.val();
-                        displayMenu(menuData);
-                    } else {
-                        showEmptyState();
-                    }
+                    showEmptyState();
                 }
             } catch (error) {
                 console.error("Error loading menu:", error);
@@ -1017,7 +1012,7 @@
 
             // Tags
             const tagsContainer = document.getElementById('restaurantTags');
-            const tags = [vendor.cuisine, vendor.storeType].filter(Boolean);
+            const tags = [vendor.cuisineCategory, vendor.cuisine, vendor.storeType].filter(Boolean);
             tagsContainer.innerHTML = tags.map(tag => 
                 `<span class="tag">${tag}</span>`
             ).join('');
@@ -1026,50 +1021,53 @@
             lucide.createIcons();
         }
 
-        function displayMenu(data) {
-            const container = document.getElementById('menuContainer');
-            const tabsContainer = document.getElementById('tabsContainer');
+        function processAndDisplayMenu(data) {
+            // Process menu data from vendor panel
+            // Structure: { itemId: { name, category, price, description, imageURL, ... } }
+            allMenuItems = [];
+            categories = new Set(['all']);
 
-            // Handle different data structures
-            let items = [];
-            let categories = new Set(['all']);
-
-            if (Array.isArray(data)) {
-                items = data;
-                items.forEach(item => {
-                    if (item.category) categories.add(item.category.toLowerCase());
-                });
-            } else if (typeof data === 'object') {
-                // Categorized menu
-                Object.entries(data).forEach(([category, categoryItems]) => {
-                    categories.add(category.toLowerCase());
-                    if (Array.isArray(categoryItems)) {
-                        categoryItems.forEach(item => {
-                            items.push({ ...item, category: category.toLowerCase() });
-                        });
-                    } else if (typeof categoryItems === 'object') {
-                        Object.values(categoryItems).forEach(item => {
-                            items.push({ ...item, category: category.toLowerCase() });
-                        });
-                    }
-                });
+            if (!data || typeof data !== 'object') {
+                showEmptyState();
+                return;
             }
 
-            if (items.length === 0) {
+            Object.entries(data).forEach(([itemId, item]) => {
+                if (item && item.name) {
+                    const category = item.category || 'Other';
+                    categories.add(category);
+
+                    allMenuItems.push({
+                        id: itemId,
+                        name: item.name,
+                        category: category,
+                        price: parseFloat(item.price) || 0,
+                        description: item.description || '',
+                        imageURL: item.imageURL || '',
+                        calories: item.calories || '',
+                        prepTime: item.prepTime || '',
+                        allergens: item.allergens || '',
+                        status: item.status || 'available',
+                        featured: item.featured || false
+                    });
+                }
+            });
+
+            if (allMenuItems.length === 0) {
                 showEmptyState();
                 return;
             }
 
             // Generate category tabs
             const categoryArray = Array.from(categories);
+            const tabsContainer = document.getElementById('tabsContainer');
             tabsContainer.innerHTML = categoryArray.map(cat => 
                 `<button class="tab-btn ${cat === 'all' ? 'active' : ''}" onclick="filterCategory('${cat}', this)">${cat === 'all' ? 'All Items' : cat}</button>`
             ).join('');
             document.getElementById('categoryTabs').style.display = 'block';
 
-            // Store items for filtering
-            window.allMenuItems = items;
-            renderMenuItems(items);
+            // Render all items initially
+            renderMenuItems(allMenuItems);
         }
 
         function renderMenuItems(items) {
@@ -1077,7 +1075,7 @@
 
             // Group by category
             const grouped = items.reduce((acc, item) => {
-                const cat = item.category || 'other';
+                const cat = item.category || 'Other';
                 if (!acc[cat]) acc[cat] = [];
                 acc[cat].push(item);
                 return acc;
@@ -1088,17 +1086,17 @@
                     <h3 class="section-title">${category}</h3>
                     <div class="menu-items">
                         ${categoryItems.map(item => `
-                            <div class="menu-item" onclick="addToCart('${item.name.replace(/'/g, "\'")}', ${item.price || 0})">
+                            <div class="menu-item" onclick="addToCart('${item.id}', '${item.name.replace(/'/g, "\'")}', ${item.price})">
                                 <img class="menu-item-image" src="${item.imageURL || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'}" alt="${item.name}" loading="lazy">
                                 <div class="menu-item-content">
                                     <div class="menu-item-header">
                                         <h4 class="menu-item-name">${item.name}</h4>
-                                        <span class="menu-item-price">R${item.price || 0}</span>
+                                        <span class="menu-item-price">R${item.price.toFixed(2)}</span>
                                     </div>
                                     <p class="menu-item-desc">${item.description || 'No description available'}</p>
                                     <div class="menu-item-footer">
-                                        <span class="menu-item-calories">${item.calories ? item.calories + ' kcal' : ''}</span>
-                                        <button class="add-btn" onclick="event.stopPropagation(); addToCart('${item.name.replace(/'/g, "\'")}', ${item.price || 0})">
+                                        <span class="menu-item-calories">${item.calories ? item.calories + ' kcal' : ''} ${item.prepTime ? '• ' + item.prepTime + ' min' : ''}</span>
+                                        <button class="add-btn" onclick="event.stopPropagation(); addToCart('${item.id}', '${item.name.replace(/'/g, "\'")}', ${item.price})">
                                             <i data-lucide="plus"></i> Add
                                         </button>
                                     </div>
@@ -1123,11 +1121,9 @@
             currentCategory = category;
 
             if (category === 'all') {
-                renderMenuItems(window.allMenuItems || []);
+                renderMenuItems(allMenuItems);
             } else {
-                const filtered = (window.allMenuItems || []).filter(item => 
-                    item.category === category
-                );
+                const filtered = allMenuItems.filter(item => item.category === category);
                 renderMenuItems(filtered);
             }
         };
@@ -1136,8 +1132,8 @@
             window.location.href = 'index.html';
         };
 
-        window.addToCart = (name, price) => {
-            cart.push({ name, price, vendorId });
+        window.addToCart = (itemId, name, price) => {
+            cart.push({ itemId, name, price, vendorId });
             updateCartUI();
             showToast(`Added ${name}`);
         };
@@ -1160,7 +1156,7 @@
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:12px;background:var(--surface2);border-radius:12px;">
                         <div>
                             <div style="font-weight:700;">${item.name}</div>
-                            <div style="color:var(--dim);font-size:0.85rem;">R${item.price}</div>
+                            <div style="color:var(--dim);font-size:0.85rem;">R${item.price.toFixed(2)}</div>
                         </div>
                         <button onclick="removeFromCart(${index})" style="background:none;border:none;color:var(--danger);cursor:pointer;padding:8px;">
                             <i data-lucide="trash-2" style="width:18px;height:18px;"></i>
