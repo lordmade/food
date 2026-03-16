@@ -57,12 +57,12 @@
         .app-container {
             display: flex;
             height: 100vh;
-            height: 100dvh; /* Dynamic viewport height for mobile */
+            height: 100dvh;
             width: 100vw;
             position: relative;
         }
 
-        /* Sidebar - Mobile Optimized */
+        /* Sidebar */
         .sidebar {
             width: var(--sidebar-width);
             background: var(--surface);
@@ -111,7 +111,7 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 16px; /* Increased for touch */
+            padding: 16px;
             border: none;
             background: transparent;
             border-radius: var(--radius-sm);
@@ -121,7 +121,7 @@
             cursor: pointer;
             transition: var(--transition);
             text-align: left;
-            min-height: 56px; /* Touch target size */
+            min-height: 56px;
         }
 
         .nav-btn i { 
@@ -166,7 +166,7 @@
             width: 100%;
         }
 
-        /* Mobile-Optimized Header */
+        /* Header */
         .header {
             display: flex;
             flex-direction: column;
@@ -194,7 +194,6 @@
             min-width: 0;
         }
 
-        /* Menu Button - Large Touch Target */
         .menu-btn {
             width: 48px;
             height: 48px;
@@ -220,7 +219,7 @@
             height: 24px;
         }
 
-        /* Compact Location & Search Section */
+        /* Location & Search */
         .header-controls {
             display: flex;
             flex-direction: column;
@@ -228,7 +227,6 @@
             padding: 0 16px 12px;
         }
 
-        /* Location Selector - Mobile Optimized */
         .location-compact {
             display: flex;
             align-items: center;
@@ -239,7 +237,7 @@
             padding: 12px 14px;
             cursor: pointer;
             transition: var(--transition);
-            min-height: 48px; /* Touch target */
+            min-height: 48px;
         }
 
         .location-compact:active {
@@ -311,7 +309,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Search Bar - Full Width Mobile */
         .search-compact {
             position: relative;
             width: 100%;
@@ -327,7 +324,7 @@
             font-family: inherit;
             outline: none;
             transition: var(--transition);
-            min-height: 48px; /* Touch target */
+            min-height: 48px;
         }
 
         .search-input:focus {
@@ -350,7 +347,6 @@
             height: 20px;
         }
 
-        /* Header Actions - Cart & Profile */
         .header-actions {
             display: flex;
             align-items: center;
@@ -405,7 +401,7 @@
             object-fit: cover;
         }
 
-        /* Category Filters - Horizontal Scroll */
+        /* Category Filters */
         .filters-wrap {
             padding: 12px 0;
             background: var(--bg);
@@ -452,7 +448,7 @@
 
         /* Main Content */
         .main {
-            padding: 20px 16px 100px; /* Extra bottom padding for safe area */
+            padding: 20px 16px 100px;
             flex: 1;
         }
 
@@ -465,7 +461,7 @@
             gap: 6px;
         }
 
-        /* Restaurant Cards - Mobile Grid */
+        /* Restaurant Cards */
         .restaurants-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -511,7 +507,6 @@
             object-fit: cover;
         }
 
-        /* Closed Overlay */
         .closed-overlay {
             position: absolute;
             inset: 0;
@@ -558,7 +553,6 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* Distance Badge */
         .distance-badge {
             position: absolute;
             bottom: 12px;
@@ -575,7 +569,6 @@
             gap: 4px;
         }
 
-        /* Like Button - Larger Touch Target */
         .like-btn {
             position: absolute;
             top: 12px;
@@ -666,7 +659,6 @@
             font-weight: 600;
         }
 
-        /* Empty State */
         #emptyState {
             display: none;
             text-align: center;
@@ -688,55 +680,118 @@
             color: var(--text);
         }
 
-        /* Location Modal - Bottom Sheet Style */
-        .location-modal-overlay {
+        /* ============================================
+           MODAL SYSTEM - FIXED FOR DESKTOP & MOBILE
+           ============================================ */
+
+        /* Base modal styles - HIDDEN BY DEFAULT using display: none */
+        .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 2500;
+            background: rgba(0,0,0,0.6);
+            z-index: 3000;
+            display: none; /* CRITICAL: Hidden by default */
             opacity: 0;
-            pointer-events: none;
             transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
         }
 
-        .location-modal-overlay.open {
+        .modal-overlay.active {
+            display: block; /* Show when active */
             opacity: 1;
-            pointer-events: auto;
         }
 
-        .location-modal {
+        /* Base modal - HIDDEN BY DEFAULT */
+        .modal {
             position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            display: none; /* CRITICAL: Hidden by default */
             background: var(--surface);
-            border-radius: var(--radius) var(--radius) 0 0;
-            z-index: 2501;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
+            z-index: 3001;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
         }
 
-        .location-modal.open {
-            transform: translateY(0);
+        .modal.active {
+            display: flex; /* Show when active - using flex for centering */
         }
 
-        .location-modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Mobile: Bottom sheet style */
+        @media (max-width: 767px) {
+            .modal {
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: var(--radius) var(--radius) 0 0;
+                flex-direction: column;
+                max-height: 85vh;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+            }
+
+            .modal.active {
+                transform: translateY(0);
+            }
+
+            .modal-header {
+                padding: 20px;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .modal-header h3 {
+                font-weight: 800;
+                font-size: 1.2rem;
+            }
+
+            .modal-body {
+                padding: 20px;
+                overflow-y: auto;
+                flex: 1;
+            }
         }
 
-        .location-modal-header h3 {
-            font-weight: 800;
-            font-size: 1.2rem;
+        /* Desktop: Centered modal */
+        @media (min-width: 768px) {
+            .modal {
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                max-width: 440px;
+                max-height: 80vh;
+                border-radius: var(--radius);
+                transform: translate(-50%, -50%) scale(0.95);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            .modal.active {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+
+            .modal-header {
+                padding: 24px;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .modal-header h3 {
+                font-weight: 800;
+                font-size: 1.3rem;
+            }
+
+            .modal-body {
+                padding: 24px;
+                overflow-y: auto;
+                flex: 1;
+            }
         }
 
-        .close-modal-btn {
+        /* Close button */
+        .close-btn {
             width: 40px;
             height: 40px;
             display: flex;
@@ -747,14 +802,15 @@
             border-radius: 50%;
             cursor: pointer;
             color: var(--dim);
+            transition: var(--transition);
         }
 
-        .location-modal-body {
-            padding: 20px;
-            overflow-y: auto;
-            flex: 1;
+        .close-btn:active {
+            transform: scale(0.95);
+            background: var(--border);
         }
 
+        /* Location Modal Specific Styles */
         .location-input-large {
             width: 100%;
             padding: 16px;
@@ -853,6 +909,55 @@
             flex-shrink: 0;
         }
 
+        /* Auth Modal Specific Styles */
+        .google-btn {
+            width: 100%;
+            padding: 16px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: var(--transition);
+            min-height: 56px;
+        }
+
+        .google-btn:active {
+            background: var(--surface2);
+            transform: scale(0.98);
+        }
+
+        .danger-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+        }
+
+        .danger-btn:active {
+            background: #e0352b;
+        }
+
+        .modal-text {
+            color: var(--dim);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+        }
+
         /* Cart Drawer */
         .cart-drawer {
             position: fixed;
@@ -936,101 +1041,6 @@
             cursor: not-allowed;
         }
 
-        /* Auth Modals */
-        .auth-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 3000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(4px);
-        }
-
-        .auth-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .auth-modal {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--surface);
-            border-radius: var(--radius) var(--radius) 0 0;
-            z-index: 3001;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            padding: 24px;
-            padding-bottom: calc(24px + var(--safe-bottom));
-        }
-
-        .auth-modal.active {
-            transform: translateY(0);
-        }
-
-        .auth-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .auth-modal-header h3 {
-            font-weight: 800;
-            font-size: 1.3rem;
-        }
-
-        .auth-modal p {
-            color: var(--dim);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .google-btn {
-            width: 100%;
-            padding: 16px;
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: var(--transition);
-            min-height: 56px;
-        }
-
-        .google-btn:active {
-            background: var(--surface2);
-            transform: scale(0.98);
-        }
-
-        .danger-btn {
-            background: var(--danger);
-            color: white;
-            border: none;
-        }
-
-        .danger-btn:active {
-            background: #e0352b;
-        }
-
-        .auth-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .auth-actions button {
-            flex: 1;
-        }
-
         /* Toast */
         #toast {
             position: fixed;
@@ -1054,7 +1064,7 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Desktop Styles - Progressive Enhancement */
+        /* Desktop Styles */
         @media (min-width: 768px) {
             :root {
                 --header-height: 80px;
@@ -1105,40 +1115,8 @@
                 gap: 24px;
             }
 
-            .auth-modal {
-                top: 50%;
-                left: 50%;
-                right: auto;
-                bottom: auto;
-                transform: translate(-50%, -50%) scale(0.9);
-                width: 100%;
-                max-width: 440px;
-                border-radius: var(--radius);
-                padding-bottom: 24px;
-            }
-
-            .auth-modal.active {
-                transform: translate(-50%, -50%) scale(1);
-            }
-
-            .location-modal {
-                top: 50%;
-                left: 50%;
-                right: auto;
-                bottom: auto;
-                transform: translate(-50%, -50%) scale(0.9);
-                width: 100%;
-                max-width: 500px;
-                border-radius: var(--radius);
-                max-height: 80vh;
-            }
-
-            .location-modal.open {
-                transform: translate(-50%, -50%) scale(1);
-            }
-
-            .location-modal-overlay.open {
-                opacity: 1;
+            .cart-drawer {
+                width: 400px;
             }
         }
 
@@ -1223,7 +1201,7 @@
                         </div>
                     </div>
 
-                    <!-- Detect Location Button (Separate for Mobile) -->
+                    <!-- Detect Location Button -->
                     <button class="location-detect" id="detectBtn" onclick="event.stopPropagation(); detectCurrentLocation()" title="Use current location">
                         <i data-lucide="navigation"></i>
                     </button>
@@ -1279,16 +1257,18 @@
         </div>
     </div>
 
-    <!-- Location Modal (Bottom Sheet) -->
-    <div class="location-modal-overlay" id="locationModalOverlay" onclick="closeLocationModal()"></div>
-    <div class="location-modal" id="locationModal">
-        <div class="location-modal-header">
+    <!-- ============================================
+         LOCATION MODAL - Fixed for Desktop & Mobile
+         ============================================ -->
+    <div class="modal-overlay" id="locationModalOverlay" onclick="closeLocationModal()"></div>
+    <div class="modal" id="locationModal">
+        <div class="modal-header">
             <h3>Set Delivery Location</h3>
-            <button class="close-modal-btn" onclick="closeLocationModal()">
+            <button class="close-btn" onclick="closeLocationModal()">
                 <i data-lucide="x"></i>
             </button>
         </div>
-        <div class="location-modal-body">
+        <div class="modal-body">
             <button class="use-current-location" onclick="detectCurrentLocation(); closeLocationModal();">
                 <i data-lucide="navigation"></i>
                 Use Current Location
@@ -1317,34 +1297,43 @@
         </div>
     </div>
 
-    <!-- Auth Modals -->
-    <div class="auth-overlay" id="signInOverlay" onclick="closeAuthModals()"></div>
-    <div class="auth-modal" id="signInModal">
-        <div class="auth-modal-header">
+    <!-- ============================================
+         SIGN IN MODAL - Fixed for Desktop & Mobile
+         ============================================ -->
+    <div class="modal-overlay" id="signInOverlay" onclick="closeAuthModals()"></div>
+    <div class="modal" id="signInModal">
+        <div class="modal-header">
             <h3>Welcome back</h3>
-            <button class="close-modal-btn" onclick="closeAuthModals()">
+            <button class="close-btn" onclick="closeAuthModals()">
                 <i data-lucide="x"></i>
             </button>
         </div>
-        <p>Sign in to view your orders, save favorites, and checkout faster.</p>
-        <button class="google-btn" onclick="signInWithGoogle()">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 24px;">
-            Continue with Google
-        </button>
+        <div class="modal-body">
+            <p class="modal-text">Sign in to view your orders, save favorites, and checkout faster.</p>
+            <button class="google-btn" onclick="signInWithGoogle()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 24px;">
+                Continue with Google
+            </button>
+        </div>
     </div>
 
-    <div class="auth-overlay" id="signOutOverlay" onclick="closeAuthModals()"></div>
-    <div class="auth-modal" id="signOutModal">
-        <div class="auth-modal-header">
+    <!-- ============================================
+         SIGN OUT MODAL - Fixed for Desktop & Mobile
+         ============================================ -->
+    <div class="modal-overlay" id="signOutOverlay" onclick="closeAuthModals()"></div>
+    <div class="modal" id="signOutModal">
+        <div class="modal-header">
             <h3>Sign Out</h3>
-            <button class="close-modal-btn" onclick="closeAuthModals()">
+            <button class="close-btn" onclick="closeAuthModals()">
                 <i data-lucide="x"></i>
             </button>
         </div>
-        <p>Are you sure you want to sign out, <span id="signOutName" style="font-weight: 700; color: var(--text);"></span>?</p>
-        <div class="auth-actions">
-            <button class="google-btn" onclick="closeAuthModals()">Cancel</button>
-            <button class="google-btn danger-btn" onclick="confirmSignOut()">Sign Out</button>
+        <div class="modal-body">
+            <p class="modal-text">Are you sure you want to sign out, <span id="signOutName" style="font-weight: 700; color: var(--text);"></span>?</p>
+            <div class="modal-actions">
+                <button class="google-btn" onclick="closeAuthModals()">Cancel</button>
+                <button class="google-btn danger-btn" onclick="confirmSignOut()">Sign Out</button>
+            </div>
         </div>
     </div>
 
@@ -1414,15 +1403,20 @@
             document.getElementById('sidebarOverlay').classList.toggle('open');
         };
 
+        // FIXED: Modal functions using display: none / block
         window.openLocationModal = () => {
-            document.getElementById('locationModalOverlay').classList.add('open');
-            document.getElementById('locationModal').classList.add('open');
+            const overlay = document.getElementById('locationModalOverlay');
+            const modal = document.getElementById('locationModal');
+            overlay.classList.add('active');
+            modal.classList.add('active');
             document.getElementById('modalLocationInput').focus();
         };
 
         window.closeLocationModal = () => {
-            document.getElementById('locationModalOverlay').classList.remove('open');
-            document.getElementById('locationModal').classList.remove('open');
+            const overlay = document.getElementById('locationModalOverlay');
+            const modal = document.getElementById('locationModal');
+            overlay.classList.remove('active');
+            modal.classList.remove('active');
         };
 
         window.selectRadius = (radius) => {
@@ -1603,9 +1597,10 @@
             });
         }
 
+        // FIXED: Auth modal functions using display: none / block
         window.closeAuthModals = () => {
-            document.querySelectorAll('.auth-overlay').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.auth-modal').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.modal').forEach(el => el.classList.remove('active'));
         };
 
         window.handleProfileClick = () => {
