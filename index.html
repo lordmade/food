@@ -28,6 +28,10 @@
             --sidebar-width: 280px;
             --header-height: 70px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
+            
+            /* Shimmer colors */
+            --shimmer-base: #f0f0f0;
+            --shimmer-highlight: #e8e8e8;
         }
 
         * { 
@@ -53,7 +57,209 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Mobile-First App Container */
+        /* ============================================
+           SHIMMER LOADING EFFECT
+           ============================================ */
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, 
+                var(--shimmer-base) 25%, 
+                var(--shimmer-highlight) 50%, 
+                var(--shimmer-base) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Shimmer Overlay - Full Page */
+        .shimmer-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 5000;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .shimmer-overlay.active {
+            display: flex;
+        }
+
+        /* Shimmer Header */
+        .shimmer-header {
+            padding: 12px 16px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: var(--header-height);
+        }
+
+        .shimmer-menu-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+        }
+
+        .shimmer-logo {
+            width: 120px;
+            height: 28px;
+            border-radius: 6px;
+        }
+
+        .shimmer-header-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .shimmer-action-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Shimmer Controls */
+        .shimmer-controls {
+            padding: 12px 16px;
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .shimmer-location {
+            height: 48px;
+            border-radius: var(--radius-sm);
+            width: 100%;
+        }
+
+        .shimmer-search {
+            height: 48px;
+            border-radius: var(--radius-sm);
+            width: 100%;
+        }
+
+        /* Shimmer Filters */
+        .shimmer-filters {
+            padding: 12px 16px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .shimmer-filter-btn {
+            width: 80px;
+            height: 40px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        /* Shimmer Cards Grid */
+        .shimmer-content {
+            padding: 20px 16px;
+            flex: 1;
+        }
+
+        .shimmer-section-title {
+            width: 180px;
+            height: 28px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .shimmer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 480px) {
+            .shimmer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .shimmer-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+        }
+
+        /* Shimmer Card */
+        .shimmer-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .shimmer-card-image {
+            height: 160px;
+            width: 100%;
+        }
+
+        .shimmer-card-content {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .shimmer-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .shimmer-card-title {
+            height: 24px;
+            width: 70%;
+            border-radius: 4px;
+        }
+
+        .shimmer-card-rating {
+            height: 20px;
+            width: 50px;
+            border-radius: 4px;
+        }
+
+        .shimmer-card-meta {
+            height: 16px;
+            width: 90%;
+            border-radius: 4px;
+        }
+
+        .shimmer-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .shimmer-card-price {
+            height: 16px;
+            width: 60px;
+            border-radius: 4px;
+        }
+
+        .shimmer-card-likes {
+            height: 16px;
+            width: 40px;
+            border-radius: 4px;
+        }
+
+        /* App Container */
         .app-container {
             display: flex;
             height: 100vh;
@@ -681,40 +887,38 @@
         }
 
         /* ============================================
-           MODAL SYSTEM - FIXED FOR DESKTOP & MOBILE
+           MODAL SYSTEM
            ============================================ */
 
-        /* Base modal styles - HIDDEN BY DEFAULT using display: none */
         .modal-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.6);
             z-index: 3000;
-            display: none; /* CRITICAL: Hidden by default */
+            display: none;
             opacity: 0;
             transition: opacity 0.3s ease;
             backdrop-filter: blur(4px);
         }
 
         .modal-overlay.active {
-            display: block; /* Show when active */
+            display: block;
             opacity: 1;
         }
 
-        /* Base modal - HIDDEN BY DEFAULT */
         .modal {
             position: fixed;
-            display: none; /* CRITICAL: Hidden by default */
+            display: none;
             background: var(--surface);
             z-index: 3001;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
         }
 
         .modal.active {
-            display: flex; /* Show when active - using flex for centering */
+            display: flex;
         }
 
-        /* Mobile: Bottom sheet style */
+        /* Mobile: Bottom sheet */
         @media (max-width: 767px) {
             .modal {
                 left: 0;
@@ -751,13 +955,13 @@
             }
         }
 
-        /* Desktop: Centered modal */
+        /* Desktop: Full width location modal */
         @media (min-width: 768px) {
             .modal {
                 top: 50%;
                 left: 50%;
                 width: 100%;
-                max-width: 440px;
+                max-width: 600px;
                 max-height: 80vh;
                 border-radius: var(--radius);
                 transform: translate(-50%, -50%) scale(0.95);
@@ -768,6 +972,12 @@
             .modal.active {
                 transform: translate(-50%, -50%) scale(1);
                 opacity: 1;
+            }
+
+            /* Location Modal - Full width variant */
+            .modal.location-fullwidth {
+                max-width: 800px;
+                width: 90vw;
             }
 
             .modal-header {
@@ -790,7 +1000,6 @@
             }
         }
 
-        /* Close button */
         .close-btn {
             width: 40px;
             height: 40px;
@@ -1118,6 +1327,34 @@
             .cart-drawer {
                 width: 400px;
             }
+
+            /* Shimmer desktop adjustments */
+            .shimmer-header {
+                padding: 16px 32px;
+            }
+
+            .shimmer-controls {
+                flex-direction: row;
+                padding: 12px 32px;
+            }
+
+            .shimmer-location {
+                min-width: 300px;
+                max-width: 400px;
+            }
+
+            .shimmer-search {
+                flex: 1;
+                max-width: 500px;
+            }
+
+            .shimmer-filters {
+                padding: 12px 32px;
+            }
+
+            .shimmer-content {
+                padding: 32px;
+            }
         }
 
         @media (min-width: 1024px) {
@@ -1128,6 +1365,42 @@
     </style>
 </head>
 <body>
+
+    <!-- SHIMMER LOADING OVERLAY -->
+    <div class="shimmer-overlay" id="shimmerOverlay">
+        <!-- Shimmer Header -->
+        <div class="shimmer-header">
+            <div class="shimmer shimmer-menu-btn"></div>
+            <div class="shimmer shimmer-logo"></div>
+            <div class="shimmer-header-actions">
+                <div class="shimmer shimmer-action-btn"></div>
+                <div class="shimmer shimmer-action-btn"></div>
+            </div>
+        </div>
+        
+        <!-- Shimmer Controls -->
+        <div class="shimmer-controls">
+            <div class="shimmer shimmer-location"></div>
+            <div class="shimmer shimmer-search"></div>
+        </div>
+        
+        <!-- Shimmer Filters -->
+        <div class="shimmer-filters">
+            <div class="shimmer shimmer-filter-btn"></div>
+            <div class="shimmer shimmer-filter-btn"></div>
+            <div class="shimmer shimmer-filter-btn"></div>
+            <div class="shimmer shimmer-filter-btn"></div>
+            <div class="shimmer shimmer-filter-btn"></div>
+        </div>
+        
+        <!-- Shimmer Content -->
+        <div class="shimmer-content">
+            <div class="shimmer shimmer-section-title"></div>
+            <div class="shimmer-grid" id="shimmerGrid">
+                <!-- Shimmer cards will be generated by JS -->
+            </div>
+        </div>
+    </div>
 
     <div id="toast">Message</div>
 
@@ -1257,11 +1530,9 @@
         </div>
     </div>
 
-    <!-- ============================================
-         LOCATION MODAL - Fixed for Desktop & Mobile
-         ============================================ -->
+    <!-- Location Modal - Full Width on Desktop -->
     <div class="modal-overlay" id="locationModalOverlay" onclick="closeLocationModal()"></div>
-    <div class="modal" id="locationModal">
+    <div class="modal location-fullwidth" id="locationModal">
         <div class="modal-header">
             <h3>Set Delivery Location</h3>
             <button class="close-btn" onclick="closeLocationModal()">
@@ -1297,9 +1568,7 @@
         </div>
     </div>
 
-    <!-- ============================================
-         SIGN IN MODAL - Fixed for Desktop & Mobile
-         ============================================ -->
+    <!-- Auth Modals -->
     <div class="modal-overlay" id="signInOverlay" onclick="closeAuthModals()"></div>
     <div class="modal" id="signInModal">
         <div class="modal-header">
@@ -1317,9 +1586,6 @@
         </div>
     </div>
 
-    <!-- ============================================
-         SIGN OUT MODAL - Fixed for Desktop & Mobile
-         ============================================ -->
     <div class="modal-overlay" id="signOutOverlay" onclick="closeAuthModals()"></div>
     <div class="modal" id="signOutModal">
         <div class="modal-header">
@@ -1397,13 +1663,50 @@
         let searchRadius = 10;
         let selectedRadius = 10;
 
+        // Generate shimmer cards
+        function generateShimmerCards(count = 6) {
+            const grid = document.getElementById('shimmerGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const card = document.createElement('div');
+                card.className = 'shimmer-card';
+                card.innerHTML = `
+                    <div class="shimmer shimmer-card-image"></div>
+                    <div class="shimmer-card-content">
+                        <div class="shimmer-card-header">
+                            <div class="shimmer shimmer-card-title"></div>
+                            <div class="shimmer shimmer-card-rating"></div>
+                        </div>
+                        <div class="shimmer shimmer-card-meta"></div>
+                        <div class="shimmer-card-footer">
+                            <div class="shimmer shimmer-card-price"></div>
+                            <div class="shimmer shimmer-card-likes"></div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        // Show/Hide shimmer loading
+        function showShimmer() {
+            generateShimmerCards(6);
+            document.getElementById('shimmerOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideShimmer() {
+            document.getElementById('shimmerOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
         // UI Functions
         window.toggleSidebar = () => {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebarOverlay').classList.toggle('open');
         };
 
-        // FIXED: Modal functions using display: none / block
         window.openLocationModal = () => {
             const overlay = document.getElementById('locationModalOverlay');
             const modal = document.getElementById('locationModal');
@@ -1597,7 +1900,6 @@
             });
         }
 
-        // FIXED: Auth modal functions using display: none / block
         window.closeAuthModals = () => {
             document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.modal').forEach(el => el.classList.remove('active'));
@@ -1691,10 +1993,14 @@
             return "all";
         }
 
+        // Load vendors with shimmer
         function loadVendors() {
+            showShimmer(); // Show shimmer while loading
+            
             onValue(ref(db, "vendors"), (snapshot) => {
                 const data = snapshot.val();
                 allVendors = [];
+                
                 if (data) {
                     Object.entries(data).forEach(([key, v]) => {
                         if (v.status === "active") {
@@ -1718,7 +2024,12 @@
                     });
                     loadLikeCounts();
                 }
-                applyFilters();
+                
+                // Small delay to ensure shimmer is visible for at least 500ms
+                setTimeout(() => {
+                    hideShimmer();
+                    applyFilters();
+                }, 500);
             });
         }
 
@@ -1876,6 +2187,7 @@
 
         // Initialize
         lucide.createIcons();
+        generateShimmerCards(6); // Pre-generate shimmer cards
         loadVendors();
         updateCartUI();
         
