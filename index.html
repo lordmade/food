@@ -1973,13 +1973,13 @@
             }
         };
 
-       window.handleCardClick = (vendorId, isOpen) => {
+    window.handleCardClick = (vendorId, isOpen) => {
     if (!isOpen) {
         showToast("Store is closed");
         return;
     }
-    // Navigate to store page with vendor ID in path (GitHub Pages format)
-    window.location.href = `store/${vendorId}`;
+    // Navigate to menu page with vendor ID as query parameter
+    window.location.href = `menu.html?vendor=${vendorId}`;
 };
         function mapCategory(cuisine = "") {
             const lower = cuisine.toLowerCase();
