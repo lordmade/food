@@ -767,6 +767,41 @@
             background: var(--surface);
         }
 
+        .cart-summary {
+            background: var(--surface2);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .cart-summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .prep-time-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-light);
+            color: var(--accent-dark);
+            padding: 8px 12px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
         .checkout-btn {
             width: 100%;
             background: var(--accent);
@@ -789,6 +824,41 @@
         .checkout-btn:disabled {
             background: var(--border);
             cursor: not-allowed;
+        }
+
+        /* Quantity Controls */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 4px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: var(--surface2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .qty-btn:active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .qty-value {
+            font-weight: 700;
+            min-width: 24px;
+            text-align: center;
         }
 
         /* Desktop Styles */
@@ -979,17 +1049,14 @@
             <p style="text-align: center; color: var(--dim); margin-top: 80px;">Your cart is empty</p>
         </div>
         <div class="cart-footer">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 1.1rem;">
-                <span style="color: var(--dim); font-weight: 600;">Total</span>
-                <span id="cartTotal" style="font-weight: 800;">R 0.00</span>
-            </div>
+            <div id="cartSummary"></div>
             <button class="checkout-btn" id="checkoutBtn" disabled onclick="handleCheckout()">Checkout</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, onValue, get, set, push, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -1017,10 +1084,13 @@
 
         let cart = [];
         let currentUser = null;
+        let currentUserId = null;
         let menuData = {};
         let currentCategory = 'all';
         let allMenuItems = [];
         let categories = new Set(['all']);
+        let vendorInfo = null;
+        let cartRef = null;
 
         // Show/Hide shimmer loading
         function showShimmer() {
@@ -1041,8 +1111,8 @@
                 // Load vendor info from vendors/{vendorId}
                 const vendorSnapshot = await get(ref(db, `vendors/${vendorId}`));
                 if (vendorSnapshot.exists()) {
-                    const vendor = vendorSnapshot.val();
-                    displayVendorInfo(vendor);
+                    vendorInfo = vendorSnapshot.val();
+                    displayVendorInfo(vendorInfo);
                 } else {
                     showToast("Restaurant not found");
                     setTimeout(() => window.location.href = 'index.html', 2000);
@@ -1166,7 +1236,7 @@
                                         ${item.prepTime ? `<span><i data-lucide="clock" style="width:12px;height:12px;"></i> ${item.prepTime} min</span>` : ''}
                                     </div>
                                     <div class="menu-card-footer">
-                                        <button class="add-btn" onclick="addToCart('${item.id}', '${item.name.replace(/'/g, "\'")}', ${item.price})">
+                                        <button class="add-btn" onclick="addToCart('${item.id}', '${item.name.replace(/'/g, "\'")}', ${item.price}, ${item.prepTime || 0})">
                                             <i data-lucide="plus"></i> Add
                                         </button>
                                     </div>
@@ -1202,55 +1272,222 @@
             window.location.href = 'index.html';
         };
 
-        window.addToCart = (itemId, name, price) => {
-            cart.push({ itemId, name, price, vendorId });
+        // Calculate average prep time from cart items
+        function calculateAveragePrepTime() {
+            if (cart.length === 0) return 0;
+            const totalPrepTime = cart.reduce((sum, item) => sum + (item.prepTime || 0), 0);
+            return Math.ceil(totalPrepTime / cart.length);
+        }
+
+        // Get vendor's average prep time from vendor panel
+        function getVendorAveragePrepTime() {
+            // Check vendor's avgPrepTime field
+            if (vendorInfo && vendorInfo.avgPrepTime) {
+                return parseInt(vendorInfo.avgPrepTime) || 0;
+            }
+            // Fallback: calculate from menu items
+            if (allMenuItems.length > 0) {
+                const times = allMenuItems.map(item => parseInt(item.prepTime) || 0).filter(t => t > 0);
+                if (times.length > 0) {
+                    return Math.ceil(times.reduce((a, b) => a + b, 0) / times.length);
+                }
+            }
+            return 0;
+        }
+
+        window.addToCart = async (itemId, name, price, prepTime = 0) => {
+            const existingItem = cart.find(item => item.itemId === itemId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ 
+                    itemId, 
+                    name, 
+                    price, 
+                    prepTime: parseInt(prepTime) || 0,
+                    quantity: 1,
+                    vendorId,
+                    addedAt: Date.now()
+                });
+            }
+
+            // Save to Firebase if user is logged in
+            if (currentUserId) {
+                await saveCartToFirebase();
+            }
+
             updateCartUI();
             showToast(`Added ${name}`);
+        };
+
+        async function saveCartToFirebase() {
+            if (!currentUserId) return;
+            try {
+                await set(ref(db, `carts/${currentUserId}`), {
+                    items: cart,
+                    vendorId: vendorId,
+                    updatedAt: Date.now()
+                });
+            } catch (error) {
+                console.error("Error saving cart:", error);
+            }
+        }
+
+        async function loadCartFromFirebase() {
+            if (!currentUserId) return;
+            try {
+                const snapshot = await get(ref(db, `carts/${currentUserId}`));
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    // Only load cart if it's for the same vendor
+                    if (data.vendorId === vendorId && data.items) {
+                        cart = data.items;
+                        updateCartUI();
+                    }
+                }
+            } catch (error) {
+                console.error("Error loading cart:", error);
+            }
+        }
+
+        async function updateCartItemQuantity(index, newQuantity) {
+            if (newQuantity < 1) {
+                cart.splice(index, 1);
+            } else {
+                cart[index].quantity = newQuantity;
+            }
+
+            if (currentUserId) {
+                await saveCartToFirebase();
+            }
+            updateCartUI();
+        }
+
+        window.removeFromCart = async (index) => {
+            cart.splice(index, 1);
+            if (currentUserId) {
+                await saveCartToFirebase();
+            }
+            updateCartUI();
         };
 
         function updateCartUI() {
             const body = document.getElementById('cartBody');
             const countEl = document.getElementById('cartCount');
-            const totalEl = document.getElementById('cartTotal');
             const checkoutBtn = document.getElementById('checkoutBtn');
+            const summaryEl = document.getElementById('cartSummary');
 
-            countEl.textContent = cart.length;
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            totalEl.textContent = `R ${total.toFixed(2)}`;
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const deliveryFee = parseFloat(vendorInfo?.deliveryFee || 0);
+            const total = subtotal + deliveryFee;
+
+            countEl.textContent = totalItems;
             checkoutBtn.disabled = cart.length === 0;
+
+            // Calculate prep time
+            const avgPrepTime = calculateAveragePrepTime();
+            const vendorAvgPrep = getVendorAveragePrepTime();
+            const displayPrepTime = avgPrepTime > 0 ? avgPrepTime : vendorAvgPrep;
 
             if (cart.length === 0) {
                 body.innerHTML = `<p style="text-align:center;color:var(--dim);margin-top:80px;">Your cart is empty</p>`;
+                summaryEl.innerHTML = '';
             } else {
                 body.innerHTML = cart.map((item, index) => `
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:12px;background:var(--surface2);border-radius:12px;">
-                        <div>
+                        <div style="flex:1;">
                             <div style="font-weight:700;">${item.name}</div>
-                            <div style="color:var(--dim);font-size:0.85rem;">R${item.price.toFixed(2)}</div>
+                            <div style="color:var(--dim);font-size:0.85rem;">R${item.price.toFixed(2)} each</div>
                         </div>
-                        <button onclick="removeFromCart(${index})" style="background:none;border:none;color:var(--danger);cursor:pointer;padding:8px;">
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity - 1})">
+                                <i data-lucide="minus" style="width:14px;height:14px;"></i>
+                            </button>
+                            <span class="qty-value">${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity + 1})">
+                                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+                            </button>
+                        </div>
+                        <button onclick="removeFromCart(${index})" style="background:none;border:none;color:var(--danger);cursor:pointer;padding:8px;margin-left:8px;">
                             <i data-lucide="trash-2" style="width:18px;height:18px;"></i>
                         </button>
                     </div>
                 `).join('');
+
+                // Show prep time badge if available
+                const prepTimeHtml = displayPrepTime > 0 
+                    ? `<div class="prep-time-badge"><i data-lucide="clock" style="width:14px;height:14px;"></i> Est. prep time: ${displayPrepTime} min</div>` 
+                    : '';
+
+                summaryEl.innerHTML = `
+                    ${prepTimeHtml}
+                    <div class="cart-summary">
+                        <div class="cart-summary-row">
+                            <span>Subtotal (${totalItems} items)</span>
+                            <span>R ${subtotal.toFixed(2)}</span>
+                        </div>
+                        <div class="cart-summary-row">
+                            <span>Delivery Fee</span>
+                            <span>R ${deliveryFee.toFixed(2)}</span>
+                        </div>
+                        <div class="cart-summary-row">
+                            <span>Total</span>
+                            <span style="color:var(--accent);">R ${total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
                 lucide.createIcons();
             }
         }
 
-        window.removeFromCart = (index) => {
-            cart.splice(index, 1);
-            updateCartUI();
+        window.updateCartItemQuantity = async (index, newQuantity) => {
+            await updateCartItemQuantity(index, newQuantity);
         };
 
         window.toggleCart = () => {
             document.getElementById('cartDrawer').classList.toggle('open');
         };
 
-        window.handleCheckout = () => {
+        window.handleCheckout = async () => {
             if (!currentUser) {
                 showToast("Please sign in to checkout");
-            } else {
-                showToast("Processing checkout...");
+                return;
+            }
+
+            if (cart.length === 0) {
+                showToast("Your cart is empty");
+                return;
+            }
+
+            try {
+                // Create order
+                const orderData = {
+                    userId: currentUserId,
+                    vendorId: vendorId,
+                    vendorName: vendorInfo?.name || '',
+                    items: cart,
+                    subtotal: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                    deliveryFee: parseFloat(vendorInfo?.deliveryFee || 0),
+                    total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + parseFloat(vendorInfo?.deliveryFee || 0),
+                    status: 'pending',
+                    createdAt: Date.now(),
+                    estimatedPrepTime: calculateAveragePrepTime() || getVendorAveragePrepTime()
+                };
+
+                const newOrderRef = push(ref(db, 'orders'));
+                await set(newOrderRef, orderData);
+
+                // Clear cart
+                cart = [];
+                await saveCartToFirebase();
+                updateCartUI();
+                toggleCart();
+                showToast("Order placed successfully!");
+            } catch (error) {
+                console.error("Checkout error:", error);
+                showToast("Failed to place order");
             }
         };
 
@@ -1264,6 +1501,14 @@
         // Auth state
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
+            if (user) {
+                currentUserId = user.uid;
+                loadCartFromFirebase();
+            } else {
+                currentUserId = null;
+                cart = [];
+                updateCartUI();
+            }
         });
 
         // Initialize
