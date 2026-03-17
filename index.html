@@ -518,6 +518,12 @@
             padding: 12px 0;
             background: var(--bg);
             border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .filters-container {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
         .filters-scroll {
             display: flex;
@@ -526,6 +532,45 @@
             padding: 4px 16px;
             scroll-padding: 16px;
             -webkit-overflow-scrolling: touch;
+            flex: 1;
+            scrollbar-width: none;
+        }
+        .filters-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .filter-arrow {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+            z-index: 10;
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+        .filter-arrow:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .filter-arrow:active {
+            transform: scale(0.95);
+        }
+        .filter-arrow.left {
+            margin-left: 8px;
+        }
+        .filter-arrow.right {
+            margin-right: 8px;
+        }
+        .filter-arrow.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
         .cat-btn {
             flex: 0 0 auto;
@@ -590,15 +635,10 @@
         .r-card:active:not(.closed) {
             transform: scale(0.98);
         }
-        /* CLOSED: fully block all interaction */
         .r-card.closed {
             cursor: not-allowed;
-            opacity: 0.75;
+            opacity: 0.6;
             pointer-events: none;
-        }
-        /* Re-enable pointer events only on the like button inside closed cards */
-        .r-card.closed .like-btn {
-            pointer-events: auto;
         }
         .r-img-wrap {
             position: relative;
@@ -612,27 +652,18 @@
         .closed-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.60);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 10;
             backdrop-filter: blur(3px);
-            gap: 8px;
-        }
-        .closed-overlay-text {
-            color: white;
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
         .half-moon-icon {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             color: white;
-            opacity: 0.9;
+            opacity: 1;
         }
         .closed-badge {
             position: absolute;
@@ -1178,6 +1209,9 @@
             .shimmer-content {
                 padding: 32px;
             }
+            .filter-arrow {
+                display: flex;
+            }
         }
         @media (min-width: 1024px) {
             .restaurants-grid {
@@ -1292,7 +1326,15 @@
                     </div>
                 </div>
                 <div class="filters-wrap" id="foodFilters">
-                    <div class="filters-scroll no-scrollbar" id="categoryFilters">
+                    <div class="filters-container">
+                        <button class="filter-arrow left" id="filterArrowLeft" onclick="scrollFilters(-200)">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <div class="filters-scroll no-scrollbar" id="categoryFilters">
+                        </div>
+                        <button class="filter-arrow right" id="filterArrowRight" onclick="scrollFilters(200)">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
                     </div>
                 </div>
             </header>
@@ -1462,72 +1504,24 @@
             "Other": "🍽️"
         };
 
-        /**
-         * NORMALISE a raw category string from the vendor app into a
-         * canonical filter label.
-         *
-         * Strategy:
-         *  1. If the raw value already matches a known canonical label
-         *     (case-insensitive) → use it.
-         *  2. Otherwise check whether any canonical label appears as a
-         *     word/substring inside the raw value (e.g. "Crusty Burger" → "Burgers",
-         *     "Pizza Palace" → "Pizza").
-         *  3. If still no match, return the raw value as-is (Title-cased)
-         *     so it still appears as a filter tab.
-         */
-        function normaliseCategory(raw) {
-            if (!raw || !raw.trim()) return null;
-            const trimmed = raw.trim();
-            const lower = trimmed.toLowerCase();
-
-            // Step 1: exact match (case-insensitive)
-            for (const canonical of Object.keys(categoryEmojiMap)) {
-                if (canonical.toLowerCase() === lower) return canonical;
-            }
-
-            // Step 2: canonical label appears inside the raw value
-            for (const canonical of Object.keys(categoryEmojiMap)) {
-                // also check singular vs plural variants
-                const variants = [
-                    canonical.toLowerCase(),
-                    // strip trailing 's' for singular match
-                    canonical.toLowerCase().replace(/s$/, '')
-                ];
-                for (const variant of variants) {
-                    if (variant.length >= 4 && lower.includes(variant)) {
-                        return canonical;
-                    }
-                }
-            }
-
-            // Step 3: return title-cased raw value
-            return trimmed.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
-        }
-
-        // Get all normalised shopCategories for a vendor (with fallback to cuisine)
+        // === Get shopCategories from vendor (matches Firebase node from vendor panel) ===
         function getVendorCategories(vendor) {
-            let raw = [];
+            // Primary: use shopCategories array from vendor profile (set in vendor panel)
             if (Array.isArray(vendor.shopCategories) && vendor.shopCategories.length > 0) {
-                raw = vendor.shopCategories;
-            } else if (Array.isArray(vendor.categories) && vendor.categories.length > 0) {
-                raw = vendor.categories;
-            } else if (vendor.cuisine && vendor.cuisine.trim()) {
-                raw = [vendor.cuisine.trim()];
+                return vendor.shopCategories;
             }
-            // Normalise every entry and deduplicate
-            const seen = new Set();
-            const result = [];
-            for (const r of raw) {
-                const norm = normaliseCategory(r);
-                if (norm && !seen.has(norm)) {
-                    seen.add(norm);
-                    result.push(norm);
-                }
+            // Fallback: use categories array
+            if (Array.isArray(vendor.categories) && vendor.categories.length > 0) {
+                return vendor.categories;
             }
-            return result;
+            // Fallback: use single cuisine field
+            if (vendor.cuisine && vendor.cuisine.trim()) {
+                return [vendor.cuisine.trim()];
+            }
+            return [];
         }
 
-        // Check if vendor matches a category filter
+        // === NEW: Check if vendor matches a category filter ===
         function vendorMatchesCategory(vendor, filterCategory) {
             if (filterCategory === 'all') return true;
             const vendorCats = getVendorCategories(vendor);
@@ -1713,21 +1707,26 @@
             applyFilters();
         };
 
-        // Build category filter tabs from normalised vendor categories
+        // === Build category filter tabs from vendor shopCategories (matches Firebase) ===
         function buildDynamicCategoryFilters() {
             const container = document.getElementById('categoryFilters');
             container.innerHTML = `<button class="cat-btn active" onclick="filterCategory('all', this)">🍽️ All</button>`;
 
+            // Collect all unique shopCategories from all restaurant vendors
             const restaurantVendors = allVendors.filter(v => v.storeType === 'restaurant');
             const allCatsSet = new Set();
 
             restaurantVendors.forEach(v => {
-                // getVendorCategories already returns normalised labels
-                getVendorCategories(v).forEach(cat => {
-                    if (cat) allCatsSet.add(cat);
+                // Use shopCategories array (set in vendor panel) - matches Firebase node
+                const cats = getVendorCategories(v);
+                cats.forEach(cat => {
+                    if (cat && cat.trim()) {
+                        allCatsSet.add(cat.trim());
+                    }
                 });
             });
 
+            // Sort and create buttons
             const sortedCats = [...allCatsSet].sort();
 
             sortedCats.forEach(category => {
@@ -1738,7 +1737,41 @@
                 btn.onclick = () => filterCategory(category, btn);
                 container.appendChild(btn);
             });
+
+            // Update arrow visibility after building filters
+            setTimeout(() => updateFilterArrows(), 100);
         }
+
+        // Scroll filters function
+        window.scrollFilters = (distance) => {
+            const container = document.getElementById('categoryFilters');
+            container.scrollBy({ left: distance, behavior: 'smooth' });
+        };
+
+        // Update arrow visibility based on scroll position
+        function updateFilterArrows() {
+            const container = document.getElementById('categoryFilters');
+            const leftArrow = document.getElementById('filterArrowLeft');
+            const rightArrow = document.getElementById('filterArrowRight');
+            
+            if (!container || !leftArrow || !rightArrow) return;
+            
+            const isScrollable = container.scrollWidth > container.clientWidth;
+            const isAtStart = container.scrollLeft <= 0;
+            const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+            
+            // Show/hide arrows based on scroll position
+            leftArrow.classList.toggle('hidden', isAtStart || !isScrollable);
+            rightArrow.classList.toggle('hidden', isAtEnd || !isScrollable);
+        }
+
+        // Listen for scroll events to update arrow visibility
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('categoryFilters');
+            if (container) {
+                container.addEventListener('scroll', updateFilterArrows);
+            }
+        });
 
         // Auth
         onAuthStateChanged(auth, (user) => {
@@ -1821,9 +1854,8 @@
             } catch (error) { showToast("Failed to update"); }
         };
 
-        // handleCardClick is kept for open stores only; closed cards use pointer-events:none
         window.handleCardClick = (vendorId, isOpen) => {
-            if (!isOpen) { showToast("Store is currently closed"); return; }
+            if (!isOpen) { showToast("Store is closed"); return; }
             window.location.href = `menu.html?vendor=${vendorId}`;
         };
 
@@ -1836,19 +1868,32 @@
                 if (data) {
                     Object.entries(data).forEach(([key, v]) => {
                         if (v.status === "active") {
+                            // === Use shopCategories from vendor panel (matches Firebase node) ===
+                            const shopCats = Array.isArray(v.shopCategories) ? v.shopCategories : [];
+                            // Fallback to categories if shopCategories is empty
+                            const categories = shopCats.length > 0 ? shopCats : (Array.isArray(v.categories) ? v.categories : []);
+                            
+                            // === Check if store is open based on manualStoreStatus or isOpen ===
+                            let isOpen = true;
+                            if (v.manualStoreStatus === 'closed') {
+                                isOpen = false;
+                            } else if (v.isOpen === false) {
+                                isOpen = false;
+                            }
+                            
                             allVendors.push({
                                 key,
                                 name: v.name || "Unnamed Vendor",
                                 storeType: v.storeType ? v.storeType.toLowerCase() : 'restaurant',
                                 cuisine: v.cuisine || "Various",
-                                shopCategories: Array.isArray(v.shopCategories) ? v.shopCategories : (Array.isArray(v.categories) ? v.categories : []),
+                                shopCategories: shopCats,
+                                categories: categories,
                                 image: v.imageURL || `https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800`,
                                 eta: v.deliveryTime || "20-35",
                                 rating: v.rating || (4.3 + Math.random() * 0.6).toFixed(1),
                                 deliveryFee: v.deliveryFee || 20,
                                 minOrder: v.minOrder || 50,
-                                // Explicitly coerce to boolean — false/undefined/"false"/0 all mean closed
-                                isOpen: v.isOpen === true || v.isOpen === "true" || v.isOpen === 1,
+                                isOpen: isOpen,
                                 likes: 0,
                                 lat: v.latitude || v.lat || null,
                                 lng: v.longitude || v.lng || null
@@ -1879,7 +1924,7 @@
 
         function generateCardHTML(v) {
             const isLiked = userLikes.has(v.key);
-            // Show normalised categories as tags
+            // Show categories as tags, fallback to cuisine
             const vendorCats = getVendorCategories(v);
             const categoryDisplay = vendorCats.length > 0 ? vendorCats.join(' · ') : v.cuisine;
             const categoryTags = vendorCats.slice(0, 4).map(cat => {
@@ -1890,14 +1935,11 @@
                 `<div class="distance-badge"><i data-lucide="navigation" style="width:12px;height:12px;"></i>${v.distance.toFixed(1)} km</div>` : '';
 
             return `
-                <div class="r-card ${v.isOpen ? '' : 'closed'}" onclick="handleCardClick('${v.key}', ${v.isOpen})">
+                <div class="r-card ${v.isOpen ? '' : 'closed'}" ${v.isOpen ? `onclick="handleCardClick('${v.key}', ${v.isOpen})"` : ''}>
                     <div class="r-img-wrap">
                         <img src="${v.image}" alt="${v.name}" loading="lazy">
                         ${!v.isOpen ? `
-                            <div class="closed-overlay">
-                                <i data-lucide="moon" class="half-moon-icon"></i>
-                                <span class="closed-overlay-text">Currently Closed</span>
-                            </div>
+                            <div class="closed-overlay"><i data-lucide="moon" class="half-moon-icon"></i></div>
                             <div class="closed-badge">Closed</div>
                         ` : ''}
                         ${distance}
@@ -1921,6 +1963,7 @@
             `;
         }
 
+        // === applyFilters uses shopCategories from Firebase for matching ===
         function applyFilters() {
             let filtered = allVendors.filter(v => v.storeType === currentStoreType);
 
@@ -1935,7 +1978,7 @@
                 }).filter(v => v.distance === null || v.distance <= searchRadius);
             }
 
-            // Category filter uses normalised categories
+            // Category filter uses shopCategories array (from vendor panel Firebase node)
             if (currentStoreType === 'restaurant' && currentFilter !== 'all') {
                 filtered = filtered.filter(v => vendorMatchesCategory(v, currentFilter));
             }
@@ -1959,7 +2002,7 @@
 
             emptyState.style.display = "none";
 
-            // Sort: open first, then by distance, then by rating
+            // Sort: open stores first, then by distance, then by rating
             filtered.sort((a, b) => {
                 if (a.isOpen !== b.isOpen) return a.isOpen ? -1 : 1;
                 if (a.distance !== null && b.distance !== null) return a.distance - b.distance;
@@ -1978,6 +2021,7 @@
             document.getElementById("restaurantsGrid").innerHTML = popular.map(generateCardHTML).join('');
 
             lucide.createIcons();
+            updateFilterArrows();
         }
 
         window.filterCategory = (cat, btn) => {
