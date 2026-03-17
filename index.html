@@ -590,10 +590,15 @@
         .r-card:active:not(.closed) {
             transform: scale(0.98);
         }
+        /* CLOSED: fully block all interaction */
         .r-card.closed {
             cursor: not-allowed;
-            opacity: 0.6;
+            opacity: 0.75;
             pointer-events: none;
+        }
+        /* Re-enable pointer events only on the like button inside closed cards */
+        .r-card.closed .like-btn {
+            pointer-events: auto;
         }
         .r-img-wrap {
             position: relative;
@@ -607,18 +612,27 @@
         .closed-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.60);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 10;
             backdrop-filter: blur(3px);
+            gap: 8px;
+        }
+        .closed-overlay-text {
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
         .half-moon-icon {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             color: white;
-            opacity: 1;
+            opacity: 0.9;
         }
         .closed-badge {
             position: absolute;
@@ -1448,24 +1462,72 @@
             "Other": "🍽️"
         };
 
-        // === NEW: Get all shopCategories for a vendor (with fallback to cuisine) ===
-        function getVendorCategories(vendor) {
-            // Primary: use shopCategories array from vendor profile
-            if (Array.isArray(vendor.shopCategories) && vendor.shopCategories.length > 0) {
-                return vendor.shopCategories;
+        /**
+         * NORMALISE a raw category string from the vendor app into a
+         * canonical filter label.
+         *
+         * Strategy:
+         *  1. If the raw value already matches a known canonical label
+         *     (case-insensitive) → use it.
+         *  2. Otherwise check whether any canonical label appears as a
+         *     word/substring inside the raw value (e.g. "Crusty Burger" → "Burgers",
+         *     "Pizza Palace" → "Pizza").
+         *  3. If still no match, return the raw value as-is (Title-cased)
+         *     so it still appears as a filter tab.
+         */
+        function normaliseCategory(raw) {
+            if (!raw || !raw.trim()) return null;
+            const trimmed = raw.trim();
+            const lower = trimmed.toLowerCase();
+
+            // Step 1: exact match (case-insensitive)
+            for (const canonical of Object.keys(categoryEmojiMap)) {
+                if (canonical.toLowerCase() === lower) return canonical;
             }
-            // Fallback: use categories array (from registration)
-            if (Array.isArray(vendor.categories) && vendor.categories.length > 0) {
-                return vendor.categories;
+
+            // Step 2: canonical label appears inside the raw value
+            for (const canonical of Object.keys(categoryEmojiMap)) {
+                // also check singular vs plural variants
+                const variants = [
+                    canonical.toLowerCase(),
+                    // strip trailing 's' for singular match
+                    canonical.toLowerCase().replace(/s$/, '')
+                ];
+                for (const variant of variants) {
+                    if (variant.length >= 4 && lower.includes(variant)) {
+                        return canonical;
+                    }
+                }
             }
-            // Fallback: use single cuisine field
-            if (vendor.cuisine && vendor.cuisine.trim()) {
-                return [vendor.cuisine.trim()];
-            }
-            return [];
+
+            // Step 3: return title-cased raw value
+            return trimmed.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
         }
 
-        // === NEW: Check if vendor matches a category filter ===
+        // Get all normalised shopCategories for a vendor (with fallback to cuisine)
+        function getVendorCategories(vendor) {
+            let raw = [];
+            if (Array.isArray(vendor.shopCategories) && vendor.shopCategories.length > 0) {
+                raw = vendor.shopCategories;
+            } else if (Array.isArray(vendor.categories) && vendor.categories.length > 0) {
+                raw = vendor.categories;
+            } else if (vendor.cuisine && vendor.cuisine.trim()) {
+                raw = [vendor.cuisine.trim()];
+            }
+            // Normalise every entry and deduplicate
+            const seen = new Set();
+            const result = [];
+            for (const r of raw) {
+                const norm = normaliseCategory(r);
+                if (norm && !seen.has(norm)) {
+                    seen.add(norm);
+                    result.push(norm);
+                }
+            }
+            return result;
+        }
+
+        // Check if vendor matches a category filter
         function vendorMatchesCategory(vendor, filterCategory) {
             if (filterCategory === 'all') return true;
             const vendorCats = getVendorCategories(vendor);
@@ -1651,25 +1713,21 @@
             applyFilters();
         };
 
-        // === NEW: Build category filter tabs from vendor shopCategories arrays ===
+        // Build category filter tabs from normalised vendor categories
         function buildDynamicCategoryFilters() {
             const container = document.getElementById('categoryFilters');
             container.innerHTML = `<button class="cat-btn active" onclick="filterCategory('all', this)">🍽️ All</button>`;
 
-            // Collect all unique categories from all restaurant vendors
             const restaurantVendors = allVendors.filter(v => v.storeType === 'restaurant');
             const allCatsSet = new Set();
 
             restaurantVendors.forEach(v => {
-                const cats = getVendorCategories(v);
-                cats.forEach(cat => {
-                    if (cat && cat.trim()) {
-                        allCatsSet.add(cat.trim());
-                    }
+                // getVendorCategories already returns normalised labels
+                getVendorCategories(v).forEach(cat => {
+                    if (cat) allCatsSet.add(cat);
                 });
             });
 
-            // Sort and create buttons
             const sortedCats = [...allCatsSet].sort();
 
             sortedCats.forEach(category => {
@@ -1763,8 +1821,9 @@
             } catch (error) { showToast("Failed to update"); }
         };
 
+        // handleCardClick is kept for open stores only; closed cards use pointer-events:none
         window.handleCardClick = (vendorId, isOpen) => {
-            if (!isOpen) { showToast("Store is closed"); return; }
+            if (!isOpen) { showToast("Store is currently closed"); return; }
             window.location.href = `menu.html?vendor=${vendorId}`;
         };
 
@@ -1782,14 +1841,14 @@
                                 name: v.name || "Unnamed Vendor",
                                 storeType: v.storeType ? v.storeType.toLowerCase() : 'restaurant',
                                 cuisine: v.cuisine || "Various",
-                                // === NEW: store the shopCategories array ===
                                 shopCategories: Array.isArray(v.shopCategories) ? v.shopCategories : (Array.isArray(v.categories) ? v.categories : []),
                                 image: v.imageURL || `https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800`,
                                 eta: v.deliveryTime || "20-35",
                                 rating: v.rating || (4.3 + Math.random() * 0.6).toFixed(1),
                                 deliveryFee: v.deliveryFee || 20,
                                 minOrder: v.minOrder || 50,
-                                isOpen: v.isOpen !== false,
+                                // Explicitly coerce to boolean — false/undefined/"false"/0 all mean closed
+                                isOpen: v.isOpen === true || v.isOpen === "true" || v.isOpen === 1,
                                 likes: 0,
                                 lat: v.latitude || v.lat || null,
                                 lng: v.longitude || v.lng || null
@@ -1820,7 +1879,7 @@
 
         function generateCardHTML(v) {
             const isLiked = userLikes.has(v.key);
-            // Show categories as tags, fallback to cuisine
+            // Show normalised categories as tags
             const vendorCats = getVendorCategories(v);
             const categoryDisplay = vendorCats.length > 0 ? vendorCats.join(' · ') : v.cuisine;
             const categoryTags = vendorCats.slice(0, 4).map(cat => {
@@ -1831,11 +1890,14 @@
                 `<div class="distance-badge"><i data-lucide="navigation" style="width:12px;height:12px;"></i>${v.distance.toFixed(1)} km</div>` : '';
 
             return `
-                <div class="r-card ${v.isOpen ? '' : 'closed'}" ${v.isOpen ? `onclick="handleCardClick('${v.key}', ${v.isOpen})"` : ''}>
+                <div class="r-card ${v.isOpen ? '' : 'closed'}" onclick="handleCardClick('${v.key}', ${v.isOpen})">
                     <div class="r-img-wrap">
                         <img src="${v.image}" alt="${v.name}" loading="lazy">
                         ${!v.isOpen ? `
-                            <div class="closed-overlay"><i data-lucide="moon" class="half-moon-icon"></i></div>
+                            <div class="closed-overlay">
+                                <i data-lucide="moon" class="half-moon-icon"></i>
+                                <span class="closed-overlay-text">Currently Closed</span>
+                            </div>
                             <div class="closed-badge">Closed</div>
                         ` : ''}
                         ${distance}
@@ -1859,7 +1921,6 @@
             `;
         }
 
-        // === UPDATED: applyFilters uses shopCategories for matching ===
         function applyFilters() {
             let filtered = allVendors.filter(v => v.storeType === currentStoreType);
 
@@ -1874,7 +1935,7 @@
                 }).filter(v => v.distance === null || v.distance <= searchRadius);
             }
 
-            // === NEW: Category filter uses shopCategories array ===
+            // Category filter uses normalised categories
             if (currentStoreType === 'restaurant' && currentFilter !== 'all') {
                 filtered = filtered.filter(v => vendorMatchesCategory(v, currentFilter));
             }
