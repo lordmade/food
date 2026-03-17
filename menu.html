@@ -22,23 +22,22 @@
             --accent-light: #e8f8ef;
             --yellow: #ffc107;
             --danger: #ff3b30;
-            --heart: #ff2d55;
-            --radius: 16px;
-            --radius-sm: 12px;
-            --radius-xs: 8px;
+            --radius: 14px;
+            --radius-sm: 10px;
+            --radius-xs: 6px;
             --shadow: 0 1px 3px rgba(0,0,0,0.06);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
             --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
             --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            --header-height: 64px;
+            --header-height: 56px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
             --shimmer-base: #f0f0f0;
             --shimmer-highlight: #e8e8e8;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
+        * {
+            box-sizing: border-box;
+            margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
@@ -56,11 +55,17 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
         /* ============================================
-           SHIMMER LOADING EFFECT
+           SHIMMER
            ============================================ */
         @keyframes shimmer {
             0% { background-position: -200% 0; }
@@ -68,11 +73,7 @@
         }
 
         .shimmer {
-            background: linear-gradient(90deg, 
-                var(--shimmer-base) 25%, 
-                var(--shimmer-highlight) 50%, 
-                var(--shimmer-base) 75%
-            );
+            background: linear-gradient(90deg, var(--shimmer-base) 25%, var(--shimmer-highlight) 50%, var(--shimmer-base) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
@@ -92,90 +93,90 @@
         }
 
         .shimmer-header {
-            padding: 12px 16px;
+            padding: 8px 14px;
             background: var(--surface);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             height: var(--header-height);
         }
 
         .shimmer-back-btn {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             flex-shrink: 0;
         }
 
         .shimmer-title {
-            width: 150px;
-            height: 22px;
-            border-radius: 6px;
+            width: 120px;
+            height: 18px;
+            border-radius: 4px;
         }
 
         .shimmer-header-actions {
             margin-left: auto;
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .shimmer-action-btn {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
         }
 
         .shimmer-restaurant-info {
             padding: 0;
             background: var(--surface);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .shimmer-restaurant-image {
             width: 100%;
-            height: 200px;
+            height: 160px;
         }
 
         .shimmer-restaurant-name {
-            width: 70%;
-            height: 26px;
-            border-radius: 6px;
-            margin: 16px 16px 12px;
+            width: 65%;
+            height: 20px;
+            border-radius: 4px;
+            margin: 12px 14px 8px;
         }
 
         .shimmer-restaurant-meta {
-            width: 50%;
-            height: 16px;
+            width: 45%;
+            height: 14px;
             border-radius: 4px;
-            margin: 0 16px 8px;
+            margin: 0 14px 6px;
         }
 
         .shimmer-categories {
-            padding: 12px 16px;
+            padding: 8px 14px;
             display: flex;
-            gap: 10px;
+            gap: 0;
             overflow-x: auto;
             background: var(--surface);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .shimmer-category-btn {
-            width: 90px;
-            height: 36px;
-            border-radius: 100px;
+            width: 70px;
+            height: 32px;
+            border-radius: 0;
             flex-shrink: 0;
         }
 
         .shimmer-content {
-            padding: 16px;
+            padding: 10px 14px;
             flex: 1;
         }
 
         .shimmer-section-title {
-            width: 120px;
-            height: 22px;
-            border-radius: 6px;
-            margin-bottom: 12px;
+            width: 100px;
+            height: 16px;
+            border-radius: 4px;
+            margin-bottom: 8px;
         }
 
         .shimmer-menu-list {
@@ -183,60 +184,59 @@
             flex-direction: column;
             gap: 1px;
             background: var(--border-light);
-            border-radius: var(--radius);
+            border-radius: var(--radius-sm);
             overflow: hidden;
         }
 
         .shimmer-list-item {
             display: flex;
             background: var(--surface);
-            padding: 16px;
-            gap: 12px;
+            padding: 10px 14px;
+            gap: 10px;
         }
 
         .shimmer-list-item-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .shimmer-list-item-title {
-            height: 18px;
+            height: 14px;
             width: 70%;
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .shimmer-list-item-desc {
-            height: 14px;
+            height: 10px;
             width: 100%;
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .shimmer-list-item-desc2 {
-            height: 14px;
-            width: 60%;
-            border-radius: 4px;
+            height: 10px;
+            width: 55%;
+            border-radius: 3px;
         }
 
         .shimmer-list-item-price {
-            height: 18px;
-            width: 50px;
-            border-radius: 4px;
-            margin-top: 4px;
+            height: 14px;
+            width: 40px;
+            border-radius: 3px;
+            margin-top: 2px;
         }
 
         .shimmer-list-item-image {
-            width: 110px;
-            height: 110px;
-            border-radius: var(--radius-sm);
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-xs);
             flex-shrink: 0;
         }
 
         /* ============================================
-           APP STYLES
+           APP CONTAINER
            ============================================ */
-
         .app-container {
             display: flex;
             flex-direction: column;
@@ -246,32 +246,34 @@
             position: relative;
         }
 
-        /* Header */
+        /* ============================================
+           HEADER
+           ============================================ */
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 16px;
+            padding: 6px 14px;
             height: var(--header-height);
             background: var(--surface);
             position: sticky;
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid var(--border-light);
-            gap: 12px;
+            gap: 10px;
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex: 1;
             min-width: 0;
         }
 
         .back-btn {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -286,17 +288,17 @@
 
         .back-btn:active {
             background: var(--surface2);
-            transform: scale(0.92);
+            transform: scale(0.9);
         }
 
         .back-btn i {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
         }
 
         .header-title {
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -305,13 +307,13 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             flex-shrink: 0;
         }
 
         .action-btn {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -325,42 +327,44 @@
         }
 
         .action-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.9);
             background: var(--surface2);
         }
 
         .action-btn i {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
         }
 
         .cart-badge {
             position: absolute;
-            top: 2px;
-            right: 0px;
+            top: 0;
+            right: -2px;
             background: var(--accent);
             color: white;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            padding: 1px 5px;
-            border-radius: 10px;
-            min-width: 16px;
+            padding: 1px 4px;
+            border-radius: 8px;
+            min-width: 14px;
             text-align: center;
-            border: 2px solid var(--surface);
-            line-height: 1.3;
+            border: 1.5px solid var(--surface);
+            line-height: 1.2;
         }
 
-        /* Restaurant Hero */
+        /* ============================================
+           RESTAURANT HERO
+           ============================================ */
         .restaurant-hero {
             background: var(--surface);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             position: relative;
         }
 
         .restaurant-banner-wrap {
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 160px;
             overflow: hidden;
         }
 
@@ -375,36 +379,36 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 80px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.4));
+            height: 60px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.35));
         }
 
         .restaurant-info-section {
-            padding: 16px;
+            padding: 12px 14px;
         }
 
         .restaurant-name {
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             letter-spacing: -0.02em;
         }
 
         .restaurant-meta {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             color: var(--dim);
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             font-weight: 500;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
         }
 
         .restaurant-meta .meta-item {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
         }
 
         .restaurant-meta .meta-dot {
@@ -415,8 +419,8 @@
         }
 
         .restaurant-meta i {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
         }
 
         .rating-star {
@@ -425,52 +429,58 @@
 
         .delivery-info-bar {
             display: flex;
-            gap: 16px;
-            padding: 12px 16px;
+            gap: 0;
             background: var(--surface2);
-            border-radius: var(--radius-sm);
-            margin-top: 4px;
+            border-radius: var(--radius-xs);
+            overflow: hidden;
         }
 
         .delivery-info-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
+            gap: 1px;
             flex: 1;
+            padding: 8px 6px;
+        }
+
+        .delivery-info-item:not(:last-child) {
+            border-right: 1px solid var(--border);
         }
 
         .delivery-info-item .info-value {
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.82rem;
             color: var(--text);
         }
 
         .delivery-info-item .info-label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: var(--dim);
             font-weight: 500;
         }
 
         .restaurant-tags {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 8px;
         }
 
         .tag {
-            padding: 4px 10px;
+            padding: 3px 8px;
             background: var(--surface2);
             border-radius: 100px;
-            font-size: 0.75rem;
+            font-size: 0.68rem;
             font-weight: 600;
             color: var(--dim);
         }
 
-        /* Search Bar */
+        /* ============================================
+           SEARCH
+           ============================================ */
         .search-section {
-            padding: 12px 16px;
+            padding: 8px 14px;
             background: var(--surface);
             border-bottom: 1px solid var(--border-light);
         }
@@ -478,10 +488,10 @@
         .search-input-wrap {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: var(--surface2);
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
+            border-radius: var(--radius-xs);
+            padding: 8px 10px;
             border: 1px solid var(--border-light);
             transition: var(--transition);
         }
@@ -489,12 +499,12 @@
         .search-input-wrap:focus-within {
             border-color: var(--accent);
             background: var(--surface);
-            box-shadow: 0 0 0 3px rgba(6, 193, 103, 0.1);
+            box-shadow: 0 0 0 2px rgba(6,193,103,0.1);
         }
 
         .search-input-wrap i {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             color: var(--dim);
             flex-shrink: 0;
         }
@@ -504,7 +514,7 @@
             border: none;
             background: transparent;
             font-family: inherit;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             color: var(--text);
             outline: none;
         }
@@ -513,7 +523,9 @@
             color: var(--dim);
         }
 
-        /* Category Tabs */
+        /* ============================================
+           CATEGORY TABS
+           ============================================ */
         .category-tabs {
             background: var(--surface);
             padding: 0;
@@ -527,24 +539,23 @@
             display: flex;
             gap: 0;
             overflow-x: auto;
-            padding: 0 16px;
+            padding: 0 14px;
             -webkit-overflow-scrolling: touch;
         }
 
         .tab-btn {
             flex: 0 0 auto;
-            padding: 14px 16px;
+            padding: 10px 14px;
             background: transparent;
             border: none;
-            border-bottom: 3px solid transparent;
+            border-bottom: 2.5px solid transparent;
             font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.8rem;
             color: var(--dim);
             cursor: pointer;
             transition: var(--transition);
             white-space: nowrap;
             touch-action: manipulation;
-            position: relative;
         }
 
         .tab-btn.active {
@@ -556,14 +567,16 @@
             opacity: 0.7;
         }
 
-        /* Menu Content */
+        /* ============================================
+           MENU CONTENT
+           ============================================ */
         .menu-content {
-            padding: 0 0 120px;
+            padding: 0 0 80px;
             flex: 1;
         }
 
         .menu-section {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             background: var(--surface);
         }
 
@@ -571,11 +584,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 16px 4px;
+            padding: 12px 14px 2px;
         }
 
         .section-title {
-            font-size: 1.1rem;
+            font-size: 0.92rem;
             font-weight: 800;
             color: var(--text);
             text-transform: capitalize;
@@ -583,13 +596,13 @@
         }
 
         .section-count {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: var(--dim);
             font-weight: 500;
         }
 
         /* ============================================
-           ZULZI-STYLE MENU LIST ITEMS
+           COMPACT MENU LIST
            ============================================ */
         .menu-list {
             display: flex;
@@ -598,8 +611,8 @@
 
         .menu-list-item {
             display: flex;
-            gap: 14px;
-            padding: 16px;
+            gap: 10px;
+            padding: 10px 14px;
             border-bottom: 1px solid var(--border-light);
             cursor: pointer;
             transition: var(--transition);
@@ -619,8 +632,8 @@
             display: flex;
             flex-direction: column;
             min-width: 0;
-            justify-content: space-between;
-            padding: 2px 0;
+            justify-content: center;
+            gap: 2px;
         }
 
         .menu-item-top {
@@ -629,38 +642,37 @@
 
         .menu-item-name {
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: var(--text);
-            margin-bottom: 4px;
-            line-height: 1.3;
+            line-height: 1.25;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
         .menu-item-desc {
             color: var(--dim);
-            font-size: 0.82rem;
-            line-height: 1.45;
+            font-size: 0.72rem;
+            line-height: 1.35;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
         }
 
         .menu-item-tags {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
         }
 
         .menu-item-tag {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             font-weight: 600;
-            padding: 2px 8px;
+            padding: 1px 5px;
             border-radius: 100px;
             background: var(--surface2);
             color: var(--dim);
@@ -685,27 +697,29 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 6px;
         }
 
         .menu-item-price {
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: var(--text);
-            letter-spacing: -0.01em;
         }
 
         .menu-item-price .currency {
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
 
+        /* ============================================
+           ADD BUTTON (compact)
+           ============================================ */
         .menu-item-add-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 36px;
-            height: 36px;
+            width: 28px;
+            height: 28px;
             background: var(--accent);
             border: none;
             border-radius: 50%;
@@ -713,33 +727,35 @@
             color: white;
             transition: var(--transition);
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(6, 193, 103, 0.3);
+            box-shadow: 0 2px 6px rgba(6,193,103,0.25);
         }
 
         .menu-item-add-btn:active {
-            transform: scale(0.9);
+            transform: scale(0.88);
             background: var(--accent-dark);
         }
 
         .menu-item-add-btn i {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
         }
 
-        /* Item quantity badge on add button */
+        /* ============================================
+           INLINE QTY CONTROL (compact)
+           ============================================ */
         .menu-item-qty-control {
             display: flex;
             align-items: center;
-            gap: 2px;
+            gap: 0;
             background: var(--accent);
             border-radius: 100px;
             padding: 2px;
-            box-shadow: 0 2px 8px rgba(6, 193, 103, 0.3);
+            box-shadow: 0 2px 6px rgba(6,193,103,0.25);
         }
 
         .menu-item-qty-btn {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -756,24 +772,26 @@
         }
 
         .menu-item-qty-btn i {
-            width: 16px;
-            height: 16px;
+            width: 13px;
+            height: 13px;
         }
 
         .menu-item-qty-value {
             color: white;
             font-weight: 700;
-            font-size: 0.9rem;
-            min-width: 20px;
+            font-size: 0.75rem;
+            min-width: 16px;
             text-align: center;
         }
 
-        /* Image Container */
+        /* ============================================
+           MENU ITEM IMAGE (compact)
+           ============================================ */
         .menu-item-image-wrap {
             position: relative;
-            width: 110px;
-            height: 110px;
-            border-radius: var(--radius-sm);
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-xs);
             overflow: hidden;
             flex-shrink: 0;
             background: var(--surface2);
@@ -792,15 +810,14 @@
 
         .menu-item-badge {
             position: absolute;
-            top: 6px;
-            left: 6px;
+            top: 4px;
+            left: 4px;
             background: var(--accent);
             color: white;
-            padding: 2px 8px;
+            padding: 1px 5px;
             border-radius: 100px;
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             font-weight: 700;
-            letter-spacing: 0.02em;
         }
 
         .menu-item-no-image {
@@ -813,16 +830,18 @@
         }
 
         .menu-item-no-image i {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             color: var(--border);
         }
 
-        /* Overlay for cart drawer */
+        /* ============================================
+           OVERLAY
+           ============================================ */
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.45);
             z-index: 1999;
             opacity: 0;
             visibility: hidden;
@@ -834,11 +853,13 @@
             visibility: visible;
         }
 
-        /* Empty State */
+        /* ============================================
+           EMPTY / NO RESULTS
+           ============================================ */
         .empty-state {
             display: none;
             text-align: center;
-            padding: 60px 20px;
+            padding: 50px 20px;
             color: var(--dim);
         }
 
@@ -847,34 +868,54 @@
         }
 
         .empty-state i {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 20px;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 16px;
             opacity: 0.4;
         }
 
         .empty-state p:first-of-type {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             color: var(--text);
         }
 
-        /* Toast */
+        .no-results {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--dim);
+            display: none;
+        }
+
+        .no-results.active {
+            display: block;
+        }
+
+        .no-results i {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+            opacity: 0.3;
+        }
+
+        /* ============================================
+           TOAST
+           ============================================ */
         #toast {
             position: fixed;
-            bottom: calc(24px + var(--safe-bottom));
+            bottom: calc(20px + var(--safe-bottom));
             left: 50%;
             transform: translateX(-50%) translateY(200px);
             background: var(--text);
             color: white;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 100px;
             z-index: 4000;
             transition: transform 0.3s ease;
             font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            font-size: 0.8rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             max-width: 90vw;
             text-align: center;
             white-space: nowrap;
@@ -884,15 +925,17 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Floating Cart Bar */
+        /* ============================================
+           COMPACT FLOATING CART BAR
+           ============================================ */
         .floating-cart-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             z-index: 1500;
-            padding: 12px 16px;
-            padding-bottom: calc(12px + var(--safe-bottom));
+            padding: 8px 14px;
+            padding-bottom: calc(8px + var(--safe-bottom));
             background: transparent;
             pointer-events: none;
             transition: transform 0.3s ease, opacity 0.3s ease;
@@ -912,9 +955,9 @@
             justify-content: space-between;
             background: var(--accent);
             color: white;
-            padding: 14px 20px;
-            border-radius: var(--radius);
-            box-shadow: 0 4px 20px rgba(6, 193, 103, 0.4);
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 3px 14px rgba(6,193,103,0.35);
             cursor: pointer;
             transition: var(--transition);
         }
@@ -926,39 +969,41 @@
         .floating-cart-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .floating-cart-count {
-            background: rgba(255,255,255,0.25);
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
+            background: rgba(255,255,255,0.2);
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.72rem;
         }
 
         .floating-cart-label {
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.82rem;
         }
 
         .floating-cart-total {
             font-weight: 800;
-            font-size: 1.05rem;
+            font-size: 0.88rem;
         }
 
-        /* Cart Drawer */
+        /* ============================================
+           CART DRAWER
+           ============================================ */
         .cart-drawer {
             position: fixed;
             right: 0;
             top: 0;
             bottom: 0;
             width: 100%;
-            max-width: 420px;
+            max-width: 380px;
             background: var(--bg);
             z-index: 2000;
             transform: translateX(100%);
@@ -972,7 +1017,7 @@
         }
 
         .cart-header {
-            padding: 16px 20px;
+            padding: 12px 16px;
             background: var(--surface);
             border-bottom: 1px solid var(--border-light);
             display: flex;
@@ -982,12 +1027,12 @@
 
         .cart-header h3 {
             font-weight: 800;
-            font-size: 1.15rem;
+            font-size: 1rem;
         }
 
         .close-cart-btn {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1003,20 +1048,25 @@
             background: var(--border);
         }
 
+        .close-cart-btn i {
+            width: 18px;
+            height: 18px;
+        }
+
         .cart-body {
             flex: 1;
             overflow-y: auto;
-            padding: 16px;
+            padding: 12px;
         }
 
         .cart-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px;
+            gap: 10px;
+            padding: 10px;
             background: var(--surface);
-            border-radius: var(--radius-sm);
-            margin-bottom: 8px;
+            border-radius: var(--radius-xs);
+            margin-bottom: 6px;
             border: 1px solid var(--border-light);
         }
 
@@ -1027,8 +1077,8 @@
 
         .cart-item-name {
             font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 2px;
+            font-size: 0.82rem;
+            margin-bottom: 1px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -1036,13 +1086,13 @@
 
         .cart-item-price {
             color: var(--dim);
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             font-weight: 500;
         }
 
         .cart-item-total {
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             color: var(--text);
             white-space: nowrap;
         }
@@ -1050,15 +1100,15 @@
         .cart-quantity-control {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 2px;
             background: var(--surface2);
             border-radius: 100px;
-            padding: 3px;
+            padding: 2px;
         }
 
         .cart-qty-btn {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             border: none;
             background: var(--surface);
@@ -1077,52 +1127,52 @@
 
         .cart-qty-value {
             font-weight: 700;
-            min-width: 22px;
+            min-width: 18px;
             text-align: center;
-            font-size: 0.88rem;
+            font-size: 0.78rem;
         }
 
         .cart-footer {
-            padding: 16px;
+            padding: 12px;
             background: var(--surface);
             border-top: 1px solid var(--border-light);
         }
 
         .cart-summary {
             background: var(--surface2);
-            border-radius: var(--radius-sm);
-            padding: 14px;
-            margin-bottom: 14px;
+            border-radius: var(--radius-xs);
+            padding: 10px;
+            margin-bottom: 10px;
         }
 
         .cart-summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 0.88rem;
+            margin-bottom: 4px;
+            font-size: 0.78rem;
             color: var(--text-secondary);
         }
 
         .cart-summary-row:last-child {
             margin-bottom: 0;
-            padding-top: 8px;
+            padding-top: 6px;
             border-top: 1px solid var(--border);
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 0.92rem;
             color: var(--text);
         }
 
         .prep-time-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             background: var(--accent-light);
             color: var(--accent-dark);
-            padding: 8px 12px;
+            padding: 5px 10px;
             border-radius: 100px;
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .checkout-btn {
@@ -1130,13 +1180,13 @@
             background: var(--accent);
             color: white;
             border: none;
-            padding: 16px;
-            border-radius: var(--radius-sm);
+            padding: 12px;
+            border-radius: var(--radius-xs);
             font-weight: 800;
-            font-size: 1.05rem;
+            font-size: 0.92rem;
             cursor: pointer;
             transition: var(--transition);
-            min-height: 52px;
+            min-height: 44px;
             letter-spacing: -0.01em;
         }
 
@@ -1159,83 +1209,93 @@
             height: 100%;
             color: var(--dim);
             text-align: center;
-            padding: 40px;
+            padding: 30px;
         }
 
         .cart-empty-state i {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 16px;
+            width: 36px;
+            height: 36px;
+            margin-bottom: 12px;
             opacity: 0.3;
         }
 
         .cart-empty-state p {
             font-weight: 600;
-            margin-bottom: 4px;
+            font-size: 0.88rem;
+            margin-bottom: 2px;
         }
 
         .cart-empty-state small {
-            font-size: 0.82rem;
+            font-size: 0.75rem;
         }
 
-        /* No results */
-        .no-results {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--dim);
-            display: none;
-        }
-
-        .no-results.active {
-            display: block;
-        }
-
-        .no-results i {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 12px;
-            opacity: 0.3;
-        }
-
-        /* Desktop */
+        /* ============================================
+           DESKTOP
+           ============================================ */
         @media (min-width: 768px) {
             .header {
-                padding: 8px 32px;
+                padding: 6px 24px;
             }
 
             .restaurant-info-section {
-                padding: 20px 32px;
+                padding: 14px 24px;
             }
 
             .search-section {
-                padding: 12px 32px;
+                padding: 8px 24px;
             }
 
             .tabs-scroll {
-                padding: 0 32px;
+                padding: 0 24px;
             }
 
             .menu-list-item {
-                padding: 16px 32px;
+                padding: 10px 24px;
             }
 
             .section-header {
-                padding: 20px 32px 4px;
-            }
-
-            .menu-item-image-wrap {
-                width: 130px;
-                height: 130px;
+                padding: 12px 24px 2px;
             }
 
             .floating-cart-bar {
-                padding: 16px 32px;
-                padding-bottom: calc(16px + var(--safe-bottom));
+                padding: 10px 24px;
+                padding-bottom: calc(10px + var(--safe-bottom));
+            }
+
+            .menu-item-image-wrap {
+                width: 90px;
+                height: 90px;
             }
 
             .cart-drawer {
-                max-width: 420px;
+                max-width: 380px;
                 border-left: 1px solid var(--border);
+            }
+
+            .shimmer-header {
+                padding: 8px 24px;
+            }
+
+            .shimmer-restaurant-name {
+                margin-left: 24px;
+                margin-right: 24px;
+            }
+
+            .shimmer-restaurant-meta {
+                margin-left: 24px;
+                margin-right: 24px;
+            }
+
+            .shimmer-categories {
+                padding: 8px 24px;
+            }
+
+            .shimmer-content {
+                padding: 10px 24px;
+            }
+
+            .shimmer-list-item {
+                padding: 10px 24px;
             }
         }
 
@@ -1255,31 +1315,33 @@
             }
         }
 
-        /* Animation for add to cart */
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
         @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            70% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .pop-in {
-            animation: popIn 0.25s ease forwards;
-        }
-
-        @keyframes addPulse {
-            0% { box-shadow: 0 0 0 0 rgba(6, 193, 103, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(6, 193, 103, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(6, 193, 103, 0); }
-        }
-
-        .add-pulse {
-            animation: addPulse 0.4s ease;
+            animation: popIn 0.2s ease forwards;
         }
     </style>
 </head>
 <body>
 
-    <!-- SHIMMER LOADING OVERLAY -->
+    <!-- ==========================================
+         SHIMMER LOADING OVERLAY
+         ========================================== -->
     <div class="shimmer-overlay" id="shimmerOverlay">
         <div class="shimmer-header">
             <div class="shimmer shimmer-back-btn"></div>
@@ -1293,7 +1355,7 @@
             <div class="shimmer shimmer-restaurant-image"></div>
             <div class="shimmer shimmer-restaurant-name"></div>
             <div class="shimmer shimmer-restaurant-meta"></div>
-            <div class="shimmer shimmer-restaurant-meta" style="width: 30%;"></div>
+            <div class="shimmer shimmer-restaurant-meta" style="width:30%;"></div>
         </div>
         <div class="shimmer-categories">
             <div class="shimmer shimmer-category-btn"></div>
@@ -1350,13 +1412,29 @@
                     </div>
                     <div class="shimmer shimmer-list-item-image"></div>
                 </div>
+                <div class="shimmer-list-item">
+                    <div class="shimmer-list-item-content">
+                        <div class="shimmer shimmer-list-item-title"></div>
+                        <div class="shimmer shimmer-list-item-desc"></div>
+                        <div class="shimmer shimmer-list-item-desc2"></div>
+                        <div class="shimmer shimmer-list-item-price"></div>
+                    </div>
+                    <div class="shimmer shimmer-list-item-image"></div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- ==========================================
+         TOAST
+         ========================================== -->
     <div id="toast">Message</div>
 
+    <!-- ==========================================
+         APP CONTAINER
+         ========================================== -->
     <div class="app-container">
+
         <!-- Header -->
         <header class="header">
             <div class="header-left">
@@ -1376,8 +1454,8 @@
             </div>
         </header>
 
-        <!-- Restaurant Info -->
-        <div class="restaurant-hero" id="restaurantHero" style="display: none;">
+        <!-- Restaurant Hero -->
+        <div class="restaurant-hero" id="restaurantHero" style="display:none;">
             <div class="restaurant-banner-wrap">
                 <img class="restaurant-image" id="restaurantImage" src="" alt="">
                 <div class="restaurant-banner-gradient"></div>
@@ -1385,7 +1463,10 @@
             <div class="restaurant-info-section">
                 <h2 class="restaurant-name" id="restaurantName"></h2>
                 <div class="restaurant-meta">
-                    <span class="meta-item"><i data-lucide="star" class="rating-star"></i> <span id="restaurantRating"></span></span>
+                    <span class="meta-item">
+                        <i data-lucide="star" class="rating-star"></i>
+                        <span id="restaurantRating"></span>
+                    </span>
                     <span class="meta-dot"></span>
                     <span class="meta-item" id="restaurantCuisineType"></span>
                 </div>
@@ -1396,11 +1477,11 @@
                     </div>
                     <div class="delivery-info-item">
                         <span class="info-value">R<span id="restaurantDelivery">--</span></span>
-                        <span class="info-label">Del. Fee</span>
+                        <span class="info-label">Fee</span>
                     </div>
                     <div class="delivery-info-item">
                         <span class="info-value" id="restaurantMinOrder">--</span>
-                        <span class="info-label">Min. Order</span>
+                        <span class="info-label">Min</span>
                     </div>
                 </div>
                 <div class="restaurant-tags" id="restaurantTags"></div>
@@ -1411,12 +1492,12 @@
         <div class="search-section" id="searchSection" style="display:none;">
             <div class="search-input-wrap">
                 <i data-lucide="search"></i>
-                <input type="text" class="search-input" id="searchInput" placeholder="Search this menu..." oninput="handleSearch(this.value)">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search menu..." oninput="handleSearch(this.value)">
             </div>
         </div>
 
         <!-- Category Tabs -->
-        <div class="category-tabs" id="categoryTabs" style="display: none;">
+        <div class="category-tabs" id="categoryTabs" style="display:none;">
             <div class="tabs-scroll no-scrollbar" id="tabsContainer">
                 <button class="tab-btn active" onclick="filterCategory('all', this)">All</button>
             </div>
@@ -1427,18 +1508,20 @@
             <div class="empty-state" id="emptyState">
                 <i data-lucide="package-open"></i>
                 <p>No menu items found.</p>
-                <p style="font-size: 0.9rem;">This restaurant hasn't added any items yet.</p>
+                <p style="font-size:0.82rem;">This restaurant hasn't added items yet.</p>
             </div>
             <div class="no-results" id="noResults">
                 <i data-lucide="search-x"></i>
-                <p style="font-weight:600;margin-bottom:4px;">No items found</p>
-                <p style="font-size:0.85rem;">Try a different search term</p>
+                <p style="font-weight:600;font-size:0.88rem;margin-bottom:2px;">No items found</p>
+                <p style="font-size:0.78rem;">Try a different search</p>
             </div>
             <div id="menuContainer"></div>
         </main>
     </div>
 
-    <!-- Floating Cart Bar -->
+    <!-- ==========================================
+         FLOATING CART BAR (compact)
+         ========================================== -->
     <div class="floating-cart-bar" id="floatingCartBar" onclick="toggleCart()">
         <div class="floating-cart-inner">
             <div class="floating-cart-left">
@@ -1449,10 +1532,14 @@
         </div>
     </div>
 
-    <!-- Cart Overlay -->
+    <!-- ==========================================
+         CART OVERLAY
+         ========================================== -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 
-    <!-- Cart Drawer -->
+    <!-- ==========================================
+         CART DRAWER
+         ========================================== -->
     <div class="cart-drawer" id="cartDrawer">
         <div class="cart-header">
             <h3>Your Order</h3>
@@ -1469,15 +1556,16 @@
         </div>
         <div class="cart-footer" id="cartFooter" style="display:none;">
             <div id="cartSummary"></div>
-            <button class="checkout-btn" id="checkoutBtn" disabled onclick="handleCheckout()">
-                Place Order
-            </button>
+            <button class="checkout-btn" id="checkoutBtn" disabled onclick="handleCheckout()">Place Order</button>
         </div>
     </div>
 
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, onValue, get, set, push, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, get, set, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
         const firebaseConfig = {
@@ -1505,13 +1593,15 @@
         let cart = [];
         let currentUser = null;
         let currentUserId = null;
-        let menuData = {};
-        let currentCategory = 'all';
         let allMenuItems = [];
         let categories = new Set(['all']);
         let vendorInfo = null;
         let searchQuery = '';
+        let currentCategory = 'all';
 
+        // ==========================================
+        // SHIMMER SHOW/HIDE
+        // ==========================================
         function showShimmer() {
             document.getElementById('shimmerOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1522,6 +1612,9 @@
             document.body.style.overflow = '';
         }
 
+        // ==========================================
+        // LOAD MENU
+        // ==========================================
         async function loadMenu() {
             showShimmer();
             try {
@@ -1537,8 +1630,7 @@
 
                 const menuSnapshot = await get(ref(db, `vendors/${vendorId}/menu`));
                 if (menuSnapshot.exists()) {
-                    menuData = menuSnapshot.val();
-                    processAndDisplayMenu(menuData);
+                    processAndDisplayMenu(menuSnapshot.val());
                 } else {
                     showEmptyState();
                 }
@@ -1547,31 +1639,37 @@
                 showToast("Failed to load menu");
                 showEmptyState();
             } finally {
-                setTimeout(hideShimmer, 600);
+                setTimeout(hideShimmer, 500);
             }
         }
 
-        function displayVendorInfo(vendor) {
-            document.getElementById('headerTitle').textContent = vendor.name || 'Menu';
-            document.getElementById('restaurantName').textContent = vendor.name || 'Unnamed';
-            document.getElementById('restaurantImage').src = vendor.imageURL || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';
-            document.getElementById('restaurantRating').textContent = vendor.rating || '4.5';
-            document.getElementById('restaurantTime').textContent = vendor.deliveryTime || '20-35 min';
-            document.getElementById('restaurantDelivery').textContent = vendor.deliveryFee || '20';
-            document.getElementById('restaurantMinOrder').textContent = vendor.minOrder ? `R${vendor.minOrder}` : 'R0';
+        // ==========================================
+        // DISPLAY VENDOR INFO
+        // ==========================================
+        function displayVendorInfo(v) {
+            document.getElementById('headerTitle').textContent = v.name || 'Menu';
+            document.getElementById('restaurantName').textContent = v.name || 'Unnamed';
+            document.getElementById('restaurantImage').src = v.imageURL || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800';
+            document.getElementById('restaurantImage').alt = v.name || 'Restaurant';
+            document.getElementById('restaurantRating').textContent = v.rating || '4.5';
+            document.getElementById('restaurantTime').textContent = v.deliveryTime || '20-35 min';
+            document.getElementById('restaurantDelivery').textContent = v.deliveryFee || '20';
+            document.getElementById('restaurantMinOrder').textContent = v.minOrder ? `R${v.minOrder}` : 'R0';
 
-            const cuisineType = [vendor.cuisineCategory, vendor.cuisine].filter(Boolean).join(' · ');
-            document.getElementById('restaurantCuisineType').textContent = cuisineType || 'Restaurant';
+            const cuisine = [v.cuisineCategory, v.cuisine].filter(Boolean).join(' · ');
+            document.getElementById('restaurantCuisineType').textContent = cuisine || 'Restaurant';
 
             const tagsContainer = document.getElementById('restaurantTags');
-            const tags = [vendor.storeType, vendor.cuisine, vendor.cuisineCategory].filter(Boolean);
-            const uniqueTags = [...new Set(tags)];
-            tagsContainer.innerHTML = uniqueTags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            const tags = [...new Set([v.storeType, v.cuisine, v.cuisineCategory].filter(Boolean))];
+            tagsContainer.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
 
             document.getElementById('restaurantHero').style.display = 'block';
             lucide.createIcons();
         }
 
+        // ==========================================
+        // PROCESS AND DISPLAY MENU
+        // ==========================================
         function processAndDisplayMenu(data) {
             allMenuItems = [];
             categories = new Set(['all']);
@@ -1581,22 +1679,19 @@
                 return;
             }
 
-            Object.entries(data).forEach(([itemId, item]) => {
+            Object.entries(data).forEach(([id, item]) => {
                 if (item && item.name && item.status === 'available') {
-                    const category = item.category || 'Other';
-                    categories.add(category);
-
+                    const cat = item.category || 'Other';
+                    categories.add(cat);
                     allMenuItems.push({
-                        id: itemId,
+                        id: id,
                         name: item.name,
-                        category: category,
+                        category: cat,
                         price: parseFloat(item.price) || 0,
                         description: item.description || '',
                         imageURL: item.imageURL || '',
                         calories: item.calories || '',
                         prepTime: item.prepTime || '',
-                        allergens: item.allergens || '',
-                        status: item.status || 'available',
                         featured: item.featured || false
                     });
                 }
@@ -1607,25 +1702,28 @@
                 return;
             }
 
-            // Sort: featured first
             allMenuItems.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
-            const categoryArray = Array.from(categories);
             const tabsContainer = document.getElementById('tabsContainer');
-            tabsContainer.innerHTML = categoryArray.map(cat => {
-                const count = cat === 'all' ? allMenuItems.length : allMenuItems.filter(i => i.category === cat).length;
-                return `<button class="tab-btn ${cat === 'all' ? 'active' : ''}" onclick="filterCategory('${cat.replace(/'/g, "\\'")}', this)">${cat === 'all' ? 'All' : cat}</button>`;
-            }).join('');
+            tabsContainer.innerHTML = Array.from(categories).map(cat =>
+                `<button class="tab-btn ${cat === 'all' ? 'active' : ''}" onclick="filterCategory('${cat.replace(/'/g, "\\'")}', this)">${cat === 'all' ? 'All' : cat}</button>`
+            ).join('');
             document.getElementById('categoryTabs').style.display = 'block';
 
             renderMenuItems(allMenuItems);
         }
 
-        function getItemCartQuantity(itemId) {
+        // ==========================================
+        // GET ITEM CART QUANTITY
+        // ==========================================
+        function getItemCartQty(itemId) {
             const item = cart.find(c => c.itemId === itemId);
             return item ? item.quantity : 0;
         }
 
+        // ==========================================
+        // RENDER MENU ITEMS
+        // ==========================================
         function renderMenuItems(items) {
             const container = document.getElementById('menuContainer');
             const noResults = document.getElementById('noResults');
@@ -1638,33 +1736,33 @@
 
             noResults.classList.remove('active');
 
-            // Group by category
             const grouped = items.reduce((acc, item) => {
-                const cat = item.category || 'Other';
-                if (!acc[cat]) acc[cat] = [];
-                acc[cat].push(item);
+                const c = item.category || 'Other';
+                if (!acc[c]) acc[c] = [];
+                acc[c].push(item);
                 return acc;
             }, {});
 
-            container.innerHTML = Object.entries(grouped).map(([category, categoryItems]) => `
-                <div class="menu-section" id="section-${category.replace(/\s+/g, '-')}">
+            container.innerHTML = Object.entries(grouped).map(([cat, citems]) => `
+                <div class="menu-section">
                     <div class="section-header">
-                        <h3 class="section-title">${category}</h3>
-                        <span class="section-count">${categoryItems.length} item${categoryItems.length > 1 ? 's' : ''}</span>
+                        <h3 class="section-title">${cat}</h3>
+                        <span class="section-count">${citems.length} item${citems.length > 1 ? 's' : ''}</span>
                     </div>
                     <div class="menu-list">
-                        ${categoryItems.map(item => {
-                            const qty = getItemCartQuantity(item.id);
+                        ${citems.map(item => {
+                            const qty = getItemCartQty(item.id);
+                            const escapedName = item.name.replace(/'/g, "\\'");
                             return `
                             <div class="menu-list-item" id="menu-item-${item.id}">
                                 <div class="menu-item-info">
                                     <div class="menu-item-top">
                                         <h4 class="menu-item-name">${item.name}</h4>
-                                        <p class="menu-item-desc">${item.description || 'Delicious item prepared fresh'}</p>
+                                        <p class="menu-item-desc">${item.description || 'Fresh & delicious'}</p>
                                         <div class="menu-item-tags">
                                             ${item.featured ? '<span class="menu-item-tag featured">⭐ Popular</span>' : ''}
-                                            ${item.calories ? `<span class="menu-item-tag calories">${item.calories} kcal</span>` : ''}
-                                            ${item.prepTime ? `<span class="menu-item-tag prep">${item.prepTime} min</span>` : ''}
+                                            ${item.calories ? `<span class="menu-item-tag calories">${item.calories} cal</span>` : ''}
+                                            ${item.prepTime ? `<span class="menu-item-tag prep">${item.prepTime}m</span>` : ''}
                                         </div>
                                     </div>
                                     <div class="menu-item-bottom">
@@ -1672,16 +1770,16 @@
                                         <div id="add-control-${item.id}">
                                             ${qty > 0 ? `
                                                 <div class="menu-item-qty-control pop-in">
-                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation(); changeItemQty('${item.id}', -1)">
+                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)">
                                                         <i data-lucide="minus"></i>
                                                     </button>
                                                     <span class="menu-item-qty-value">${qty}</span>
-                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation(); changeItemQty('${item.id}', 1)">
+                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)">
                                                         <i data-lucide="plus"></i>
                                                     </button>
                                                 </div>
                                             ` : `
-                                                <button class="menu-item-add-btn" onclick="event.stopPropagation(); addToCart('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${item.price}, ${item.prepTime || 0})" aria-label="Add ${item.name}">
+                                                <button class="menu-item-add-btn" onclick="event.stopPropagation();addToCart('${item.id}','${escapedName}',${item.price},${item.prepTime||0})">
                                                     <i data-lucide="plus"></i>
                                                 </button>
                                             `}
@@ -1698,8 +1796,8 @@
                                     `}
                                     ${item.featured ? '<span class="menu-item-badge">Popular</span>' : ''}
                                 </div>
-                            </div>
-                        `}).join('')}
+                            </div>`;
+                        }).join('')}
                     </div>
                 </div>
             `).join('');
@@ -1707,80 +1805,93 @@
             lucide.createIcons();
         }
 
-        function refreshMenuItemControl(itemId) {
-            const controlEl = document.getElementById(`add-control-${itemId}`);
-            if (!controlEl) return;
+        // ==========================================
+        // REFRESH SINGLE ITEM CONTROL
+        // ==========================================
+        function refreshControl(itemId) {
+            const el = document.getElementById(`add-control-${itemId}`);
+            if (!el) return;
 
-            const qty = getItemCartQuantity(itemId);
+            const qty = getItemCartQty(itemId);
             const item = allMenuItems.find(i => i.id === itemId);
             if (!item) return;
 
+            const escapedName = item.name.replace(/'/g, "\\'");
+
             if (qty > 0) {
-                controlEl.innerHTML = `
+                el.innerHTML = `
                     <div class="menu-item-qty-control pop-in">
-                        <button class="menu-item-qty-btn" onclick="event.stopPropagation(); changeItemQty('${item.id}', -1)">
+                        <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)">
                             <i data-lucide="minus"></i>
                         </button>
                         <span class="menu-item-qty-value">${qty}</span>
-                        <button class="menu-item-qty-btn" onclick="event.stopPropagation(); changeItemQty('${item.id}', 1)">
+                        <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)">
                             <i data-lucide="plus"></i>
                         </button>
                     </div>
                 `;
             } else {
-                controlEl.innerHTML = `
-                    <button class="menu-item-add-btn" onclick="event.stopPropagation(); addToCart('${item.id}', '${item.name.replace(/'/g, "\\'")}', ${item.price}, ${item.prepTime || 0})" aria-label="Add ${item.name}">
+                el.innerHTML = `
+                    <button class="menu-item-add-btn" onclick="event.stopPropagation();addToCart('${item.id}','${escapedName}',${item.price},${item.prepTime||0})">
                         <i data-lucide="plus"></i>
                     </button>
                 `;
             }
+
             lucide.createIcons();
         }
 
+        // ==========================================
+        // SHOW EMPTY STATE
+        // ==========================================
         function showEmptyState() {
             document.getElementById('emptyState').classList.add('active');
             document.getElementById('categoryTabs').style.display = 'none';
         }
 
-        window.filterCategory = (category, btn) => {
+        // ==========================================
+        // GET FILTERED ITEMS
+        // ==========================================
+        function getFilteredItems() {
+            let items = allMenuItems;
+            if (currentCategory !== 'all') {
+                items = items.filter(i => i.category === currentCategory);
+            }
+            if (searchQuery) {
+                items = items.filter(i =>
+                    i.name.toLowerCase().includes(searchQuery) ||
+                    (i.description && i.description.toLowerCase().includes(searchQuery))
+                );
+            }
+            return items;
+        }
+
+        // ==========================================
+        // FILTER CATEGORY
+        // ==========================================
+        window.filterCategory = (cat, btn) => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            currentCategory = category;
-
-            let items = allMenuItems;
-            if (category !== 'all') {
-                items = allMenuItems.filter(item => item.category === category);
-            }
-            if (searchQuery) {
-                items = items.filter(item =>
-                    item.name.toLowerCase().includes(searchQuery) ||
-                    (item.description && item.description.toLowerCase().includes(searchQuery))
-                );
-            }
-            renderMenuItems(items);
+            currentCategory = cat;
+            renderMenuItems(getFilteredItems());
         };
 
-        window.handleSearch = (value) => {
-            searchQuery = value.toLowerCase().trim();
-            let items = allMenuItems;
-
-            if (currentCategory !== 'all') {
-                items = items.filter(item => item.category === currentCategory);
-            }
-            if (searchQuery) {
-                items = items.filter(item =>
-                    item.name.toLowerCase().includes(searchQuery) ||
-                    (item.description && item.description.toLowerCase().includes(searchQuery))
-                );
-            }
-            renderMenuItems(items);
+        // ==========================================
+        // HANDLE SEARCH
+        // ==========================================
+        window.handleSearch = (val) => {
+            searchQuery = val.toLowerCase().trim();
+            renderMenuItems(getFilteredItems());
         };
 
+        // ==========================================
+        // TOGGLE SEARCH
+        // ==========================================
         window.toggleSearch = () => {
-            const section = document.getElementById('searchSection');
-            const isVisible = section.style.display !== 'none';
-            section.style.display = isVisible ? 'none' : 'block';
-            if (!isVisible) {
+            const s = document.getElementById('searchSection');
+            const vis = s.style.display !== 'none';
+            s.style.display = vis ? 'none' : 'block';
+            if (!vis) {
                 setTimeout(() => document.getElementById('searchInput').focus(), 100);
             } else {
                 document.getElementById('searchInput').value = '';
@@ -1790,73 +1901,74 @@
             lucide.createIcons();
         };
 
+        // ==========================================
+        // GO BACK
+        // ==========================================
         window.goBack = () => {
             window.location.href = 'index.html';
         };
 
-        function calculateAveragePrepTime() {
+        // ==========================================
+        // CALCULATE PREP TIME
+        // ==========================================
+        function calcPrepTime() {
             if (cart.length === 0) return 0;
-            const totalPrepTime = cart.reduce((sum, item) => sum + (item.prepTime || 0), 0);
-            return Math.ceil(totalPrepTime / cart.length);
+            return Math.ceil(cart.reduce((s, i) => s + (i.prepTime || 0), 0) / cart.length);
         }
 
-        function getVendorAveragePrepTime() {
-            if (vendorInfo && vendorInfo.avgPrepTime) {
-                return parseInt(vendorInfo.avgPrepTime) || 0;
-            }
-            if (allMenuItems.length > 0) {
-                const times = allMenuItems.map(item => parseInt(item.prepTime) || 0).filter(t => t > 0);
-                if (times.length > 0) {
-                    return Math.ceil(times.reduce((a, b) => a + b, 0) / times.length);
-                }
-            }
-            return 0;
-        }
-
+        // ==========================================
+        // ADD TO CART
+        // ==========================================
         window.addToCart = async (itemId, name, price, prepTime = 0) => {
-            const existingItem = cart.find(item => item.itemId === itemId);
-
-            if (existingItem) {
-                existingItem.quantity += 1;
+            const existing = cart.find(i => i.itemId === itemId);
+            if (existing) {
+                existing.quantity += 1;
             } else {
                 cart.push({
-                    itemId,
-                    name,
-                    price,
+                    itemId: itemId,
+                    name: name,
+                    price: price,
                     prepTime: parseInt(prepTime) || 0,
                     quantity: 1,
-                    vendorId,
+                    vendorId: vendorId,
                     addedAt: Date.now()
                 });
             }
 
             if (currentUserId) {
-                await saveCartToFirebase();
+                await saveCart();
             }
 
-            refreshMenuItemControl(itemId);
+            refreshControl(itemId);
             updateCartUI();
-            showToast(`${name} added to cart`);
+            showToast(`${name} added`);
         };
 
+        // ==========================================
+        // CHANGE ITEM QTY (inline)
+        // ==========================================
         window.changeItemQty = async (itemId, delta) => {
-            const existingItem = cart.find(item => item.itemId === itemId);
-            if (!existingItem) return;
+            const existing = cart.find(i => i.itemId === itemId);
+            if (!existing) return;
 
-            existingItem.quantity += delta;
-            if (existingItem.quantity <= 0) {
-                cart = cart.filter(item => item.itemId !== itemId);
+            existing.quantity += delta;
+
+            if (existing.quantity <= 0) {
+                cart = cart.filter(i => i.itemId !== itemId);
             }
 
             if (currentUserId) {
-                await saveCartToFirebase();
+                await saveCart();
             }
 
-            refreshMenuItemControl(itemId);
+            refreshControl(itemId);
             updateCartUI();
         };
 
-        async function saveCartToFirebase() {
+        // ==========================================
+        // SAVE CART TO FIREBASE
+        // ==========================================
+        async function saveCart() {
             if (!currentUserId) return;
             try {
                 await set(ref(db, `carts/${currentUserId}`), {
@@ -1869,18 +1981,19 @@
             }
         }
 
-        async function loadCartFromFirebase() {
+        // ==========================================
+        // LOAD CART FROM FIREBASE
+        // ==========================================
+        async function loadCart() {
             if (!currentUserId) return;
             try {
-                const snapshot = await get(ref(db, `carts/${currentUserId}`));
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    if (data.vendorId === vendorId && data.items) {
-                        cart = data.items;
+                const snap = await get(ref(db, `carts/${currentUserId}`));
+                if (snap.exists()) {
+                    const d = snap.val();
+                    if (d.vendorId === vendorId && d.items) {
+                        cart = d.items;
                         updateCartUI();
-                        // Re-render to show quantities
-                        const filtered = currentCategory === 'all' ? allMenuItems : allMenuItems.filter(i => i.category === currentCategory);
-                        renderMenuItems(filtered);
+                        renderMenuItems(getFilteredItems());
                     }
                 }
             } catch (error) {
@@ -1888,43 +2001,44 @@
             }
         }
 
-        window.updateCartItemQuantity = async (index, newQuantity) => {
-            const itemId = cart[index]?.itemId;
-            if (newQuantity < 1) {
-                cart.splice(index, 1);
+        // ==========================================
+        // UPDATE CART ITEM QUANTITY (from cart drawer)
+        // ==========================================
+        window.updateCartItemQuantity = async (idx, qty) => {
+            const itemId = cart[idx] ? cart[idx].itemId : null;
+
+            if (qty < 1) {
+                cart.splice(idx, 1);
             } else {
-                cart[index].quantity = newQuantity;
+                cart[idx].quantity = qty;
             }
 
             if (currentUserId) {
-                await saveCartToFirebase();
+                await saveCart();
             }
-            if (itemId) refreshMenuItemControl(itemId);
+
+            if (itemId) {
+                refreshControl(itemId);
+            }
+
             updateCartUI();
         };
 
-        window.removeFromCart = async (index) => {
-            const itemId = cart[index]?.itemId;
-            cart.splice(index, 1);
-            if (currentUserId) {
-                await saveCartToFirebase();
-            }
-            if (itemId) refreshMenuItemControl(itemId);
-            updateCartUI();
-        };
-
+        // ==========================================
+        // UPDATE CART UI
+        // ==========================================
         function updateCartUI() {
             const body = document.getElementById('cartBody');
             const countEl = document.getElementById('cartCount');
             const checkoutBtn = document.getElementById('checkoutBtn');
             const summaryEl = document.getElementById('cartSummary');
             const cartFooter = document.getElementById('cartFooter');
-            const floatingBar = document.getElementById('floatingCartBar');
+            const bar = document.getElementById('floatingCartBar');
 
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const deliveryFee = parseFloat(vendorInfo?.deliveryFee || 0);
-            const total = subtotal + deliveryFee;
+            const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const fee = parseFloat(vendorInfo?.deliveryFee || 0);
+            const total = subtotal + fee;
 
             // Cart badge
             if (totalItems > 0) {
@@ -1936,18 +2050,16 @@
 
             checkoutBtn.disabled = cart.length === 0;
 
-            // Floating cart bar
+            // Floating bar
             if (totalItems > 0) {
-                floatingBar.classList.add('visible');
+                bar.classList.add('visible');
                 document.getElementById('floatingCartCount').textContent = totalItems;
                 document.getElementById('floatingCartTotal').textContent = `R ${total.toFixed(2)}`;
             } else {
-                floatingBar.classList.remove('visible');
+                bar.classList.remove('visible');
             }
 
-            const avgPrepTime = calculateAveragePrepTime();
-            const vendorAvgPrep = getVendorAveragePrepTime();
-            const displayPrepTime = avgPrepTime > 0 ? avgPrepTime : vendorAvgPrep;
+            const pt = calcPrepTime();
 
             if (cart.length === 0) {
                 body.innerHTML = `
@@ -1961,39 +2073,46 @@
                 cartFooter.style.display = 'none';
             } else {
                 cartFooter.style.display = 'block';
-                body.innerHTML = cart.map((item, index) => `
+
+                body.innerHTML = cart.map((item, i) => `
                     <div class="cart-item">
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">R${item.price.toFixed(2)} each</div>
+                            <div class="cart-item-price">R${item.price.toFixed(2)} ea</div>
                         </div>
                         <div class="cart-quantity-control">
-                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity - 1})">
-                                <i data-lucide="${item.quantity === 1 ? 'trash-2' : 'minus'}" style="width:14px;height:14px;${item.quantity === 1 ? 'color:var(--danger);' : ''}"></i>
+                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${i},${item.quantity - 1})">
+                                <i data-lucide="${item.quantity === 1 ? 'trash-2' : 'minus'}" style="width:12px;height:12px;${item.quantity === 1 ? 'color:var(--danger);' : ''}"></i>
                             </button>
                             <span class="cart-qty-value">${item.quantity}</span>
-                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity + 1})">
-                                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${i},${item.quantity + 1})">
+                                <i data-lucide="plus" style="width:12px;height:12px;"></i>
                             </button>
                         </div>
                         <div class="cart-item-total">R${(item.price * item.quantity).toFixed(2)}</div>
                     </div>
                 `).join('');
 
-                const prepTimeHtml = displayPrepTime > 0
-                    ? `<div class="prep-time-badge"><i data-lucide="clock" style="width:14px;height:14px;"></i> Est. prep: ~${displayPrepTime} min</div>`
-                    : '';
+                let prepHtml = '';
+                if (pt > 0) {
+                    prepHtml = `
+                        <div class="prep-time-badge">
+                            <i data-lucide="clock" style="width:12px;height:12px;"></i>
+                            ~${pt} min prep
+                        </div>
+                    `;
+                }
 
                 summaryEl.innerHTML = `
-                    ${prepTimeHtml}
+                    ${prepHtml}
                     <div class="cart-summary">
                         <div class="cart-summary-row">
-                            <span>Subtotal (${totalItems} item${totalItems > 1 ? 's' : ''})</span>
+                            <span>Subtotal (${totalItems})</span>
                             <span>R ${subtotal.toFixed(2)}</span>
                         </div>
                         <div class="cart-summary-row">
-                            <span>Delivery fee</span>
-                            <span>${deliveryFee > 0 ? `R ${deliveryFee.toFixed(2)}` : 'Free'}</span>
+                            <span>Delivery</span>
+                            <span>${fee > 0 ? `R ${fee.toFixed(2)}` : 'Free'}</span>
                         </div>
                         <div class="cart-summary-row">
                             <span>Total</span>
@@ -2002,39 +2121,46 @@
                     </div>
                 `;
             }
+
             lucide.createIcons();
         }
 
+        // ==========================================
+        // TOGGLE CART
+        // ==========================================
         window.toggleCart = () => {
-            const drawer = document.getElementById('cartDrawer');
-            const overlay = document.getElementById('cartOverlay');
-            const isOpen = drawer.classList.contains('open');
+            const d = document.getElementById('cartDrawer');
+            const o = document.getElementById('cartOverlay');
+            const isOpen = d.classList.contains('open');
 
             if (isOpen) {
-                drawer.classList.remove('open');
-                overlay.classList.remove('open');
+                d.classList.remove('open');
+                o.classList.remove('open');
                 document.body.style.overflow = '';
             } else {
-                drawer.classList.add('open');
-                overlay.classList.add('open');
+                d.classList.add('open');
+                o.classList.add('open');
                 document.body.style.overflow = 'hidden';
             }
         };
 
+        // ==========================================
+        // HANDLE CHECKOUT
+        // ==========================================
         window.handleCheckout = async () => {
             if (!currentUser) {
-                showToast("Please sign in to checkout");
+                showToast("Please sign in");
                 return;
             }
 
             if (cart.length === 0) {
-                showToast("Your cart is empty");
+                showToast("Cart is empty");
                 return;
             }
 
             try {
-                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                const deliveryFee = parseFloat(vendorInfo?.deliveryFee || 0);
+                const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                const fee = parseFloat(vendorInfo?.deliveryFee || 0);
 
                 const orderData = {
                     userId: currentUserId,
@@ -2042,44 +2168,46 @@
                     vendorName: vendorInfo?.name || '',
                     items: cart,
                     subtotal: subtotal,
-                    deliveryFee: deliveryFee,
-                    total: subtotal + deliveryFee,
+                    deliveryFee: fee,
+                    total: subtotal + fee,
                     status: 'pending',
                     createdAt: Date.now(),
-                    estimatedPrepTime: calculateAveragePrepTime() || getVendorAveragePrepTime()
+                    estimatedPrepTime: calcPrepTime()
                 };
 
                 const newOrderRef = push(ref(db, 'orders'));
                 await set(newOrderRef, orderData);
 
                 cart = [];
-                await saveCartToFirebase();
+                await saveCart();
                 updateCartUI();
                 toggleCart();
-
-                // Re-render menu to clear quantities
-                const filtered = currentCategory === 'all' ? allMenuItems : allMenuItems.filter(i => i.category === currentCategory);
-                renderMenuItems(filtered);
-
-                showToast("Order placed successfully! 🎉");
+                renderMenuItems(getFilteredItems());
+                showToast("Order placed! 🎉");
             } catch (error) {
                 console.error("Checkout error:", error);
-                showToast("Failed to place order");
+                showToast("Order failed");
             }
         };
 
+        // ==========================================
+        // SHOW TOAST
+        // ==========================================
         window.showToast = (msg) => {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
         };
 
+        // ==========================================
+        // AUTH STATE
+        // ==========================================
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (user) {
                 currentUserId = user.uid;
-                loadCartFromFirebase();
+                loadCart();
             } else {
                 currentUserId = null;
                 cart = [];
@@ -2087,6 +2215,9 @@
             }
         });
 
+        // ==========================================
+        // INIT
+        // ==========================================
         lucide.createIcons();
         loadMenu();
     </script>
