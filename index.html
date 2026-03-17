@@ -592,7 +592,8 @@
         }
         .r-card.closed {
             cursor: not-allowed;
-            opacity: 0.75;
+            opacity: 0.6;
+            pointer-events: none;
         }
         .r-img-wrap {
             position: relative;
@@ -606,18 +607,18 @@
         .closed-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(3px);
         }
         .half-moon-icon {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             color: white;
-            opacity: 0.9;
+            opacity: 1;
         }
         .closed-badge {
             position: absolute;
@@ -738,7 +739,6 @@
             color: var(--dim);
             font-weight: 600;
         }
-        /* Category tags on cards */
         .r-categories {
             display: flex;
             flex-wrap: wrap;
@@ -1831,7 +1831,7 @@
                 `<div class="distance-badge"><i data-lucide="navigation" style="width:12px;height:12px;"></i>${v.distance.toFixed(1)} km</div>` : '';
 
             return `
-                <div class="r-card ${v.isOpen ? '' : 'closed'}" onclick="handleCardClick('${v.key}', ${v.isOpen})">
+                <div class="r-card ${v.isOpen ? '' : 'closed'}" ${v.isOpen ? `onclick="handleCardClick('${v.key}', ${v.isOpen})"` : ''}>
                     <div class="r-img-wrap">
                         <img src="${v.image}" alt="${v.name}" loading="lazy">
                         ${!v.isOpen ? `
