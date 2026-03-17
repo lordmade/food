@@ -1312,7 +1312,7 @@
                 <!-- Category Filters -->
                 <div class="filters-wrap" id="foodFilters">
                     <div class="filters-scroll no-scrollbar" id="categoryFilters">
-                        <!-- Dynamic category buttons will be injected here by JS -->
+                        <!-- Dynamic category buttons injected here -->
                     </div>
                 </div>
             </header>
@@ -1462,13 +1462,14 @@
         let searchRadius = 10;
         let selectedRadius = 10;
 
-        // NEW: Dynamic category filters
+        // NEW: Base category emoji map (only main names)
         const categoryEmojiMap = {
             "Pizza": "🍕",
-            "Burgers": "🍔",
+            "Burger": "🍔",
             "Sushi": "🍣",
             "Healthy": "🥗",
-            "Desserts": "🍰",
+            "Dessert": "🍰",
+            "Coffee": "☕",
             "Fast Food": "🍟",
             "Indian": "🍛",
             "Chinese": "🥟",
@@ -1482,8 +1483,37 @@
             "Salads": "🥗",
             "Drinks": "🥤",
             "Sides": "🍟",
-            "Specials": "⭐"
+            "Specials": "⭐",
+            "Other": "🍽️"
         };
+
+        // NEW: Normalize any cuisine string to its main base name only
+        function normalizeCuisine(cuisine = "") {
+            if (!cuisine) return "Other";
+            const lower = cuisine.toLowerCase().trim();
+            
+            if (lower.includes("pizza")) return "Pizza";
+            if (lower.includes("burger")) return "Burger";
+            if (lower.includes("sushi")) return "Sushi";
+            if (lower.includes("healthy") || lower.includes("salad")) return "Healthy";
+            if (lower.includes("dessert") || lower.includes("sweet") || lower.includes("cake")) return "Dessert";
+            if (lower.includes("coffee") || lower.includes("cappuccino") || lower.includes("latte") || lower.includes("espresso") || lower.includes("tea")) return "Coffee";
+            if (lower.includes("indian")) return "Indian";
+            if (lower.includes("chinese")) return "Chinese";
+            if (lower.includes("italian")) return "Italian";
+            if (lower.includes("chicken")) return "Chicken";
+            if (lower.includes("seafood")) return "Seafood";
+            if (lower.includes("african")) return "African";
+            if (lower.includes("vegetarian")) return "Vegetarian";
+            if (lower.includes("starter")) return "Starters";
+            if (lower.includes("main")) return "Mains";
+            if (lower.includes("drink")) return "Drinks";
+            if (lower.includes("side")) return "Sides";
+            if (lower.includes("special")) return "Specials";
+            
+            // Fallback: take first word only
+            return cuisine.split(/[\s,]+/)[0].trim();
+        }
 
         // Generate shimmer cards
         function generateShimmerCards(count = 6) {
@@ -1675,31 +1705,28 @@
             document.getElementById('searchInput').value = "";
             currentFilter = "all";
            
-            // Rebuild dynamic filters when switching store type
             buildDynamicCategoryFilters();
            
             toggleSidebar();
             applyFilters();
         };
-        // NEW: Dynamic category filters
+        // NEW: Dynamic category filters with base-name only
         function buildDynamicCategoryFilters() {
             const container = document.getElementById('categoryFilters');
-            if (!container) return;
-            
             container.innerHTML = `
                 <button class="cat-btn active" onclick="filterCategory('all', this)">🍽️ All</button>
             `;
             
-            // Only show categories for restaurants
             const restaurantVendors = allVendors.filter(v => v.storeType === 'restaurant' && v.cuisine);
-            const uniqueCuisines = [...new Set(restaurantVendors.map(v => v.cuisine.trim()))].sort();
+            const normalized = restaurantVendors.map(v => normalizeCuisine(v.cuisine));
+            const uniqueCuisines = [...new Set(normalized)].filter(c => c !== "Other").sort();
             
             uniqueCuisines.forEach(cuisine => {
                 const emoji = categoryEmojiMap[cuisine] || '🍽️';
                 const btn = document.createElement('button');
                 btn.className = 'cat-btn';
                 btn.innerHTML = `${emoji} ${cuisine}`;
-                btn.onclick = (e) => filterCategory(cuisine, btn);
+                btn.onclick = () => filterCategory(cuisine, btn);
                 container.appendChild(btn);
             });
         }
@@ -1797,7 +1824,6 @@
                 showToast("Store is closed");
                 return;
             }
-            // Navigate to menu page with vendor ID as query parameter
             window.location.href = `menu.html?vendor=${vendorId}`;
         };
         function mapCategory(cuisine = "") {
@@ -1813,7 +1839,7 @@
         }
         // Load vendors with shimmer
         function loadVendors() {
-            showShimmer(); // Show shimmer while loading
+            showShimmer();
            
             onValue(ref(db, "vendors"), (snapshot) => {
                 const data = snapshot.val();
@@ -1843,10 +1869,9 @@
                     loadLikeCounts();
                 }
                
-                // Small delay to ensure shimmer is visible for at least 500ms
                 setTimeout(() => {
                     hideShimmer();
-                    buildDynamicCategoryFilters();   // ← NEW: Build dynamic filters from real vendor cuisines
+                    buildDynamicCategoryFilters();
                     applyFilters();
                 }, 500);
             });
@@ -1908,13 +1933,12 @@
                 }).filter(v => v.distance === null || v.distance <= searchRadius);
             }
            
-            // Updated filter to support dynamic cuisine names
             if (currentStoreType === 'restaurant' && currentFilter !== 'all') {
                 const filterLower = currentFilter.toLowerCase();
-                filtered = filtered.filter(v => 
-                    (v.cuisine && v.cuisine.toLowerCase() === filterLower) ||
-                    (v.category && v.category.toLowerCase() === filterLower)
-                );
+                filtered = filtered.filter(v => {
+                    const norm = normalizeCuisine(v.cuisine);
+                    return norm.toLowerCase() === filterLower;
+                });
             }
            
             if (searchTerm.trim()) {
@@ -1994,11 +2018,10 @@
         };
         // Initialize
         lucide.createIcons();
-        generateShimmerCards(6); // Pre-generate shimmer cards
+        generateShimmerCards(6);
         loadVendors();
         updateCartUI();
        
-        // Try to get initial location
         if (navigator.geolocation) {
             setTimeout(() => detectCurrentLocation(), 1000);
         }
