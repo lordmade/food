@@ -13,6 +13,7 @@
             --surface: #ffffff;
             --surface2: #f1f3f5;
             --border: #e9ecef;
+            --border-light: #f0f0f0;
             --text: #1a1d23;
             --text-secondary: #4a4a4a;
             --dim: #6c757d;
@@ -430,6 +431,7 @@
         .cart-item-img {
             width: 52px; height: 52px; border-radius: 8px; object-fit: cover;
             flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border-light);
+            display: block;
         }
         .cart-item-img-placeholder {
             width: 52px; height: 52px; border-radius: 8px; background: var(--surface2);
@@ -764,9 +766,8 @@
         MASTER_CATEGORIES.forEach(c => { categoryEmojiMap[c.label] = c.emoji; });
 
         let allVendors = [];
-        // cart is now a MAP: vendorId → { vendorName, vendorImage, deliveryFee, items: [] }
         let cartGroups = {};
-        let expandedGroups = new Set();  // track which vendor groups are expanded
+        let expandedGroups = new Set();
         let currentStoreType = 'restaurant';
         let currentFilter = 'all';
         let searchTerm = "";
@@ -779,11 +780,6 @@
         let searchRadius = 10;
         let selectedRadius = 10;
 
-        // =============================================
-        // CART HELPERS
-        // =============================================
-
-        // Flat array of all items across all vendors (for Firebase compatibility)
         function getAllCartItems() {
             const all = [];
             Object.values(cartGroups).forEach(g => g.items.forEach(i => all.push(i)));
@@ -808,15 +804,9 @@
             return Math.ceil(all.reduce((s, i) => s + (i.prepTime || 0), 0) / all.length);
         }
 
-        // =============================================
-        // FIREBASE CART SYNC
-        // =============================================
-
-        // Persist: we store a flat items array + per-vendor metadata side-channel
         async function saveCart() {
             if (!currentUserId) return;
             try {
-                // Save as array grouped by vendor for easy restore
                 const data = { groups: cartGroups, updatedAt: Date.now() };
                 await set(ref(db, `carts/${currentUserId}`), data);
             } catch (e) { console.error("Save cart error:", e); }
@@ -834,10 +824,8 @@
             onValue(ref(db, `carts/${currentUserId}`), async (snap) => {
                 if (snap.exists()) {
                     const d = snap.val();
-                    // Support both old flat format and new grouped format
                     if (d.groups) {
                         cartGroups = d.groups || {};
-                        // Backfill vendor info for any groups missing it
                         for (const vid of Object.keys(cartGroups)) {
                             if (!vendorInfoCache[vid]) {
                                 const vSnap = await get(ref(db, `vendors/${vid}`));
@@ -849,8 +837,49 @@
                                 }
                             }
                         }
+                        // Also backfill item images from vendor menu data
+                        for (const vid of Object.keys(cartGroups)) {
+                            const group = cartGroups[vid];
+                            const hasItemsMissingImages = group.items && group.items.some(item => !item.imageURL);
+                            if (hasItemsMissingImages) {
+                                try {
+                                    const menuSnap = await get(ref(db, `vendors/${vid}/menu`));
+                                    if (menuSnap.exists()) {
+                                        const menuData = menuSnap.val();
+                                        const menuItemsMap = {};
+                                        // Build a lookup map from all menu items
+                                        if (Array.isArray(menuData)) {
+                                            menuData.forEach(cat => {
+                                                if (cat && cat.items) {
+                                                    Object.values(cat.items).forEach(item => {
+                                                        if (item && item.name) menuItemsMap[item.name.toLowerCase().trim()] = item;
+                                                    });
+                                                }
+                                            });
+                                        } else if (typeof menuData === 'object') {
+                                            Object.values(menuData).forEach(cat => {
+                                                if (cat && cat.items) {
+                                                    const items = Array.isArray(cat.items) ? cat.items : Object.values(cat.items);
+                                                    items.forEach(item => {
+                                                        if (item && item.name) menuItemsMap[item.name.toLowerCase().trim()] = item;
+                                                    });
+                                                }
+                                            });
+                                        }
+                                        // Backfill missing images
+                                        group.items.forEach(cartItem => {
+                                            if (!cartItem.imageURL && cartItem.name) {
+                                                const menuItem = menuItemsMap[cartItem.name.toLowerCase().trim()];
+                                                if (menuItem && (menuItem.imageURL || menuItem.image)) {
+                                                    cartItem.imageURL = menuItem.imageURL || menuItem.image;
+                                                }
+                                            }
+                                        });
+                                    }
+                                } catch (e) { console.error("Menu fetch for images:", e); }
+                            }
+                        }
                     } else if (d.items && d.vendorId) {
-                        // Legacy flat format from menu.html — convert
                         const vid = d.vendorId;
                         if (!vendorInfoCache[vid]) {
                             const vSnap = await get(ref(db, `vendors/${vid}`));
@@ -858,13 +887,49 @@
                         }
                         const vInfo = vendorInfoCache[vid] || {};
                         cartGroups = {};
-                        if (d.items.length > 0) {
+                        const items = Array.isArray(d.items) ? d.items : Object.values(d.items);
+                        if (items.length > 0) {
+                            // Backfill images for legacy items too
+                            try {
+                                const menuSnap = await get(ref(db, `vendors/${vid}/menu`));
+                                if (menuSnap.exists()) {
+                                    const menuData = menuSnap.val();
+                                    const menuItemsMap = {};
+                                    if (Array.isArray(menuData)) {
+                                        menuData.forEach(cat => {
+                                            if (cat && cat.items) {
+                                                Object.values(cat.items).forEach(item => {
+                                                    if (item && item.name) menuItemsMap[item.name.toLowerCase().trim()] = item;
+                                                });
+                                            }
+                                        });
+                                    } else if (typeof menuData === 'object') {
+                                        Object.values(menuData).forEach(cat => {
+                                            if (cat && cat.items) {
+                                                const catItems = Array.isArray(cat.items) ? cat.items : Object.values(cat.items);
+                                                catItems.forEach(item => {
+                                                    if (item && item.name) menuItemsMap[item.name.toLowerCase().trim()] = item;
+                                                });
+                                            }
+                                        });
+                                    }
+                                    items.forEach(cartItem => {
+                                        if (!cartItem.imageURL && cartItem.name) {
+                                            const menuItem = menuItemsMap[cartItem.name.toLowerCase().trim()];
+                                            if (menuItem && (menuItem.imageURL || menuItem.image)) {
+                                                cartItem.imageURL = menuItem.imageURL || menuItem.image;
+                                            }
+                                        }
+                                    });
+                                }
+                            } catch (e) { console.error("Legacy menu fetch for images:", e); }
+
                             cartGroups[vid] = {
                                 vendorId: vid,
                                 vendorName: vInfo.name || 'Restaurant',
                                 vendorImage: vInfo.imageURL || '',
                                 deliveryFee: vInfo.deliveryFee || 0,
-                                items: d.items
+                                items: items
                             };
                         }
                     } else {
@@ -877,9 +942,6 @@
             });
         }
 
-        // =============================================
-        // CART UI — grouped by vendor with images
-        // =============================================
         function updateCartUI() {
             const body = document.getElementById('cartBody');
             const countEl = document.getElementById('cartCount');
@@ -892,7 +954,6 @@
             const totalPrice = getTotalPrice();
             const vendorCount = Object.keys(cartGroups).length;
 
-            // Header badge
             if (totalItems > 0) {
                 countEl.style.display = 'flex';
                 countEl.textContent = totalItems;
@@ -902,7 +963,6 @@
 
             checkoutBtn.disabled = totalItems === 0;
 
-            // Floating bar
             if (totalItems > 0) {
                 bar.classList.add('visible');
                 document.getElementById('floatingCartCount').textContent = totalItems;
@@ -926,10 +986,8 @@
 
             cartFooter.style.display = 'block';
 
-            // Build grouped HTML
             let groupsHtml = '';
 
-            // Multi-restaurant warning
             if (vendorCount > 1) {
                 groupsHtml += `
                     <div class="multi-restaurant-banner">
@@ -946,7 +1004,6 @@
                 const groupTotal = groupSubtotal + groupFee;
                 const groupItemCount = groupItems.reduce((s, i) => s + i.quantity, 0);
 
-                // Item preview images strip (shown when collapsed)
                 const previewImgs = groupItems.slice(0, 4).map(item => {
                     if (item.imageURL) return `<img class="preview-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`;
                     return `<div class="preview-img-placeholder"><i data-lucide="image"></i></div>`;
@@ -954,7 +1011,6 @@
                 const moreCount = groupItems.length > 4 ? groupItems.length - 4 : 0;
                 const moreHtml = moreCount > 0 ? `<div class="preview-more">+${moreCount}</div>` : '';
 
-                // Individual item rows
                 const itemsHtml = groupItems.map((item, idx) => {
                     const imgHtml = item.imageURL
                         ? `<img class="cart-item-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
@@ -1015,7 +1071,6 @@
 
             body.innerHTML = groupsHtml;
 
-            // Summary footer
             const pt = calcPrepTime();
             let prepHtml = pt > 0 ? `<div class="prep-time-badge"><i data-lucide="clock" style="width:12px;height:12px;"></i> ~${pt} min prep</div>` : '';
 
@@ -1034,20 +1089,17 @@
             lucide.createIcons();
         }
 
-        // Toggle a vendor group open/closed
         window.toggleVendorGroup = (vendorId) => {
             if (expandedGroups.has(vendorId)) {
                 expandedGroups.delete(vendorId);
             } else {
                 expandedGroups.add(vendorId);
             }
-            // Update DOM directly without full re-render
             const el = document.getElementById(`vgroup-${vendorId}`);
             if (el) el.classList.toggle('expanded', expandedGroups.has(vendorId));
             lucide.createIcons();
         };
 
-        // Update quantity for an item in a specific vendor group
         window.updateCartItemQty = async (vendorId, idx, qty) => {
             if (!cartGroups[vendorId]) return;
             if (qty < 1) {
@@ -1071,7 +1123,6 @@
                 d.classList.remove('open'); o.classList.remove('open');
                 document.body.style.overflow = '';
             } else {
-                // Auto-expand first group if only one
                 if (Object.keys(cartGroups).length === 1) {
                     expandedGroups.add(Object.keys(cartGroups)[0]);
                 }
@@ -1085,7 +1136,6 @@
             if (!currentUser) { showToast("Please sign in"); handleProfileClick(); return; }
             if (getTotalItems() === 0) { showToast("Cart is empty"); return; }
             try {
-                // Place a separate order per vendor
                 const promises = Object.entries(cartGroups).map(([vendorId, group]) => {
                     const subtotal = group.items.reduce((s, i) => s + i.price * i.quantity, 0);
                     const fee = parseFloat(group.deliveryFee || 0);
@@ -1111,9 +1161,6 @@
             } catch (e) { console.error("Checkout error:", e); showToast("Order failed"); }
         };
 
-        // =============================================
-        // CATEGORY FILTERS
-        // =============================================
         function buildCategoryFilters() {
             const container = document.getElementById('categoryFilters');
             let html = `<button class="cat-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="filterCategory('all', this)">🍽️ All</button>`;
@@ -1137,9 +1184,6 @@
             return vendorCats.some(cat => cat.toLowerCase() === filterCategory.toLowerCase());
         }
 
-        // =============================================
-        // SHIMMER
-        // =============================================
         function generateShimmerCards(count = 6) {
             const grid = document.getElementById('shimmerGrid');
             grid.innerHTML = '';
@@ -1153,9 +1197,6 @@
         function showShimmer() { generateShimmerCards(6); document.getElementById('shimmerOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
         function hideShimmer() { document.getElementById('shimmerOverlay').classList.remove('active'); document.body.style.overflow = ''; }
 
-        // =============================================
-        // SIDEBAR / LOCATION / FILTERS
-        // =============================================
         window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebarOverlay').classList.toggle('open'); };
         window.openLocationModal = () => { document.getElementById('locationModalOverlay').classList.add('active'); document.getElementById('locationModal').classList.add('active'); document.getElementById('modalLocationInput').focus(); };
         window.closeLocationModal = () => { document.getElementById('locationModalOverlay').classList.remove('active'); document.getElementById('locationModal').classList.remove('active'); };
@@ -1244,9 +1285,6 @@
             buildCategoryFilters(); toggleSidebar(); applyFilters();
         };
 
-        // =============================================
-        // AUTH
-        // =============================================
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             currentUserId = user ? user.uid : null;
@@ -1293,9 +1331,6 @@
 
         window.confirmSignOut = () => { signOut(auth).then(() => { closeAuthModals(); showToast("Signed out"); }); };
 
-        // =============================================
-        // VENDORS & RENDERING
-        // =============================================
         window.toggleLike = async (vendorId, event) => {
             event.stopPropagation();
             if (!currentUser) { showToast("Sign in to like"); handleProfileClick(); return; }
@@ -1478,7 +1513,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        // Initialize
         lucide.createIcons();
         generateShimmerCards(6);
         buildCategoryFilters();
