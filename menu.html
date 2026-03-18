@@ -34,386 +34,128 @@
             --shimmer-base: #f0f0f0;
             --shimmer-highlight: #e8e8e8;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html { touch-action: manipulation; }
-
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
+        body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* SHIMMER */
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .shimmer {
-            background: linear-gradient(90deg, var(--shimmer-base) 25%, var(--shimmer-highlight) 50%, var(--shimmer-base) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        .shimmer-overlay {
-            position: fixed; inset: 0; background: var(--bg);
-            z-index: 5000; display: none; flex-direction: column; overflow-y: auto;
-        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .shimmer { background: linear-gradient(90deg, var(--shimmer-base) 25%, var(--shimmer-highlight) 50%, var(--shimmer-base) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        .shimmer-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 5000; display: none; flex-direction: column; overflow-y: auto; }
         .shimmer-overlay.active { display: flex; }
-
-        .shimmer-header {
-            padding: 8px 14px; background: var(--surface);
-            display: flex; align-items: center; gap: 10px; height: var(--header-height);
-        }
+        .shimmer-header { padding: 8px 14px; background: var(--surface); display: flex; align-items: center; gap: 10px; height: var(--header-height); }
         .shimmer-back-btn { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; }
         .shimmer-title { width: 120px; height: 18px; border-radius: 4px; }
         .shimmer-header-actions { margin-left: auto; display: flex; gap: 8px; }
         .shimmer-action-btn { width: 34px; height: 34px; border-radius: 50%; }
-
         .shimmer-restaurant-info { padding: 0; background: var(--surface); margin-bottom: 6px; }
         .shimmer-restaurant-image { width: 100%; height: 160px; }
         .shimmer-restaurant-name { width: 65%; height: 20px; border-radius: 4px; margin: 12px 14px 8px; }
         .shimmer-restaurant-meta { width: 45%; height: 14px; border-radius: 4px; margin: 0 14px 6px; }
-
-        .shimmer-categories {
-            padding: 8px 14px; display: flex; justify-content: center; gap: 6px;
-            background: var(--surface); margin-bottom: 6px;
-        }
+        .shimmer-categories { padding: 8px 14px; display: flex; justify-content: center; gap: 6px; background: var(--surface); margin-bottom: 6px; }
         .shimmer-category-btn { width: 70px; height: 28px; border-radius: 100px; flex-shrink: 0; }
-
         .shimmer-content { padding: 10px 12px; flex: 1; }
         .shimmer-section-title { width: 100px; height: 16px; border-radius: 4px; margin-bottom: 10px; }
-
-        .shimmer-card-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
+        .shimmer-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .shimmer-card { background: var(--surface); border-radius: var(--radius-xs); overflow: hidden; }
         .shimmer-card-image { width: 100%; height: 110px; }
         .shimmer-card-body { padding: 6px 8px 8px; }
         .shimmer-card-title { height: 11px; width: 80%; border-radius: 3px; margin-bottom: 5px; }
         .shimmer-card-price { height: 11px; width: 45%; border-radius: 3px; }
 
-        /* APP CONTAINER */
-        .app-container {
-            display: flex; flex-direction: column;
-            min-height: 100vh; min-height: 100dvh;
-            width: 100vw; position: relative;
-        }
+        /* APP */
+        .app-container { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; width: 100vw; position: relative; }
 
         /* HEADER */
-        .header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 6px 14px; height: var(--header-height); background: var(--surface);
-            position: sticky; top: 0; z-index: 1000;
-            border-bottom: 1px solid var(--border-light); gap: 10px;
-        }
+        .header { display: flex; align-items: center; justify-content: space-between; padding: 6px 14px; height: var(--header-height); background: var(--surface); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-light); gap: 10px; }
         .header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-
-        .back-btn {
-            width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-            background: transparent; border: none; border-radius: 50%; cursor: pointer;
-            color: var(--text); flex-shrink: 0; transition: var(--transition);
-        }
+        .back-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; border-radius: 50%; cursor: pointer; color: var(--text); flex-shrink: 0; transition: var(--transition); }
         .back-btn:active { background: var(--surface2); transform: scale(0.9); }
         .back-btn i { width: 20px; height: 20px; }
-
-        .header-title {
-            font-weight: 700; font-size: 1rem;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-
+        .header-title { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .header-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-
-        .action-btn {
-            width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-            background: transparent; border: none; border-radius: 50%; cursor: pointer;
-            color: var(--text); position: relative; transition: var(--transition);
-        }
+        .action-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; border-radius: 50%; cursor: pointer; color: var(--text); position: relative; transition: var(--transition); }
         .action-btn:active { transform: scale(0.9); background: var(--surface2); }
         .action-btn i { width: 20px; height: 20px; }
-
-        .cart-badge {
-            position: absolute; top: 0; right: -2px; background: var(--accent); color: white;
-            font-size: 0.6rem; font-weight: 700; padding: 1px 4px; border-radius: 8px;
-            min-width: 14px; text-align: center; border: 1.5px solid var(--surface); line-height: 1.2;
-        }
+        .cart-badge { position: absolute; top: 0; right: -2px; background: var(--accent); color: white; font-size: 0.6rem; font-weight: 700; padding: 1px 4px; border-radius: 8px; min-width: 14px; text-align: center; border: 1.5px solid var(--surface); line-height: 1.2; }
 
         /* RESTAURANT HERO */
-        .restaurant-hero { background: var(--surface); margin-bottom: 6px; position: relative; }
+        .restaurant-hero { background: var(--surface); margin-bottom: 6px; }
         .restaurant-banner-wrap { position: relative; width: 100%; height: 160px; overflow: hidden; }
         .restaurant-image { width: 100%; height: 100%; object-fit: cover; }
-        .restaurant-banner-gradient {
-            position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.35));
-        }
+        .restaurant-banner-gradient { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(transparent, rgba(0,0,0,0.35)); }
         .restaurant-info-section { padding: 12px 14px; }
         .restaurant-name { font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.02em; }
-        .restaurant-meta {
-            display: flex; align-items: center; gap: 5px; color: var(--dim);
-            font-size: 0.78rem; font-weight: 500; margin-bottom: 10px; flex-wrap: wrap;
-        }
+        .restaurant-meta { display: flex; align-items: center; gap: 5px; color: var(--dim); font-size: 0.78rem; font-weight: 500; margin-bottom: 10px; flex-wrap: wrap; }
         .restaurant-meta .meta-item { display: flex; align-items: center; gap: 3px; }
         .restaurant-meta .meta-dot { width: 3px; height: 3px; background: var(--dim); border-radius: 50%; }
         .restaurant-meta i { width: 12px; height: 12px; }
         .rating-star { color: var(--yellow); }
-        .delivery-info-bar {
-            display: flex; gap: 0; background: var(--surface2);
-            border-radius: var(--radius-xs); overflow: hidden;
-        }
-        .delivery-info-item {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 1px; flex: 1; padding: 8px 6px;
-        }
+        .delivery-info-bar { display: flex; background: var(--surface2); border-radius: var(--radius-xs); overflow: hidden; }
+        .delivery-info-item { display: flex; flex-direction: column; align-items: center; gap: 1px; flex: 1; padding: 8px 6px; }
         .delivery-info-item:not(:last-child) { border-right: 1px solid var(--border); }
-        .delivery-info-item .info-value { font-weight: 700; font-size: 0.82rem; color: var(--text); }
+        .delivery-info-item .info-value { font-weight: 700; font-size: 0.82rem; }
         .delivery-info-item .info-label { font-size: 0.65rem; color: var(--dim); font-weight: 500; }
         .restaurant-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
-        .tag {
-            padding: 3px 8px; background: var(--surface2); border-radius: 100px;
-            font-size: 0.68rem; font-weight: 600; color: var(--dim);
-        }
+        .tag { padding: 3px 8px; background: var(--surface2); border-radius: 100px; font-size: 0.68rem; font-weight: 600; color: var(--dim); }
 
         /* SEARCH */
-        .search-section {
-            padding: 8px 14px; background: var(--surface);
-            border-bottom: 1px solid var(--border-light);
-        }
-        .search-input-wrap {
-            display: flex; align-items: center; gap: 8px; background: var(--surface2);
-            border-radius: var(--radius-xs); padding: 8px 10px;
-            border: 1px solid var(--border-light); transition: var(--transition);
-        }
-        .search-input-wrap:focus-within {
-            border-color: var(--accent); background: var(--surface);
-            box-shadow: 0 0 0 2px rgba(6,193,103,0.1);
-        }
+        .search-section { padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--border-light); }
+        .search-input-wrap { display: flex; align-items: center; gap: 8px; background: var(--surface2); border-radius: var(--radius-xs); padding: 8px 10px; border: 1px solid var(--border-light); transition: var(--transition); }
+        .search-input-wrap:focus-within { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 2px rgba(6,193,103,0.1); }
         .search-input-wrap i { width: 16px; height: 16px; color: var(--dim); flex-shrink: 0; }
-        .search-input {
-            flex: 1; border: none; background: transparent;
-            font-family: inherit; font-size: 0.82rem; color: var(--text); outline: none;
-        }
+        .search-input { flex: 1; border: none; background: transparent; font-family: inherit; font-size: 0.82rem; color: var(--text); outline: none; }
         .search-input::placeholder { color: var(--dim); }
 
-        /* ============================================
-           CATEGORY TABS — pill shaped + CENTERED
-           ============================================ */
-        .category-tabs {
-            background: var(--surface);
-            padding: 8px 0;
-            position: sticky;
-            top: var(--header-height);
-            z-index: 100;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .tabs-scroll {
-            display: flex;
-            justify-content: center;   /* CENTER the pills */
-            flex-wrap: wrap;            /* wrap if too many */
-            gap: 6px;
-            padding: 0 14px;
-            /* Still scrollable on very small screens with many categories */
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .tab-btn {
-            flex: 0 0 auto;
-            padding: 6px 14px;
-            background: var(--surface2);
-            border: 1.5px solid var(--border);
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: var(--dim);
-            cursor: pointer;
-            transition: var(--transition);
-            white-space: nowrap;
-            touch-action: manipulation;
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
-            box-shadow: 0 2px 8px rgba(6,193,103,0.3);
-        }
-
+        /* CATEGORY TABS */
+        .category-tabs { background: var(--surface); padding: 8px 0; position: sticky; top: var(--header-height); z-index: 100; border-bottom: 1px solid var(--border-light); }
+        .tabs-scroll { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 0 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .tab-btn { flex: 0 0 auto; padding: 6px 14px; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 100px; font-weight: 600; font-size: 0.75rem; color: var(--dim); cursor: pointer; transition: var(--transition); white-space: nowrap; touch-action: manipulation; }
+        .tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 2px 8px rgba(6,193,103,0.3); }
         .tab-btn:active { opacity: 0.75; transform: scale(0.95); }
 
-        /* MENU CONTENT */
+        /* MENU */
         .menu-content { padding: 0 0 80px; flex: 1; }
-
         .menu-section { margin-bottom: 4px; background: var(--bg); }
-
-        .section-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 12px 8px; background: var(--bg);
-        }
-        .section-title {
-            font-size: 0.88rem; font-weight: 800; color: var(--text);
-            text-transform: capitalize; letter-spacing: -0.01em;
-        }
+        .section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 8px; background: var(--bg); }
+        .section-title { font-size: 0.88rem; font-weight: 800; color: var(--text); text-transform: capitalize; letter-spacing: -0.01em; }
         .section-count { font-size: 0.68rem; color: var(--dim); font-weight: 500; }
-
-        /* ============================================
-           CARD GRID — 3 columns, image-dominant
-           ============================================ */
-        .menu-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            padding: 0 10px 4px;
-        }
-
-        /* Category switch animation */
-        @keyframes fadeSlideIn {
-            0%   { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .menu-list.animating {
-            animation: fadeSlideIn 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        /* Card */
-        .menu-list-item {
-            background: var(--surface);
-            border-radius: var(--radius-xs);
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1),
-                        box-shadow 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-            border: 1px solid var(--border-light);
-        }
-
-        /* Lift on hover */
-        .menu-list-item:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-
-        .menu-list-item:active {
-            transform: scale(0.96);
-            box-shadow: none;
-        }
-
-        /* ============================================
-           IMAGE — tall, takes ~70% of card
-           ============================================ */
-        .menu-item-image-wrap {
-            position: relative;
-            width: 100%;
-            /* aspect-ratio keeps it proportional at any grid width */
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-            flex-shrink: 0;
-            background: var(--surface2);
-        }
-
-        .menu-item-image {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
+        .menu-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 10px 4px; }
+        @keyframes fadeSlideIn { 0%{opacity:0;transform:translateY(10px);}100%{opacity:1;transform:translateY(0);} }
+        .menu-list.animating { animation: fadeSlideIn 0.22s cubic-bezier(0.4,0,0.2,1) forwards; }
+        .menu-list-item { background: var(--surface); border-radius: var(--radius-xs); overflow: hidden; cursor: pointer; transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s cubic-bezier(0.4,0,0.2,1); position: relative; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.07); border: 1px solid var(--border-light); }
+        .menu-list-item:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .menu-list-item:active { transform: scale(0.96); box-shadow: none; }
+        .menu-item-image-wrap { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; flex-shrink: 0; background: var(--surface2); }
+        .menu-item-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
         .menu-list-item:hover .menu-item-image { transform: scale(1.07); }
-
-        .menu-item-badge {
-            position: absolute; top: 5px; left: 5px; background: var(--accent); color: white;
-            padding: 2px 6px; border-radius: 100px; font-size: 0.55rem; font-weight: 700;
-            letter-spacing: 0.02em; backdrop-filter: blur(4px);
-        }
-
-        .menu-item-no-image {
-            width: 100%; height: 100%; display: flex; align-items: center;
-            justify-content: center; background: linear-gradient(135deg, #f0f0f0, #e4e4e4);
-        }
+        .menu-item-badge { position: absolute; top: 5px; left: 5px; background: var(--accent); color: white; padding: 2px 6px; border-radius: 100px; font-size: 0.55rem; font-weight: 700; }
+        .menu-item-no-image { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#f0f0f0,#e4e4e4); }
         .menu-item-no-image i { width: 28px; height: 28px; color: #ccc; }
-
-        /* ============================================
-           CARD BODY — compact, just name + price+add
-           ============================================ */
-        .menu-item-info {
-            display: flex;
-            flex-direction: column;
-            padding: 6px 7px 7px;
-            gap: 3px;
-            flex-shrink: 0;
-        }
-
+        .menu-item-info { display: flex; flex-direction: column; padding: 6px 7px 7px; gap: 3px; flex-shrink: 0; }
         .menu-item-top { flex: 1; }
-
-        .menu-item-name {
-            font-weight: 700; font-size: 0.7rem; color: var(--text); line-height: 1.25;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-            overflow: hidden; margin-bottom: 1px;
-        }
-
-        .menu-item-desc {
-            color: var(--dim); font-size: 0.6rem; line-height: 1.3;
-            display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
-        }
-
+        .menu-item-name { font-weight: 700; font-size: 0.7rem; color: var(--text); line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 1px; }
+        .menu-item-desc { color: var(--dim); font-size: 0.6rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
         .menu-item-tags { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 2px; }
-        .menu-item-tag {
-            font-size: 0.52rem; font-weight: 600; padding: 1px 4px;
-            border-radius: 100px; background: var(--surface2); color: var(--dim);
-        }
-        .menu-item-tag.featured { background: #fff3cd; color: #856404; }
+        .menu-item-tag { font-size: 0.52rem; font-weight: 600; padding: 1px 4px; border-radius: 100px; background: var(--surface2); color: var(--dim); }
         .menu-item-tag.calories { background: #fce4ec; color: #c62828; }
-        .menu-item-tag.prep     { background: #e3f2fd; color: #1565c0; }
-
-        .menu-item-bottom {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 3px; margin-top: 4px;
-        }
+        .menu-item-tag.prep { background: #e3f2fd; color: #1565c0; }
+        .menu-item-bottom { display: flex; align-items: center; justify-content: space-between; gap: 3px; margin-top: 4px; }
         .menu-item-price { font-weight: 800; font-size: 0.75rem; color: var(--text); }
         .menu-item-price .currency { font-weight: 600; font-size: 0.65rem; }
-
-        /* ADD BUTTON */
-        .menu-item-add-btn {
-            display: flex; align-items: center; justify-content: center;
-            width: 24px; height: 24px; background: var(--accent); border: none;
-            border-radius: 50%; cursor: pointer; color: white; transition: var(--transition);
-            flex-shrink: 0; box-shadow: 0 2px 5px rgba(6,193,103,0.3);
-        }
+        .menu-item-add-btn { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--accent); border: none; border-radius: 50%; cursor: pointer; color: white; transition: var(--transition); flex-shrink: 0; box-shadow: 0 2px 5px rgba(6,193,103,0.3); }
         .menu-item-add-btn:active { transform: scale(0.82); background: var(--accent-dark); }
         .menu-item-add-btn i { width: 13px; height: 13px; }
-
-        /* INLINE QTY CONTROL */
-        .menu-item-qty-control {
-            display: flex; align-items: center; gap: 0; background: var(--accent);
-            border-radius: 100px; padding: 1px; box-shadow: 0 2px 5px rgba(6,193,103,0.25);
-        }
-        .menu-item-qty-btn {
-            width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
-            border: none; background: transparent; color: white; cursor: pointer;
-            border-radius: 50%; transition: var(--transition);
-        }
+        .menu-item-qty-control { display: flex; align-items: center; background: var(--accent); border-radius: 100px; padding: 1px; box-shadow: 0 2px 5px rgba(6,193,103,0.25); }
+        .menu-item-qty-btn { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border: none; background: transparent; color: white; cursor: pointer; border-radius: 50%; transition: var(--transition); }
         .menu-item-qty-btn:active { background: rgba(255,255,255,0.2); }
         .menu-item-qty-btn i { width: 11px; height: 11px; }
-        .menu-item-qty-value {
-            color: white; font-weight: 700; font-size: 0.7rem; min-width: 15px; text-align: center;
-        }
+        .menu-item-qty-value { color: white; font-weight: 700; font-size: 0.7rem; min-width: 15px; text-align: center; }
 
         /* OVERLAY */
-        .cart-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1999;
-            opacity: 0; visibility: hidden; transition: all 0.3s ease;
-        }
+        .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1999; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .cart-overlay.open { opacity: 1; visibility: visible; }
 
         /* EMPTY / NO RESULTS */
@@ -426,135 +168,99 @@
         .no-results i { width: 40px; height: 40px; margin-bottom: 10px; opacity: 0.3; }
 
         /* TOAST */
-        #toast {
-            position: fixed;
-            bottom: calc(72px + var(--safe-bottom));
-            left: 50%;
-            transform: translateX(-50%) translateY(200px);
-            background: var(--text); color: white; padding: 8px 18px;
-            border-radius: 100px; z-index: 4000; transition: transform 0.3s ease;
-            font-weight: 600; font-size: 0.78rem; box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            max-width: 90vw; text-align: center; white-space: nowrap;
-        }
+        #toast { position: fixed; bottom: calc(72px + var(--safe-bottom)); left: 50%; transform: translateX(-50%) translateY(200px); background: var(--text); color: white; padding: 8px 18px; border-radius: 100px; z-index: 4000; transition: transform 0.3s ease; font-weight: 600; font-size: 0.78rem; box-shadow: 0 6px 20px rgba(0,0,0,0.3); max-width: 90vw; text-align: center; white-space: nowrap; }
         #toast.show { transform: translateX(-50%) translateY(0); }
 
-        /* SMALLER FLOATING CART BAR */
-        .floating-cart-bar {
-            position: fixed; bottom: 0; left: 0; right: 0; z-index: 1500;
-            padding: 8px 14px;
-            padding-bottom: calc(10px + var(--safe-bottom));
-            background: transparent; pointer-events: none;
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
-            transform: translateY(100%); opacity: 0;
-        }
+        /* FLOATING CART BAR */
+        .floating-cart-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1500; padding: 8px 14px; padding-bottom: calc(10px + var(--safe-bottom)); background: transparent; pointer-events: none; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease; transform: translateY(100%); opacity: 0; }
         .floating-cart-bar.visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
-
-        .floating-cart-inner {
-            display: flex; align-items: center; justify-content: space-between;
-            background: var(--accent); color: white; padding: 10px 14px;
-            border-radius: var(--radius-sm);
-            box-shadow: 0 4px 16px rgba(6,193,103,0.38), 0 2px 6px rgba(6,193,103,0.18);
-            cursor: pointer; transition: var(--transition); min-height: 46px;
-        }
-        .floating-cart-inner:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(6,193,103,0.45);
-        }
+        .floating-cart-inner { display: flex; align-items: center; justify-content: space-between; background: var(--accent); color: white; padding: 10px 14px; border-radius: var(--radius-sm); box-shadow: 0 4px 16px rgba(6,193,103,0.38), 0 2px 6px rgba(6,193,103,0.18); cursor: pointer; transition: var(--transition); min-height: 46px; }
+        .floating-cart-inner:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(6,193,103,0.45); }
         .floating-cart-inner:active { transform: scale(0.98); }
-
         .floating-cart-left { display: flex; align-items: center; gap: 8px; }
-        .floating-cart-count {
-            background: rgba(255,255,255,0.25); width: 24px; height: 24px; border-radius: 6px;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 0.72rem; border: 1.5px solid rgba(255,255,255,0.3);
-        }
+        .floating-cart-count { background: rgba(255,255,255,0.25); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.72rem; border: 1.5px solid rgba(255,255,255,0.3); }
         .floating-cart-label { font-weight: 700; font-size: 0.82rem; letter-spacing: -0.01em; }
         .floating-cart-right { display: flex; align-items: center; gap: 4px; }
         .floating-cart-total { font-weight: 800; font-size: 0.86rem; letter-spacing: -0.01em; }
         .floating-cart-arrow { width: 16px; height: 16px; opacity: 0.85; }
 
-        /* CART DRAWER */
-        .cart-drawer {
-            position: fixed; right: 0; top: 0; bottom: 0; width: 100%; max-width: 380px;
-            background: var(--bg); z-index: 2000; transform: translateX(100%);
-            transition: transform 0.3s ease; display: flex; flex-direction: column;
-        }
+        /* ============================================
+           CART DRAWER — identical to index.html
+           ============================================ */
+        .cart-drawer { position: fixed; right: 0; top: 0; bottom: 0; width: 100%; max-width: 400px; background: var(--bg); z-index: 2000; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); }
         .cart-drawer.open { transform: translateX(0); }
-        .cart-header {
-            padding: 12px 16px; background: var(--surface);
-            border-bottom: 1px solid var(--border-light);
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .cart-header { padding: 14px 16px; background: var(--surface); border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
         .cart-header h3 { font-weight: 800; font-size: 1rem; }
-        .close-cart-btn {
-            width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-            background: var(--surface2); border: none; border-radius: 50%; cursor: pointer;
-            color: var(--dim); transition: var(--transition);
-        }
+        .close-cart-btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: var(--surface2); border: none; border-radius: 50%; cursor: pointer; color: var(--dim); transition: var(--transition); }
         .close-cart-btn:active { background: var(--border); }
         .close-cart-btn i { width: 18px; height: 18px; }
-        .cart-body { flex: 1; overflow-y: auto; padding: 12px; }
-        .cart-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px;
-            background: var(--surface); border-radius: var(--radius-xs); margin-bottom: 6px;
-            border: 1px solid var(--border-light);
-        }
+        .cart-body { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+
+        /* EMPTY STATE */
+        .cart-empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--dim); text-align: center; padding: 30px; }
+        .cart-empty-state i { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.25; }
+        .cart-empty-state p { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; color: var(--text); }
+        .cart-empty-state small { font-size: 0.8rem; }
+
+        /* VENDOR GROUP */
+        .vendor-group { background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+        .vendor-group-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; transition: var(--transition); background: var(--surface); user-select: none; }
+        .vendor-group-header:active { background: var(--surface2); }
+        .vendor-group-img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border-light); }
+        .vendor-group-info { flex: 1; min-width: 0; }
+        .vendor-group-name { font-weight: 800; font-size: 0.88rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .vendor-group-meta { font-size: 0.72rem; color: var(--dim); font-weight: 500; margin-top: 1px; }
+        .vendor-group-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .vendor-item-count { background: var(--accent-light); color: var(--accent-dark); border-radius: 100px; padding: 3px 10px; font-size: 0.7rem; font-weight: 700; }
+        .vendor-group-chevron { width: 18px; height: 18px; color: var(--dim); transition: transform 0.25s ease; flex-shrink: 0; }
+        .vendor-group.expanded .vendor-group-chevron { transform: rotate(180deg); }
+
+        /* Collapsed preview strip */
+        .vendor-item-previews { display: flex; gap: 4px; padding: 0 14px 10px; overflow: hidden; }
+        .vendor-group.expanded .vendor-item-previews { display: none; }
+        .preview-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; border: 1.5px solid var(--border); flex-shrink: 0; background: var(--surface2); }
+        .preview-img-placeholder { width: 40px; height: 40px; border-radius: 8px; background: var(--surface2); border: 1.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .preview-img-placeholder i { width: 16px; height: 16px; color: var(--border); }
+        .preview-more { width: 40px; height: 40px; border-radius: 8px; background: var(--surface2); border: 1.5px dashed var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: var(--dim); }
+
+        /* Expanded items list */
+        .vendor-items-list { display: none; flex-direction: column; border-top: 1px solid var(--border-light); }
+        .vendor-group.expanded .vendor-items-list { display: flex; }
+
+        /* Cart item row with image */
+        .cart-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-light); transition: background 0.15s ease; }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item:active { background: var(--surface2); }
+        .cart-item-img { width: 52px; height: 52px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border-light); }
+        .cart-item-img-placeholder { width: 52px; height: 52px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border-light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .cart-item-img-placeholder i { width: 20px; height: 20px; color: var(--border); }
         .cart-item-info { flex: 1; min-width: 0; }
-        .cart-item-name {
-            font-weight: 700; font-size: 0.82rem; margin-bottom: 1px;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .cart-item-name { font-weight: 700; font-size: 0.82rem; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .cart-item-price { color: var(--dim); font-size: 0.72rem; font-weight: 500; }
-        .cart-item-total { font-weight: 700; font-size: 0.82rem; color: var(--text); white-space: nowrap; }
-        .cart-quantity-control {
-            display: flex; align-items: center; gap: 2px;
-            background: var(--surface2); border-radius: 100px; padding: 2px;
-        }
-        .cart-qty-btn {
-            width: 24px; height: 24px; border-radius: 50%; border: none;
-            background: var(--surface); cursor: pointer; display: flex; align-items: center;
-            justify-content: center; transition: var(--transition); box-shadow: var(--shadow);
-        }
+        .cart-item-total { font-weight: 800; font-size: 0.82rem; color: var(--text); white-space: nowrap; }
+        .cart-quantity-control { display: flex; align-items: center; gap: 2px; background: var(--surface2); border-radius: 100px; padding: 2px; flex-shrink: 0; }
+        .cart-qty-btn { width: 24px; height: 24px; border-radius: 50%; border: none; background: var(--surface); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
         .cart-qty-btn:active { background: var(--accent); color: white; }
         .cart-qty-value { font-weight: 700; min-width: 18px; text-align: center; font-size: 0.78rem; }
-        .cart-footer {
-            padding: 12px; background: var(--surface); border-top: 1px solid var(--border-light);
-        }
-        .cart-summary {
-            background: var(--surface2); border-radius: var(--radius-xs);
-            padding: 10px; margin-bottom: 10px;
-        }
-        .cart-summary-row {
-            display: flex; justify-content: space-between; margin-bottom: 4px;
-            font-size: 0.78rem; color: var(--text-secondary);
-        }
-        .cart-summary-row:last-child {
-            margin-bottom: 0; padding-top: 6px; border-top: 1px solid var(--border);
-            font-weight: 700; font-size: 0.92rem; color: var(--text);
-        }
-        .prep-time-badge {
-            display: inline-flex; align-items: center; gap: 4px;
-            background: var(--accent-light); color: var(--accent-dark);
-            padding: 5px 10px; border-radius: 100px; font-size: 0.72rem;
-            font-weight: 600; margin-bottom: 8px;
-        }
-        .checkout-btn {
-            width: 100%; background: var(--accent); color: white; border: none;
-            padding: 12px; border-radius: var(--radius-xs); font-weight: 800;
-            font-size: 0.92rem; cursor: pointer; transition: var(--transition);
-            min-height: 44px; letter-spacing: -0.01em;
-        }
+
+        /* Vendor subtotal row */
+        .vendor-subtotal-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px 12px; border-top: 1px dashed var(--border); }
+        .vendor-subtotal-label { font-size: 0.75rem; color: var(--dim); font-weight: 600; }
+        .vendor-subtotal-value { font-size: 0.82rem; font-weight: 800; color: var(--accent); }
+
+        /* CART FOOTER */
+        .cart-footer { padding: 12px 14px; background: var(--surface); border-top: 1px solid var(--border); flex-shrink: 0; }
+        .cart-summary { background: var(--surface2); border-radius: var(--radius-xs); padding: 10px 12px; margin-bottom: 10px; }
+        .cart-summary-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.78rem; color: var(--text-secondary); }
+        .cart-summary-row:last-child { margin-bottom: 0; padding-top: 6px; border-top: 1px solid var(--border); font-weight: 700; font-size: 0.92rem; color: var(--text); }
+        .prep-time-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--accent-light); color: var(--accent-dark); padding: 5px 10px; border-radius: 100px; font-size: 0.72rem; font-weight: 600; margin-bottom: 8px; }
+        .checkout-btn { width: 100%; background: var(--accent); color: white; border: none; padding: 13px; border-radius: var(--radius-xs); font-weight: 800; font-size: 0.92rem; cursor: pointer; transition: var(--transition); min-height: 46px; letter-spacing: -0.01em; }
         .checkout-btn:active { transform: scale(0.98); background: var(--accent-dark); }
         .checkout-btn:disabled { background: var(--border); cursor: not-allowed; color: var(--dim); }
-        .cart-empty-state {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100%; color: var(--dim); text-align: center; padding: 30px;
-        }
-        .cart-empty-state i { width: 36px; height: 36px; margin-bottom: 12px; opacity: 0.3; }
-        .cart-empty-state p { font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
-        .cart-empty-state small { font-size: 0.75rem; }
 
-        /* DESKTOP */
+        @keyframes popIn { 0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;} }
+        .pop-in { animation: popIn 0.2s ease forwards; }
+
         @media (min-width: 768px) {
             .header { padding: 6px 24px; }
             .restaurant-info-section { padding: 14px 24px; }
@@ -563,30 +269,21 @@
             .section-header { padding: 12px 20px 8px; }
             .menu-list { padding: 0 16px 4px; gap: 10px; }
             .floating-cart-bar { padding: 8px 24px; padding-bottom: calc(10px + var(--safe-bottom)); }
-            .cart-drawer { max-width: 380px; border-left: 1px solid var(--border); }
+            .cart-drawer { max-width: 400px; border-left: 1px solid var(--border); }
             .shimmer-header { padding: 8px 24px; }
             .shimmer-restaurant-name { margin-left: 24px; margin-right: 24px; }
             .shimmer-restaurant-meta { margin-left: 24px; margin-right: 24px; }
             .shimmer-categories { padding: 8px 24px; }
             .shimmer-content { padding: 10px 20px; }
         }
-
         @media (min-width: 540px) { .menu-list { grid-template-columns: repeat(3, 1fr); } }
         @media (min-width: 900px) { .menu-list { grid-template-columns: repeat(4, 1fr); } }
         @media (min-width: 1200px) { .menu-list { grid-template-columns: repeat(5, 1fr); } }
-
-        /* ANIMATIONS */
-        @keyframes popIn {
-            0%   { transform: scale(0.5); opacity: 0; }
-            70%  { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .pop-in { animation: popIn 0.2s ease forwards; }
     </style>
 </head>
 <body>
 
-    <!-- SHIMMER LOADING OVERLAY -->
+    <!-- SHIMMER -->
     <div class="shimmer-overlay" id="shimmerOverlay">
         <div class="shimmer-header">
             <div class="shimmer shimmer-back-btn"></div>
@@ -622,24 +319,16 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div id="toast">Message</div>
 
-    <!-- APP CONTAINER -->
     <div class="app-container">
-
-        <!-- Header -->
         <header class="header">
             <div class="header-left">
-                <button class="back-btn" onclick="goBack()" aria-label="Go back">
-                    <i data-lucide="arrow-left"></i>
-                </button>
+                <button class="back-btn" onclick="goBack()" aria-label="Go back"><i data-lucide="arrow-left"></i></button>
                 <h1 class="header-title" id="headerTitle">Menu</h1>
             </div>
             <div class="header-actions">
-                <button class="action-btn" onclick="toggleSearch()" aria-label="Search">
-                    <i data-lucide="search"></i>
-                </button>
+                <button class="action-btn" onclick="toggleSearch()" aria-label="Search"><i data-lucide="search"></i></button>
                 <button class="action-btn" onclick="toggleCart()" aria-label="Cart">
                     <i data-lucide="shopping-bag"></i>
                     <span class="cart-badge" id="cartCount" style="display:none;">0</span>
@@ -647,7 +336,6 @@
             </div>
         </header>
 
-        <!-- Restaurant Hero -->
         <div class="restaurant-hero" id="restaurantHero" style="display:none;">
             <div class="restaurant-banner-wrap">
                 <img class="restaurant-image" id="restaurantImage" src="" alt="">
@@ -656,32 +344,19 @@
             <div class="restaurant-info-section">
                 <h2 class="restaurant-name" id="restaurantName"></h2>
                 <div class="restaurant-meta">
-                    <span class="meta-item">
-                        <i data-lucide="star" class="rating-star"></i>
-                        <span id="restaurantRating"></span>
-                    </span>
+                    <span class="meta-item"><i data-lucide="star" class="rating-star"></i><span id="restaurantRating"></span></span>
                     <span class="meta-dot"></span>
                     <span class="meta-item" id="restaurantCuisineType"></span>
                 </div>
                 <div class="delivery-info-bar">
-                    <div class="delivery-info-item">
-                        <span class="info-value" id="restaurantTime">--</span>
-                        <span class="info-label">Delivery</span>
-                    </div>
-                    <div class="delivery-info-item">
-                        <span class="info-value">R<span id="restaurantDelivery">--</span></span>
-                        <span class="info-label">Fee</span>
-                    </div>
-                    <div class="delivery-info-item">
-                        <span class="info-value" id="restaurantMinOrder">--</span>
-                        <span class="info-label">Min</span>
-                    </div>
+                    <div class="delivery-info-item"><span class="info-value" id="restaurantTime">--</span><span class="info-label">Delivery</span></div>
+                    <div class="delivery-info-item"><span class="info-value">R<span id="restaurantDelivery">--</span></span><span class="info-label">Fee</span></div>
+                    <div class="delivery-info-item"><span class="info-value" id="restaurantMinOrder">--</span><span class="info-label">Min</span></div>
                 </div>
                 <div class="restaurant-tags" id="restaurantTags"></div>
             </div>
         </div>
 
-        <!-- Search -->
         <div class="search-section" id="searchSection" style="display:none;">
             <div class="search-input-wrap">
                 <i data-lucide="search"></i>
@@ -689,14 +364,12 @@
             </div>
         </div>
 
-        <!-- Category Tabs -->
         <div class="category-tabs" id="categoryTabs" style="display:none;">
             <div class="tabs-scroll no-scrollbar" id="tabsContainer">
                 <button class="tab-btn active" onclick="filterCategory('all', this)">All</button>
             </div>
         </div>
 
-        <!-- Menu Content -->
         <main class="menu-content">
             <div class="empty-state" id="emptyState">
                 <i data-lucide="package-open"></i>
@@ -733,9 +406,7 @@
     <div class="cart-drawer" id="cartDrawer">
         <div class="cart-header">
             <h3>Your Order</h3>
-            <button class="close-cart-btn" onclick="toggleCart()">
-                <i data-lucide="x"></i>
-            </button>
+            <button class="close-cart-btn" onclick="toggleCart()"><i data-lucide="x"></i></button>
         </div>
         <div class="cart-body" id="cartBody">
             <div class="cart-empty-state">
@@ -750,7 +421,6 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, get, set, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -772,7 +442,6 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const vendorId = urlParams.get('vendor');
-
         if (!vendorId) {
             showToast("No restaurant selected");
             setTimeout(() => window.location.href = 'index.html', 2000);
@@ -786,43 +455,34 @@
         let vendorInfo = null;
         let searchQuery = '';
         let currentCategory = 'all';
+        let cartGroupExpanded = false;
 
-        function showShimmer() {
-            document.getElementById('shimmerOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        // ============================
+        // SHIMMER
+        // ============================
+        function showShimmer() { document.getElementById('shimmerOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function hideShimmer() { document.getElementById('shimmerOverlay').classList.remove('active'); document.body.style.overflow = ''; }
 
-        function hideShimmer() {
-            document.getElementById('shimmerOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
+        // ============================
+        // LOAD MENU
+        // ============================
         async function loadMenu() {
             showShimmer();
             try {
-                const vendorSnapshot = await get(ref(db, `vendors/${vendorId}`));
-                if (vendorSnapshot.exists()) {
-                    vendorInfo = vendorSnapshot.val();
+                const vendorSnap = await get(ref(db, `vendors/${vendorId}`));
+                if (vendorSnap.exists()) {
+                    vendorInfo = vendorSnap.val();
                     displayVendorInfo(vendorInfo);
                 } else {
                     showToast("Restaurant not found");
                     setTimeout(() => window.location.href = 'index.html', 2000);
                     return;
                 }
-
-                const menuSnapshot = await get(ref(db, `vendors/${vendorId}/menu`));
-                if (menuSnapshot.exists()) {
-                    processAndDisplayMenu(menuSnapshot.val());
-                } else {
-                    showEmptyState();
-                }
-            } catch (error) {
-                console.error("Error loading menu:", error);
-                showToast("Failed to load menu");
-                showEmptyState();
-            } finally {
-                setTimeout(hideShimmer, 500);
-            }
+                const menuSnap = await get(ref(db, `vendors/${vendorId}/menu`));
+                if (menuSnap.exists()) { processAndDisplayMenu(menuSnap.val()); }
+                else { showEmptyState(); }
+            } catch (e) { console.error("Error loading menu:", e); showToast("Failed to load menu"); showEmptyState(); }
+            finally { setTimeout(hideShimmer, 500); }
         }
 
         function displayVendorInfo(v) {
@@ -836,72 +496,42 @@
             document.getElementById('restaurantMinOrder').textContent = v.minOrder ? `R${v.minOrder}` : 'R0';
             const cuisine = [v.cuisineCategory, v.cuisine].filter(Boolean).join(' · ');
             document.getElementById('restaurantCuisineType').textContent = cuisine || 'Restaurant';
-            const tagsContainer = document.getElementById('restaurantTags');
             const tags = [...new Set([v.storeType, v.cuisine, v.cuisineCategory].filter(Boolean))];
-            tagsContainer.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
+            document.getElementById('restaurantTags').innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
             document.getElementById('restaurantHero').style.display = 'block';
             lucide.createIcons();
         }
 
         function processAndDisplayMenu(data) {
-            allMenuItems = [];
-            categories = new Set(['all']);
-
+            allMenuItems = []; categories = new Set(['all']);
             if (!data || typeof data !== 'object') { showEmptyState(); return; }
-
             Object.entries(data).forEach(([id, item]) => {
                 if (item && item.name && item.status === 'available') {
                     const cat = item.category || 'Other';
                     categories.add(cat);
-                    allMenuItems.push({
-                        id, name: item.name, category: cat,
-                        price: parseFloat(item.price) || 0,
-                        description: item.description || '',
-                        imageURL: item.imageURL || '',
-                        calories: item.calories || '',
-                        prepTime: item.prepTime || '',
-                        featured: item.featured || false
-                    });
+                    allMenuItems.push({ id, name: item.name, category: cat, price: parseFloat(item.price) || 0, description: item.description || '', imageURL: item.imageURL || '', calories: item.calories || '', prepTime: item.prepTime || '', featured: item.featured || false });
                 }
             });
-
-            if (allMenuItems.length === 0) { showEmptyState(); return; }
-
+            if (!allMenuItems.length) { showEmptyState(); return; }
             allMenuItems.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
-
-            const tabsContainer = document.getElementById('tabsContainer');
-            tabsContainer.innerHTML = Array.from(categories).map(cat =>
-                `<button class="tab-btn ${cat === 'all' ? 'active' : ''}" onclick="filterCategory('${cat.replace(/'/g, "\\'")}', this)">${cat === 'all' ? 'All' : cat}</button>`
+            document.getElementById('tabsContainer').innerHTML = Array.from(categories).map(cat =>
+                `<button class="tab-btn ${cat === 'all' ? 'active' : ''}" onclick="filterCategory('${cat.replace(/'/g,"\\'")}', this)">${cat === 'all' ? 'All' : cat}</button>`
             ).join('');
             document.getElementById('categoryTabs').style.display = 'block';
-
             renderMenuItems(allMenuItems, false);
         }
 
-        function getItemCartQty(itemId) {
-            const item = cart.find(c => c.itemId === itemId);
-            return item ? item.quantity : 0;
-        }
+        // ============================
+        // MENU RENDERING
+        // ============================
+        function getItemCartQty(itemId) { const i = cart.find(c => c.itemId === itemId); return i ? i.quantity : 0; }
 
         function renderMenuItems(items, animate = true) {
             const container = document.getElementById('menuContainer');
             const noResults = document.getElementById('noResults');
-
-            if (items.length === 0) {
-                container.innerHTML = '';
-                noResults.classList.add('active');
-                return;
-            }
-
+            if (!items.length) { container.innerHTML = ''; noResults.classList.add('active'); return; }
             noResults.classList.remove('active');
-
-            const grouped = items.reduce((acc, item) => {
-                const c = item.category || 'Other';
-                if (!acc[c]) acc[c] = [];
-                acc[c].push(item);
-                return acc;
-            }, {});
-
+            const grouped = items.reduce((acc, item) => { const c = item.category || 'Other'; if (!acc[c]) acc[c] = []; acc[c].push(item); return acc; }, {});
             container.innerHTML = Object.entries(grouped).map(([cat, citems]) => `
                 <div class="menu-section">
                     <div class="section-header">
@@ -911,15 +541,10 @@
                     <div class="menu-list${animate ? ' animating' : ''}">
                         ${citems.map(item => {
                             const qty = getItemCartQty(item.id);
-                            const escapedName = item.name.replace(/'/g, "\\'");
                             return `
                             <div class="menu-list-item" id="menu-item-${item.id}">
                                 <div class="menu-item-image-wrap">
-                                    ${item.imageURL ? `
-                                        <img class="menu-item-image" src="${item.imageURL}" alt="${item.name}" loading="lazy">
-                                    ` : `
-                                        <div class="menu-item-no-image"><i data-lucide="image"></i></div>
-                                    `}
+                                    ${item.imageURL ? `<img class="menu-item-image" src="${item.imageURL}" alt="${item.name}" loading="lazy">` : `<div class="menu-item-no-image"><i data-lucide="image"></i></div>`}
                                     ${item.featured ? '<span class="menu-item-badge">Popular</span>' : ''}
                                 </div>
                                 <div class="menu-item-info">
@@ -936,18 +561,12 @@
                                         <div id="add-control-${item.id}">
                                             ${qty > 0 ? `
                                                 <div class="menu-item-qty-control pop-in">
-                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)">
-                                                        <i data-lucide="minus"></i>
-                                                    </button>
+                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
                                                     <span class="menu-item-qty-value">${qty}</span>
-                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)">
-                                                        <i data-lucide="plus"></i>
-                                                    </button>
+                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
                                                 </div>
                                             ` : `
-                                                <button class="menu-item-add-btn" onclick="event.stopPropagation();addToCart('${item.id}','${escapedName}',${item.price},${item.prepTime||0},'${(item.imageURL||"").replace(/'/g,"\\\\'")}')">
-                                                    <i data-lucide="plus"></i>
-                                                </button>
+                                                <button class="menu-item-add-btn" data-item-id="${item.id}" onclick="event.stopPropagation();addToCartById('${item.id}')"><i data-lucide="plus"></i></button>
                                             `}
                                         </div>
                                     </div>
@@ -955,16 +574,9 @@
                             </div>`;
                         }).join('')}
                     </div>
-                </div>
-            `).join('');
-
+                </div>`).join('');
             lucide.createIcons();
-
-            if (animate) {
-                setTimeout(() => {
-                    document.querySelectorAll('.menu-list.animating').forEach(el => el.classList.remove('animating'));
-                }, 300);
-            }
+            if (animate) setTimeout(() => { document.querySelectorAll('.menu-list.animating').forEach(el => el.classList.remove('animating')); }, 300);
         }
 
         function refreshControl(itemId) {
@@ -973,95 +585,56 @@
             const qty = getItemCartQty(itemId);
             const item = allMenuItems.find(i => i.id === itemId);
             if (!item) return;
-            const escapedName = item.name.replace(/'/g, "\\'");
-            if (qty > 0) {
-                el.innerHTML = `
-                    <div class="menu-item-qty-control pop-in">
-                        <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)">
-                            <i data-lucide="minus"></i>
-                        </button>
-                        <span class="menu-item-qty-value">${qty}</span>
-                        <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)">
-                            <i data-lucide="plus"></i>
-                        </button>
-                    </div>
-                `;
-            } else {
-                el.innerHTML = `
-                    <button class="menu-item-add-btn" onclick="event.stopPropagation();addToCart('${item.id}','${escapedName}',${item.price},${item.prepTime||0},'${(item.imageURL||"").replace(/'/g,"\\\\'")}')">
-                        <i data-lucide="plus"></i>
-                    </button>
-                `;
-            }
+            el.innerHTML = qty > 0
+                ? `<div class="menu-item-qty-control pop-in">
+                       <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
+                       <span class="menu-item-qty-value">${qty}</span>
+                       <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
+                   </div>`
+                : `<button class="menu-item-add-btn" data-item-id="${item.id}" onclick="event.stopPropagation();addToCartById('${item.id}')"><i data-lucide="plus"></i></button>`;
             lucide.createIcons();
         }
 
-        function showEmptyState() {
-            document.getElementById('emptyState').classList.add('active');
-            document.getElementById('categoryTabs').style.display = 'none';
-        }
-
+        function showEmptyState() { document.getElementById('emptyState').classList.add('active'); document.getElementById('categoryTabs').style.display = 'none'; }
         function getFilteredItems() {
             let items = allMenuItems;
             if (currentCategory !== 'all') items = items.filter(i => i.category === currentCategory);
-            if (searchQuery) {
-                items = items.filter(i =>
-                    i.name.toLowerCase().includes(searchQuery) ||
-                    (i.description && i.description.toLowerCase().includes(searchQuery))
-                );
-            }
+            if (searchQuery) items = items.filter(i => i.name.toLowerCase().includes(searchQuery) || (i.description && i.description.toLowerCase().includes(searchQuery)));
             return items;
         }
 
-        window.filterCategory = (cat, btn) => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentCategory = cat;
-            renderMenuItems(getFilteredItems(), true);
-        };
-
-        window.handleSearch = (val) => {
-            searchQuery = val.toLowerCase().trim();
-            renderMenuItems(getFilteredItems(), false);
-        };
-
+        window.filterCategory = (cat, btn) => { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentCategory = cat; renderMenuItems(getFilteredItems(), true); };
+        window.handleSearch = (val) => { searchQuery = val.toLowerCase().trim(); renderMenuItems(getFilteredItems(), false); };
         window.toggleSearch = () => {
             const s = document.getElementById('searchSection');
             const vis = s.style.display !== 'none';
             s.style.display = vis ? 'none' : 'block';
-            if (!vis) {
-                setTimeout(() => document.getElementById('searchInput').focus(), 100);
-            } else {
-                document.getElementById('searchInput').value = '';
-                searchQuery = '';
-                handleSearch('');
-            }
+            if (!vis) { setTimeout(() => document.getElementById('searchInput').focus(), 100); }
+            else { document.getElementById('searchInput').value = ''; searchQuery = ''; handleSearch(''); }
             lucide.createIcons();
         };
-
         window.goBack = () => { window.location.href = 'index.html'; };
 
-        function calcPrepTime() {
-            if (cart.length === 0) return 0;
-            return Math.ceil(cart.reduce((s, i) => s + (i.prepTime || 0), 0) / cart.length);
-        }
+        // ============================
+        // CART LOGIC
+        // ============================
+        function calcPrepTime() { if (!cart.length) return 0; return Math.ceil(cart.reduce((s, i) => s + (i.prepTime || 0), 0) / cart.length); }
 
-        window.addToCart = async (itemId, name, price, prepTime = 0, imageURL = '') => {
+        // Safe add — looks up item from allMenuItems, no inline string escaping needed
+        window.addToCartById = async (itemId) => {
+            const menuItem = allMenuItems.find(i => i.id === itemId);
+            if (!menuItem) return;
             const existing = cart.find(i => i.itemId === itemId);
             if (existing) { existing.quantity += 1; }
             else {
-                cart.push({
-                    itemId, name, price,
-                    imageURL: imageURL || '',
-                    prepTime: parseInt(prepTime) || 0,
-                    quantity: 1, vendorId, addedAt: Date.now()
-                });
+                cart.push({ itemId: menuItem.id, name: menuItem.name, price: menuItem.price, imageURL: menuItem.imageURL || '', prepTime: parseInt(menuItem.prepTime) || 0, quantity: 1, vendorId, addedAt: Date.now() });
             }
             if (currentUserId) await saveCart();
             refreshControl(itemId);
             updateCartUI();
-            showToast(`${name} added`);
+            showToast(`${menuItem.name} added`);
         };
+        window.addToCart = window.addToCartById;
 
         window.changeItemQty = async (itemId, delta) => {
             const existing = cart.find(i => i.itemId === itemId);
@@ -1073,20 +646,16 @@
             updateCartUI();
         };
 
+        // ============================
+        // FIREBASE CART — grouped format
+        // ============================
         async function saveCart() {
             if (!currentUserId) return;
             try {
-                // Save in grouped format so index.html cart shows item images correctly
-                const group = {
-                    vendorId,
-                    vendorName: vendorInfo ? (vendorInfo.name || '') : '',
-                    vendorImage: vendorInfo ? (vendorInfo.imageURL || '') : '',
-                    deliveryFee: vendorInfo ? (vendorInfo.deliveryFee || 0) : 0,
-                    items: cart
-                };
+                const group = { vendorId, vendorName: vendorInfo?.name || '', vendorImage: vendorInfo?.imageURL || '', deliveryFee: parseFloat(vendorInfo?.deliveryFee) || 0, items: cart };
                 const groups = cart.length > 0 ? { [vendorId]: group } : {};
                 await set(ref(db, `carts/${currentUserId}`), { groups, updatedAt: Date.now() });
-            } catch (error) { console.error("Error saving cart:", error); }
+            } catch (e) { console.error("Save cart error:", e); }
         }
 
         async function loadCart() {
@@ -1095,30 +664,17 @@
                 const snap = await get(ref(db, `carts/${currentUserId}`));
                 if (snap.exists()) {
                     const d = snap.val();
-                    // New grouped format
-                    if (d.groups && d.groups[vendorId]) {
-                        cart = d.groups[vendorId].items || [];
-                        updateCartUI();
-                        renderMenuItems(getFilteredItems(), false);
-                    }
-                    // Legacy flat format
-                    else if (d.vendorId === vendorId && d.items) {
-                        cart = d.items;
-                        updateCartUI();
-                        renderMenuItems(getFilteredItems(), false);
-                    }
+                    if (d.groups && d.groups[vendorId]) { cart = d.groups[vendorId].items || []; }
+                    else if (d.vendorId === vendorId && d.items) { cart = d.items; }
+                    updateCartUI();
+                    renderMenuItems(getFilteredItems(), false);
                 }
-            } catch (error) { console.error("Error loading cart:", error); }
+            } catch (e) { console.error("Load cart error:", e); }
         }
 
-        window.updateCartItemQuantity = async (idx, qty) => {
-            const itemId = cart[idx] ? cart[idx].itemId : null;
-            if (qty < 1) { cart.splice(idx, 1); } else { cart[idx].quantity = qty; }
-            if (currentUserId) await saveCart();
-            if (itemId) refreshControl(itemId);
-            updateCartUI();
-        };
-
+        // ============================
+        // CART UI — same grouped style as index.html
+        // ============================
         function updateCartUI() {
             const body = document.getElementById('cartBody');
             const countEl = document.getElementById('cartCount');
@@ -1128,123 +684,157 @@
             const bar = document.getElementById('floatingCartBar');
 
             const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
-            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
             const fee = parseFloat(vendorInfo?.deliveryFee || 0);
             const total = subtotal + fee;
 
             if (totalItems > 0) { countEl.style.display = 'block'; countEl.textContent = totalItems; }
             else { countEl.style.display = 'none'; }
-
-            checkoutBtn.disabled = cart.length === 0;
+            checkoutBtn.disabled = !cart.length;
 
             if (totalItems > 0) {
                 bar.classList.add('visible');
                 document.getElementById('floatingCartCount').textContent = totalItems;
                 document.getElementById('floatingCartTotal').textContent = `R ${total.toFixed(2)}`;
-            } else {
-                bar.classList.remove('visible');
+            } else { bar.classList.remove('visible'); }
+
+            if (!cart.length) {
+                body.innerHTML = `<div class="cart-empty-state"><i data-lucide="shopping-bag"></i><p>Your cart is empty</p><small>Add items to get started</small></div>`;
+                summaryEl.innerHTML = ''; cartFooter.style.display = 'none';
+                lucide.createIcons(); return;
             }
 
-            const pt = calcPrepTime();
+            cartFooter.style.display = 'block';
+            if (!cartGroupExpanded) cartGroupExpanded = true;
 
-            if (cart.length === 0) {
-                body.innerHTML = `
-                    <div class="cart-empty-state">
-                        <i data-lucide="shopping-bag"></i>
-                        <p>Your cart is empty</p>
-                        <small>Add items to get started</small>
-                    </div>
-                `;
-                summaryEl.innerHTML = '';
-                cartFooter.style.display = 'none';
-            } else {
-                cartFooter.style.display = 'block';
-                body.innerHTML = cart.map((item, i) => `
+            const vendorName = vendorInfo?.name || 'Restaurant';
+            const vendorImage = vendorInfo?.imageURL || '';
+
+            // Collapsed preview strip
+            const previewImgs = cart.slice(0, 4).map(item =>
+                item.imageURL
+                    ? `<img class="preview-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
+                    : `<div class="preview-img-placeholder"><i data-lucide="image"></i></div>`
+            ).join('');
+            const moreCount = cart.length > 4 ? cart.length - 4 : 0;
+            const moreHtml = moreCount > 0 ? `<div class="preview-more">+${moreCount}</div>` : '';
+
+            // Expanded item rows with images
+            const itemsHtml = cart.map((item, idx) => {
+                const imgHtml = item.imageURL
+                    ? `<img class="cart-item-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
+                    : `<div class="cart-item-img-placeholder"><i data-lucide="image"></i></div>`;
+                const isOne = item.quantity === 1;
+                return `
                     <div class="cart-item">
+                        ${imgHtml}
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name}</div>
                             <div class="cart-item-price">R${item.price.toFixed(2)} ea</div>
                         </div>
                         <div class="cart-quantity-control">
-                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${i},${item.quantity - 1})">
-                                <i data-lucide="${item.quantity === 1 ? 'trash-2' : 'minus'}" style="width:12px;height:12px;${item.quantity === 1 ? 'color:var(--danger);' : ''}"></i>
+                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${idx},${item.quantity - 1})">
+                                <i data-lucide="${isOne ? 'trash-2' : 'minus'}" style="width:12px;height:12px;${isOne ? 'color:var(--danger);' : ''}"></i>
                             </button>
                             <span class="cart-qty-value">${item.quantity}</span>
-                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${i},${item.quantity + 1})">
+                            <button class="cart-qty-btn" onclick="updateCartItemQuantity(${idx},${item.quantity + 1})">
                                 <i data-lucide="plus" style="width:12px;height:12px;"></i>
                             </button>
                         </div>
                         <div class="cart-item-total">R${(item.price * item.quantity).toFixed(2)}</div>
-                    </div>
-                `).join('');
+                    </div>`;
+            }).join('');
 
-                let prepHtml = '';
-                if (pt > 0) {
-                    prepHtml = `
-                        <div class="prep-time-badge">
-                            <i data-lucide="clock" style="width:12px;height:12px;"></i>
-                            ~${pt} min prep
+            const vendorImgHtml = vendorImage
+                ? `<img class="vendor-group-img" src="${vendorImage}" alt="${vendorName}" loading="lazy">`
+                : `<div class="vendor-group-img" style="display:flex;align-items:center;justify-content:center;"><i data-lucide="store" style="width:20px;height:20px;color:var(--dim);"></i></div>`;
+
+            body.innerHTML = `
+                <div class="vendor-group ${cartGroupExpanded ? 'expanded' : ''}" id="menuVendorGroup">
+                    <div class="vendor-group-header" onclick="toggleCartGroup()">
+                        ${vendorImgHtml}
+                        <div class="vendor-group-info">
+                            <div class="vendor-group-name">${vendorName}</div>
+                            <div class="vendor-group-meta">${totalItems} item${totalItems !== 1 ? 's' : ''} · R${total.toFixed(2)}</div>
                         </div>
-                    `;
-                }
-
-                summaryEl.innerHTML = `
-                    ${prepHtml}
-                    <div class="cart-summary">
-                        <div class="cart-summary-row"><span>Subtotal (${totalItems})</span><span>R ${subtotal.toFixed(2)}</span></div>
-                        <div class="cart-summary-row"><span>Delivery</span><span>${fee > 0 ? `R ${fee.toFixed(2)}` : 'Free'}</span></div>
-                        <div class="cart-summary-row"><span>Total</span><span>R ${total.toFixed(2)}</span></div>
+                        <div class="vendor-group-right">
+                            <span class="vendor-item-count">${totalItems}</span>
+                            <i data-lucide="chevron-down" class="vendor-group-chevron"></i>
+                        </div>
                     </div>
-                `;
-            }
+                    <div class="vendor-item-previews">${previewImgs}${moreHtml}</div>
+                    <div class="vendor-items-list">
+                        ${itemsHtml}
+                        <div class="vendor-subtotal-row">
+                            <div>
+                                <div class="vendor-subtotal-label">Subtotal</div>
+                                ${fee > 0 ? `<div class="vendor-subtotal-label">+ R${fee.toFixed(2)} delivery</div>` : '<div class="vendor-subtotal-label">Free delivery</div>'}
+                            </div>
+                            <div class="vendor-subtotal-value">R${total.toFixed(2)}</div>
+                        </div>
+                    </div>
+                </div>`;
+
+            const pt = calcPrepTime();
+            summaryEl.innerHTML = `
+                ${pt > 0 ? `<div class="prep-time-badge"><i data-lucide="clock" style="width:12px;height:12px;"></i> ~${pt} min prep</div>` : ''}
+                <div class="cart-summary">
+                    <div class="cart-summary-row"><span>Subtotal (${totalItems} items)</span><span>R ${subtotal.toFixed(2)}</span></div>
+                    <div class="cart-summary-row"><span>Delivery fee</span><span>${fee > 0 ? `R ${fee.toFixed(2)}` : 'Free'}</span></div>
+                    <div class="cart-summary-row"><span>Total</span><span>R ${total.toFixed(2)}</span></div>
+                </div>`;
 
             lucide.createIcons();
         }
+
+        // Toggle the single vendor group collapsed/expanded
+        window.toggleCartGroup = () => {
+            cartGroupExpanded = !cartGroupExpanded;
+            const el = document.getElementById('menuVendorGroup');
+            if (el) el.classList.toggle('expanded', cartGroupExpanded);
+            lucide.createIcons();
+        };
+
+        window.updateCartItemQuantity = async (idx, qty) => {
+            const itemId = cart[idx] ? cart[idx].itemId : null;
+            if (qty < 1) { cart.splice(idx, 1); } else { cart[idx].quantity = qty; }
+            if (currentUserId) await saveCart();
+            if (itemId) refreshControl(itemId);
+            updateCartUI();
+        };
 
         window.toggleCart = () => {
             const d = document.getElementById('cartDrawer');
             const o = document.getElementById('cartOverlay');
             const isOpen = d.classList.contains('open');
             if (isOpen) {
-                d.classList.remove('open'); o.classList.remove('open');
-                document.body.style.overflow = '';
+                d.classList.remove('open'); o.classList.remove('open'); document.body.style.overflow = '';
             } else {
-                d.classList.add('open'); o.classList.add('open');
-                document.body.style.overflow = 'hidden';
+                cartGroupExpanded = true; // always expanded when opening
+                d.classList.add('open'); o.classList.add('open'); document.body.style.overflow = 'hidden';
+                updateCartUI();
             }
         };
 
         window.handleCheckout = async () => {
             if (!currentUser) { showToast("Please sign in"); return; }
-            if (cart.length === 0) { showToast("Cart is empty"); return; }
+            if (!cart.length) { showToast("Cart is empty"); return; }
             try {
-                const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
                 const fee = parseFloat(vendorInfo?.deliveryFee || 0);
-                const orderData = {
+                await set(push(ref(db, 'orders')), {
                     userId: currentUserId, vendorId, vendorName: vendorInfo?.name || '',
                     items: cart, subtotal, deliveryFee: fee, total: subtotal + fee,
                     status: 'pending', createdAt: Date.now(), estimatedPrepTime: calcPrepTime()
-                };
-                const newOrderRef = push(ref(db, 'orders'));
-                await set(newOrderRef, orderData);
-                cart = [];
-                await saveCart();
-                updateCartUI();
-                toggleCart();
+                });
+                cart = []; cartGroupExpanded = false;
+                await saveCart(); updateCartUI(); toggleCart();
                 renderMenuItems(getFilteredItems(), false);
                 showToast("Order placed! 🎉");
-            } catch (error) {
-                console.error("Checkout error:", error);
-                showToast("Order failed");
-            }
+            } catch (e) { console.error("Checkout error:", e); showToast("Order failed"); }
         };
 
-        window.showToast = (msg) => {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
-        };
+        window.showToast = (msg) => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); };
 
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
