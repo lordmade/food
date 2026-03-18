@@ -1331,6 +1331,7 @@
                             <i data-lucide="chevron-left"></i>
                         </button>
                         <div class="filters-scroll no-scrollbar" id="categoryFilters">
+                            <!-- Built from MASTER_CATEGORIES on load -->
                         </div>
                         <button class="filter-arrow right" id="filterArrowRight" onclick="scrollFilters(200)">
                             <i data-lucide="chevron-right"></i>
@@ -1470,6 +1471,34 @@
 
         const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
 
+        // =============================================
+        // MASTER CATEGORY LIST — must match vendor panel
+        // =============================================
+        const MASTER_CATEGORIES = [
+            { label: "Pizza",       emoji: "🍕" },
+            { label: "Burgers",     emoji: "🍔" },
+            { label: "Sushi",       emoji: "🍣" },
+            { label: "Healthy",     emoji: "🥗" },
+            { label: "Desserts",    emoji: "🍰" },
+            { label: "Coffee",      emoji: "☕" },
+            { label: "Fast Food",   emoji: "🍟" },
+            { label: "Indian",      emoji: "🍛" },
+            { label: "Chinese",     emoji: "🥟" },
+            { label: "Italian",     emoji: "🍝" },
+            { label: "Chicken",     emoji: "🍗" },
+            { label: "Seafood",     emoji: "🦐" },
+            { label: "African",     emoji: "🇿🇦" },
+            { label: "Vegetarian",  emoji: "🌱" },
+            { label: "Drinks",      emoji: "🥤" },
+            { label: "Bakery",      emoji: "🧁" },
+            { label: "Halaal",      emoji: "☪️" },
+            { label: "Other",       emoji: "🍽️" },
+        ];
+
+        // Build emoji map for card tags (same source of truth)
+        const categoryEmojiMap = {};
+        MASTER_CATEGORIES.forEach(c => { categoryEmojiMap[c.label] = c.emoji; });
+
         let allVendors = [];
         let cart = [];
         let currentStoreType = 'restaurant';
@@ -1482,46 +1511,29 @@
         let searchRadius = 10;
         let selectedRadius = 10;
 
-        // Category emoji map for filter tabs
-        const categoryEmojiMap = {
-            "Pizza": "🍕",
-            "Burgers": "🍔",
-            "Sushi": "🍣",
-            "Healthy": "🥗",
-            "Desserts": "🍰",
-            "Coffee": "☕",
-            "Fast Food": "🍟",
-            "Indian": "🍛",
-            "Chinese": "🥟",
-            "Italian": "🍝",
-            "Chicken": "🍗",
-            "Seafood": "🦐",
-            "African": "🇿🇦",
-            "Vegetarian": "🌱",
-            "Drinks": "🥤",
-            "Bakery": "🧁",
-            "Halaal": "☪️",
-            "Other": "🍽️"
-        };
+        // =============================================
+        // BUILD CATEGORY FILTERS FROM MASTER LIST
+        // (always shows all categories, same as vendor panel)
+        // =============================================
+        function buildCategoryFilters() {
+            const container = document.getElementById('categoryFilters');
+            // "All" button first
+            let html = `<button class="cat-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="filterCategory('all', this)">🍽️ All</button>`;
+            MASTER_CATEGORIES.forEach(cat => {
+                const isActive = currentFilter === cat.label;
+                html += `<button class="cat-btn ${isActive ? 'active' : ''}" onclick="filterCategory('${cat.label.replace(/'/g, "\\'")}', this)">${cat.emoji} ${cat.label}</button>`;
+            });
+            container.innerHTML = html;
+            setTimeout(() => updateFilterArrows(), 100);
+        }
 
-        // === Get shopCategories from vendor (matches Firebase node from vendor panel) ===
         function getVendorCategories(vendor) {
-            // Primary: use shopCategories array from vendor profile (set in vendor panel)
-            if (Array.isArray(vendor.shopCategories) && vendor.shopCategories.length > 0) {
-                return vendor.shopCategories;
-            }
-            // Fallback: use categories array
-            if (Array.isArray(vendor.categories) && vendor.categories.length > 0) {
-                return vendor.categories;
-            }
-            // Fallback: use single cuisine field
-            if (vendor.cuisine && vendor.cuisine.trim()) {
-                return [vendor.cuisine.trim()];
-            }
+            if (Array.isArray(vendor.shopCategories) && vendor.shopCategories.length > 0) return vendor.shopCategories;
+            if (Array.isArray(vendor.categories) && vendor.categories.length > 0) return vendor.categories;
+            if (vendor.cuisine && vendor.cuisine.trim()) return [vendor.cuisine.trim()];
             return [];
         }
 
-        // === NEW: Check if vendor matches a category filter ===
         function vendorMatchesCategory(vendor, filterCategory) {
             if (filterCategory === 'all') return true;
             const vendorCats = getVendorCategories(vendor);
@@ -1529,7 +1541,6 @@
             return vendorCats.some(cat => cat.toLowerCase() === filterLower);
         }
 
-        // Generate shimmer cards
         function generateShimmerCards(count = 6) {
             const grid = document.getElementById('shimmerGrid');
             grid.innerHTML = '';
@@ -1570,18 +1581,14 @@
         };
 
         window.openLocationModal = () => {
-            const overlay = document.getElementById('locationModalOverlay');
-            const modal = document.getElementById('locationModal');
-            overlay.classList.add('active');
-            modal.classList.add('active');
+            document.getElementById('locationModalOverlay').classList.add('active');
+            document.getElementById('locationModal').classList.add('active');
             document.getElementById('modalLocationInput').focus();
         };
 
         window.closeLocationModal = () => {
-            const overlay = document.getElementById('locationModalOverlay');
-            const modal = document.getElementById('locationModal');
-            overlay.classList.remove('active');
-            modal.classList.remove('active');
+            document.getElementById('locationModalOverlay').classList.remove('active');
+            document.getElementById('locationModal').classList.remove('active');
         };
 
         window.selectRadius = (radius) => {
@@ -1702,78 +1709,11 @@
             searchTerm = "";
             document.getElementById('searchInput').value = "";
             currentFilter = "all";
-            buildDynamicCategoryFilters();
+            buildCategoryFilters();
             toggleSidebar();
             applyFilters();
         };
 
-        // === Build category filter tabs from vendor shopCategories (matches Firebase) ===
-        function buildDynamicCategoryFilters() {
-            const container = document.getElementById('categoryFilters');
-            container.innerHTML = `<button class="cat-btn active" onclick="filterCategory('all', this)">🍽️ All</button>`;
-
-            // Collect all unique shopCategories from all restaurant vendors
-            const restaurantVendors = allVendors.filter(v => v.storeType === 'restaurant');
-            const allCatsSet = new Set();
-
-            restaurantVendors.forEach(v => {
-                // Use shopCategories array (set in vendor panel) - matches Firebase node
-                const cats = getVendorCategories(v);
-                cats.forEach(cat => {
-                    if (cat && cat.trim()) {
-                        allCatsSet.add(cat.trim());
-                    }
-                });
-            });
-
-            // Sort and create buttons
-            const sortedCats = [...allCatsSet].sort();
-
-            sortedCats.forEach(category => {
-                const emoji = categoryEmojiMap[category] || '🍽️';
-                const btn = document.createElement('button');
-                btn.className = 'cat-btn';
-                btn.innerHTML = `${emoji} ${category}`;
-                btn.onclick = () => filterCategory(category, btn);
-                container.appendChild(btn);
-            });
-
-            // Update arrow visibility after building filters
-            setTimeout(() => updateFilterArrows(), 100);
-        }
-
-        // Scroll filters function
-        window.scrollFilters = (distance) => {
-            const container = document.getElementById('categoryFilters');
-            container.scrollBy({ left: distance, behavior: 'smooth' });
-        };
-
-        // Update arrow visibility based on scroll position
-        function updateFilterArrows() {
-            const container = document.getElementById('categoryFilters');
-            const leftArrow = document.getElementById('filterArrowLeft');
-            const rightArrow = document.getElementById('filterArrowRight');
-            
-            if (!container || !leftArrow || !rightArrow) return;
-            
-            const isScrollable = container.scrollWidth > container.clientWidth;
-            const isAtStart = container.scrollLeft <= 0;
-            const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
-            
-            // Show/hide arrows based on scroll position
-            leftArrow.classList.toggle('hidden', isAtStart || !isScrollable);
-            rightArrow.classList.toggle('hidden', isAtEnd || !isScrollable);
-        }
-
-        // Listen for scroll events to update arrow visibility
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('categoryFilters');
-            if (container) {
-                container.addEventListener('scroll', updateFilterArrows);
-            }
-        });
-
-        // Auth
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             const profileBtn = document.getElementById('profileBtn');
@@ -1859,7 +1799,6 @@
             window.location.href = `menu.html?vendor=${vendorId}`;
         };
 
-        // Load vendors
         function loadVendors() {
             showShimmer();
             onValue(ref(db, "vendors"), (snapshot) => {
@@ -1868,19 +1807,13 @@
                 if (data) {
                     Object.entries(data).forEach(([key, v]) => {
                         if (v.status === "active") {
-                            // === Use shopCategories from vendor panel (matches Firebase node) ===
                             const shopCats = Array.isArray(v.shopCategories) ? v.shopCategories : [];
-                            // Fallback to categories if shopCategories is empty
                             const categories = shopCats.length > 0 ? shopCats : (Array.isArray(v.categories) ? v.categories : []);
-                            
-                            // === Check if store is open based on manualStoreStatus or isOpen ===
+
                             let isOpen = true;
-                            if (v.manualStoreStatus === 'closed') {
-                                isOpen = false;
-                            } else if (v.isOpen === false) {
-                                isOpen = false;
-                            }
-                            
+                            if (v.manualStoreStatus === 'closed') isOpen = false;
+                            else if (v.isOpen === false) isOpen = false;
+
                             allVendors.push({
                                 key,
                                 name: v.name || "Unnamed Vendor",
@@ -1904,7 +1837,6 @@
                 }
                 setTimeout(() => {
                     hideShimmer();
-                    buildDynamicCategoryFilters();
                     applyFilters();
                 }, 500);
             });
@@ -1924,7 +1856,6 @@
 
         function generateCardHTML(v) {
             const isLiked = userLikes.has(v.key);
-            // Show categories as tags, fallback to cuisine
             const vendorCats = getVendorCategories(v);
             const categoryDisplay = vendorCats.length > 0 ? vendorCats.join(' · ') : v.cuisine;
             const categoryTags = vendorCats.slice(0, 4).map(cat => {
@@ -1963,11 +1894,9 @@
             `;
         }
 
-        // === applyFilters uses shopCategories from Firebase for matching ===
         function applyFilters() {
             let filtered = allVendors.filter(v => v.storeType === currentStoreType);
 
-            // Distance filter
             if (userLocation.lat && userLocation.lng) {
                 filtered = filtered.map(v => {
                     if (v.lat && v.lng) {
@@ -1978,12 +1907,10 @@
                 }).filter(v => v.distance === null || v.distance <= searchRadius);
             }
 
-            // Category filter uses shopCategories array (from vendor panel Firebase node)
             if (currentStoreType === 'restaurant' && currentFilter !== 'all') {
                 filtered = filtered.filter(v => vendorMatchesCategory(v, currentFilter));
             }
 
-            // Search filter
             if (searchTerm.trim()) {
                 const term = searchTerm.toLowerCase().trim();
                 filtered = filtered.filter(v => v.name.toLowerCase().includes(term));
@@ -2002,7 +1929,6 @@
 
             emptyState.style.display = "none";
 
-            // Sort: open stores first, then by distance, then by rating
             filtered.sort((a, b) => {
                 if (a.isOpen !== b.isOpen) return a.isOpen ? -1 : 1;
                 if (a.distance !== null && b.distance !== null) return a.distance - b.distance;
@@ -2035,6 +1961,28 @@
             searchTerm = value;
             applyFilters();
         };
+
+        window.scrollFilters = (distance) => {
+            const container = document.getElementById('categoryFilters');
+            container.scrollBy({ left: distance, behavior: 'smooth' });
+        };
+
+        function updateFilterArrows() {
+            const container = document.getElementById('categoryFilters');
+            const leftArrow = document.getElementById('filterArrowLeft');
+            const rightArrow = document.getElementById('filterArrowRight');
+            if (!container || !leftArrow || !rightArrow) return;
+            const isScrollable = container.scrollWidth > container.clientWidth;
+            const isAtStart = container.scrollLeft <= 0;
+            const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+            leftArrow.classList.toggle('hidden', isAtStart || !isScrollable);
+            rightArrow.classList.toggle('hidden', isAtEnd || !isScrollable);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('categoryFilters');
+            if (container) container.addEventListener('scroll', updateFilterArrows);
+        });
 
         window.addToCart = (name, price) => {
             cart.push({ name, price });
@@ -2077,6 +2025,7 @@
         // Initialize
         lucide.createIcons();
         generateShimmerCards(6);
+        buildCategoryFilters();   // Build from master list immediately on load
         loadVendors();
         updateCartUI();
 
