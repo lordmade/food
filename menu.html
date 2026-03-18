@@ -168,7 +168,7 @@
         .no-results i { width: 40px; height: 40px; margin-bottom: 10px; opacity: 0.3; }
 
         /* TOAST */
-        #toast { position: fixed; bottom: calc(72px + var(--safe-bottom)); left: 50%; transform: translateX(-50%) translateY(200px); background: var(--text); color: white; padding: 8px 18px; border-radius: 100px; z-index: 4000; transition: transform 0.3s ease; font-weight: 600; font-size: 0.78rem; box-shadow: 0 6px 20px rgba(0,0,0,0.3); max-width: 90vw; text-align: center; white-space: nowrap; }
+        #toast { position: fixed; bottom: calc(72px + var(--safe-bottom)); left: 50%; transform: translateX(-50%) translateY(200px); background: var(--text); color: white; padding: 8px 18px; border-radius: 100px; z-index: 6000; transition: transform 0.3s ease; font-weight: 600; font-size: 0.78rem; box-shadow: 0 6px 20px rgba(0,0,0,0.3); max-width: 90vw; text-align: center; white-space: nowrap; }
         #toast.show { transform: translateX(-50%) translateY(0); }
 
         /* FLOATING CART BAR */
@@ -184,8 +184,233 @@
         .floating-cart-total { font-weight: 800; font-size: 0.86rem; letter-spacing: -0.01em; }
         .floating-cart-arrow { width: 16px; height: 16px; opacity: 0.85; }
 
+        /* ============================================================
+           ITEM DETAIL — BOTTOM SHEET (mobile) + MODAL (desktop)
+           ============================================================ */
+
+        /* Shared backdrop */
+        .item-backdrop {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+        .item-backdrop.open { opacity: 1; visibility: visible; }
+
+        /* ---- BOTTOM SHEET (default / mobile) ---- */
+        .item-sheet {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            z-index: 3001;
+            background: var(--surface);
+            border-radius: 20px 20px 0 0;
+            transform: translateY(100%);
+            transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+            display: flex; flex-direction: column;
+            max-height: 92dvh;
+            overflow: hidden;
+        }
+        .item-sheet.open { transform: translateY(0); }
+
+        /* Sheet drag handle */
+        .sheet-handle {
+            width: 36px; height: 4px;
+            background: var(--border);
+            border-radius: 100px;
+            margin: 10px auto 0;
+            flex-shrink: 0;
+        }
+
+        /* Close button (top-right) */
+        .item-sheet-close {
+            position: absolute; top: 12px; right: 14px;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--dim);
+            transition: var(--transition);
+            z-index: 2;
+        }
+        .item-sheet-close:active { transform: scale(0.88); }
+        .item-sheet-close i { width: 16px; height: 16px; }
+
+        /* Scrollable content area */
+        .item-sheet-body {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            flex: 1;
+        }
+        .item-sheet-body::-webkit-scrollbar { display: none; }
+
+        /* Hero image */
+        .item-sheet-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--surface2);
+        }
+        .item-sheet-image { width: 100%; height: 100%; object-fit: cover; }
+        .item-sheet-no-image {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 8px; color: var(--dim);
+        }
+        .item-sheet-no-image i { width: 48px; height: 48px; opacity: 0.3; }
+        .item-sheet-no-image span { font-size: 0.8rem; }
+
+        /* Popular badge on image */
+        .item-sheet-badge {
+            position: absolute; top: 12px; left: 12px;
+            background: var(--accent); color: white;
+            padding: 4px 10px; border-radius: 100px;
+            font-size: 0.68rem; font-weight: 700;
+        }
+
+        /* Text content */
+        .item-sheet-content { padding: 16px 16px 0; }
+        .item-sheet-name {
+            font-size: 1.1rem; font-weight: 800;
+            letter-spacing: -0.02em; line-height: 1.25;
+            margin-bottom: 6px;
+        }
+        .item-sheet-desc {
+            font-size: 0.85rem; color: var(--dim);
+            line-height: 1.6; margin-bottom: 12px;
+        }
+
+        /* Meta chips row */
+        .item-sheet-meta {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            margin-bottom: 14px;
+        }
+        .item-meta-chip {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 5px 10px;
+            border-radius: 100px;
+            font-size: 0.72rem; font-weight: 600;
+            background: var(--surface2);
+            color: var(--text-secondary);
+        }
+        .item-meta-chip i { width: 12px; height: 12px; }
+        .item-meta-chip.calories { background: #fce4ec; color: #c62828; }
+        .item-meta-chip.prep { background: #e3f2fd; color: #1565c0; }
+        .item-meta-chip.rating { background: #fff8e1; color: #e65100; }
+        .item-meta-chip.category { background: var(--accent-light); color: var(--accent-dark); }
+
+        /* Divider */
+        .item-sheet-divider { height: 1px; background: var(--border-light); margin: 0 0 14px; }
+
+        /* Price row */
+        .item-sheet-price-row {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .item-sheet-price {
+            font-size: 1.4rem; font-weight: 800;
+            color: var(--text); letter-spacing: -0.03em;
+        }
+        .item-sheet-price .currency { font-size: 1rem; font-weight: 600; margin-right: 1px; }
+        .item-sheet-price-label { font-size: 0.72rem; color: var(--dim); margin-bottom: 12px; }
+
+        /* Quantity selector inside sheet */
+        .item-sheet-qty-row {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 14px;
+        }
+        .item-sheet-qty-label { font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); flex: 1; }
+        .item-qty-ctrl {
+            display: flex; align-items: center; gap: 0;
+            background: var(--surface2);
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .item-qty-btn {
+            width: 36px; height: 36px;
+            border: none; background: transparent;
+            cursor: pointer; color: var(--text);
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition); font-size: 1rem;
+        }
+        .item-qty-btn:active { background: var(--border); }
+        .item-qty-btn i { width: 14px; height: 14px; }
+        .item-qty-btn:disabled { color: var(--dim); cursor: default; }
+        .item-qty-num {
+            min-width: 32px; text-align: center;
+            font-weight: 700; font-size: 0.9rem;
+        }
+
+        /* Add to cart CTA */
+        .item-sheet-footer {
+            padding: 12px 16px;
+            padding-bottom: calc(14px + var(--safe-bottom));
+            background: var(--surface);
+            border-top: 1px solid var(--border-light);
+            flex-shrink: 0;
+        }
+        .item-sheet-add-btn {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: var(--radius-xs);
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: var(--transition);
+            letter-spacing: -0.01em;
+        }
+        .item-sheet-add-btn:active { transform: scale(0.98); background: var(--accent-dark); }
+        .item-sheet-add-btn-left { display: flex; align-items: center; gap: 8px; }
+        .item-sheet-add-btn-qty {
+            background: rgba(255,255,255,0.25);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            width: 24px; height: 24px;
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        /* ---- DESKTOP MODAL overlay ---- */
+        @media (min-width: 768px) {
+            .item-sheet {
+                /* Become a centered modal */
+                left: 50%; right: auto; bottom: auto; top: 50%;
+                transform: translate(-50%, -50%) scale(0.94);
+                width: 520px;
+                max-width: calc(100vw - 48px);
+                max-height: min(680px, 90dvh);
+                border-radius: 20px;
+                opacity: 0;
+                transition: transform 0.3s cubic-bezier(0.34, 1.26, 0.64, 1), opacity 0.25s ease;
+            }
+            .item-sheet.open {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            .sheet-handle { display: none; }
+            .item-sheet-image-wrap { height: 260px; }
+            .item-sheet-close {
+                top: 14px; right: 14px;
+                width: 34px; height: 34px;
+                background: rgba(0,0,0,0.35);
+                color: white;
+            }
+            .item-sheet-close:hover { background: rgba(0,0,0,0.55); }
+        }
+
         /* ============================================
-           CART DRAWER — identical to index.html
+           CART DRAWER
            ============================================ */
         .cart-drawer { position: fixed; right: 0; top: 0; bottom: 0; width: 100%; max-width: 400px; background: var(--bg); z-index: 2000; transform: translateX(100%); transition: transform 0.3s ease; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); }
         .cart-drawer.open { transform: translateX(0); }
@@ -320,6 +545,62 @@
     </div>
 
     <div id="toast">Message</div>
+
+    <!-- =====================================================
+         ITEM DETAIL — Bottom Sheet (mobile) / Modal (desktop)
+         ===================================================== -->
+    <div class="item-backdrop" id="itemBackdrop" onclick="closeItemSheet()"></div>
+
+    <div class="item-sheet" id="itemSheet" role="dialog" aria-modal="true" aria-labelledby="itemSheetName">
+        <div class="sheet-handle"></div>
+        <button class="item-sheet-close" onclick="closeItemSheet()" aria-label="Close">
+            <i data-lucide="x"></i>
+        </button>
+
+        <!-- Hero image -->
+        <div class="item-sheet-image-wrap" id="itemSheetImageWrap">
+            <div class="item-sheet-no-image"><i data-lucide="image"></i><span>No image</span></div>
+        </div>
+
+        <!-- Scrollable content -->
+        <div class="item-sheet-body">
+            <div class="item-sheet-content">
+                <h2 class="item-sheet-name" id="itemSheetName"></h2>
+                <p class="item-sheet-desc" id="itemSheetDesc"></p>
+                <div class="item-sheet-meta" id="itemSheetMeta"></div>
+                <div class="item-sheet-divider"></div>
+                <div class="item-sheet-price-row">
+                    <div class="item-sheet-price" id="itemSheetPrice">
+                        <span class="currency">R</span><span id="itemSheetPriceVal">0.00</span>
+                    </div>
+                </div>
+                <p class="item-sheet-price-label">per item</p>
+                <div class="item-sheet-qty-row">
+                    <span class="item-sheet-qty-label">Quantity</span>
+                    <div class="item-qty-ctrl">
+                        <button class="item-qty-btn" id="itemQtyMinus" onclick="changeSheetQty(-1)" aria-label="Decrease">
+                            <i data-lucide="minus"></i>
+                        </button>
+                        <span class="item-qty-num" id="itemSheetQtyVal">1</span>
+                        <button class="item-qty-btn" id="itemQtyPlus" onclick="changeSheetQty(1)" aria-label="Increase">
+                            <i data-lucide="plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky footer CTA -->
+        <div class="item-sheet-footer">
+            <button class="item-sheet-add-btn" id="itemSheetAddBtn" onclick="addFromSheet()">
+                <div class="item-sheet-add-btn-left">
+                    <span class="item-sheet-add-btn-qty" id="itemSheetBtnQty">1</span>
+                    <span>Add to cart</span>
+                </div>
+                <span id="itemSheetBtnTotal">R 0.00</span>
+            </button>
+        </div>
+    </div>
 
     <div class="app-container">
         <header class="header">
@@ -457,6 +738,10 @@
         let currentCategory = 'all';
         let cartGroupExpanded = false;
 
+        // Active item detail state
+        let activeSheetItem = null;
+        let sheetQty = 1;
+
         // ============================
         // SHIMMER
         // ============================
@@ -542,7 +827,7 @@
                         ${citems.map(item => {
                             const qty = getItemCartQty(item.id);
                             return `
-                            <div class="menu-list-item" id="menu-item-${item.id}">
+                            <div class="menu-list-item" id="menu-item-${item.id}" onclick="openItemSheet('${item.id}')">
                                 <div class="menu-item-image-wrap">
                                     ${item.imageURL ? `<img class="menu-item-image" src="${item.imageURL}" alt="${item.name}" loading="lazy">` : `<div class="menu-item-no-image"><i data-lucide="image"></i></div>`}
                                     ${item.featured ? '<span class="menu-item-badge">Popular</span>' : ''}
@@ -558,15 +843,15 @@
                                     </div>
                                     <div class="menu-item-bottom">
                                         <span class="menu-item-price"><span class="currency">R</span>${item.price.toFixed(2)}</span>
-                                        <div id="add-control-${item.id}">
+                                        <div id="add-control-${item.id}" onclick="event.stopPropagation()">
                                             ${qty > 0 ? `
                                                 <div class="menu-item-qty-control pop-in">
-                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
+                                                    <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
                                                     <span class="menu-item-qty-value">${qty}</span>
-                                                    <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
+                                                    <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
                                                 </div>
                                             ` : `
-                                                <button class="menu-item-add-btn" data-item-id="${item.id}" onclick="event.stopPropagation();addToCartById('${item.id}')"><i data-lucide="plus"></i></button>
+                                                <button class="menu-item-add-btn" data-item-id="${item.id}" onclick="addToCartById('${item.id}')"><i data-lucide="plus"></i></button>
                                             `}
                                         </div>
                                     </div>
@@ -587,11 +872,11 @@
             if (!item) return;
             el.innerHTML = qty > 0
                 ? `<div class="menu-item-qty-control pop-in">
-                       <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
+                       <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
                        <span class="menu-item-qty-value">${qty}</span>
-                       <button class="menu-item-qty-btn" onclick="event.stopPropagation();changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
+                       <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
                    </div>`
-                : `<button class="menu-item-add-btn" data-item-id="${item.id}" onclick="event.stopPropagation();addToCartById('${item.id}')"><i data-lucide="plus"></i></button>`;
+                : `<button class="menu-item-add-btn" data-item-id="${item.id}" onclick="addToCartById('${item.id}')"><i data-lucide="plus"></i></button>`;
             lucide.createIcons();
         }
 
@@ -616,11 +901,104 @@
         window.goBack = () => { window.location.href = 'index.html'; };
 
         // ============================
+        // ITEM DETAIL SHEET / MODAL
+        // ============================
+        window.openItemSheet = (itemId) => {
+            const item = allMenuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            activeSheetItem = item;
+            // Start qty at current cart qty or 1
+            sheetQty = Math.max(1, getItemCartQty(item.id));
+
+            // Hero image
+            const imgWrap = document.getElementById('itemSheetImageWrap');
+            if (item.imageURL) {
+                imgWrap.innerHTML = `<img class="item-sheet-image" src="${item.imageURL}" alt="${item.name}" loading="lazy">${item.featured ? '<span class="item-sheet-badge">Popular</span>' : ''}`;
+            } else {
+                imgWrap.innerHTML = `<div class="item-sheet-no-image"><i data-lucide="image"></i><span>No image available</span></div>`;
+            }
+
+            // Name & description
+            document.getElementById('itemSheetName').textContent = item.name;
+            const descEl = document.getElementById('itemSheetDesc');
+            if (item.description) {
+                descEl.textContent = item.description;
+                descEl.style.display = '';
+            } else {
+                descEl.style.display = 'none';
+            }
+
+            // Meta chips
+            const meta = [];
+            if (item.category) meta.push(`<span class="item-meta-chip category"><i data-lucide="tag"></i>${item.category}</span>`);
+            if (item.calories) meta.push(`<span class="item-meta-chip calories"><i data-lucide="flame"></i>${item.calories} cal</span>`);
+            if (item.prepTime) meta.push(`<span class="item-meta-chip prep"><i data-lucide="clock"></i>${item.prepTime} min prep</span>`);
+            document.getElementById('itemSheetMeta').innerHTML = meta.join('');
+
+            // Price
+            document.getElementById('itemSheetPriceVal').textContent = item.price.toFixed(2);
+
+            // Qty + CTA
+            updateSheetQtyUI();
+
+            // Open
+            document.getElementById('itemBackdrop').classList.add('open');
+            document.getElementById('itemSheet').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        };
+
+        function updateSheetQtyUI() {
+            if (!activeSheetItem) return;
+            const minus = document.getElementById('itemQtyMinus');
+            document.getElementById('itemSheetQtyVal').textContent = sheetQty;
+            document.getElementById('itemSheetBtnQty').textContent = sheetQty;
+            document.getElementById('itemSheetBtnTotal').textContent = `R ${(activeSheetItem.price * sheetQty).toFixed(2)}`;
+            minus.disabled = sheetQty <= 1;
+        }
+
+        window.changeSheetQty = (delta) => {
+            sheetQty = Math.max(1, sheetQty + delta);
+            updateSheetQtyUI();
+        };
+
+        window.closeItemSheet = () => {
+            document.getElementById('itemSheet').classList.remove('open');
+            document.getElementById('itemBackdrop').classList.remove('open');
+            document.body.style.overflow = '';
+            activeSheetItem = null;
+        };
+
+        // Add from sheet (respects qty)
+        window.addFromSheet = async () => {
+            if (!activeSheetItem) return;
+            const item = activeSheetItem;
+            const existing = cart.find(i => i.itemId === item.id);
+            if (existing) {
+                existing.quantity = sheetQty;
+            } else {
+                cart.push({ itemId: item.id, name: item.name, price: item.price, imageURL: item.imageURL || '', prepTime: parseInt(item.prepTime) || 0, quantity: sheetQty, vendorId, addedAt: Date.now() });
+            }
+            if (currentUserId) await saveCart();
+            refreshControl(item.id);
+            updateCartUI();
+            showToast(`${item.name} added to cart`);
+            closeItemSheet();
+        };
+
+        // Keyboard: close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (document.getElementById('itemSheet').classList.contains('open')) closeItemSheet();
+            }
+        });
+
+        // ============================
         // CART LOGIC
         // ============================
         function calcPrepTime() { if (!cart.length) return 0; return Math.ceil(cart.reduce((s, i) => s + (i.prepTime || 0), 0) / cart.length); }
 
-        // Safe add — looks up item from allMenuItems, no inline string escaping needed
         window.addToCartById = async (itemId) => {
             const menuItem = allMenuItems.find(i => i.id === itemId);
             if (!menuItem) return;
@@ -647,7 +1025,7 @@
         };
 
         // ============================
-        // FIREBASE CART — grouped format
+        // FIREBASE CART
         // ============================
         async function saveCart() {
             if (!currentUserId) return;
@@ -673,7 +1051,7 @@
         }
 
         // ============================
-        // CART UI — same grouped style as index.html
+        // CART UI
         // ============================
         function updateCartUI() {
             const body = document.getElementById('cartBody');
@@ -710,7 +1088,6 @@
             const vendorName = vendorInfo?.name || 'Restaurant';
             const vendorImage = vendorInfo?.imageURL || '';
 
-            // Collapsed preview strip
             const previewImgs = cart.slice(0, 4).map(item =>
                 item.imageURL
                     ? `<img class="preview-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
@@ -719,7 +1096,6 @@
             const moreCount = cart.length > 4 ? cart.length - 4 : 0;
             const moreHtml = moreCount > 0 ? `<div class="preview-more">+${moreCount}</div>` : '';
 
-            // Expanded item rows with images
             const itemsHtml = cart.map((item, idx) => {
                 const imgHtml = item.imageURL
                     ? `<img class="cart-item-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
@@ -787,7 +1163,6 @@
             lucide.createIcons();
         }
 
-        // Toggle the single vendor group collapsed/expanded
         window.toggleCartGroup = () => {
             cartGroupExpanded = !cartGroupExpanded;
             const el = document.getElementById('menuVendorGroup');
@@ -810,7 +1185,7 @@
             if (isOpen) {
                 d.classList.remove('open'); o.classList.remove('open'); document.body.style.overflow = '';
             } else {
-                cartGroupExpanded = true; // always expanded when opening
+                cartGroupExpanded = true;
                 d.classList.add('open'); o.classList.add('open'); document.body.style.overflow = 'hidden';
                 updateCartUI();
             }
