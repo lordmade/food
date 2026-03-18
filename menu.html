@@ -83,7 +83,7 @@
         .shimmer-restaurant-meta { width: 45%; height: 14px; border-radius: 4px; margin: 0 14px 6px; }
 
         .shimmer-categories {
-            padding: 8px 14px; display: flex; gap: 6px; overflow-x: auto;
+            padding: 8px 14px; display: flex; justify-content: center; gap: 6px;
             background: var(--surface); margin-bottom: 6px;
         }
         .shimmer-category-btn { width: 70px; height: 28px; border-radius: 100px; flex-shrink: 0; }
@@ -97,7 +97,7 @@
             gap: 8px;
         }
         .shimmer-card { background: var(--surface); border-radius: var(--radius-xs); overflow: hidden; }
-        .shimmer-card-image { width: 100%; height: 90px; }
+        .shimmer-card-image { width: 100%; height: 110px; }
         .shimmer-card-body { padding: 6px 8px 8px; }
         .shimmer-card-title { height: 11px; width: 80%; border-radius: 3px; margin-bottom: 5px; }
         .shimmer-card-price { height: 11px; width: 45%; border-radius: 3px; }
@@ -203,7 +203,9 @@
         }
         .search-input::placeholder { color: var(--dim); }
 
-        /* CATEGORY TABS — pill shaped */
+        /* ============================================
+           CATEGORY TABS — pill shaped + CENTERED
+           ============================================ */
         .category-tabs {
             background: var(--surface);
             padding: 8px 0;
@@ -215,9 +217,12 @@
 
         .tabs-scroll {
             display: flex;
+            justify-content: center;   /* CENTER the pills */
+            flex-wrap: wrap;            /* wrap if too many */
             gap: 6px;
-            overflow-x: auto;
             padding: 0 14px;
+            /* Still scrollable on very small screens with many categories */
+            overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -260,7 +265,9 @@
         }
         .section-count { font-size: 0.68rem; color: var(--dim); font-weight: 500; }
 
-        /* CARD GRID — smaller, 3 columns */
+        /* ============================================
+           CARD GRID — 3 columns, image-dominant
+           ============================================ */
         .menu-list {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -278,7 +285,7 @@
             animation: fadeSlideIn 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* Cards with lift-on-hover */
+        /* Card */
         .menu-list-item {
             background: var(--surface);
             border-radius: var(--radius-xs);
@@ -293,6 +300,7 @@
             border: 1px solid var(--border-light);
         }
 
+        /* Lift on hover */
         .menu-list-item:hover {
             transform: translateY(-4px) scale(1.01);
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
@@ -303,40 +311,62 @@
             box-shadow: none;
         }
 
-        /* Smaller image */
+        /* ============================================
+           IMAGE — tall, takes ~70% of card
+           ============================================ */
         .menu-item-image-wrap {
-            position: relative; width: 100%; height: 90px;
-            overflow: hidden; flex-shrink: 0; background: var(--surface2);
+            position: relative;
+            width: 100%;
+            /* aspect-ratio keeps it proportional at any grid width */
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--surface2);
         }
-        .menu-item-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+
+        .menu-item-image {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
         .menu-list-item:hover .menu-item-image { transform: scale(1.07); }
 
         .menu-item-badge {
-            position: absolute; top: 4px; left: 4px; background: var(--accent); color: white;
-            padding: 1px 5px; border-radius: 100px; font-size: 0.52rem; font-weight: 700;
-            letter-spacing: 0.02em;
+            position: absolute; top: 5px; left: 5px; background: var(--accent); color: white;
+            padding: 2px 6px; border-radius: 100px; font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 0.02em; backdrop-filter: blur(4px);
         }
+
         .menu-item-no-image {
             width: 100%; height: 100%; display: flex; align-items: center;
-            justify-content: center; background: var(--surface2);
+            justify-content: center; background: linear-gradient(135deg, #f0f0f0, #e4e4e4);
         }
-        .menu-item-no-image i { width: 22px; height: 22px; color: var(--border); }
+        .menu-item-no-image i { width: 28px; height: 28px; color: #ccc; }
 
-        /* Smaller card body */
+        /* ============================================
+           CARD BODY — compact, just name + price+add
+           ============================================ */
         .menu-item-info {
-            flex: 1; display: flex; flex-direction: column;
-            padding: 6px 7px 7px; gap: 3px;
+            display: flex;
+            flex-direction: column;
+            padding: 6px 7px 7px;
+            gap: 3px;
+            flex-shrink: 0;
         }
+
         .menu-item-top { flex: 1; }
+
         .menu-item-name {
-            font-weight: 700; font-size: 0.72rem; color: var(--text); line-height: 1.25;
+            font-weight: 700; font-size: 0.7rem; color: var(--text); line-height: 1.25;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
             overflow: hidden; margin-bottom: 1px;
         }
+
         .menu-item-desc {
-            color: var(--dim); font-size: 0.62rem; line-height: 1.3;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+            color: var(--dim); font-size: 0.6rem; line-height: 1.3;
+            display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
         }
+
         .menu-item-tags { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 2px; }
         .menu-item-tag {
             font-size: 0.52rem; font-weight: 600; padding: 1px 4px;
@@ -350,10 +380,10 @@
             display: flex; align-items: center; justify-content: space-between;
             gap: 3px; margin-top: 4px;
         }
-        .menu-item-price { font-weight: 800; font-size: 0.78rem; color: var(--text); }
-        .menu-item-price .currency { font-weight: 600; font-size: 0.68rem; }
+        .menu-item-price { font-weight: 800; font-size: 0.75rem; color: var(--text); }
+        .menu-item-price .currency { font-weight: 600; font-size: 0.65rem; }
 
-        /* ADD BUTTON — smaller */
+        /* ADD BUTTON */
         .menu-item-add-btn {
             display: flex; align-items: center; justify-content: center;
             width: 24px; height: 24px; background: var(--accent); border: none;
@@ -363,7 +393,7 @@
         .menu-item-add-btn:active { transform: scale(0.82); background: var(--accent-dark); }
         .menu-item-add-btn i { width: 13px; height: 13px; }
 
-        /* INLINE QTY CONTROL — smaller */
+        /* INLINE QTY CONTROL */
         .menu-item-qty-control {
             display: flex; align-items: center; gap: 0; background: var(--accent);
             border-radius: 100px; padding: 1px; box-shadow: 0 2px 5px rgba(6,193,103,0.25);
@@ -895,9 +925,8 @@
                                 <div class="menu-item-info">
                                     <div class="menu-item-top">
                                         <h4 class="menu-item-name">${item.name}</h4>
-                                        <p class="menu-item-desc">${item.description || 'Fresh &amp; delicious'}</p>
+                                        <p class="menu-item-desc">${item.description || ''}</p>
                                         <div class="menu-item-tags">
-                                            ${item.featured ? '<span class="menu-item-tag featured">⭐ Popular</span>' : ''}
                                             ${item.calories ? `<span class="menu-item-tag calories">${item.calories} cal</span>` : ''}
                                             ${item.prepTime ? `<span class="menu-item-tag prep">${item.prepTime}m</span>` : ''}
                                         </div>
