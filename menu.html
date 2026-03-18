@@ -493,6 +493,228 @@
 
         @keyframes popIn { 0%{transform:scale(0.5);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;} }
         .pop-in { animation: popIn 0.2s ease forwards; }
+        @keyframes spin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
+
+        /* ================================================================
+           MOBILE LOCATION TOAST — compact top pill
+           ================================================================ */
+        #locToast {
+            position: fixed; top: 14px; left: 50%;
+            transform: translateX(-50%) translateY(-80px);
+            background: var(--text); color: white;
+            padding: 9px 16px 9px 12px;
+            border-radius: 100px; z-index: 9000;
+            transition: transform 0.38s cubic-bezier(0.34,1.26,0.64,1), opacity 0.3s ease;
+            opacity: 0; pointer-events: none;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.8rem; font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+            max-width: calc(100vw - 32px);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        #locToast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        #locToast .loc-toast-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
+        #locToast .loc-toast-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+
+        /* ================================================================
+           CHECKOUT DRAWER — slides in over the cart drawer
+           ================================================================ */
+        .checkout-drawer {
+            position: absolute; inset: 0;
+            background: var(--bg);
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+            display: flex; flex-direction: column;
+            z-index: 10; overflow: hidden;
+        }
+        .checkout-drawer.open { transform: translateX(0); }
+
+        .co-header {
+            padding: 14px 16px; background: var(--surface);
+            border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+        }
+        .co-back-btn {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--surface2); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--dim); transition: var(--transition); flex-shrink: 0;
+        }
+        .co-back-btn:active { background: var(--border); }
+        .co-back-btn i { width: 16px; height: 16px; }
+        .co-header-title { font-weight: 800; font-size: 1rem; flex: 1; }
+        .co-step-pills { display: flex; align-items: center; gap: 4px; }
+        .co-step-pill {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--border); transition: var(--transition);
+        }
+        .co-step-pill.active { background: var(--accent); width: 18px; border-radius: 3px; }
+        .co-step-pill.done { background: var(--accent-dark); }
+
+        .co-body { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+        .co-body::-webkit-scrollbar { display: none; }
+
+        /* Section card */
+        .co-card {
+            background: var(--surface); border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            overflow: hidden; box-shadow: var(--shadow);
+        }
+        .co-card-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--surface);
+        }
+        .co-card-icon {
+            width: 30px; height: 30px; border-radius: 8px;
+            background: var(--accent-light);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .co-card-icon i { width: 14px; height: 14px; color: var(--accent-dark); }
+        .co-card-label { font-size: 0.82rem; font-weight: 700; color: var(--text); flex: 1; }
+        .co-card-edit { font-size: 0.72rem; font-weight: 600; color: var(--accent); cursor: pointer; }
+        .co-card-body { padding: 12px 14px; }
+
+        /* Order items summary */
+        .co-order-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 6px 0; border-bottom: 1px solid var(--border-light);
+        }
+        .co-order-item:last-child { border-bottom: none; }
+        .co-order-img {
+            width: 38px; height: 38px; border-radius: 6px; object-fit: cover;
+            flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border-light);
+        }
+        .co-order-no-img {
+            width: 38px; height: 38px; border-radius: 6px;
+            background: var(--surface2); border: 1px solid var(--border-light);
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+        }
+        .co-order-no-img i { width: 14px; height: 14px; color: #ccc; }
+        .co-order-name { font-size: 0.78rem; font-weight: 600; flex: 1; color: var(--text); line-height: 1.3; }
+        .co-order-qty { font-size: 0.72rem; color: var(--dim); }
+        .co-order-price { font-size: 0.78rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+
+        /* Vendor block inside checkout */
+        .co-vendor-block { margin-bottom: 10px; }
+        .co-vendor-block:last-child { margin-bottom: 0; }
+        .co-vendor-label {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.72rem; font-weight: 700; color: var(--dim);
+            text-transform: uppercase; letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+        .co-vendor-label img { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; }
+
+        /* Delivery address row */
+        .co-address-row {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 4px 0;
+        }
+        .co-address-icon { color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+        .co-address-icon i { width: 16px; height: 16px; }
+        .co-address-text { flex: 1; }
+        .co-address-main { font-size: 0.84rem; font-weight: 600; color: var(--text); line-height: 1.4; }
+        .co-address-sub { font-size: 0.72rem; color: var(--dim); margin-top: 2px; }
+        .co-address-no-location { font-size: 0.82rem; color: var(--dim); font-style: italic; }
+
+        /* Payment options */
+        .co-payment-options { display: flex; flex-direction: column; gap: 8px; }
+        .co-pay-option {
+            display: flex; align-items: center; gap: 10px;
+            padding: 11px 14px; border-radius: var(--radius-xs);
+            border: 1.5px solid var(--border); background: var(--surface);
+            cursor: pointer; transition: var(--transition);
+        }
+        .co-pay-option.selected { border-color: var(--accent); background: var(--accent-light); }
+        .co-pay-option:active { transform: scale(0.98); }
+        .co-pay-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: var(--surface2); display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .co-pay-option.selected .co-pay-icon { background: rgba(6,193,103,0.15); }
+        .co-pay-icon i { width: 16px; height: 16px; color: var(--dim); }
+        .co-pay-option.selected .co-pay-icon i { color: var(--accent-dark); }
+        .co-pay-info { flex: 1; }
+        .co-pay-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+        .co-pay-sub { font-size: 0.68rem; color: var(--dim); margin-top: 1px; }
+        .co-pay-check {
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 1.5px solid var(--border); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; transition: var(--transition);
+        }
+        .co-pay-option.selected .co-pay-check { background: var(--accent); border-color: var(--accent); }
+        .co-pay-option.selected .co-pay-check::after { content:''; display:block; width:6px; height:4px; border-left:1.5px solid white; border-bottom:1.5px solid white; transform:rotate(-45deg) translate(0,-1px); }
+
+        /* Price breakdown */
+        .co-price-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 0.78rem; color: var(--text-secondary); }
+        .co-price-row.total { font-size: 0.92rem; font-weight: 800; color: var(--text); padding-top: 8px; border-top: 1px solid var(--border); margin-top: 4px; }
+        .co-price-row.discount { color: var(--accent-dark); }
+
+        /* Estimated time badge */
+        .co-eta-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: var(--accent-light); color: var(--accent-dark);
+            padding: 6px 12px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 700;
+        }
+        .co-eta-badge i { width: 13px; height: 13px; }
+
+        /* Terms note */
+        .co-terms { font-size: 0.68rem; color: var(--dim); text-align: center; line-height: 1.5; padding: 4px 0; }
+
+        /* Confirm button */
+        .co-confirm-btn {
+            width: 100%; background: var(--accent); color: white; border: none;
+            padding: 14px; border-radius: var(--radius-xs);
+            font-family: inherit; font-weight: 800; font-size: 0.95rem;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .co-confirm-btn:active { transform: scale(0.98); background: var(--accent-dark); }
+        .co-confirm-btn:disabled { background: var(--border); cursor: not-allowed; color: var(--dim); }
+        .co-confirm-btn i { width: 18px; height: 18px; }
+
+        .co-footer { padding: 12px 14px; padding-bottom: calc(12px + var(--safe-bottom)); background: var(--surface); border-top: 1px solid var(--border-light); flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+
+        /* ---- SUCCESS STATE ---- */
+        .co-success {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 24px 20px; text-align: center; gap: 0;
+        }
+        .co-success-ring {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: var(--accent-light); display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+        }
+        @keyframes successPop { 0%{transform:scale(0);opacity:0;} 60%{transform:scale(1.15);} 100%{transform:scale(1);opacity:1;} }
+        .co-success-ring i { width: 36px; height: 36px; color: var(--accent); animation: successPop 0.5s cubic-bezier(0.34,1.26,0.64,1) forwards; }
+        .co-success-title { font-size: 1.25rem; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em; }
+        .co-success-sub { font-size: 0.85rem; color: var(--dim); line-height: 1.6; margin-bottom: 20px; }
+        .co-success-id { font-size: 0.72rem; color: var(--dim); margin-bottom: 24px; font-family: monospace; background: var(--surface2); padding: 4px 10px; border-radius: 6px; }
+        .co-success-items { width: 100%; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border-light); overflow: hidden; margin-bottom: 16px; }
+        .co-success-item-row { display: flex; justify-content: space-between; padding: 9px 14px; font-size: 0.78rem; border-bottom: 1px solid var(--border-light); }
+        .co-success-item-row:last-child { border-bottom: none; }
+        .co-success-item-name { font-weight: 600; color: var(--text); }
+        .co-success-item-price { color: var(--dim); }
+        .co-track-btn {
+            width: 100%; background: var(--accent); color: white; border: none;
+            padding: 14px; border-radius: var(--radius-xs);
+            font-family: inherit; font-weight: 800; font-size: 0.95rem;
+            cursor: pointer; transition: var(--transition);
+        }
+        .co-track-btn:active { background: var(--accent-dark); transform: scale(0.98); }
+        .co-done-btn {
+            width: 100%; background: transparent; color: var(--dim); border: 1.5px solid var(--border);
+            padding: 12px; border-radius: var(--radius-xs);
+            font-family: inherit; font-weight: 700; font-size: 0.88rem;
+            cursor: pointer; transition: var(--transition);
+        }
+        .co-done-btn:active { background: var(--surface2); }
 
         @media (min-width: 768px) {
             .header { padding: 6px 24px; }
@@ -550,6 +772,12 @@
             <div class="shimmer-card"><div class="shimmer shimmer-card-image"></div><div class="shimmer-card-body"><div class="shimmer shimmer-card-title"></div><div class="shimmer shimmer-card-price"></div></div></div>
         </div>
     </div>
+</div>
+
+<!-- MOBILE LOCATION TOAST -->
+<div id="locToast">
+    <i data-lucide="map-pin" class="loc-toast-icon"></i>
+    <span class="loc-toast-text" id="locToastText">Detecting location...</span>
 </div>
 
 <div id="toast">Message</div>
@@ -749,7 +977,22 @@
     </div>
     <div class="cart-footer" id="cartFooter" style="display:none;">
         <div id="cartSummary"></div>
-        <button class="checkout-btn" id="checkoutBtn" disabled onclick="handleCheckout()">Place Order</button>
+        <button class="checkout-btn" id="checkoutBtn" disabled onclick="openCheckoutDrawer()">Place Order</button>
+    </div>
+
+    <!-- CHECKOUT DRAWER (slides over cart) -->
+    <div class="checkout-drawer" id="checkoutDrawer">
+        <div class="co-header">
+            <button class="co-back-btn" id="coBackBtn" onclick="closeCheckoutDrawer()"><i data-lucide="arrow-left"></i></button>
+            <span class="co-header-title" id="coHeaderTitle">Review Order</span>
+            <div class="co-step-pills" id="coStepPills">
+                <div class="co-step-pill active" id="coPill0"></div>
+                <div class="co-step-pill" id="coPill1"></div>
+                <div class="co-step-pill" id="coPill2"></div>
+            </div>
+        </div>
+        <div class="co-body" id="coBody"></div>
+        <div class="co-footer" id="coFooter"></div>
     </div>
 </div>
 
@@ -1536,10 +1779,315 @@ window.handleCheckout = async () => {
 
 window.showToast = msg => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); };
 
+// ================================================================
+// MOBILE LOCATION TOAST
+// ================================================================
+function showLocToast(msg) {
+    const el = document.getElementById('locToast');
+    document.getElementById('locToastText').textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+// ================================================================
+// CHECKOUT DRAWER
+// ================================================================
+let coStep = 0; // 0=review, 1=payment, 2=success
+let selectedPayment = 'cash';
+let coDeliveryAddress = null;
+
+function openCheckoutDrawer() {
+    if (getTotalItems() === 0) return;
+    coStep = 0;
+    selectedPayment = 'cash';
+    coDeliveryAddress = null;
+    renderCoStep();
+    document.getElementById('checkoutDrawer').classList.add('open');
+    lucide.createIcons();
+}
+
+window.closeCheckoutDrawer = () => {
+    if (coStep === 2) return; // don't close mid-success
+    document.getElementById('checkoutDrawer').classList.remove('open');
+};
+
+function coSetStep(step) {
+    coStep = step;
+    const titles = ['Review Order', 'Payment & Delivery', 'Order Placed!'];
+    document.getElementById('coHeaderTitle').textContent = titles[step];
+    // Pills
+    for (let i = 0; i < 3; i++) {
+        const p = document.getElementById(`coPill${i}`);
+        p.className = 'co-step-pill' + (i < step ? ' done' : '') + (i === step ? ' active' : '');
+    }
+    // Back btn
+    const backBtn = document.getElementById('coBackBtn');
+    if (step === 2) {
+        backBtn.style.visibility = 'hidden';
+    } else {
+        backBtn.style.visibility = 'visible';
+        backBtn.onclick = step === 0 ? closeCheckoutDrawer : () => coSetStep(step - 1);
+    }
+    renderCoStep();
+    lucide.createIcons();
+}
+
+function renderCoStep() {
+    const body  = document.getElementById('coBody');
+    const footer = document.getElementById('coFooter');
+    // Update pills & title via coSetStep helper (called from openCheckoutDrawer too)
+    const titles = ['Review Order', 'Payment & Delivery', 'Order Placed!'];
+    document.getElementById('coHeaderTitle').textContent = titles[coStep];
+    for (let i = 0; i < 3; i++) {
+        const p = document.getElementById(`coPill${i}`);
+        if (p) p.className = 'co-step-pill' + (i < coStep ? ' done' : '') + (i === coStep ? ' active' : '');
+    }
+    const backBtn = document.getElementById('coBackBtn');
+    if (backBtn) {
+        if (coStep === 2) { backBtn.style.visibility = 'hidden'; }
+        else {
+            backBtn.style.visibility = 'visible';
+            backBtn.onclick = coStep === 0 ? closeCheckoutDrawer : () => { coStep--; renderCoStep(); lucide.createIcons(); };
+        }
+    }
+
+    if (coStep === 0) renderCoReview(body, footer);
+    else if (coStep === 1) renderCoPayment(body, footer);
+    else renderCoSuccess(body, footer);
+}
+
+function renderCoReview(body, footer) {
+    const totalSub   = Object.values(allGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0),0);
+    const totalFees  = Object.values(allGroups).reduce((s,g)=>s+parseFloat(g.deliveryFee||0),0);
+    const total      = totalSub + totalFees;
+    const totalItems = getTotalItems();
+    const pt         = calcPrepTime();
+    const vc         = Object.keys(allGroups).length;
+
+    let vendorBlocks = '';
+    Object.entries(allGroups).forEach(([gVid, group]) => {
+        const imgHtml = group.vendorImage
+            ? `<img src="${group.vendorImage}" style="width:18px;height:18px;border-radius:4px;object-fit:cover;">`
+            : `<i data-lucide="store" style="width:14px;height:14px;"></i>`;
+        const items = (group.items||[]).map(item => {
+            const img = item.imageURL
+                ? `<img class="co-order-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
+                : `<div class="co-order-no-img"><i data-lucide="image"></i></div>`;
+            return `<div class="co-order-item">${img}<span class="co-order-name">${item.name}</span><span class="co-order-qty">×${item.quantity}</span><span class="co-order-price">R${(item.price*item.quantity).toFixed(2)}</span></div>`;
+        }).join('');
+        const groupSub = (group.items||[]).reduce((s,i)=>s+i.price*i.quantity,0);
+        const fee = parseFloat(group.deliveryFee||0);
+        vendorBlocks += `
+        <div class="co-vendor-block">
+            <div class="co-vendor-label">${imgHtml}<span>${group.vendorName||'Restaurant'}</span></div>
+            ${items}
+            <div style="display:flex;justify-content:space-between;padding:6px 0 2px;font-size:0.72rem;color:var(--dim);">
+                <span>Subtotal</span><span>R${groupSub.toFixed(2)}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:2px 0;font-size:0.72rem;color:var(--dim);">
+                <span>Delivery</span><span>${fee>0?`R${fee.toFixed(2)}`:'Free'}</span>
+            </div>
+        </div>`;
+    });
+
+    body.innerHTML = `
+    ${vc>1?`<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:var(--radius-xs);padding:9px 12px;font-size:0.74rem;font-weight:600;color:#7a5800;display:flex;gap:7px;align-items:flex-start;">
+        <i data-lucide="alert-triangle" style="width:13px;height:13px;flex-shrink:0;margin-top:1px;color:#f59e0b;"></i>
+        <span>${vc} restaurants · ${vc} separate orders will be placed</span></div>`:``}
+
+    <div class="co-card">
+        <div class="co-card-header">
+            <div class="co-card-icon"><i data-lucide="shopping-bag"></i></div>
+            <span class="co-card-label">Order Items (${totalItems})</span>
+            <span class="co-card-edit" onclick="closeCheckoutDrawer()">Edit</span>
+        </div>
+        <div class="co-card-body">${vendorBlocks}</div>
+    </div>
+
+    <div class="co-card">
+        <div class="co-card-header">
+            <div class="co-card-icon"><i data-lucide="receipt"></i></div>
+            <span class="co-card-label">Price Breakdown</span>
+        </div>
+        <div class="co-card-body">
+            <div class="co-price-row"><span>Subtotal</span><span>R${totalSub.toFixed(2)}</span></div>
+            <div class="co-price-row"><span>Delivery fee${vc>1?'s':''}</span><span>${totalFees>0?`R${totalFees.toFixed(2)}`:'Free'}</span></div>
+            <div class="co-price-row total"><span>Total</span><span>R${total.toFixed(2)}</span></div>
+        </div>
+    </div>
+
+    ${pt>0?`<div style="padding:2px 0;"><div class="co-eta-badge"><i data-lucide="clock"></i> Estimated prep: ~${pt} min</div></div>`:''}
+    `;
+
+    footer.innerHTML = `
+    <button class="co-confirm-btn" onclick="coStep=1;renderCoStep();lucide.createIcons();">
+        <i data-lucide="arrow-right"></i> Continue to Payment
+    </button>`;
+}
+
+function renderCoPayment(body, footer) {
+    const totalSub  = Object.values(allGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0),0);
+    const totalFees = Object.values(allGroups).reduce((s,g)=>s+parseFloat(g.deliveryFee||0),0);
+    const total     = totalSub + totalFees;
+
+    const payOptions = [
+        { id:'cash',  icon:'banknote',        name:'Cash on Delivery',   sub:'Pay when your order arrives' },
+        { id:'card',  icon:'credit-card',      name:'Card on Delivery',   sub:'Swipe or tap at the door' },
+        { id:'wallet',icon:'smartphone',       name:'Digital Wallet',     sub:'SnapScan, Ozow & more' },
+    ];
+
+    const addrHtml = currentUser
+        ? `<div class="co-address-row">
+            <div class="co-address-icon"><i data-lucide="map-pin"></i></div>
+            <div class="co-address-text">
+                <div class="co-address-main" id="coAddrMain">${coDeliveryAddress || (currentUser.displayName ? currentUser.displayName + "'s location" : 'Current location')}</div>
+                <div class="co-address-sub">Delivery to this address</div>
+            </div>
+           </div>`
+        : `<div class="co-address-no-location">Sign in to save a delivery address</div>`;
+
+    body.innerHTML = `
+    <div class="co-card">
+        <div class="co-card-header">
+            <div class="co-card-icon"><i data-lucide="map-pin"></i></div>
+            <span class="co-card-label">Delivery Address</span>
+            <span class="co-card-edit" id="coAddrEditBtn">Change</span>
+        </div>
+        <div class="co-card-body">
+            ${addrHtml}
+            <input type="text" id="coAddrInput" placeholder="Enter delivery address…"
+                style="width:100%;margin-top:10px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-xs);font-family:inherit;font-size:0.82rem;background:var(--surface2);outline:none;display:none;"
+                oninput="coDeliveryAddress=this.value;document.getElementById('coAddrMain')&&(document.getElementById('coAddrMain').textContent=this.value||'Enter address above')">
+        </div>
+    </div>
+
+    <div class="co-card">
+        <div class="co-card-header">
+            <div class="co-card-icon"><i data-lucide="credit-card"></i></div>
+            <span class="co-card-label">Payment Method</span>
+        </div>
+        <div class="co-card-body">
+            <div class="co-payment-options" id="coPayOptions">
+                ${payOptions.map(p=>`
+                <div class="co-pay-option ${selectedPayment===p.id?'selected':''}" onclick="selectPayment('${p.id}')">
+                    <div class="co-pay-icon"><i data-lucide="${p.icon}"></i></div>
+                    <div class="co-pay-info"><div class="co-pay-name">${p.name}</div><div class="co-pay-sub">${p.sub}</div></div>
+                    <div class="co-pay-check"></div>
+                </div>`).join('')}
+            </div>
+        </div>
+    </div>
+
+    <div class="co-card">
+        <div class="co-card-header">
+            <div class="co-card-icon"><i data-lucide="receipt"></i></div>
+            <span class="co-card-label">Order Total</span>
+        </div>
+        <div class="co-card-body">
+            <div class="co-price-row"><span>Subtotal</span><span>R${totalSub.toFixed(2)}</span></div>
+            <div class="co-price-row"><span>Delivery fee${Object.keys(allGroups).length>1?'s':''}</span><span>${totalFees>0?`R${totalFees.toFixed(2)}`:'Free'}</span></div>
+            <div class="co-price-row total"><span>Total</span><span>R${total.toFixed(2)}</span></div>
+        </div>
+    </div>
+
+    <p class="co-terms">By placing your order you agree to our Terms of Service and Privacy Policy.</p>`;
+
+    footer.innerHTML = `
+    <button class="co-confirm-btn" id="coPlaceBtn" onclick="handleCheckout()">
+        <i data-lucide="check-circle"></i> Place Order · R${total.toFixed(2)}
+    </button>`;
+
+    // Toggle address input
+    const editBtn = document.getElementById('coAddrEditBtn');
+    if (editBtn) editBtn.addEventListener('click', () => {
+        const inp = document.getElementById('coAddrInput');
+        if (inp) { inp.style.display = inp.style.display==='none'?'block':'none'; if(inp.style.display==='block')inp.focus(); }
+    });
+}
+
+window.selectPayment = (id) => {
+    selectedPayment = id;
+    document.querySelectorAll('.co-pay-option').forEach(el => {
+        el.classList.toggle('selected', el.getAttribute('onclick').includes(`'${id}'`));
+    });
+    lucide.createIcons();
+};
+
+function renderCoSuccess(body, footer) {
+    const total = getTotalPrice();
+    const vc    = Object.keys(allGroups).length; // before reset
+    const orderId = '#' + Math.random().toString(36).substring(2,8).toUpperCase();
+    const allItems = getAllCartItems();
+
+    // Show a flat summary of items
+    const itemRows = allItems.slice(0,6).map(i =>
+        `<div class="co-success-item-row"><span class="co-success-item-name">${i.name} ×${i.quantity}</span><span class="co-success-item-price">R${(i.price*i.quantity).toFixed(2)}</span></div>`
+    ).join('');
+
+    body.innerHTML = `
+    <div class="co-success">
+        <div class="co-success-ring"><i data-lucide="check"></i></div>
+        <div class="co-success-title">Order Confirmed!</div>
+        <div class="co-success-sub">${vc>1?`Your ${vc} orders have`:'Your order has'} been placed successfully.<br>The restaurant${vc>1?'s are':'is'} preparing your food.</div>
+        <div class="co-success-id">Order ${orderId}</div>
+        <div class="co-success-items">${itemRows}</div>
+        <div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <span style="font-size:0.78rem;color:var(--dim);">Total charged</span>
+            <span style="font-size:0.92rem;font-weight:800;color:var(--text);">R${total.toFixed(2)}</span>
+        </div>
+        <div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:10px 14px;display:flex;gap:8px;align-items:center;">
+            <i data-lucide="clock" style="width:14px;height:14px;color:var(--accent);flex-shrink:0;"></i>
+            <span style="font-size:0.78rem;color:var(--text);">Estimated delivery: <strong>25–40 min</strong></span>
+        </div>
+    </div>`;
+
+    footer.innerHTML = `
+    <button class="co-track-btn" onclick="dismissCheckout()">Done</button>`;
+}
+
+window.dismissCheckout = () => {
+    document.getElementById('checkoutDrawer').classList.remove('open');
+    toggleCart(); // close cart drawer too
+};
+
+window.handleCheckout = async () => {
+    if (!currentUser) { showToast("Please sign in"); return; }
+    if (getTotalItems() === 0) { showToast("Cart is empty"); return; }
+    // If called from checkout drawer step 1 confirm button
+    const placeBtn = document.getElementById('coPlaceBtn');
+    if (placeBtn) { placeBtn.disabled = true; placeBtn.innerHTML = '<i data-lucide="loader-2" style="animation:spin 1s linear infinite;"></i> Placing order…'; lucide.createIcons(); }
+    try {
+        const promises = Object.entries(allGroups).map(([gVendorId, group]) => {
+            const sub = (group.items||[]).reduce((s,i) => s+i.price*i.quantity, 0);
+            const fee = parseFloat(group.deliveryFee||0);
+            return set(push(ref(db,'orders')), {
+                userId: currentUserId, vendorId: gVendorId,
+                vendorName: group.vendorName||'',
+                items: group.items, subtotal: sub,
+                deliveryFee: fee, total: sub+fee,
+                paymentMethod: selectedPayment,
+                deliveryAddress: coDeliveryAddress || '',
+                status: 'pending', createdAt: Date.now(),
+                estimatedPrepTime: calcPrepTime()
+            });
+        });
+        await Promise.all(promises);
+        // Show success state BEFORE clearing cart (so summary shows items)
+        coStep = 2;
+        renderCoStep();
+        lucide.createIcons();
+        // Now clear
+        allGroups = {}; cart = []; expandedGroups.clear();
+        await set(ref(db, `carts/${currentUserId}`), { groups: {}, updatedAt: Date.now() });
+        updateCartUI();
+        renderMenuItems(getFilteredItems(), false);
+    } catch(e) { console.error(e); showToast("Order failed"); if (placeBtn) { placeBtn.disabled=false; placeBtn.innerHTML='<i data-lucide="check-circle"></i> Place Order'; lucide.createIcons(); } }
+};
+
 onAuthStateChanged(auth, user => {
     currentUser = user;
     if (user) { currentUserId=user.uid; loadCart(); }
-    else { currentUserId=null; cart=[]; updateCartUI(); }
+    else { currentUserId=null; cart=[]; allGroups={}; updateCartUI(); }
 });
 
 lucide.createIcons();
