@@ -42,9 +42,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html {
-            touch-action: manipulation;
-        }
+        html { touch-action: manipulation; }
 
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -55,14 +53,8 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* ============================================
            SHIMMER
@@ -88,9 +80,7 @@
             overflow-y: auto;
         }
 
-        .shimmer-overlay.active {
-            display: flex;
-        }
+        .shimmer-overlay.active { display: flex; }
 
         .shimmer-header {
             padding: 8px 14px;
@@ -101,55 +91,16 @@
             height: var(--header-height);
         }
 
-        .shimmer-back-btn {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
+        .shimmer-back-btn { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; }
+        .shimmer-title { width: 120px; height: 18px; border-radius: 4px; }
 
-        .shimmer-title {
-            width: 120px;
-            height: 18px;
-            border-radius: 4px;
-        }
+        .shimmer-header-actions { margin-left: auto; display: flex; gap: 8px; }
+        .shimmer-action-btn { width: 34px; height: 34px; border-radius: 50%; }
 
-        .shimmer-header-actions {
-            margin-left: auto;
-            display: flex;
-            gap: 8px;
-        }
-
-        .shimmer-action-btn {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-        }
-
-        .shimmer-restaurant-info {
-            padding: 0;
-            background: var(--surface);
-            margin-bottom: 6px;
-        }
-
-        .shimmer-restaurant-image {
-            width: 100%;
-            height: 160px;
-        }
-
-        .shimmer-restaurant-name {
-            width: 65%;
-            height: 20px;
-            border-radius: 4px;
-            margin: 12px 14px 8px;
-        }
-
-        .shimmer-restaurant-meta {
-            width: 45%;
-            height: 14px;
-            border-radius: 4px;
-            margin: 0 14px 6px;
-        }
+        .shimmer-restaurant-info { padding: 0; background: var(--surface); margin-bottom: 6px; }
+        .shimmer-restaurant-image { width: 100%; height: 160px; }
+        .shimmer-restaurant-name { width: 65%; height: 20px; border-radius: 4px; margin: 12px 14px 8px; }
+        .shimmer-restaurant-meta { width: 45%; height: 14px; border-radius: 4px; margin: 0 14px 6px; }
 
         .shimmer-categories {
             padding: 8px 14px;
@@ -160,79 +111,28 @@
             margin-bottom: 6px;
         }
 
-        .shimmer-category-btn {
-            width: 70px;
-            height: 32px;
-            border-radius: 0;
-            flex-shrink: 0;
+        .shimmer-category-btn { width: 70px; height: 32px; border-radius: 0; flex-shrink: 0; }
+
+        .shimmer-content { padding: 10px 14px; flex: 1; }
+        .shimmer-section-title { width: 100px; height: 16px; border-radius: 4px; margin-bottom: 12px; }
+
+        /* Shimmer grid cards */
+        .shimmer-card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
 
-        .shimmer-content {
-            padding: 10px 14px;
-            flex: 1;
-        }
-
-        .shimmer-section-title {
-            width: 100px;
-            height: 16px;
-            border-radius: 4px;
-            margin-bottom: 8px;
-        }
-
-        .shimmer-menu-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-            background: var(--border-light);
+        .shimmer-card {
+            background: var(--surface);
             border-radius: var(--radius-sm);
             overflow: hidden;
         }
 
-        .shimmer-list-item {
-            display: flex;
-            background: var(--surface);
-            padding: 10px 14px;
-            gap: 10px;
-        }
-
-        .shimmer-list-item-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .shimmer-list-item-title {
-            height: 14px;
-            width: 70%;
-            border-radius: 3px;
-        }
-
-        .shimmer-list-item-desc {
-            height: 10px;
-            width: 100%;
-            border-radius: 3px;
-        }
-
-        .shimmer-list-item-desc2 {
-            height: 10px;
-            width: 55%;
-            border-radius: 3px;
-        }
-
-        .shimmer-list-item-price {
-            height: 14px;
-            width: 40px;
-            border-radius: 3px;
-            margin-top: 2px;
-        }
-
-        .shimmer-list-item-image {
-            width: 72px;
-            height: 72px;
-            border-radius: var(--radius-xs);
-            flex-shrink: 0;
-        }
+        .shimmer-card-image { width: 100%; height: 130px; }
+        .shimmer-card-body { padding: 8px 10px 10px; }
+        .shimmer-card-title { height: 13px; width: 80%; border-radius: 3px; margin-bottom: 6px; }
+        .shimmer-card-price { height: 13px; width: 45%; border-radius: 3px; }
 
         /* ============================================
            APP CONTAINER
@@ -263,13 +163,7 @@
             gap: 10px;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            min-width: 0;
-        }
+        .header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
 
         .back-btn {
             width: 34px;
@@ -286,15 +180,8 @@
             transition: var(--transition);
         }
 
-        .back-btn:active {
-            background: var(--surface2);
-            transform: scale(0.9);
-        }
-
-        .back-btn i {
-            width: 20px;
-            height: 20px;
-        }
+        .back-btn:active { background: var(--surface2); transform: scale(0.9); }
+        .back-btn i { width: 20px; height: 20px; }
 
         .header-title {
             font-weight: 700;
@@ -304,12 +191,7 @@
             text-overflow: ellipsis;
         }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-shrink: 0;
-        }
+        .header-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 
         .action-btn {
             width: 34px;
@@ -326,15 +208,8 @@
             transition: var(--transition);
         }
 
-        .action-btn:active {
-            transform: scale(0.9);
-            background: var(--surface2);
-        }
-
-        .action-btn i {
-            width: 20px;
-            height: 20px;
-        }
+        .action-btn:active { transform: scale(0.9); background: var(--surface2); }
+        .action-btn i { width: 20px; height: 20px; }
 
         .cart-badge {
             position: absolute;
@@ -355,24 +230,11 @@
         /* ============================================
            RESTAURANT HERO
            ============================================ */
-        .restaurant-hero {
-            background: var(--surface);
-            margin-bottom: 6px;
-            position: relative;
-        }
+        .restaurant-hero { background: var(--surface); margin-bottom: 6px; position: relative; }
 
-        .restaurant-banner-wrap {
-            position: relative;
-            width: 100%;
-            height: 160px;
-            overflow: hidden;
-        }
+        .restaurant-banner-wrap { position: relative; width: 100%; height: 160px; overflow: hidden; }
 
-        .restaurant-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .restaurant-image { width: 100%; height: 100%; object-fit: cover; }
 
         .restaurant-banner-gradient {
             position: absolute;
@@ -383,9 +245,7 @@
             background: linear-gradient(transparent, rgba(0,0,0,0.35));
         }
 
-        .restaurant-info-section {
-            padding: 12px 14px;
-        }
+        .restaurant-info-section { padding: 12px 14px; }
 
         .restaurant-name {
             font-size: 1.15rem;
@@ -405,27 +265,10 @@
             flex-wrap: wrap;
         }
 
-        .restaurant-meta .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .restaurant-meta .meta-dot {
-            width: 3px;
-            height: 3px;
-            background: var(--dim);
-            border-radius: 50%;
-        }
-
-        .restaurant-meta i {
-            width: 12px;
-            height: 12px;
-        }
-
-        .rating-star {
-            color: var(--yellow);
-        }
+        .restaurant-meta .meta-item { display: flex; align-items: center; gap: 3px; }
+        .restaurant-meta .meta-dot { width: 3px; height: 3px; background: var(--dim); border-radius: 50%; }
+        .restaurant-meta i { width: 12px; height: 12px; }
+        .rating-star { color: var(--yellow); }
 
         .delivery-info-bar {
             display: flex;
@@ -444,28 +287,11 @@
             padding: 8px 6px;
         }
 
-        .delivery-info-item:not(:last-child) {
-            border-right: 1px solid var(--border);
-        }
+        .delivery-info-item:not(:last-child) { border-right: 1px solid var(--border); }
+        .delivery-info-item .info-value { font-weight: 700; font-size: 0.82rem; color: var(--text); }
+        .delivery-info-item .info-label { font-size: 0.65rem; color: var(--dim); font-weight: 500; }
 
-        .delivery-info-item .info-value {
-            font-weight: 700;
-            font-size: 0.82rem;
-            color: var(--text);
-        }
-
-        .delivery-info-item .info-label {
-            font-size: 0.65rem;
-            color: var(--dim);
-            font-weight: 500;
-        }
-
-        .restaurant-tags {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
+        .restaurant-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
 
         .tag {
             padding: 3px 8px;
@@ -502,12 +328,7 @@
             box-shadow: 0 0 0 2px rgba(6,193,103,0.1);
         }
 
-        .search-input-wrap i {
-            width: 16px;
-            height: 16px;
-            color: var(--dim);
-            flex-shrink: 0;
-        }
+        .search-input-wrap i { width: 16px; height: 16px; color: var(--dim); flex-shrink: 0; }
 
         .search-input {
             flex: 1;
@@ -519,9 +340,7 @@
             outline: none;
         }
 
-        .search-input::placeholder {
-            color: var(--dim);
-        }
+        .search-input::placeholder { color: var(--dim); }
 
         /* ============================================
            CATEGORY TABS
@@ -558,33 +377,28 @@
             touch-action: manipulation;
         }
 
-        .tab-btn.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-        }
-
-        .tab-btn:active {
-            opacity: 0.7;
-        }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .tab-btn:active { opacity: 0.7; }
 
         /* ============================================
            MENU CONTENT
            ============================================ */
         .menu-content {
-            padding: 0 0 80px;
+            padding: 0 0 100px;
             flex: 1;
         }
 
         .menu-section {
             margin-bottom: 6px;
-            background: var(--surface);
+            background: var(--bg);
         }
 
         .section-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 14px 2px;
+            padding: 14px 14px 10px;
+            background: var(--bg);
         }
 
         .section-title {
@@ -595,203 +409,41 @@
             letter-spacing: -0.01em;
         }
 
-        .section-count {
-            font-size: 0.7rem;
-            color: var(--dim);
-            font-weight: 500;
-        }
+        .section-count { font-size: 0.7rem; color: var(--dim); font-weight: 500; }
 
         /* ============================================
-           COMPACT MENU LIST
+           ZULZI-STYLE CARD GRID
            ============================================ */
         .menu-list {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 0 12px 4px;
         }
 
         .menu-list-item {
-            display: flex;
-            gap: 10px;
-            padding: 10px 14px;
-            border-bottom: 1px solid var(--border-light);
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
             cursor: pointer;
             transition: var(--transition);
             position: relative;
-        }
-
-        .menu-list-item:last-child {
-            border-bottom: none;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            border: 1px solid var(--border-light);
         }
 
         .menu-list-item:active {
-            background: var(--surface2);
+            transform: scale(0.97);
+            box-shadow: none;
         }
 
-        .menu-item-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            justify-content: center;
-            gap: 2px;
-        }
-
-        .menu-item-top {
-            flex: 1;
-        }
-
-        .menu-item-name {
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: var(--text);
-            line-height: 1.25;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .menu-item-desc {
-            color: var(--dim);
-            font-size: 0.72rem;
-            line-height: 1.35;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin-bottom: 2px;
-        }
-
-        .menu-item-tags {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-            margin-bottom: 2px;
-        }
-
-        .menu-item-tag {
-            font-size: 0.6rem;
-            font-weight: 600;
-            padding: 1px 5px;
-            border-radius: 100px;
-            background: var(--surface2);
-            color: var(--dim);
-        }
-
-        .menu-item-tag.featured {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .menu-item-tag.calories {
-            background: #fce4ec;
-            color: #c62828;
-        }
-
-        .menu-item-tag.prep {
-            background: #e3f2fd;
-            color: #1565c0;
-        }
-
-        .menu-item-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 6px;
-        }
-
-        .menu-item-price {
-            font-weight: 800;
-            font-size: 0.85rem;
-            color: var(--text);
-        }
-
-        .menu-item-price .currency {
-            font-weight: 600;
-            font-size: 0.75rem;
-        }
-
-        /* ============================================
-           ADD BUTTON (compact)
-           ============================================ */
-        .menu-item-add-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background: var(--accent);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            color: white;
-            transition: var(--transition);
-            flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(6,193,103,0.25);
-        }
-
-        .menu-item-add-btn:active {
-            transform: scale(0.88);
-            background: var(--accent-dark);
-        }
-
-        .menu-item-add-btn i {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* ============================================
-           INLINE QTY CONTROL (compact)
-           ============================================ */
-        .menu-item-qty-control {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            background: var(--accent);
-            border-radius: 100px;
-            padding: 2px;
-            box-shadow: 0 2px 6px rgba(6,193,103,0.25);
-        }
-
-        .menu-item-qty-btn {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            background: transparent;
-            color: white;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .menu-item-qty-btn:active {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .menu-item-qty-btn i {
-            width: 13px;
-            height: 13px;
-        }
-
-        .menu-item-qty-value {
-            color: white;
-            font-weight: 700;
-            font-size: 0.75rem;
-            min-width: 16px;
-            text-align: center;
-        }
-
-        /* ============================================
-           MENU ITEM IMAGE (compact)
-           ============================================ */
+        /* Card image on top — Zulzi style */
         .menu-item-image-wrap {
             position: relative;
-            width: 72px;
-            height: 72px;
-            border-radius: var(--radius-xs);
+            width: 100%;
+            height: 130px;
             overflow: hidden;
             flex-shrink: 0;
             background: var(--surface2);
@@ -804,20 +456,19 @@
             transition: transform 0.3s ease;
         }
 
-        .menu-list-item:hover .menu-item-image {
-            transform: scale(1.05);
-        }
+        .menu-list-item:hover .menu-item-image { transform: scale(1.04); }
 
         .menu-item-badge {
             position: absolute;
-            top: 4px;
-            left: 4px;
+            top: 6px;
+            left: 6px;
             background: var(--accent);
             color: white;
-            padding: 1px 5px;
+            padding: 2px 7px;
             border-radius: 100px;
-            font-size: 0.55rem;
+            font-size: 0.58rem;
             font-weight: 700;
+            letter-spacing: 0.02em;
         }
 
         .menu-item-no-image {
@@ -829,10 +480,136 @@
             background: var(--surface2);
         }
 
-        .menu-item-no-image i {
-            width: 24px;
-            height: 24px;
-            color: var(--border);
+        .menu-item-no-image i { width: 30px; height: 30px; color: var(--border); }
+
+        /* Card body below image */
+        .menu-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 8px 10px 10px;
+            gap: 4px;
+        }
+
+        .menu-item-top { flex: 1; }
+
+        .menu-item-name {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--text);
+            line-height: 1.25;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 2px;
+        }
+
+        .menu-item-desc {
+            color: var(--dim);
+            font-size: 0.68rem;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .menu-item-tags {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            margin-top: 3px;
+        }
+
+        .menu-item-tag {
+            font-size: 0.58rem;
+            font-weight: 600;
+            padding: 1px 5px;
+            border-radius: 100px;
+            background: var(--surface2);
+            color: var(--dim);
+        }
+
+        .menu-item-tag.featured { background: #fff3cd; color: #856404; }
+        .menu-item-tag.calories { background: #fce4ec; color: #c62828; }
+        .menu-item-tag.prep { background: #e3f2fd; color: #1565c0; }
+
+        /* Price row at bottom of card */
+        .menu-item-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .menu-item-price {
+            font-weight: 800;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        .menu-item-price .currency { font-weight: 600; font-size: 0.75rem; }
+
+        /* ============================================
+           ADD BUTTON (card style — Zulzi round green)
+           ============================================ */
+        .menu-item-add-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            transition: var(--transition);
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(6,193,103,0.3);
+        }
+
+        .menu-item-add-btn:active { transform: scale(0.85); background: var(--accent-dark); }
+        .menu-item-add-btn i { width: 16px; height: 16px; }
+
+        /* ============================================
+           INLINE QTY CONTROL (card)
+           ============================================ */
+        .menu-item-qty-control {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: var(--accent);
+            border-radius: 100px;
+            padding: 2px;
+            box-shadow: 0 2px 6px rgba(6,193,103,0.25);
+        }
+
+        .menu-item-qty-btn {
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .menu-item-qty-btn:active { background: rgba(255,255,255,0.2); }
+        .menu-item-qty-btn i { width: 13px; height: 13px; }
+
+        .menu-item-qty-value {
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            min-width: 18px;
+            text-align: center;
         }
 
         /* ============================================
@@ -848,10 +625,7 @@
             transition: all 0.3s ease;
         }
 
-        .cart-overlay.open {
-            opacity: 1;
-            visibility: visible;
-        }
+        .cart-overlay.open { opacity: 1; visibility: visible; }
 
         /* ============================================
            EMPTY / NO RESULTS
@@ -863,23 +637,10 @@
             color: var(--dim);
         }
 
-        .empty-state.active {
-            display: block;
-        }
+        .empty-state.active { display: block; }
 
-        .empty-state i {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 16px;
-            opacity: 0.4;
-        }
-
-        .empty-state p:first-of-type {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: var(--text);
-        }
+        .empty-state i { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.4; }
+        .empty-state p:first-of-type { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; color: var(--text); }
 
         .no-results {
             text-align: center;
@@ -888,23 +649,15 @@
             display: none;
         }
 
-        .no-results.active {
-            display: block;
-        }
-
-        .no-results i {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 10px;
-            opacity: 0.3;
-        }
+        .no-results.active { display: block; }
+        .no-results i { width: 40px; height: 40px; margin-bottom: 10px; opacity: 0.3; }
 
         /* ============================================
            TOAST
            ============================================ */
         #toast {
             position: fixed;
-            bottom: calc(20px + var(--safe-bottom));
+            bottom: calc(90px + var(--safe-bottom));
             left: 50%;
             transform: translateX(-50%) translateY(200px);
             background: var(--text);
@@ -921,12 +674,11 @@
             white-space: nowrap;
         }
 
-        #toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
+        #toast.show { transform: translateX(-50%) translateY(0); }
 
         /* ============================================
-           COMPACT FLOATING CART BAR
+           ZULZI-STYLE FLOATING CART BAR
+           Taller, full-width, more prominent
            ============================================ */
         .floating-cart-bar {
             position: fixed;
@@ -934,11 +686,11 @@
             left: 0;
             right: 0;
             z-index: 1500;
-            padding: 8px 14px;
-            padding-bottom: calc(8px + var(--safe-bottom));
+            padding: 10px 16px;
+            padding-bottom: calc(14px + var(--safe-bottom));
             background: transparent;
             pointer-events: none;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
             transform: translateY(100%);
             opacity: 0;
         }
@@ -955,43 +707,57 @@
             justify-content: space-between;
             background: var(--accent);
             color: white;
-            padding: 10px 16px;
-            border-radius: var(--radius-sm);
-            box-shadow: 0 3px 14px rgba(6,193,103,0.35);
+            padding: 14px 18px;
+            border-radius: var(--radius);
+            box-shadow: 0 6px 24px rgba(6,193,103,0.4), 0 2px 8px rgba(6,193,103,0.2);
             cursor: pointer;
             transition: var(--transition);
+            min-height: 58px;
         }
 
-        .floating-cart-inner:active {
-            transform: scale(0.98);
-        }
+        .floating-cart-inner:active { transform: scale(0.98); }
 
         .floating-cart-left {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .floating-cart-count {
-            background: rgba(255,255,255,0.2);
-            width: 22px;
-            height: 22px;
-            border-radius: 5px;
+            background: rgba(255,255,255,0.25);
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 0.72rem;
+            font-size: 0.8rem;
+            border: 1.5px solid rgba(255,255,255,0.3);
         }
 
         .floating-cart-label {
             font-weight: 700;
-            font-size: 0.82rem;
+            font-size: 0.9rem;
+            letter-spacing: -0.01em;
+        }
+
+        .floating-cart-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .floating-cart-total {
             font-weight: 800;
-            font-size: 0.88rem;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+
+        .floating-cart-arrow {
+            width: 20px;
+            height: 20px;
+            opacity: 0.85;
         }
 
         /* ============================================
@@ -1012,9 +778,7 @@
             flex-direction: column;
         }
 
-        .cart-drawer.open {
-            transform: translateX(0);
-        }
+        .cart-drawer.open { transform: translateX(0); }
 
         .cart-header {
             padding: 12px 16px;
@@ -1025,10 +789,7 @@
             align-items: center;
         }
 
-        .cart-header h3 {
-            font-weight: 800;
-            font-size: 1rem;
-        }
+        .cart-header h3 { font-weight: 800; font-size: 1rem; }
 
         .close-cart-btn {
             width: 34px;
@@ -1044,20 +805,10 @@
             transition: var(--transition);
         }
 
-        .close-cart-btn:active {
-            background: var(--border);
-        }
+        .close-cart-btn:active { background: var(--border); }
+        .close-cart-btn i { width: 18px; height: 18px; }
 
-        .close-cart-btn i {
-            width: 18px;
-            height: 18px;
-        }
-
-        .cart-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-        }
+        .cart-body { flex: 1; overflow-y: auto; padding: 12px; }
 
         .cart-item {
             display: flex;
@@ -1070,10 +821,7 @@
             border: 1px solid var(--border-light);
         }
 
-        .cart-item-info {
-            flex: 1;
-            min-width: 0;
-        }
+        .cart-item-info { flex: 1; min-width: 0; }
 
         .cart-item-name {
             font-weight: 700;
@@ -1084,18 +832,8 @@
             text-overflow: ellipsis;
         }
 
-        .cart-item-price {
-            color: var(--dim);
-            font-size: 0.72rem;
-            font-weight: 500;
-        }
-
-        .cart-item-total {
-            font-weight: 700;
-            font-size: 0.82rem;
-            color: var(--text);
-            white-space: nowrap;
-        }
+        .cart-item-price { color: var(--dim); font-size: 0.72rem; font-weight: 500; }
+        .cart-item-total { font-weight: 700; font-size: 0.82rem; color: var(--text); white-space: nowrap; }
 
         .cart-quantity-control {
             display: flex;
@@ -1120,17 +858,8 @@
             box-shadow: var(--shadow);
         }
 
-        .cart-qty-btn:active {
-            background: var(--accent);
-            color: white;
-        }
-
-        .cart-qty-value {
-            font-weight: 700;
-            min-width: 18px;
-            text-align: center;
-            font-size: 0.78rem;
-        }
+        .cart-qty-btn:active { background: var(--accent); color: white; }
+        .cart-qty-value { font-weight: 700; min-width: 18px; text-align: center; font-size: 0.78rem; }
 
         .cart-footer {
             padding: 12px;
@@ -1190,10 +919,7 @@
             letter-spacing: -0.01em;
         }
 
-        .checkout-btn:active {
-            transform: scale(0.98);
-            background: var(--accent-dark);
-        }
+        .checkout-btn:active { transform: scale(0.98); background: var(--accent-dark); }
 
         .checkout-btn:disabled {
             background: var(--border);
@@ -1212,59 +938,24 @@
             padding: 30px;
         }
 
-        .cart-empty-state i {
-            width: 36px;
-            height: 36px;
-            margin-bottom: 12px;
-            opacity: 0.3;
-        }
-
-        .cart-empty-state p {
-            font-weight: 600;
-            font-size: 0.88rem;
-            margin-bottom: 2px;
-        }
-
-        .cart-empty-state small {
-            font-size: 0.75rem;
-        }
+        .cart-empty-state i { width: 36px; height: 36px; margin-bottom: 12px; opacity: 0.3; }
+        .cart-empty-state p { font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
+        .cart-empty-state small { font-size: 0.75rem; }
 
         /* ============================================
            DESKTOP
            ============================================ */
         @media (min-width: 768px) {
-            .header {
-                padding: 6px 24px;
-            }
-
-            .restaurant-info-section {
-                padding: 14px 24px;
-            }
-
-            .search-section {
-                padding: 8px 24px;
-            }
-
-            .tabs-scroll {
-                padding: 0 24px;
-            }
-
-            .menu-list-item {
-                padding: 10px 24px;
-            }
-
-            .section-header {
-                padding: 12px 24px 2px;
-            }
+            .header { padding: 6px 24px; }
+            .restaurant-info-section { padding: 14px 24px; }
+            .search-section { padding: 8px 24px; }
+            .tabs-scroll { padding: 0 24px; }
+            .section-header { padding: 14px 24px 10px; }
+            .menu-list { padding: 0 20px 4px; gap: 12px; }
 
             .floating-cart-bar {
                 padding: 10px 24px;
-                padding-bottom: calc(10px + var(--safe-bottom));
-            }
-
-            .menu-item-image-wrap {
-                width: 90px;
-                height: 90px;
+                padding-bottom: calc(14px + var(--safe-bottom));
             }
 
             .cart-drawer {
@@ -1272,76 +963,40 @@
                 border-left: 1px solid var(--border);
             }
 
-            .shimmer-header {
-                padding: 8px 24px;
-            }
-
-            .shimmer-restaurant-name {
-                margin-left: 24px;
-                margin-right: 24px;
-            }
-
-            .shimmer-restaurant-meta {
-                margin-left: 24px;
-                margin-right: 24px;
-            }
-
-            .shimmer-categories {
-                padding: 8px 24px;
-            }
-
-            .shimmer-content {
-                padding: 10px 24px;
-            }
-
-            .shimmer-list-item {
-                padding: 10px 24px;
-            }
+            .shimmer-header { padding: 8px 24px; }
+            .shimmer-restaurant-name { margin-left: 24px; margin-right: 24px; }
+            .shimmer-restaurant-meta { margin-left: 24px; margin-right: 24px; }
+            .shimmer-categories { padding: 8px 24px; }
+            .shimmer-content { padding: 10px 24px; }
         }
 
-        @media (min-width: 1024px) {
-            .menu-list {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0;
-            }
+        @media (min-width: 540px) {
+            .menu-list { grid-template-columns: repeat(2, 1fr); }
+        }
 
-            .menu-list-item {
-                border-right: 1px solid var(--border-light);
-            }
+        @media (min-width: 900px) {
+            .menu-list { grid-template-columns: repeat(3, 1fr); }
+        }
 
-            .menu-list-item:nth-child(2n) {
-                border-right: none;
-            }
+        @media (min-width: 1200px) {
+            .menu-list { grid-template-columns: repeat(4, 1fr); }
         }
 
         /* ============================================
            ANIMATIONS
            ============================================ */
         @keyframes popIn {
-            0% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            70% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .pop-in {
-            animation: popIn 0.2s ease forwards;
-        }
+        .pop-in { animation: popIn 0.2s ease forwards; }
     </style>
 </head>
 <body>
 
-    <!-- ==========================================
-         SHIMMER LOADING OVERLAY
-         ========================================== -->
+    <!-- SHIMMER LOADING OVERLAY -->
     <div class="shimmer-overlay" id="shimmerOverlay">
         <div class="shimmer-header">
             <div class="shimmer shimmer-back-btn"></div>
@@ -1366,73 +1021,19 @@
         </div>
         <div class="shimmer-content">
             <div class="shimmer shimmer-section-title"></div>
-            <div class="shimmer-menu-list">
-                <div class="shimmer-list-item">
-                    <div class="shimmer-list-item-content">
-                        <div class="shimmer shimmer-list-item-title"></div>
-                        <div class="shimmer shimmer-list-item-desc"></div>
-                        <div class="shimmer shimmer-list-item-desc2"></div>
-                        <div class="shimmer shimmer-list-item-price"></div>
-                    </div>
-                    <div class="shimmer shimmer-list-item-image"></div>
-                </div>
-                <div class="shimmer-list-item">
-                    <div class="shimmer-list-item-content">
-                        <div class="shimmer shimmer-list-item-title"></div>
-                        <div class="shimmer shimmer-list-item-desc"></div>
-                        <div class="shimmer shimmer-list-item-desc2"></div>
-                        <div class="shimmer shimmer-list-item-price"></div>
-                    </div>
-                    <div class="shimmer shimmer-list-item-image"></div>
-                </div>
-                <div class="shimmer-list-item">
-                    <div class="shimmer-list-item-content">
-                        <div class="shimmer shimmer-list-item-title"></div>
-                        <div class="shimmer shimmer-list-item-desc"></div>
-                        <div class="shimmer shimmer-list-item-desc2"></div>
-                        <div class="shimmer shimmer-list-item-price"></div>
-                    </div>
-                    <div class="shimmer shimmer-list-item-image"></div>
-                </div>
-                <div class="shimmer-list-item">
-                    <div class="shimmer-list-item-content">
-                        <div class="shimmer shimmer-list-item-title"></div>
-                        <div class="shimmer shimmer-list-item-desc"></div>
-                        <div class="shimmer shimmer-list-item-desc2"></div>
-                        <div class="shimmer shimmer-list-item-price"></div>
-                    </div>
-                    <div class="shimmer shimmer-list-item-image"></div>
-                </div>
-                <div class="shimmer-list-item">
-                    <div class="shimmer-list-item-content">
-                        <div class="shimmer shimmer-list-item-title"></div>
-                        <div class="shimmer shimmer-list-item-desc"></div>
-                        <div class="shimmer shimmer-list-item-desc2"></div>
-                        <div class="shimmer shimmer-list-item-price"></div>
-                    </div>
-                    <div class="shimmer shimmer-list-item-image"></div>
-                </div>
-                <div class="shimmer-list-item">
-                    <div class="shimmer-list-item-content">
-                        <div class="shimmer shimmer-list-item-title"></div>
-                        <div class="shimmer shimmer-list-item-desc"></div>
-                        <div class="shimmer shimmer-list-item-desc2"></div>
-                        <div class="shimmer shimmer-list-item-price"></div>
-                    </div>
-                    <div class="shimmer shimmer-list-item-image"></div>
-                </div>
+            <div class="shimmer-card-grid">
+                <div class="shimmer-card"><div class="shimmer shimmer-card-image"></div><div class="shimmer-card-body"><div class="shimmer shimmer-card-title"></div><div class="shimmer shimmer-card-price"></div></div></div>
+                <div class="shimmer-card"><div class="shimmer shimmer-card-image"></div><div class="shimmer-card-body"><div class="shimmer shimmer-card-title"></div><div class="shimmer shimmer-card-price"></div></div></div>
+                <div class="shimmer-card"><div class="shimmer shimmer-card-image"></div><div class="shimmer-card-body"><div class="shimmer shimmer-card-title"></div><div class="shimmer shimmer-card-price"></div></div></div>
+                <div class="shimmer-card"><div class="shimmer shimmer-card-image"></div><div class="shimmer-card-body"><div class="shimmer shimmer-card-title"></div><div class="shimmer shimmer-card-price"></div></div></div>
             </div>
         </div>
     </div>
 
-    <!-- ==========================================
-         TOAST
-         ========================================== -->
+    <!-- TOAST -->
     <div id="toast">Message</div>
 
-    <!-- ==========================================
-         APP CONTAINER
-         ========================================== -->
+    <!-- APP CONTAINER -->
     <div class="app-container">
 
         <!-- Header -->
@@ -1519,27 +1120,24 @@
         </main>
     </div>
 
-    <!-- ==========================================
-         FLOATING CART BAR (compact)
-         ========================================== -->
+    <!-- ZULZI-STYLE FLOATING CART BAR -->
     <div class="floating-cart-bar" id="floatingCartBar" onclick="toggleCart()">
         <div class="floating-cart-inner">
             <div class="floating-cart-left">
                 <span class="floating-cart-count" id="floatingCartCount">0</span>
                 <span class="floating-cart-label">View Cart</span>
             </div>
-            <span class="floating-cart-total" id="floatingCartTotal">R 0.00</span>
+            <div class="floating-cart-right">
+                <span class="floating-cart-total" id="floatingCartTotal">R 0.00</span>
+                <i data-lucide="chevron-right" class="floating-cart-arrow"></i>
+            </div>
         </div>
     </div>
 
-    <!-- ==========================================
-         CART OVERLAY
-         ========================================== -->
+    <!-- CART OVERLAY -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 
-    <!-- ==========================================
-         CART DRAWER
-         ========================================== -->
+    <!-- CART DRAWER -->
     <div class="cart-drawer" id="cartDrawer">
         <div class="cart-header">
             <h3>Your Order</h3>
@@ -1560,9 +1158,7 @@
         </div>
     </div>
 
-    <!-- ==========================================
-         JAVASCRIPT
-         ========================================== -->
+    <!-- JAVASCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, get, set, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -1599,9 +1195,6 @@
         let searchQuery = '';
         let currentCategory = 'all';
 
-        // ==========================================
-        // SHIMMER SHOW/HIDE
-        // ==========================================
         function showShimmer() {
             document.getElementById('shimmerOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1612,9 +1205,6 @@
             document.body.style.overflow = '';
         }
 
-        // ==========================================
-        // LOAD MENU
-        // ==========================================
         async function loadMenu() {
             showShimmer();
             try {
@@ -1643,9 +1233,6 @@
             }
         }
 
-        // ==========================================
-        // DISPLAY VENDOR INFO
-        // ==========================================
         function displayVendorInfo(v) {
             document.getElementById('headerTitle').textContent = v.name || 'Menu';
             document.getElementById('restaurantName').textContent = v.name || 'Unnamed';
@@ -1667,9 +1254,6 @@
             lucide.createIcons();
         }
 
-        // ==========================================
-        // PROCESS AND DISPLAY MENU
-        // ==========================================
         function processAndDisplayMenu(data) {
             allMenuItems = [];
             categories = new Set(['all']);
@@ -1713,17 +1297,11 @@
             renderMenuItems(allMenuItems);
         }
 
-        // ==========================================
-        // GET ITEM CART QUANTITY
-        // ==========================================
         function getItemCartQty(itemId) {
             const item = cart.find(c => c.itemId === itemId);
             return item ? item.quantity : 0;
         }
 
-        // ==========================================
-        // RENDER MENU ITEMS
-        // ==========================================
         function renderMenuItems(items) {
             const container = document.getElementById('menuContainer');
             const noResults = document.getElementById('noResults');
@@ -1755,10 +1333,20 @@
                             const escapedName = item.name.replace(/'/g, "\\'");
                             return `
                             <div class="menu-list-item" id="menu-item-${item.id}">
+                                <div class="menu-item-image-wrap">
+                                    ${item.imageURL ? `
+                                        <img class="menu-item-image" src="${item.imageURL}" alt="${item.name}" loading="lazy">
+                                    ` : `
+                                        <div class="menu-item-no-image">
+                                            <i data-lucide="image"></i>
+                                        </div>
+                                    `}
+                                    ${item.featured ? '<span class="menu-item-badge">Popular</span>' : ''}
+                                </div>
                                 <div class="menu-item-info">
                                     <div class="menu-item-top">
                                         <h4 class="menu-item-name">${item.name}</h4>
-                                        <p class="menu-item-desc">${item.description || 'Fresh & delicious'}</p>
+                                        <p class="menu-item-desc">${item.description || 'Fresh &amp; delicious'}</p>
                                         <div class="menu-item-tags">
                                             ${item.featured ? '<span class="menu-item-tag featured">⭐ Popular</span>' : ''}
                                             ${item.calories ? `<span class="menu-item-tag calories">${item.calories} cal</span>` : ''}
@@ -1786,16 +1374,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="menu-item-image-wrap">
-                                    ${item.imageURL ? `
-                                        <img class="menu-item-image" src="${item.imageURL}" alt="${item.name}" loading="lazy">
-                                    ` : `
-                                        <div class="menu-item-no-image">
-                                            <i data-lucide="image"></i>
-                                        </div>
-                                    `}
-                                    ${item.featured ? '<span class="menu-item-badge">Popular</span>' : ''}
-                                </div>
                             </div>`;
                         }).join('')}
                     </div>
@@ -1805,9 +1383,6 @@
             lucide.createIcons();
         }
 
-        // ==========================================
-        // REFRESH SINGLE ITEM CONTROL
-        // ==========================================
         function refreshControl(itemId) {
             const el = document.getElementById(`add-control-${itemId}`);
             if (!el) return;
@@ -1841,17 +1416,11 @@
             lucide.createIcons();
         }
 
-        // ==========================================
-        // SHOW EMPTY STATE
-        // ==========================================
         function showEmptyState() {
             document.getElementById('emptyState').classList.add('active');
             document.getElementById('categoryTabs').style.display = 'none';
         }
 
-        // ==========================================
-        // GET FILTERED ITEMS
-        // ==========================================
         function getFilteredItems() {
             let items = allMenuItems;
             if (currentCategory !== 'all') {
@@ -1866,9 +1435,6 @@
             return items;
         }
 
-        // ==========================================
-        // FILTER CATEGORY
-        // ==========================================
         window.filterCategory = (cat, btn) => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -1876,17 +1442,11 @@
             renderMenuItems(getFilteredItems());
         };
 
-        // ==========================================
-        // HANDLE SEARCH
-        // ==========================================
         window.handleSearch = (val) => {
             searchQuery = val.toLowerCase().trim();
             renderMenuItems(getFilteredItems());
         };
 
-        // ==========================================
-        // TOGGLE SEARCH
-        // ==========================================
         window.toggleSearch = () => {
             const s = document.getElementById('searchSection');
             const vis = s.style.display !== 'none';
@@ -1901,24 +1461,13 @@
             lucide.createIcons();
         };
 
-        // ==========================================
-        // GO BACK
-        // ==========================================
-        window.goBack = () => {
-            window.location.href = 'index.html';
-        };
+        window.goBack = () => { window.location.href = 'index.html'; };
 
-        // ==========================================
-        // CALCULATE PREP TIME
-        // ==========================================
         function calcPrepTime() {
             if (cart.length === 0) return 0;
             return Math.ceil(cart.reduce((s, i) => s + (i.prepTime || 0), 0) / cart.length);
         }
 
-        // ==========================================
-        // ADD TO CART
-        // ==========================================
         window.addToCart = async (itemId, name, price, prepTime = 0) => {
             const existing = cart.find(i => i.itemId === itemId);
             if (existing) {
@@ -1935,18 +1484,12 @@
                 });
             }
 
-            if (currentUserId) {
-                await saveCart();
-            }
-
+            if (currentUserId) await saveCart();
             refreshControl(itemId);
             updateCartUI();
             showToast(`${name} added`);
         };
 
-        // ==========================================
-        // CHANGE ITEM QTY (inline)
-        // ==========================================
         window.changeItemQty = async (itemId, delta) => {
             const existing = cart.find(i => i.itemId === itemId);
             if (!existing) return;
@@ -1957,17 +1500,11 @@
                 cart = cart.filter(i => i.itemId !== itemId);
             }
 
-            if (currentUserId) {
-                await saveCart();
-            }
-
+            if (currentUserId) await saveCart();
             refreshControl(itemId);
             updateCartUI();
         };
 
-        // ==========================================
-        // SAVE CART TO FIREBASE
-        // ==========================================
         async function saveCart() {
             if (!currentUserId) return;
             try {
@@ -1981,9 +1518,6 @@
             }
         }
 
-        // ==========================================
-        // LOAD CART FROM FIREBASE
-        // ==========================================
         async function loadCart() {
             if (!currentUserId) return;
             try {
@@ -2001,9 +1535,6 @@
             }
         }
 
-        // ==========================================
-        // UPDATE CART ITEM QUANTITY (from cart drawer)
-        // ==========================================
         window.updateCartItemQuantity = async (idx, qty) => {
             const itemId = cart[idx] ? cart[idx].itemId : null;
 
@@ -2013,20 +1544,11 @@
                 cart[idx].quantity = qty;
             }
 
-            if (currentUserId) {
-                await saveCart();
-            }
-
-            if (itemId) {
-                refreshControl(itemId);
-            }
-
+            if (currentUserId) await saveCart();
+            if (itemId) refreshControl(itemId);
             updateCartUI();
         };
 
-        // ==========================================
-        // UPDATE CART UI
-        // ==========================================
         function updateCartUI() {
             const body = document.getElementById('cartBody');
             const countEl = document.getElementById('cartCount');
@@ -2040,7 +1562,6 @@
             const fee = parseFloat(vendorInfo?.deliveryFee || 0);
             const total = subtotal + fee;
 
-            // Cart badge
             if (totalItems > 0) {
                 countEl.style.display = 'block';
                 countEl.textContent = totalItems;
@@ -2050,7 +1571,6 @@
 
             checkoutBtn.disabled = cart.length === 0;
 
-            // Floating bar
             if (totalItems > 0) {
                 bar.classList.add('visible');
                 document.getElementById('floatingCartCount').textContent = totalItems;
@@ -2125,9 +1645,6 @@
             lucide.createIcons();
         }
 
-        // ==========================================
-        // TOGGLE CART
-        // ==========================================
         window.toggleCart = () => {
             const d = document.getElementById('cartDrawer');
             const o = document.getElementById('cartOverlay');
@@ -2144,9 +1661,6 @@
             }
         };
 
-        // ==========================================
-        // HANDLE CHECKOUT
-        // ==========================================
         window.handleCheckout = async () => {
             if (!currentUser) {
                 showToast("Please sign in");
@@ -2190,9 +1704,6 @@
             }
         };
 
-        // ==========================================
-        // SHOW TOAST
-        // ==========================================
         window.showToast = (msg) => {
             const t = document.getElementById('toast');
             t.textContent = msg;
@@ -2200,9 +1711,6 @@
             setTimeout(() => t.classList.remove('show'), 2500);
         };
 
-        // ==========================================
-        // AUTH STATE
-        // ==========================================
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (user) {
@@ -2215,9 +1723,6 @@
             }
         });
 
-        // ==========================================
-        // INIT
-        // ==========================================
         lucide.createIcons();
         loadMenu();
     </script>
