@@ -776,7 +776,10 @@ const urlParams = new URLSearchParams(window.location.search);
 const vendorId  = urlParams.get('vendor');
 if (!vendorId) { showToast("No restaurant selected"); setTimeout(() => window.location.href = 'index.html', 2000); }
 
+// cart holds only THIS vendor's items (local array for quick access)
 let cart             = [];
+// allGroups holds the full multi-vendor cart loaded from Firebase
+let allGroups        = {};
 let currentUser      = null;
 let currentUserId    = null;
 let allMenuItems     = [];
@@ -784,7 +787,8 @@ let categories       = new Set(['all']);
 let vendorInfo       = null;
 let searchQuery      = '';
 let currentCategory  = 'all';
-let cartGroupExpanded = false;
+// Track which vendor groups are expanded in the drawer (keyed by vendorId)
+let expandedGroups   = new Set();
 
 // Sheet state
 let activeSheetItem = null;
@@ -1183,6 +1187,7 @@ window.addFromSheet = async () => {
     const existing = cart.find(i => i.itemId===item.id);
     if (existing) { existing.quantity = sheetQty; }
     else { cart.push({ itemId:item.id, name:item.name, price:item.price, imageURL:item.imageURL||'', prepTime:parseInt(item.prepTime)||0, quantity:sheetQty, vendorId, addedAt:Date.now() }); }
+    syncCartToGroups();
     if (currentUserId) await saveCart();
     refreshControl(item.id);
     updateCartUI();
@@ -1193,7 +1198,19 @@ window.addFromSheet = async () => {
 // ================================================================
 // CART LOGIC
 // ================================================================
-function calcPrepTime() { if(!cart.length)return 0; return Math.ceil(cart.reduce((s,i)=>s+(i.prepTime||0),0)/cart.length); }
+function getAllCartItems() {
+    const all = [];
+    Object.values(allGroups).forEach(g => { if (g.items) g.items.forEach(i => all.push(i)); });
+    return all;
+}
+function getTotalItems() { return Object.values(allGroups).reduce((s,g) => s+(g.items||[]).reduce((ss,i)=>ss+i.quantity,0),0); }
+function getTotalPrice() {
+    return Object.values(allGroups).reduce((s,g) => {
+        const sub = (g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0);
+        return s + sub + parseFloat(g.deliveryFee||0);
+    }, 0);
+}
+function calcPrepTime() { const all=getAllCartItems(); if(!all.length)return 0; return Math.ceil(all.reduce((s,i)=>s+(i.prepTime||0),0)/all.length); }
 
 window.addToCartById = async itemId => {
     const menuItem = allMenuItems.find(i => i.id===itemId);
@@ -1201,6 +1218,7 @@ window.addToCartById = async itemId => {
     const existing = cart.find(i => i.itemId===itemId);
     if (existing) { existing.quantity+=1; }
     else { cart.push({ itemId:menuItem.id, name:menuItem.name, price:menuItem.price, imageURL:menuItem.imageURL||'', prepTime:parseInt(menuItem.prepTime)||0, quantity:1, vendorId, addedAt:Date.now() }); }
+    syncCartToGroups();
     if (currentUserId) await saveCart();
     refreshControl(itemId);
     updateCartUI();
@@ -1213,39 +1231,93 @@ window.changeItemQty = async (itemId, delta) => {
     if (!existing) return;
     existing.quantity += delta;
     if (existing.quantity <= 0) cart = cart.filter(i => i.itemId!==itemId);
+    syncCartToGroups();
     if (currentUserId) await saveCart();
     refreshControl(itemId);
     updateCartUI();
 };
 
+// Keep allGroups[vendorId] in sync whenever `cart` changes
+function syncCartToGroups() {
+    if (cart.length > 0) {
+        allGroups[vendorId] = {
+            vendorId,
+            vendorName:  vendorInfo?.name  || '',
+            vendorImage: vendorInfo?.imageURL || '',
+            deliveryFee: parseFloat(vendorInfo?.deliveryFee || 0),
+            items: cart
+        };
+    } else {
+        delete allGroups[vendorId];
+    }
+}
+
 // ================================================================
-// FIREBASE CART
+// FIREBASE CART — patch only this vendor's slice, preserve all others
 // ================================================================
 async function saveCart() {
     if (!currentUserId) return;
     try {
-        const group  = { vendorId, vendorName:vendorInfo?.name||'', vendorImage:vendorInfo?.imageURL||'', deliveryFee:parseFloat(vendorInfo?.deliveryFee)||0, items:cart };
-        const groups = cart.length>0 ? { [vendorId]:group } : {};
-        await set(ref(db,`carts/${currentUserId}`), { groups, updatedAt:Date.now() });
-    } catch(e){ console.error("Save cart error:",e); }
+        // Read the current full cart from Firebase first so we never lose other vendors
+        const snap = await get(ref(db, `carts/${currentUserId}`));
+        let existingGroups = {};
+        if (snap.exists()) {
+            const d = snap.val();
+            existingGroups = (d.groups) ? { ...d.groups } : {};
+        }
+        // Patch only this vendor's slot
+        if (cart.length > 0) {
+            existingGroups[vendorId] = {
+                vendorId,
+                vendorName:  vendorInfo?.name  || '',
+                vendorImage: vendorInfo?.imageURL || '',
+                deliveryFee: parseFloat(vendorInfo?.deliveryFee || 0),
+                items: cart
+            };
+        } else {
+            delete existingGroups[vendorId];
+        }
+        await set(ref(db, `carts/${currentUserId}`), { groups: existingGroups, updatedAt: Date.now() });
+        // Keep local allGroups in sync
+        allGroups = existingGroups;
+    } catch(e) { console.error("Save cart error:", e); }
 }
 
 async function loadCart() {
     if (!currentUserId) return;
     try {
-        const snap = await get(ref(db,`carts/${currentUserId}`));
+        const snap = await get(ref(db, `carts/${currentUserId}`));
         if (snap.exists()) {
             const d = snap.val();
-            if (d.groups && d.groups[vendorId]) cart = d.groups[vendorId].items||[];
-            else if (d.vendorId===vendorId && d.items) cart = d.items;
+            // Load ALL groups so the cart drawer shows every vendor
+            if (d.groups) {
+                allGroups = { ...d.groups };
+                // Extract this vendor's items into the local `cart` array
+                cart = allGroups[vendorId]?.items || [];
+            } else if (d.vendorId && d.items) {
+                // Legacy single-vendor format — migrate on the fly
+                const legacyVid = d.vendorId;
+                allGroups = {
+                    [legacyVid]: {
+                        vendorId: legacyVid,
+                        vendorName:  d.vendorName  || '',
+                        vendorImage: d.vendorImage || '',
+                        deliveryFee: parseFloat(d.deliveryFee || 0),
+                        items: Array.isArray(d.items) ? d.items : Object.values(d.items)
+                    }
+                };
+                cart = (legacyVid === vendorId) ? (allGroups[vendorId]?.items || []) : [];
+            } else {
+                allGroups = {}; cart = [];
+            }
             updateCartUI();
             renderMenuItems(getFilteredItems(), false);
         }
-    } catch(e){ console.error("Load cart error:",e); }
+    } catch(e) { console.error("Load cart error:", e); }
 }
 
 // ================================================================
-// CART UI
+// CART UI — shows ALL vendors, mirrors index.html behaviour
 // ================================================================
 function updateCartUI() {
     const body        = document.getElementById('cartBody');
@@ -1255,140 +1327,211 @@ function updateCartUI() {
     const cartFooter  = document.getElementById('cartFooter');
     const bar         = document.getElementById('floatingCartBar');
 
-    const totalItems = cart.reduce((s,i)=>s+i.quantity,0);
-    const subtotal   = cart.reduce((s,i)=>s+i.price*i.quantity,0);
-    const fee        = parseFloat(vendorInfo?.deliveryFee||0);
-    const total      = subtotal + fee;
+    const totalItems  = getTotalItems();
+    const totalPrice  = getTotalPrice();
+    const vendorCount = Object.keys(allGroups).length;
 
-    countEl.style.display = totalItems>0 ? 'block' : 'none';
-    if (totalItems>0) countEl.textContent = totalItems;
-    checkoutBtn.disabled = !cart.length;
+    countEl.style.display = totalItems > 0 ? 'block' : 'none';
+    if (totalItems > 0) countEl.textContent = totalItems;
+    checkoutBtn.disabled = totalItems === 0;
 
-    if (totalItems>0) {
+    if (totalItems > 0) {
         bar.classList.add('visible');
         document.getElementById('floatingCartCount').textContent = totalItems;
-        document.getElementById('floatingCartTotal').textContent = `R ${total.toFixed(2)}`;
+        document.getElementById('floatingCartTotal').textContent = `R ${totalPrice.toFixed(2)}`;
     } else { bar.classList.remove('visible'); }
 
-    if (!cart.length) {
+    if (totalItems === 0) {
         body.innerHTML = `<div class="cart-empty-state"><i data-lucide="shopping-bag"></i><p>Your cart is empty</p><small>Add items to get started</small></div>`;
-        summaryEl.innerHTML=''; cartFooter.style.display='none';
+        summaryEl.innerHTML = ''; cartFooter.style.display = 'none';
         lucide.createIcons(); return;
     }
 
-    cartFooter.style.display='block';
-    if (!cartGroupExpanded) cartGroupExpanded=true;
+    cartFooter.style.display = 'block';
 
-    const vendorName  = vendorInfo?.name||'Restaurant';
-    const vendorImage = vendorInfo?.imageURL||'';
+    // Auto-expand current vendor's group
+    expandedGroups.add(vendorId);
 
-    const previewImgs = cart.slice(0,4).map(item =>
-        item.imageURL ? `<img class="preview-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">` : `<div class="preview-img-placeholder"><i data-lucide="image"></i></div>`
-    ).join('');
-    const moreCount = cart.length>4 ? cart.length-4 : 0;
-    const moreHtml  = moreCount>0 ? `<div class="preview-more">+${moreCount}</div>` : '';
+    let groupsHtml = '';
 
-    const itemsHtml = cart.map((item,idx) => {
-        const imgHtml = item.imageURL
-            ? `<img class="cart-item-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
-            : `<div class="cart-item-img-placeholder"><i data-lucide="image"></i></div>`;
-        const isOne = item.quantity===1;
-        return `
-        <div class="cart-item">
-            ${imgHtml}
-            <div class="cart-item-info">
-                <div class="cart-item-name">${item.name}</div>
-                <div class="cart-item-price">R${item.price.toFixed(2)} ea</div>
-            </div>
-            <div class="cart-quantity-control">
-                <button class="cart-qty-btn" onclick="updateCartItemQuantity(${idx},${item.quantity-1})">
-                    <i data-lucide="${isOne?'trash-2':'minus'}" style="width:12px;height:12px;${isOne?'color:var(--danger);':''}"></i>
-                </button>
-                <span class="cart-qty-value">${item.quantity}</span>
-                <button class="cart-qty-btn" onclick="updateCartItemQuantity(${idx},${item.quantity+1})">
-                    <i data-lucide="plus" style="width:12px;height:12px;"></i>
-                </button>
-            </div>
-            <div class="cart-item-total">R${(item.price*item.quantity).toFixed(2)}</div>
+    // Multi-vendor warning banner
+    if (vendorCount > 1) {
+        groupsHtml += `
+        <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:var(--radius-xs);padding:10px 12px;font-size:0.76rem;font-weight:600;color:#7a5800;display:flex;align-items:flex-start;gap:8px;margin-bottom:2px;">
+            <i data-lucide="alert-triangle" style="width:14px;height:14px;flex-shrink:0;margin-top:1px;color:#f59e0b;"></i>
+            <span>You have items from <strong>${vendorCount} restaurants</strong>. Each will be placed as a separate order.</span>
         </div>`;
-    }).join('');
+    }
 
-    const vendorImgHtml = vendorImage
-        ? `<img class="vendor-group-img" src="${vendorImage}" alt="${vendorName}" loading="lazy">`
-        : `<div class="vendor-group-img" style="display:flex;align-items:center;justify-content:center;"><i data-lucide="store" style="width:20px;height:20px;color:var(--dim);"></i></div>`;
+    Object.entries(allGroups).forEach(([gVendorId, group]) => {
+        const isExpanded   = expandedGroups.has(gVendorId);
+        const groupItems   = group.items || [];
+        const groupSub     = groupItems.reduce((s,i) => s + i.price * i.quantity, 0);
+        const groupFee     = parseFloat(group.deliveryFee || 0);
+        const groupTotal   = groupSub + groupFee;
+        const groupCount   = groupItems.reduce((s,i) => s + i.quantity, 0);
+        const isCurrentVendor = gVendorId === vendorId;
 
-    body.innerHTML = `
-    <div class="vendor-group ${cartGroupExpanded?'expanded':''}" id="menuVendorGroup">
-        <div class="vendor-group-header" onclick="toggleCartGroup()">
-            ${vendorImgHtml}
-            <div class="vendor-group-info">
-                <div class="vendor-group-name">${vendorName}</div>
-                <div class="vendor-group-meta">${totalItems} item${totalItems!==1?'s':''} · R${total.toFixed(2)}</div>
-            </div>
-            <div class="vendor-group-right">
-                <span class="vendor-item-count">${totalItems}</span>
-                <i data-lucide="chevron-down" class="vendor-group-chevron"></i>
-            </div>
-        </div>
-        <div class="vendor-item-previews">${previewImgs}${moreHtml}</div>
-        <div class="vendor-items-list">
-            ${itemsHtml}
-            <div class="vendor-subtotal-row">
-                <div>
-                    <div class="vendor-subtotal-label">Subtotal</div>
-                    ${fee>0?`<div class="vendor-subtotal-label">+ R${fee.toFixed(2)} delivery</div>`:'<div class="vendor-subtotal-label">Free delivery</div>'}
+        const previewImgs = groupItems.slice(0,4).map(item =>
+            item.imageURL
+                ? `<img class="preview-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
+                : `<div class="preview-img-placeholder"><i data-lucide="image"></i></div>`
+        ).join('');
+        const moreCount = groupItems.length > 4 ? groupItems.length - 4 : 0;
+        const moreHtml  = moreCount > 0 ? `<div class="preview-more">+${moreCount}</div>` : '';
+
+        const itemsHtml = groupItems.map((item, idx) => {
+            const imgHtml = item.imageURL
+                ? `<img class="cart-item-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`
+                : `<div class="cart-item-img-placeholder"><i data-lucide="image"></i></div>`;
+            const isOne = item.quantity === 1;
+            return `
+            <div class="cart-item">
+                ${imgHtml}
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">R${item.price.toFixed(2)} ea</div>
                 </div>
-                <div class="vendor-subtotal-value">R${total.toFixed(2)}</div>
+                <div class="cart-quantity-control">
+                    <button class="cart-qty-btn" onclick="updateCartItemQty('${gVendorId}',${idx},${item.quantity-1})">
+                        <i data-lucide="${isOne?'trash-2':'minus'}" style="width:12px;height:12px;${isOne?'color:var(--danger);':''}"></i>
+                    </button>
+                    <span class="cart-qty-value">${item.quantity}</span>
+                    <button class="cart-qty-btn" onclick="updateCartItemQty('${gVendorId}',${idx},${item.quantity+1})">
+                        <i data-lucide="plus" style="width:12px;height:12px;"></i>
+                    </button>
+                </div>
+                <div class="cart-item-total">R${(item.price*item.quantity).toFixed(2)}</div>
+            </div>`;
+        }).join('');
+
+        const vendorImgHtml = group.vendorImage
+            ? `<img class="vendor-group-img" src="${group.vendorImage}" alt="${group.vendorName}" loading="lazy">`
+            : `<div class="vendor-group-img" style="display:flex;align-items:center;justify-content:center;"><i data-lucide="store" style="width:20px;height:20px;color:var(--dim);"></i></div>`;
+
+        // Highlight current restaurant with a subtle accent border
+        const activeStyle = isCurrentVendor ? 'border-color:var(--accent);' : '';
+
+        groupsHtml += `
+        <div class="vendor-group ${isExpanded?'expanded':''}" id="vgroup-${gVendorId}" style="${activeStyle}">
+            <div class="vendor-group-header" onclick="toggleVendorGroup('${gVendorId}')">
+                ${vendorImgHtml}
+                <div class="vendor-group-info">
+                    <div class="vendor-group-name">${group.vendorName || 'Restaurant'}${isCurrentVendor ? ' <span style="font-size:0.62rem;background:var(--accent-light);color:var(--accent-dark);padding:1px 6px;border-radius:100px;font-weight:700;margin-left:4px;">Here</span>' : ''}</div>
+                    <div class="vendor-group-meta">${groupCount} item${groupCount!==1?'s':''} · R${groupTotal.toFixed(2)}</div>
+                </div>
+                <div class="vendor-group-right">
+                    <span class="vendor-item-count">${groupCount}</span>
+                    <i data-lucide="chevron-down" class="vendor-group-chevron"></i>
+                </div>
             </div>
-        </div>
-    </div>`;
+            <div class="vendor-item-previews">${previewImgs}${moreHtml}</div>
+            <div class="vendor-items-list">
+                ${itemsHtml}
+                <div class="vendor-subtotal-row">
+                    <div>
+                        <div class="vendor-subtotal-label">Subtotal</div>
+                        ${groupFee>0?`<div class="vendor-subtotal-label">+ R${groupFee.toFixed(2)} delivery</div>`:'<div class="vendor-subtotal-label">Free delivery</div>'}
+                    </div>
+                    <div class="vendor-subtotal-value">R${groupTotal.toFixed(2)}</div>
+                </div>
+            </div>
+        </div>`;
+    });
+
+    body.innerHTML = groupsHtml;
 
     const pt = calcPrepTime();
+    const totalSub  = Object.values(allGroups).reduce((s,g) => s+(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0), 0);
+    const totalFees = Object.values(allGroups).reduce((s,g) => s+parseFloat(g.deliveryFee||0), 0);
+
     summaryEl.innerHTML = `
     ${pt>0?`<div class="prep-time-badge"><i data-lucide="clock" style="width:12px;height:12px;"></i> ~${pt} min prep</div>`:''}
     <div class="cart-summary">
-        <div class="cart-summary-row"><span>Subtotal (${totalItems} items)</span><span>R ${subtotal.toFixed(2)}</span></div>
-        <div class="cart-summary-row"><span>Delivery fee</span><span>${fee>0?`R ${fee.toFixed(2)}`:'Free'}</span></div>
-        <div class="cart-summary-row"><span>Total</span><span>R ${total.toFixed(2)}</span></div>
+        <div class="cart-summary-row"><span>Subtotal (${totalItems} items)</span><span>R ${totalSub.toFixed(2)}</span></div>
+        <div class="cart-summary-row"><span>Delivery fee${vendorCount>1?'s':''}</span><span>${totalFees>0?`R ${totalFees.toFixed(2)}`:'Free'}</span></div>
+        ${vendorCount>1?`<div class="cart-summary-row"><span style="color:var(--dim);">${vendorCount} separate orders</span><span></span></div>`:''}
+        <div class="cart-summary-row"><span>Total</span><span>R ${totalPrice.toFixed(2)}</span></div>
     </div>`;
 
     lucide.createIcons();
 }
 
-window.toggleCartGroup = () => {
-    cartGroupExpanded = !cartGroupExpanded;
-    const el = document.getElementById('menuVendorGroup');
-    if (el) el.classList.toggle('expanded', cartGroupExpanded);
+window.toggleVendorGroup = (gVendorId) => {
+    if (expandedGroups.has(gVendorId)) expandedGroups.delete(gVendorId);
+    else expandedGroups.add(gVendorId);
+    const el = document.getElementById(`vgroup-${gVendorId}`);
+    if (el) el.classList.toggle('expanded', expandedGroups.has(gVendorId));
     lucide.createIcons();
 };
 
-window.updateCartItemQuantity = async (idx, qty) => {
-    const itemId = cart[idx]?.itemId || null;
-    if (qty<1) cart.splice(idx,1); else cart[idx].quantity=qty;
-    if (currentUserId) await saveCart();
-    if (itemId) refreshControl(itemId);
+// Legacy single-vendor toggle kept for compatibility
+window.toggleCartGroup = () => window.toggleVendorGroup(vendorId);
+
+window.updateCartItemQty = async (gVendorId, idx, qty) => {
+    if (!allGroups[gVendorId]) return;
+    const itemId = allGroups[gVendorId].items[idx]?.itemId || null;
+    if (qty < 1) {
+        allGroups[gVendorId].items.splice(idx, 1);
+        if (allGroups[gVendorId].items.length === 0) {
+            delete allGroups[gVendorId];
+            expandedGroups.delete(gVendorId);
+        }
+    } else {
+        allGroups[gVendorId].items[idx].quantity = qty;
+    }
+    // Keep local `cart` in sync for this vendor
+    cart = allGroups[vendorId]?.items || [];
+    // Persist the full allGroups object — no read needed since we hold it in memory
+    if (currentUserId) {
+        try {
+            await set(ref(db, `carts/${currentUserId}`), { groups: allGroups, updatedAt: Date.now() });
+        } catch(e) { console.error("Save cart error:", e); }
+    }
+    if (itemId && gVendorId === vendorId) refreshControl(itemId);
     updateCartUI();
 };
+
+// Keep legacy handler name working
+window.updateCartItemQuantity = async (idx, qty) => window.updateCartItemQty(vendorId, idx, qty);
 
 window.toggleCart = () => {
     const d=document.getElementById('cartDrawer'), o=document.getElementById('cartOverlay');
     const isOpen = d.classList.contains('open');
     if (isOpen) { d.classList.remove('open'); o.classList.remove('open'); document.body.style.overflow=''; }
-    else { cartGroupExpanded=true; d.classList.add('open'); o.classList.add('open'); document.body.style.overflow='hidden'; updateCartUI(); }
+    else {
+        // Auto-expand all groups when opening
+        Object.keys(allGroups).forEach(gid => expandedGroups.add(gid));
+        d.classList.add('open'); o.classList.add('open');
+        document.body.style.overflow='hidden';
+        updateCartUI();
+    }
 };
 
 window.handleCheckout = async () => {
     if (!currentUser) { showToast("Please sign in"); return; }
-    if (!cart.length) { showToast("Cart is empty"); return; }
+    if (getTotalItems() === 0) { showToast("Cart is empty"); return; }
     try {
-        const subtotal = cart.reduce((s,i)=>s+i.price*i.quantity,0);
-        const fee      = parseFloat(vendorInfo?.deliveryFee||0);
-        await set(push(ref(db,'orders')), { userId:currentUserId, vendorId, vendorName:vendorInfo?.name||'', items:cart, subtotal, deliveryFee:fee, total:subtotal+fee, status:'pending', createdAt:Date.now(), estimatedPrepTime:calcPrepTime() });
-        cart=[]; cartGroupExpanded=false;
-        await saveCart(); updateCartUI(); toggleCart();
+        const promises = Object.entries(allGroups).map(([gVendorId, group]) => {
+            const sub = (group.items||[]).reduce((s,i) => s+i.price*i.quantity, 0);
+            const fee = parseFloat(group.deliveryFee||0);
+            return set(push(ref(db,'orders')), {
+                userId: currentUserId, vendorId: gVendorId,
+                vendorName: group.vendorName||'',
+                items: group.items, subtotal: sub,
+                deliveryFee: fee, total: sub+fee,
+                status: 'pending', createdAt: Date.now(),
+                estimatedPrepTime: calcPrepTime()
+            });
+        });
+        await Promise.all(promises);
+        const vc = Object.keys(allGroups).length;
+        allGroups = {}; cart = []; expandedGroups.clear();
+        await set(ref(db, `carts/${currentUserId}`), { groups: {}, updatedAt: Date.now() });
+        updateCartUI(); toggleCart();
         renderMenuItems(getFilteredItems(), false);
-        showToast("Order placed! 🎉");
-    } catch(e){ console.error(e); showToast("Order failed"); }
+        showToast(vc > 1 ? `${vc} orders placed! 🎉` : "Order placed! 🎉");
+    } catch(e) { console.error(e); showToast("Order failed"); }
 };
 
 window.showToast = msg => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); };
