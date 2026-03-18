@@ -34,10 +34,8 @@
             --shimmer-base: #f0f0f0;
             --shimmer-highlight: #e8e8e8;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html { touch-action: manipulation; }
-
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
@@ -46,28 +44,23 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
-
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
         /* SHIMMER */
         @keyframes shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
-
         .shimmer {
             background: linear-gradient(90deg, var(--shimmer-base) 25%, var(--shimmer-highlight) 50%, var(--shimmer-base) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
         }
-
         .shimmer-overlay {
             position: fixed; inset: 0; background: var(--bg);
             z-index: 5000; display: none; flex-direction: column; overflow-y: auto;
         }
         .shimmer-overlay.active { display: flex; }
-
         .shimmer-header {
             padding: 8px 14px; background: var(--surface);
             display: flex; align-items: center; gap: 10px; height: var(--header-height);
@@ -76,21 +69,17 @@
         .shimmer-title { width: 120px; height: 18px; border-radius: 4px; }
         .shimmer-header-actions { margin-left: auto; display: flex; gap: 8px; }
         .shimmer-action-btn { width: 34px; height: 34px; border-radius: 50%; }
-
         .shimmer-restaurant-info { padding: 0; background: var(--surface); margin-bottom: 6px; }
         .shimmer-restaurant-image { width: 100%; height: 160px; }
         .shimmer-restaurant-name { width: 65%; height: 20px; border-radius: 4px; margin: 12px 14px 8px; }
         .shimmer-restaurant-meta { width: 45%; height: 14px; border-radius: 4px; margin: 0 14px 6px; }
-
         .shimmer-categories {
             padding: 8px 14px; display: flex; justify-content: center; gap: 6px;
             background: var(--surface); margin-bottom: 6px;
         }
         .shimmer-category-btn { width: 70px; height: 28px; border-radius: 100px; flex-shrink: 0; }
-
         .shimmer-content { padding: 10px 12px; flex: 1; }
         .shimmer-section-title { width: 100px; height: 16px; border-radius: 4px; margin-bottom: 10px; }
-
         .shimmer-card-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -101,14 +90,12 @@
         .shimmer-card-body { padding: 6px 8px 8px; }
         .shimmer-card-title { height: 11px; width: 80%; border-radius: 3px; margin-bottom: 5px; }
         .shimmer-card-price { height: 11px; width: 45%; border-radius: 3px; }
-
         /* APP CONTAINER */
         .app-container {
             display: flex; flex-direction: column;
             min-height: 100vh; min-height: 100dvh;
             width: 100vw; position: relative;
         }
-
         /* HEADER */
         .header {
             display: flex; align-items: center; justify-content: space-between;
@@ -117,7 +104,6 @@
             border-bottom: 1px solid var(--border-light); gap: 10px;
         }
         .header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-
         .back-btn {
             width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
             background: transparent; border: none; border-radius: 50%; cursor: pointer;
@@ -125,14 +111,11 @@
         }
         .back-btn:active { background: var(--surface2); transform: scale(0.9); }
         .back-btn i { width: 20px; height: 20px; }
-
         .header-title {
             font-weight: 700; font-size: 1rem;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-
         .header-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-
         .action-btn {
             width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
             background: transparent; border: none; border-radius: 50%; cursor: pointer;
@@ -140,13 +123,11 @@
         }
         .action-btn:active { transform: scale(0.9); background: var(--surface2); }
         .action-btn i { width: 20px; height: 20px; }
-
         .cart-badge {
             position: absolute; top: 0; right: -2px; background: var(--accent); color: white;
             font-size: 0.6rem; font-weight: 700; padding: 1px 4px; border-radius: 8px;
             min-width: 14px; text-align: center; border: 1.5px solid var(--surface); line-height: 1.2;
         }
-
         /* RESTAURANT HERO */
         .restaurant-hero { background: var(--surface); margin-bottom: 6px; position: relative; }
         .restaurant-banner-wrap { position: relative; width: 100%; height: 160px; overflow: hidden; }
@@ -181,7 +162,6 @@
             padding: 3px 8px; background: var(--surface2); border-radius: 100px;
             font-size: 0.68rem; font-weight: 600; color: var(--dim);
         }
-
         /* SEARCH */
         .search-section {
             padding: 8px 14px; background: var(--surface);
@@ -202,7 +182,6 @@
             font-family: inherit; font-size: 0.82rem; color: var(--text); outline: none;
         }
         .search-input::placeholder { color: var(--dim); }
-
         /* ============================================
            CATEGORY TABS — pill shaped + CENTERED
            ============================================ */
@@ -214,18 +193,16 @@
             z-index: 100;
             border-bottom: 1px solid var(--border-light);
         }
-
         .tabs-scroll {
             display: flex;
-            justify-content: center;   /* CENTER the pills */
-            flex-wrap: wrap;            /* wrap if too many */
+            justify-content: center; /* CENTER the pills */
+            flex-wrap: wrap; /* wrap if too many */
             gap: 6px;
             padding: 0 14px;
             /* Still scrollable on very small screens with many categories */
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
-
         .tab-btn {
             flex: 0 0 auto;
             padding: 6px 14px;
@@ -240,21 +217,16 @@
             white-space: nowrap;
             touch-action: manipulation;
         }
-
         .tab-btn.active {
             background: var(--accent);
             border-color: var(--accent);
             color: white;
             box-shadow: 0 2px 8px rgba(6,193,103,0.3);
         }
-
         .tab-btn:active { opacity: 0.75; transform: scale(0.95); }
-
         /* MENU CONTENT */
         .menu-content { padding: 0 0 80px; flex: 1; }
-
         .menu-section { margin-bottom: 4px; background: var(--bg); }
-
         .section-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 12px 12px 8px; background: var(--bg);
@@ -264,7 +236,6 @@
             text-transform: capitalize; letter-spacing: -0.01em;
         }
         .section-count { font-size: 0.68rem; color: var(--dim); font-weight: 500; }
-
         /* ============================================
            CARD GRID — 3 columns, image-dominant
            ============================================ */
@@ -274,17 +245,14 @@
             gap: 8px;
             padding: 0 10px 4px;
         }
-
         /* Category switch animation */
         @keyframes fadeSlideIn {
-            0%   { opacity: 0; transform: translateY(10px); }
+            0% { opacity: 0; transform: translateY(10px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-
         .menu-list.animating {
             animation: fadeSlideIn 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
-
         /* Card */
         .menu-list-item {
             background: var(--surface);
@@ -299,18 +267,15 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.07);
             border: 1px solid var(--border-light);
         }
-
         /* Lift on hover */
         .menu-list-item:hover {
             transform: translateY(-4px) scale(1.01);
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
-
         .menu-list-item:active {
             transform: scale(0.96);
             box-shadow: none;
         }
-
         /* ============================================
            IMAGE — tall, takes ~70% of card
            ============================================ */
@@ -323,26 +288,21 @@
             flex-shrink: 0;
             background: var(--surface2);
         }
-
         .menu-item-image {
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.3s ease;
         }
-
         .menu-list-item:hover .menu-item-image { transform: scale(1.07); }
-
         .menu-item-badge {
             position: absolute; top: 5px; left: 5px; background: var(--accent); color: white;
             padding: 2px 6px; border-radius: 100px; font-size: 0.55rem; font-weight: 700;
             letter-spacing: 0.02em; backdrop-filter: blur(4px);
         }
-
         .menu-item-no-image {
             width: 100%; height: 100%; display: flex; align-items: center;
             justify-content: center; background: linear-gradient(135deg, #f0f0f0, #e4e4e4);
         }
         .menu-item-no-image i { width: 28px; height: 28px; color: #ccc; }
-
         /* ============================================
            CARD BODY — compact, just name + price+add
            ============================================ */
@@ -353,20 +313,16 @@
             gap: 3px;
             flex-shrink: 0;
         }
-
         .menu-item-top { flex: 1; }
-
         .menu-item-name {
             font-weight: 700; font-size: 0.7rem; color: var(--text); line-height: 1.25;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
             overflow: hidden; margin-bottom: 1px;
         }
-
         .menu-item-desc {
             color: var(--dim); font-size: 0.6rem; line-height: 1.3;
             display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
         }
-
         .menu-item-tags { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 2px; }
         .menu-item-tag {
             font-size: 0.52rem; font-weight: 600; padding: 1px 4px;
@@ -374,15 +330,13 @@
         }
         .menu-item-tag.featured { background: #fff3cd; color: #856404; }
         .menu-item-tag.calories { background: #fce4ec; color: #c62828; }
-        .menu-item-tag.prep     { background: #e3f2fd; color: #1565c0; }
-
+        .menu-item-tag.prep { background: #e3f2fd; color: #1565c0; }
         .menu-item-bottom {
             display: flex; align-items: center; justify-content: space-between;
             gap: 3px; margin-top: 4px;
         }
         .menu-item-price { font-weight: 800; font-size: 0.75rem; color: var(--text); }
         .menu-item-price .currency { font-weight: 600; font-size: 0.65rem; }
-
         /* ADD BUTTON */
         .menu-item-add-btn {
             display: flex; align-items: center; justify-content: center;
@@ -392,7 +346,6 @@
         }
         .menu-item-add-btn:active { transform: scale(0.82); background: var(--accent-dark); }
         .menu-item-add-btn i { width: 13px; height: 13px; }
-
         /* INLINE QTY CONTROL */
         .menu-item-qty-control {
             display: flex; align-items: center; gap: 0; background: var(--accent);
@@ -408,14 +361,12 @@
         .menu-item-qty-value {
             color: white; font-weight: 700; font-size: 0.7rem; min-width: 15px; text-align: center;
         }
-
         /* OVERLAY */
         .cart-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1999;
             opacity: 0; visibility: hidden; transition: all 0.3s ease;
         }
         .cart-overlay.open { opacity: 1; visibility: visible; }
-
         /* EMPTY / NO RESULTS */
         .empty-state { display: none; text-align: center; padding: 50px 20px; color: var(--dim); }
         .empty-state.active { display: block; }
@@ -424,7 +375,6 @@
         .no-results { text-align: center; padding: 30px 20px; color: var(--dim); display: none; }
         .no-results.active { display: block; }
         .no-results i { width: 40px; height: 40px; margin-bottom: 10px; opacity: 0.3; }
-
         /* TOAST */
         #toast {
             position: fixed;
@@ -437,7 +387,6 @@
             max-width: 90vw; text-align: center; white-space: nowrap;
         }
         #toast.show { transform: translateX(-50%) translateY(0); }
-
         /* SMALLER FLOATING CART BAR */
         .floating-cart-bar {
             position: fixed; bottom: 0; left: 0; right: 0; z-index: 1500;
@@ -448,7 +397,6 @@
             transform: translateY(100%); opacity: 0;
         }
         .floating-cart-bar.visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
-
         .floating-cart-inner {
             display: flex; align-items: center; justify-content: space-between;
             background: var(--accent); color: white; padding: 10px 14px;
@@ -461,7 +409,6 @@
             box-shadow: 0 8px 24px rgba(6,193,103,0.45);
         }
         .floating-cart-inner:active { transform: scale(0.98); }
-
         .floating-cart-left { display: flex; align-items: center; gap: 8px; }
         .floating-cart-count {
             background: rgba(255,255,255,0.25); width: 24px; height: 24px; border-radius: 6px;
@@ -472,7 +419,6 @@
         .floating-cart-right { display: flex; align-items: center; gap: 4px; }
         .floating-cart-total { font-weight: 800; font-size: 0.86rem; letter-spacing: -0.01em; }
         .floating-cart-arrow { width: 16px; height: 16px; opacity: 0.85; }
-
         /* CART DRAWER */
         .cart-drawer {
             position: fixed; right: 0; top: 0; bottom: 0; width: 100%; max-width: 380px;
@@ -553,7 +499,6 @@
         .cart-empty-state i { width: 36px; height: 36px; margin-bottom: 12px; opacity: 0.3; }
         .cart-empty-state p { font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
         .cart-empty-state small { font-size: 0.75rem; }
-
         /* DESKTOP */
         @media (min-width: 768px) {
             .header { padding: 6px 24px; }
@@ -570,22 +515,19 @@
             .shimmer-categories { padding: 8px 24px; }
             .shimmer-content { padding: 10px 20px; }
         }
-
         @media (min-width: 540px) { .menu-list { grid-template-columns: repeat(3, 1fr); } }
         @media (min-width: 900px) { .menu-list { grid-template-columns: repeat(4, 1fr); } }
         @media (min-width: 1200px) { .menu-list { grid-template-columns: repeat(5, 1fr); } }
-
         /* ANIMATIONS */
         @keyframes popIn {
-            0%   { transform: scale(0.5); opacity: 0; }
-            70%  { transform: scale(1.1); }
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); }
             100% { transform: scale(1); opacity: 1; }
         }
         .pop-in { animation: popIn 0.2s ease forwards; }
     </style>
 </head>
 <body>
-
     <!-- SHIMMER LOADING OVERLAY -->
     <div class="shimmer-overlay" id="shimmerOverlay">
         <div class="shimmer-header">
@@ -621,13 +563,10 @@
             </div>
         </div>
     </div>
-
     <!-- TOAST -->
     <div id="toast">Message</div>
-
     <!-- APP CONTAINER -->
     <div class="app-container">
-
         <!-- Header -->
         <header class="header">
             <div class="header-left">
@@ -646,7 +585,6 @@
                 </button>
             </div>
         </header>
-
         <!-- Restaurant Hero -->
         <div class="restaurant-hero" id="restaurantHero" style="display:none;">
             <div class="restaurant-banner-wrap">
@@ -673,14 +611,13 @@
                         <span class="info-label">Fee</span>
                     </div>
                     <div class="delivery-info-item">
-                        <span class="info-value" id="restaurantMinOrder">--</span>
-                        <span class="info-label">Min</span>
+                        <span class="info-value">R<span id="restaurantFreeOver">--</span></span>
+                        <span class="info-label">Free over</span>
                     </div>
                 </div>
                 <div class="restaurant-tags" id="restaurantTags"></div>
             </div>
         </div>
-
         <!-- Search -->
         <div class="search-section" id="searchSection" style="display:none;">
             <div class="search-input-wrap">
@@ -688,14 +625,12 @@
                 <input type="text" class="search-input" id="searchInput" placeholder="Search menu..." oninput="handleSearch(this.value)">
             </div>
         </div>
-
         <!-- Category Tabs -->
         <div class="category-tabs" id="categoryTabs" style="display:none;">
             <div class="tabs-scroll no-scrollbar" id="tabsContainer">
                 <button class="tab-btn active" onclick="filterCategory('all', this)">All</button>
             </div>
         </div>
-
         <!-- Menu Content -->
         <main class="menu-content">
             <div class="empty-state" id="emptyState">
@@ -711,7 +646,6 @@
             <div id="menuContainer"></div>
         </main>
     </div>
-
     <!-- FLOATING CART BAR -->
     <div class="floating-cart-bar" id="floatingCartBar" onclick="toggleCart()">
         <div class="floating-cart-inner">
@@ -725,10 +659,8 @@
             </div>
         </div>
     </div>
-
     <!-- CART OVERLAY -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-
     <!-- CART DRAWER -->
     <div class="cart-drawer" id="cartDrawer">
         <div class="cart-header">
@@ -749,13 +681,11 @@
             <button class="checkout-btn" id="checkoutBtn" disabled onclick="handleCheckout()">Place Order</button>
         </div>
     </div>
-
     <!-- JAVASCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, get, set, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
         const firebaseConfig = {
             apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
             authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -765,19 +695,15 @@
             messagingSenderId: "708458917827",
             appId: "1:708458917827:web:375de278577df0adcf9776"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const auth = getAuth(app);
-
         const urlParams = new URLSearchParams(window.location.search);
         const vendorId = urlParams.get('vendor');
-
         if (!vendorId) {
             showToast("No restaurant selected");
             setTimeout(() => window.location.href = 'index.html', 2000);
         }
-
         let cart = [];
         let currentUser = null;
         let currentUserId = null;
@@ -786,17 +712,14 @@
         let vendorInfo = null;
         let searchQuery = '';
         let currentCategory = 'all';
-
         function showShimmer() {
             document.getElementById('shimmerOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
         function hideShimmer() {
             document.getElementById('shimmerOverlay').classList.remove('active');
             document.body.style.overflow = '';
         }
-
         async function loadMenu() {
             showShimmer();
             try {
@@ -809,7 +732,6 @@
                     setTimeout(() => window.location.href = 'index.html', 2000);
                     return;
                 }
-
                 const menuSnapshot = await get(ref(db, `vendors/${vendorId}/menu`));
                 if (menuSnapshot.exists()) {
                     processAndDisplayMenu(menuSnapshot.val());
@@ -824,7 +746,6 @@
                 setTimeout(hideShimmer, 500);
             }
         }
-
         function displayVendorInfo(v) {
             document.getElementById('headerTitle').textContent = v.name || 'Menu';
             document.getElementById('restaurantName').textContent = v.name || 'Unnamed';
@@ -833,7 +754,7 @@
             document.getElementById('restaurantRating').textContent = v.rating || '4.5';
             document.getElementById('restaurantTime').textContent = v.deliveryTime || '20-35 min';
             document.getElementById('restaurantDelivery').textContent = v.deliveryFee || '20';
-            document.getElementById('restaurantMinOrder').textContent = v.minOrder ? `R${v.minOrder}` : 'R0';
+            document.getElementById('restaurantFreeOver').textContent = v.freeDeliveryOver ? parseFloat(v.freeDeliveryOver).toFixed(0) : '—';
             const cuisine = [v.cuisineCategory, v.cuisine].filter(Boolean).join(' · ');
             document.getElementById('restaurantCuisineType').textContent = cuisine || 'Restaurant';
             const tagsContainer = document.getElementById('restaurantTags');
@@ -842,13 +763,10 @@
             document.getElementById('restaurantHero').style.display = 'block';
             lucide.createIcons();
         }
-
         function processAndDisplayMenu(data) {
             allMenuItems = [];
             categories = new Set(['all']);
-
             if (!data || typeof data !== 'object') { showEmptyState(); return; }
-
             Object.entries(data).forEach(([id, item]) => {
                 if (item && item.name && item.status === 'available') {
                     const cat = item.category || 'Other';
@@ -864,44 +782,34 @@
                     });
                 }
             });
-
             if (allMenuItems.length === 0) { showEmptyState(); return; }
-
             allMenuItems.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
-
             const tabsContainer = document.getElementById('tabsContainer');
             tabsContainer.innerHTML = Array.from(categories).map(cat =>
                 `<button class="tab-btn ${cat === 'all' ? 'active' : ''}" onclick="filterCategory('${cat.replace(/'/g, "\\'")}', this)">${cat === 'all' ? 'All' : cat}</button>`
             ).join('');
             document.getElementById('categoryTabs').style.display = 'block';
-
             renderMenuItems(allMenuItems, false);
         }
-
         function getItemCartQty(itemId) {
             const item = cart.find(c => c.itemId === itemId);
             return item ? item.quantity : 0;
         }
-
         function renderMenuItems(items, animate = true) {
             const container = document.getElementById('menuContainer');
             const noResults = document.getElementById('noResults');
-
             if (items.length === 0) {
                 container.innerHTML = '';
                 noResults.classList.add('active');
                 return;
             }
-
             noResults.classList.remove('active');
-
             const grouped = items.reduce((acc, item) => {
                 const c = item.category || 'Other';
                 if (!acc[c]) acc[c] = [];
                 acc[c].push(item);
                 return acc;
             }, {});
-
             container.innerHTML = Object.entries(grouped).map(([cat, citems]) => `
                 <div class="menu-section">
                     <div class="section-header">
@@ -957,16 +865,13 @@
                     </div>
                 </div>
             `).join('');
-
             lucide.createIcons();
-
             if (animate) {
                 setTimeout(() => {
                     document.querySelectorAll('.menu-list.animating').forEach(el => el.classList.remove('animating'));
                 }, 300);
             }
         }
-
         function refreshControl(itemId) {
             const el = document.getElementById(`add-control-${itemId}`);
             if (!el) return;
@@ -995,12 +900,10 @@
             }
             lucide.createIcons();
         }
-
         function showEmptyState() {
             document.getElementById('emptyState').classList.add('active');
             document.getElementById('categoryTabs').style.display = 'none';
         }
-
         function getFilteredItems() {
             let items = allMenuItems;
             if (currentCategory !== 'all') items = items.filter(i => i.category === currentCategory);
@@ -1012,19 +915,16 @@
             }
             return items;
         }
-
         window.filterCategory = (cat, btn) => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentCategory = cat;
             renderMenuItems(getFilteredItems(), true);
         };
-
         window.handleSearch = (val) => {
             searchQuery = val.toLowerCase().trim();
             renderMenuItems(getFilteredItems(), false);
         };
-
         window.toggleSearch = () => {
             const s = document.getElementById('searchSection');
             const vis = s.style.display !== 'none';
@@ -1038,14 +938,11 @@
             }
             lucide.createIcons();
         };
-
         window.goBack = () => { window.location.href = 'index.html'; };
-
         function calcPrepTime() {
             if (cart.length === 0) return 0;
             return Math.ceil(cart.reduce((s, i) => s + (i.prepTime || 0), 0) / cart.length);
         }
-
         window.addToCart = async (itemId, name, price, prepTime = 0) => {
             const existing = cart.find(i => i.itemId === itemId);
             if (existing) { existing.quantity += 1; }
@@ -1061,7 +958,6 @@
             updateCartUI();
             showToast(`${name} added`);
         };
-
         window.changeItemQty = async (itemId, delta) => {
             const existing = cart.find(i => i.itemId === itemId);
             if (!existing) return;
@@ -1071,14 +967,12 @@
             refreshControl(itemId);
             updateCartUI();
         };
-
         async function saveCart() {
             if (!currentUserId) return;
             try {
                 await set(ref(db, `carts/${currentUserId}`), { items: cart, vendorId, updatedAt: Date.now() });
             } catch (error) { console.error("Error saving cart:", error); }
         }
-
         async function loadCart() {
             if (!currentUserId) return;
             try {
@@ -1093,7 +987,6 @@
                 }
             } catch (error) { console.error("Error loading cart:", error); }
         }
-
         window.updateCartItemQuantity = async (idx, qty) => {
             const itemId = cart[idx] ? cart[idx].itemId : null;
             if (qty < 1) { cart.splice(idx, 1); } else { cart[idx].quantity = qty; }
@@ -1101,7 +994,6 @@
             if (itemId) refreshControl(itemId);
             updateCartUI();
         };
-
         function updateCartUI() {
             const body = document.getElementById('cartBody');
             const countEl = document.getElementById('cartCount');
@@ -1109,17 +1001,13 @@
             const summaryEl = document.getElementById('cartSummary');
             const cartFooter = document.getElementById('cartFooter');
             const bar = document.getElementById('floatingCartBar');
-
             const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
             const fee = parseFloat(vendorInfo?.deliveryFee || 0);
             const total = subtotal + fee;
-
             if (totalItems > 0) { countEl.style.display = 'block'; countEl.textContent = totalItems; }
             else { countEl.style.display = 'none'; }
-
             checkoutBtn.disabled = cart.length === 0;
-
             if (totalItems > 0) {
                 bar.classList.add('visible');
                 document.getElementById('floatingCartCount').textContent = totalItems;
@@ -1127,9 +1015,7 @@
             } else {
                 bar.classList.remove('visible');
             }
-
             const pt = calcPrepTime();
-
             if (cart.length === 0) {
                 body.innerHTML = `
                     <div class="cart-empty-state">
@@ -1160,7 +1046,6 @@
                         <div class="cart-item-total">R${(item.price * item.quantity).toFixed(2)}</div>
                     </div>
                 `).join('');
-
                 let prepHtml = '';
                 if (pt > 0) {
                     prepHtml = `
@@ -1170,7 +1055,6 @@
                         </div>
                     `;
                 }
-
                 summaryEl.innerHTML = `
                     ${prepHtml}
                     <div class="cart-summary">
@@ -1180,10 +1064,8 @@
                     </div>
                 `;
             }
-
             lucide.createIcons();
         }
-
         window.toggleCart = () => {
             const d = document.getElementById('cartDrawer');
             const o = document.getElementById('cartOverlay');
@@ -1196,7 +1078,6 @@
                 document.body.style.overflow = 'hidden';
             }
         };
-
         window.handleCheckout = async () => {
             if (!currentUser) { showToast("Please sign in"); return; }
             if (cart.length === 0) { showToast("Cart is empty"); return; }
@@ -1221,20 +1102,17 @@
                 showToast("Order failed");
             }
         };
-
         window.showToast = (msg) => {
             const t = document.getElementById('toast');
             t.textContent = msg;
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 2500);
         };
-
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (user) { currentUserId = user.uid; loadCart(); }
             else { currentUserId = null; cart = []; updateCartUI(); }
         });
-
         lucide.createIcons();
         loadMenu();
     </script>
