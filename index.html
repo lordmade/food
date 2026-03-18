@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -332,6 +333,7 @@
         .cart-empty-state p { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; color: var(--text); }
         .cart-empty-state small { font-size: 0.8rem; }
 
+        /* Grouped Cart Styles */
         .vendor-group {
             background: var(--surface);
             border-radius: var(--radius-sm);
@@ -719,7 +721,7 @@
         let currentUserId = null;
         let userLikes = new Set();
         let vendorInfoCache = {};
-        let isConverting = false; // flag to prevent re-trigger during legacy conversion
+        let isConverting = false;
 
         let userLocation = { lat: null, lng: null, address: null };
         let searchRadius = 10;
@@ -766,7 +768,6 @@
             } catch (e) { console.error("Clear cart error:", e); }
         }
 
-        // Helper to fetch menu items map for a vendor (for image backfill)
         async function fetchMenuItemsMap(vid) {
             try {
                 const menuSnap = await get(ref(db, `vendors/${vid}/menu`));
@@ -789,7 +790,6 @@
             } catch (e) { return {}; }
         }
 
-        // Backfill missing images for items in a group
         async function backfillImages(vid, items) {
             if (!items || !items.some(i => !i.imageURL)) return;
             const map = await fetchMenuItemsMap(vid);
@@ -801,7 +801,6 @@
             });
         }
 
-        // Fetch vendor info and cache it
         async function ensureVendorInfo(vid) {
             if (vendorInfoCache[vid]) return vendorInfoCache[vid];
             try {
@@ -817,7 +816,7 @@
         function subscribeToCart() {
             if (!currentUserId) return;
             onValue(ref(db, `carts/${currentUserId}`), async (snap) => {
-                if (isConverting) return; // skip re-trigger from our own conversion write
+                if (isConverting) return;
 
                 if (!snap.exists()) {
                     cartGroups = {};
@@ -827,7 +826,6 @@
 
                 const d = snap.val();
 
-                // ===== NEW GROUPED FORMAT =====
                 if (d.groups) {
                     const newGroups = {};
                     const groupData = d.groups || {};
@@ -855,9 +853,6 @@
                     return;
                 }
 
-                // ===== LEGACY FLAT FORMAT from menu.html =====
-                // { vendorId: "xxx", items: [...] }
-                // We need to MERGE this into existing groups, not replace
                 if (d.items && d.vendorId) {
                     const vid = d.vendorId;
                     const items = Array.isArray(d.items) ? d.items : Object.values(d.items);
@@ -865,7 +860,6 @@
 
                     await backfillImages(vid, items);
 
-                    // Merge: keep all existing groups, update/add the vendor from legacy data
                     if (items.length > 0) {
                         cartGroups[vid] = {
                             vendorId: vid,
@@ -875,12 +869,9 @@
                             items: items
                         };
                     } else {
-                        // If legacy has empty items for this vendor, remove it
                         delete cartGroups[vid];
                     }
 
-                    // Convert to grouped format in Firebase so it persists properly
-                    // This also preserves all other vendor groups
                     isConverting = true;
                     try {
                         await set(ref(db, `carts/${currentUserId}`), {
@@ -894,7 +885,6 @@
                     return;
                 }
 
-                // Unknown format
                 cartGroups = {};
                 updateCartUI();
             });
@@ -1122,7 +1112,7 @@
             const container = document.getElementById('categoryFilters');
             let html = `<button class="cat-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="filterCategory('all', this)">🍽️ All</button>`;
             MASTER_CATEGORIES.forEach(cat => {
-                html += `<button class="cat-btn ${currentFilter === cat.label ? 'active' : ''}" onclick="filterCategory('${cat.label.replace(/'/g, "\\'")}', this)">${cat.emoji} ${cat.label}</button>`;
+                html += `<button class="cat-btn ${currentFilter === cat.label ? 'active' : ''}" onclick="filterCategory('${cat.label.replace(/'/g, "\'")}', this)">${cat.emoji} ${cat.label}</button>`;
             });
             container.innerHTML = html;
             setTimeout(() => updateFilterArrows(), 100);
@@ -1216,7 +1206,7 @@
             container.innerHTML = suggestions.map(feature => {
                 const address = feature.properties?.full_address || feature.properties?.name || 'Unknown';
                 const [lng, lat] = feature.geometry.coordinates;
-                return `<div class="suggestion-item" onclick="selectLocation(${lat}, ${lng}, '${address.replace(/'/g, "\\'")}')"><i data-lucide="map-pin"></i><span>${address}</span></div>`;
+                return `<div class="suggestion-item" onclick="selectLocation(${lat}, ${lng}, '${address.replace(/'/g, "\'")}')"><i data-lucide="map-pin"></i><span>${address}</span></div>`;
             }).join('');
             lucide.createIcons();
         }
