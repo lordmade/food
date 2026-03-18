@@ -400,7 +400,12 @@
             .main { padding: 32px; padding-bottom: 32px; }
             .restaurants-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
             .cart-drawer { max-width: 380px; border-left: 1px solid var(--border); }
-            .floating-cart-bar { padding: 8px 24px; padding-bottom: calc(10px + var(--safe-bottom)); }
+            /* Offset floating cart bar past the sidebar on desktop */
+            .floating-cart-bar {
+                left: var(--sidebar-width);
+                padding: 8px 24px;
+                padding-bottom: calc(10px + var(--safe-bottom));
+            }
             .shimmer-header { padding: 16px 32px; }
             .shimmer-controls { flex-direction: row; padding: 12px 32px; }
             .shimmer-location { min-width: 300px; max-width: 400px; }
