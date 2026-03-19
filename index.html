@@ -275,15 +275,36 @@ body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans
   font-family:inherit;
 }
 .promos-see-all:hover { color:var(--accent-dark); }
+.promos-container { display:flex;align-items:center;position:relative; }
 .promos-scroll {
   display:flex;
   gap:12px;
   overflow-x:auto;
   padding:4px 16px 12px;
   -webkit-overflow-scrolling:touch;
+  flex:1;
   scrollbar-width:none;
 }
 .promos-scroll::-webkit-scrollbar { display:none; }
+/* Promo arrows (desktop only) */
+.promo-arrow {
+  display:none;
+  align-items:center;justify-content:center;
+  width:32px;height:32px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:50%;
+  cursor:pointer;
+  color:var(--text);
+  transition:var(--transition);
+  z-index:10;
+  box-shadow:var(--shadow);
+  flex-shrink:0;
+}
+.promo-arrow:hover { background:var(--accent);color:white;border-color:var(--accent); }
+.promo-arrow.left { margin-left:8px; }
+.promo-arrow.right { margin-right:8px; }
+.promo-arrow.hidden { opacity:0;pointer-events:none; }
 /* Individual promo card */
 .promo-card {
   flex:0 0 auto;
@@ -772,8 +793,7 @@ body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans
   .cart-drawer { max-width:400px;border-left:1px solid var(--border); }
   .floating-cart-bar { left:var(--sidebar-width);padding:8px 22px;padding-bottom:calc(10px + var(--safe-bottom)); }
   .promos-header { padding:0 28px 9px; }
-  .promos-scroll { padding:4px 28px 12px; }
-  .cat-arrow { display:flex; }
+  .promo-arrow { display:flex; }
 }
 @media (min-width:1024px){ .restaurants-grid { grid-template-columns:repeat(3,1fr); } }
 </style>
@@ -873,14 +893,18 @@ body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans
     </header>
     <!-- MAIN CONTENT -->
     <main class="main">
-      <!-- PROMOTIONS BANNER - moved inside main so it always appears on top of Nearby Top Rated -->
+      <!-- PROMOTIONS BANNER - always visible, on top of Nearby Top Rated -->
       <section class="promos-section" id="promosSection">
         <div class="promos-header">
           <span class="promos-title">🔥 Deals &amp; Specials</span>
           <button class="promos-see-all">See all</button>
         </div>
-        <div class="promos-scroll no-scrollbar" id="promosScroll">
-          <!-- Cards injected by JS -->
+        <div class="promos-container">
+          <button class="promo-arrow left" id="promoArrowLeft" onclick="scrollPromos(-200)"><i data-lucide="chevron-left"></i></button>
+          <div class="promos-scroll no-scrollbar" id="promosScroll">
+            <!-- Cards injected by JS -->
+          </div>
+          <button class="promo-arrow right" id="promoArrowRight" onclick="scrollPromos(200)"><i data-lucide="chevron-right"></i></button>
         </div>
       </section>
       <div id="emptyState">
@@ -1144,6 +1168,7 @@ function buildPromoBanner() {
       </div>
     </div>
   `).join('');
+  setTimeout(updatePromoArrows, 100);
 }
 let allVendors=[], cartGroups={}, expandedGroups=new Set();
 let currentStoreType='restaurant', currentFilter='all', searchTerm="";
@@ -1681,10 +1706,194 @@ function updateFilterArrows(){
   la.classList.toggle('hidden',c.scrollLeft<=0||!sc);
   ra.classList.toggle('hidden',c.scrollLeft+c.clientWidth>=c.scrollWidth-1||!sc);
 }
-document.addEventListener('DOMContentLoaded',()=>{
-  const c=document.getElementById('categoryFilters');
-  if(c)c.addEventListener('scroll',updateFilterArrows);
-});
+// ── PROMO SCROLL ARROWS (desktop) ─────────────────────────────
+window.scrollPromos=(d)=>{document.getElementById('promosScroll').scrollBy({left:d,behavior:'smooth'});};
+function updatePromoArrows(){
+  const c=document.getElementById('promosScroll'),la=document.getElementById('promoArrowLeft'),ra=document.getElementById('promoArrowRight');
+  if(!c||!la||!ra)return;
+  const sc=c.scrollWidth>c.clientWidth;
+  la.classList.toggle('hidden',c.scrollLeft<=0||!sc);
+  ra.classList.toggle('hidden',c.scrollLeft+c.clientWidth>=c.scrollWidth-1||!sc);
+}
+// ── ORDERS & TRACKING (unchanged) ─────────────────────────────
+function getStatusClass(s){const m={pending:'status-pending',confirmed:'status-confirmed',preparing:'status-preparing',out_for_delivery:'status-out_for_delivery',delivered:'status-delivered',completed:'status-completed',cancelled:'status-cancelled'};return m[s]||'status-pending';}
+function getStatusLabel(s){const m={pending:'Pending',confirmed:'Confirmed',preparing:'Preparing',out_for_delivery:'Out for Delivery',delivered:'Delivered',completed:'Completed',cancelled:'Cancelled'};return m[s]||s;}
+function renderOrders(orders){
+  const c=document.getElementById('profileOrdersList');if(!c)return;
+  if(!orders||!orders.length){c.innerHTML=`<div style="text-align:center;padding:36px 18px;color:var(--dim);"><i data-lucide="receipt" style="width:36px;height:36px;opacity:0.25;margin-bottom:11px;"></i><p style="font-weight:600;font-size:0.87rem;color:var(--text);margin-bottom:3px;">No orders yet</p><small style="font-size:0.75rem;">Your order history will appear here</small></div>`;lucide.createIcons();return;}
+  c.innerHTML=orders.map(o=>{
+    const date=new Date(o.createdAt||Date.now());
+    const dateStr=date.toLocaleDateString('en-ZA',{day:'numeric',month:'short',year:'numeric'});
+    const timeStr=date.toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit'});
+    const items=o.items||[],itemCount=items.reduce((s,i)=>s+(i.quantity||1),0);
+    const statusClass=getStatusClass(o.status),statusLabel=getStatusLabel(o.status);
+    const isExpanded=expandedOrders.has(o.id);
+    const vImgH=o.vendorImage?`<img class="order-card-vendor-img" src="${o.vendorImage}" alt="${o.vendorName||''}" loading="lazy">`:`<div class="order-card-vendor-placeholder"><i data-lucide="store"></i></div>`;
+    const itemsH=items.map(item=>{const imgH=item.imageURL?`<img class="order-item-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`:`<div class="order-item-placeholder"><i data-lucide="image"></i></div>`;return`<div class="order-item-row">${imgH}<div class="order-item-info"><div class="order-item-name">${item.name}</div><div class="order-item-desc">R${(item.price||0).toFixed(2)} each</div></div><div class="order-item-qty-price"><div class="order-item-qty">×${item.quantity||1}</div><div class="order-item-price">R${((item.price||0)*(item.quantity||1)).toFixed(2)}</div></div></div>`;}).join('');
+    const sub=o.subtotal||items.reduce((s,i)=>s+(i.price||0)*(i.quantity||1),0),fee=parseFloat(o.deliveryFee||0),total=o.total||sub+fee;
+    const payIcon=o.paymentMethod==='card'?'credit-card':o.paymentMethod==='wallet'?'smartphone':'banknote';
+    const payLabel=o.paymentMethod==='card'?'Card on Delivery':o.paymentMethod==='wallet'?'Digital Wallet':'Cash on Delivery';
+    const orderId=o.orderNumber||o.id?.substring(0,8)||'—';
+    return`<div class="order-card ${isExpanded?'expanded':''}" id="ocard-${o.id}">
+      <div class="order-card-header" onclick="toggleOrder('${o.id}')">
+        ${vImgH}
+        <div class="order-card-info">
+          <div class="order-card-vendor-name">${o.vendorName||'Restaurant'}</div>
+          <div class="order-card-meta"><span>${dateStr} · ${timeStr}</span><span>·</span><span>${itemCount} item${itemCount!==1?'s':''}</span></div>
+          <span class="order-status-badge ${statusClass}">${statusLabel}</span>
+        </div>
+        <div class="order-card-right"><div class="order-card-total">R${total.toFixed(2)}</div><i data-lucide="chevron-down" class="order-card-chevron"></i></div>
+      </div>
+      <div class="order-collapse"><div class="order-collapse-inner">
+        <div style="font-size:0.65rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Items Ordered</div>
+        ${itemsH}
+        <div class="order-summary-footer"><div class="order-summary-row"><span>Subtotal</span><span>R${sub.toFixed(2)}</span></div><div class="order-summary-row"><span>Delivery fee</span><span>${fee>0?`R${fee.toFixed(2)}`:'Free'}</span></div><div class="order-summary-row total"><span>Total</span><span>R${total.toFixed(2)}</span></div></div>
+        <div class="order-detail-section" style="margin-top:9px;"><div class="order-detail-section-title">Order Details</div><div class="order-detail-section-body">
+          <div class="order-details-row"><div class="order-details-icon"><i data-lucide="hash"></i></div><div><div class="order-details-label">Order ID</div><div class="order-details-value">${orderId}</div></div></div>
+          <div class="order-details-row"><div class="order-details-icon"><i data-lucide="${payIcon}"></i></div><div><div class="order-details-label">Payment</div><div class="order-details-value">${payLabel}</div></div></div>
+          ${o.deliveryAddress?`<div class="order-details-row"><div class="order-details-icon"><i data-lucide="map-pin"></i></div><div><div class="order-details-label">Delivery Address</div><div class="order-details-value">${o.deliveryAddress}</div></div></div>`:''}
+          ${o.estimatedPrepTime?`<div class="order-details-row"><div class="order-details-icon"><i data-lucide="clock"></i></div><div><div class="order-details-label">Est. Prep Time</div><div class="order-details-value">~${o.estimatedPrepTime} min</div></div></div>`:''}
+        </div></div>
+        <button class="reorder-btn" onclick="reorderItems('${o.id}','${o.vendorId}',event)"><i data-lucide="rotate-ccw"></i> Reorder</button>
+      </div></div>
+    </div>`;
+  }).join('');
+  lucide.createIcons();
+}
+window.toggleOrder=(id)=>{if(expandedOrders.has(id))expandedOrders.delete(id);else expandedOrders.add(id);const card=document.getElementById(`ocard-${id}`);if(card)card.classList.toggle('expanded',expandedOrders.has(id));lucide.createIcons();};
+window.reorderItems=async(orderId,vendorId,event)=>{
+  event.stopPropagation();showToast("Adding items to cart...");
+  try{
+    const snap=await get(ref(db,'orders'));let orderData=null;
+    snap.forEach(child=>{if(child.key===orderId)orderData=child.val();});
+    if(!orderData||!orderData.items){showToast("Could not find order");return;}
+    const vInfo=await ensureVendorInfo(vendorId);
+    cartGroups[vendorId]={vendorId,vendorName:vInfo?.name||orderData.vendorName||'',vendorImage:vInfo?.imageURL||orderData.vendorImage||'',deliveryFee:parseFloat(vInfo?.deliveryFee||orderData.deliveryFee||0),items:orderData.items.map(i=>({...i,addedAt:Date.now()}))};
+    await saveCart();updateCartUI();closeProfileModal();toggleCart();showToast("Items added to cart ✓");
+  }catch(e){console.error(e);showToast("Reorder failed");}
+};
+async function loadOrders(){
+  if(!currentUserId)return;
+  const c=document.getElementById('profileOrdersList');if(!c)return;
+  try{const snap=await get(ref(db,'orders'));const orders=[];snap.forEach(child=>{const o=child.val();if(o.userId===currentUserId)orders.push({id:child.key,...o});});orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));renderOrders(orders.slice(0,20));loadTracking(orders);}
+  catch(e){c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;}
+}
+function loadTracking(orders){
+  const activeStatuses=['confirmed','preparing','out_for_delivery'];
+  const active=orders.filter(o=>activeStatuses.includes(o.status));
+  const c=document.getElementById('profileTrackingContent');if(!c)return;
+  if(!active.length){c.innerHTML=`<div class="tracking-empty"><i data-lucide="package-search"></i><p>No active deliveries</p><small>Orders in transit will show here with live updates</small></div>`;lucide.createIcons();return;}
+  c.innerHTML=active.map(o=>renderTrackingCard(o)).join('');lucide.createIcons();
+}
+function renderTrackingCard(o){
+  const steps=[{key:'pending',label:'Order Placed',icon:'check',time:'Order received'},{key:'confirmed',label:'Confirmed',icon:'thumbs-up',time:'Restaurant confirmed'},{key:'preparing',label:'Being Prepared',icon:'chef-hat',time:'Kitchen is cooking'},{key:'out_for_delivery',label:'Out for Delivery',icon:'bike',time:'Driver is on the way'},{key:'delivered',label:'Delivered',icon:'home',time:'Order delivered'}];
+  const statusOrder=['pending','confirmed','preparing','out_for_delivery','delivered'];
+  const currentIdx=statusOrder.indexOf(o.status);
+  const etaMins=Math.max(5,40-(currentIdx*8));
+  const progressPct=Math.round((currentIdx/(statusOrder.length-1))*100);
+  const drivers=['Sipho M.','Thabo K.','Lerato N.','Kgosi D.','Nomsa B.'];
+  const vehicles=['Motorcycle','Bicycle','Car','Motorcycle','Bicycle'];
+  const ratings=['4.9','4.7','4.8','4.6','5.0'];
+  const driverIdx=Math.abs(o.id?.charCodeAt(0)||0)%drivers.length;
+  const driverName=drivers[driverIdx],vehicle=vehicles[driverIdx],rating=ratings[driverIdx];
+  const distanceKm=(Math.random()*3+0.5).toFixed(1);
+  return`<div class="tracking-card"><div class="tracking-card-top"><div class="tracking-order-id">Order ${o.orderNumber||o.id?.substring(0,8)||'—'}</div><div class="tracking-vendor-name">${o.vendorName||'Restaurant'}</div><div class="tracking-eta-row"><span class="tracking-eta-badge"><i data-lucide="clock"></i> ~${etaMins} min away</span><span class="tracking-status-text" style="margin-left:7px;">${getStatusLabel(o.status)}</span></div></div>
+  <div class="tracking-stepper">${steps.map((step,idx)=>{const isDone=idx<currentIdx,isActive=idx===currentIdx;return`<div class="tracking-step ${isDone?'done':''} ${isActive?'active':''}"><div class="tracking-step-dot"><i data-lucide="${isDone?'check':step.icon}"></i></div><div class="tracking-step-body"><div class="tracking-step-label">${step.label}</div><div class="tracking-step-time">${isDone||isActive?step.time:'Waiting'}</div></div></div>`;}).join('')}</div>
+  <div class="distance-bar-wrap"><div class="distance-bar-label"><span>Restaurant</span><span>Your Location</span></div><div class="distance-bar-track"><div class="distance-bar-fill" style="width:${progressPct}%;"></div></div><div class="distance-info-row"><div class="distance-info-chip"><div class="distance-info-chip-val">${distanceKm} km</div><div class="distance-info-chip-label">Distance left</div></div><div class="distance-info-chip"><div class="distance-info-chip-val">~${etaMins} min</div><div class="distance-info-chip-label">ETA</div></div><div class="distance-info-chip"><div class="distance-info-chip-val">R${parseFloat(o.total||0).toFixed(0)}</div><div class="distance-info-chip-label">Order total</div></div></div></div>
+  ${o.status==='out_for_delivery'?`<div class="driver-card"><div class="driver-avatar">${driverName.charAt(0)}</div><div class="driver-info"><div class="driver-name">${driverName}</div><div class="driver-vehicle">${vehicle} · Delivering your order</div><div class="driver-rating"><i data-lucide="star" style="width:10px;height:10px;fill:currentColor;"></i> ${rating} rating</div></div><div class="driver-actions"><button class="driver-action-btn" onclick="showToast('Calling driver...')" title="Call driver"><i data-lucide="phone"></i></button><button class="driver-action-btn" onclick="showToast('Opening chat...')" title="Message driver"><i data-lucide="message-circle"></i></button></div></div>`:o.status==='preparing'?`<div style="margin:0 15px 15px;padding:9px 11px;background:var(--surface2);border-radius:var(--radius-xs);border:1px solid var(--border-light);display:flex;align-items:center;gap:7px;"><i data-lucide="chef-hat" style="width:15px;height:15px;color:var(--accent);flex-shrink:0;"></i><span style="font-size:0.73rem;color:var(--text);">The kitchen is working on your order. A driver will be assigned soon.</span></div>`:`<div style="margin:0 15px 15px;padding:9px 11px;background:var(--accent-light);border-radius:var(--radius-xs);border:1px solid rgba(6,193,103,0.2);display:flex;align-items:center;gap:7px;"><i data-lucide="clock" style="width:15px;height:15px;color:var(--accent-dark);flex-shrink:0;"></i><span style="font-size:0.73rem;color:var(--accent-dark);">Your order has been confirmed. Preparing to dispatch.</span></div>`}
+  </div>`;
+}
+// ── PROFILE MODAL ────────────────────────────────────────────
+window.switchTab=(tab,btn)=>{
+  document.querySelectorAll('.profile-tab-item').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.profile-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const pane=document.getElementById(`pane-${tab}`);
+  if(pane)pane.classList.add('active');
+  const content=document.getElementById('profileTabContent');
+  if(content)content.scrollTop=0;
+  if(tab==='orders'||tab==='tracking')loadOrders();
+  lucide.createIcons();
+};
+window.openProfileModal=()=>{if(!currentUser){handleProfileClick();return;}document.getElementById('profileOverlay').classList.add('active');document.getElementById('profileModal').classList.add('active');document.body.style.overflow='hidden';updateProfileHero();lucide.createIcons();};
+window.closeProfileModal=()=>{document.getElementById('profileOverlay').classList.remove('active');document.getElementById('profileModal').classList.remove('active');document.body.style.overflow='';};
+window.closeAuthModals=()=>{document.querySelectorAll('.modal-overlay').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.modal').forEach(el=>el.classList.remove('active'));document.body.style.overflow='';};
+window.handleProfileClick=()=>{if(currentUser){openProfileModal();}else{document.getElementById('signInOverlay').classList.add('active');document.getElementById('signInModal').classList.add('active');}};
+window.signInWithGoogle=async()=>{try{showToast("Signing in...");const r=await signInWithPopup(auth,googleProvider);closeAuthModals();showToast(`Welcome, ${r.user.displayName}!`);}catch{showToast("Sign in failed");}};
+window.confirmSignOut=()=>{document.getElementById('signOutOverlay').classList.add('active');document.getElementById('signOutModal').classList.add('active');};
+window.doSignOut=()=>{signOut(auth).then(()=>{closeAuthModals();closeProfileModal();showToast("Signed out");}).catch(()=>showToast("Sign out failed"));};
+window.toggleSetting=async(key)=>{if(!currentUserId)return;const s=userProfile.settings||{};s[key]=!s[key];userProfile.settings=s;const el=document.getElementById(`toggle${key.charAt(0).toUpperCase()+key.slice(1)}`);if(el)el.classList.toggle('active',!!s[key]);try{await set(ref(db,`users/${currentUserId}`),userProfile);}catch(e){console.error(e);}};
+// ── VENDOR CARDS ─────────────────────────────────────────────
+window.toggleLike=async(vid,event)=>{
+  event.stopPropagation();
+  if(!currentUser){showToast("Sign in to like");handleProfileClick();return;}
+  const lRef=ref(db,`userLikes/${currentUser.uid}/${vid}`),vlRef=ref(db,`vendorLikes/${vid}`);
+  try{if(userLikes.has(vid)){await remove(lRef);const s=await get(vlRef);const c=s.exists()?s.val().count:0;if(c>0)await set(vlRef,{count:c-1});showToast("Removed from favorites");}
+  else{await set(lRef,true);const s=await get(vlRef);const c=s.exists()?s.val().count:0;await set(vlRef,{count:c+1});showToast("Added to favorites!");}
+  }catch{showToast("Failed to update");}
+};
+window.handleCardClick=(vid,isOpen)=>{if(!isOpen){showToast("Store is closed");return;}window.location.href=`menu.html?vendor=${vid}`;};
+function loadVendors(){
+  showShimmer();
+  onValue(ref(db,"vendors"),snap=>{
+    const data=snap.val();allVendors=[];
+    if(data){
+      Object.entries(data).forEach(([key,v])=>{
+        if(v.status==="active"){
+          const sc=Array.isArray(v.shopCategories)?v.shopCategories:[];
+          const cats=sc.length>0?sc:(Array.isArray(v.categories)?v.categories:[]);
+          let isOpen=true;
+          if(v.manualStoreStatus==='closed')isOpen=false;else if(v.isOpen===false)isOpen=false;
+          vendorInfoCache[key]=v;
+          allVendors.push({key,name:v.name||"Unnamed Vendor",storeType:v.storeType?v.storeType.toLowerCase():'restaurant',cuisine:v.cuisine||"Various",shopCategories:sc,categories:cats,image:v.imageURL||`https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800`,eta:v.deliveryTime||"20-35",rating:v.rating||(4.3+Math.random()*0.6).toFixed(1),deliveryFee:v.deliveryFee||20,minOrder:v.minOrder||50,isOpen,likes:0,lat:v.latitude||v.lat||null,lng:v.longitude||v.lng||null});
+        }
+      });
+      loadLikeCounts();
+    }
+    setTimeout(()=>{hideShimmer();applyFilters();},500);
+  });
+}
+function loadLikeCounts(){onValue(ref(db,"vendorLikes"),snap=>{if(snap.exists()){const d=snap.val();allVendors.forEach(v=>{if(d[v.key])v.likes=d[v.key].count||0;});applyFilters();}});}
+function generateCardHTML(v){
+  const isLiked=userLikes.has(v.key),vCats=getVendorCategories(v);
+  const catDisp=vCats.length>0?vCats.join(' · '):v.cuisine;
+  const catTags=vCats.slice(0,4).map(cat=>`<span class="r-cat-tag">${categoryEmojiMap[cat]||''} ${cat}</span>`).join('');
+  const dist=v.distance?`<div class="distance-badge"><i data-lucide="navigation" style="width:11px;height:11px;"></i>${v.distance.toFixed(1)} km</div>`:'';
+  return`<div class="r-card ${v.isOpen?'':'closed'}" ${v.isOpen?`onclick="handleCardClick('${v.key}',${v.isOpen})"`:''}>
+  <div class="r-img-wrap"><img src="${v.image}" alt="${v.name}" loading="lazy">
+  ${!v.isOpen?`<div class="closed-overlay"><i data-lucide="moon" class="half-moon-icon"></i></div><div class="closed-badge">Closed</div>`:''}
+  ${dist}
+  <button class="like-btn ${isLiked?'liked':''}" onclick="toggleLike('${v.key}',event)"><i data-lucide="heart" ${isLiked?'fill="currentColor"':''}></i></button>
+  <div class="r-eta">${v.eta} min</div></div>
+  <div class="r-info"><div class="r-header"><h4 class="r-name">${v.name}</h4><span class="rating-display"><i data-lucide="star" style="width:13px;height:13px;fill:currentColor;"></i>${v.rating}</span></div>
+  ${vCats.length>0?`<div class="r-categories">${catTags}</div>`:''}
+  <div class="r-meta-row"><span class="r-meta">${catDisp} • R${v.deliveryFee} delivery</span><span class="likes-count"><i data-lucide="heart" style="width:11px;height:11px;"></i>${v.likes||0}</span></div></div></div>`;
+}
+function applyFilters(){
+  let filtered=allVendors.filter(v=>v.storeType===currentStoreType);
+  if(userLocation.lat&&userLocation.lng){filtered=filtered.map(v=>{if(v.lat&&v.lng)return{...v,distance:calculateDistance(userLocation.lat,userLocation.lng,v.lat,v.lng)};return{...v,distance:null};}).filter(v=>v.distance===null||v.distance<=searchRadius);}
+  if(currentStoreType==='restaurant'&&currentFilter!=='all')filtered=filtered.filter(v=>vendorMatchesCategory(v,currentFilter));
+  if(searchTerm.trim()){const t=searchTerm.toLowerCase().trim();filtered=filtered.filter(v=>v.name.toLowerCase().includes(t));}
+  const es=document.getElementById("emptyState"),fs=document.getElementById("featuredSection"),ps=document.getElementById("popularSection");
+  if(!filtered.length){es.style.display="block";fs.style.display="none";ps.style.display="none";return;}
+  es.style.display="none";
+  filtered.sort((a,b)=>{if(a.isOpen!==b.isOpen)return a.isOpen?-1:1;if(a.distance!==null&&b.distance!==null)return a.distance-b.distance;if(a.distance!==null)return -1;if(b.distance!==null)return 1;return parseFloat(b.rating)-parseFloat(a.rating);});
+  const feat=filtered.slice(0,3),pop=filtered.slice(3);
+  fs.style.display=feat.length?"block":"none";document.getElementById("featuredGrid").innerHTML=feat.map(generateCardHTML).join('');
+  ps.style.display=pop.length?"block":"none";document.getElementById("restaurantsGrid").innerHTML=pop.map(generateCardHTML).join('');
+  lucide.createIcons();updateFilterArrows();
+}
+window.filterCategory=(cat,btn)=>{document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=cat;applyFilters();};
+window.handleSearch=(v)=>{searchTerm=v;applyFilters();};
+window.scrollFilters=(d)=>{document.getElementById('categoryFilters').scrollBy({left:d,behavior:'smooth'});};
+function updateFilterArrows(){
+  const c=document.getElementById('categoryFilters'),la=document.getElementById('filterArrowLeft'),ra=document.getElementById('filterArrowRight');
+  if(!c||!la||!ra)return;
+  const sc=c.scrollWidth>c.clientWidth;
+  la.classList.toggle('hidden',c.scrollLeft<=0||!sc);
+  ra.classList.toggle('hidden',c.scrollLeft+c.clientWidth>=c.scrollWidth-1||!sc);
+}
+// ── TOAST ────────────────────────────────────────────────────
 window.showToast=(msg)=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);};
 // ── INIT ─────────────────────────────────────────────────────
 lucide.createIcons();
@@ -1694,6 +1903,11 @@ buildPromoBanner();
 loadVendors();
 updateCartUI();
 if(navigator.geolocation)setTimeout(()=>detectCurrentLocation(),1000);
+// Promo scroll listener
+document.addEventListener('DOMContentLoaded',()=>{
+  const promoScrollEl = document.getElementById('promosScroll');
+  if(promoScrollEl) promoScrollEl.addEventListener('scroll', updatePromoArrows);
+});
 </script>
 </body>
 </html>
