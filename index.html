@@ -871,18 +871,18 @@ body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans
         </div>
       </div>
     </header>
-    <!-- PROMOTIONS BANNER -->
-    <section class="promos-section" id="promosSection">
-      <div class="promos-header">
-        <span class="promos-title">🔥 Deals &amp; Specials</span>
-        <button class="promos-see-all">See all</button>
-      </div>
-      <div class="promos-scroll no-scrollbar" id="promosScroll">
-        <!-- Cards injected by JS -->
-      </div>
-    </section>
     <!-- MAIN CONTENT -->
     <main class="main">
+      <!-- PROMOTIONS BANNER - moved inside main so it always appears on top of Nearby Top Rated -->
+      <section class="promos-section" id="promosSection">
+        <div class="promos-header">
+          <span class="promos-title">🔥 Deals &amp; Specials</span>
+          <button class="promos-see-all">See all</button>
+        </div>
+        <div class="promos-scroll no-scrollbar" id="promosScroll">
+          <!-- Cards injected by JS -->
+        </div>
+      </section>
       <div id="emptyState">
         <i data-lucide="package-open"></i>
         <p>No stores found nearby.</p>
