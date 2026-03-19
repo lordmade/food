@@ -49,7 +49,7 @@
         @keyframes tabSlideIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
         @keyframes bannerScroll { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
         @keyframes promoFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
-        
+       
         /* ── SHIMMER OVERLAY ───────────────────────────────────── */
         .shimmer-overlay { position:fixed;inset:0;background:var(--bg);z-index:5000;display:none;flex-direction:column;overflow-y:auto; }
         .shimmer-overlay.active { display:flex; }
@@ -79,7 +79,7 @@
         .shimmer-card-footer { display:flex;justify-content:space-between;align-items:center;margin-top:2px; }
         .shimmer-card-price { height:14px;width:56px;border-radius:4px; }
         .shimmer-card-likes { height:14px;width:36px;border-radius:4px; }
-        
+       
         /* ── APP LAYOUT ───────────────────────────────────────── */
         .app-container { display:flex;height:100vh;height:100dvh;width:100vw;position:relative; }
         .sidebar {
@@ -119,7 +119,7 @@
         }
         .sidebar-overlay.open { opacity:1;pointer-events:auto; }
         .main-wrapper { flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;position:relative;width:100%; }
-        
+       
         /* ── HEADER — Uber-style ──────────────────────────────── */
         .header {
             display:flex;
@@ -163,7 +163,7 @@
             display:none;animation:pulse 2s infinite;
         }
         .profile-avatar-small { width:26px;height:26px;border-radius:50%;object-fit:cover; }
-        
+       
         /* ── PILL ROW: location + search ─────────────────────── */
         .header-pill-row {
             display:flex;
@@ -233,7 +233,7 @@
             pointer-events:none;
         }
         .search-pill-icon i { width:16px;height:16px; }
-        
+       
         /* ── CATEGORY PILLS ───────────────────────────────────── */
         .categories-row { padding:0 0 10px;background:var(--surface);border-bottom:1px solid var(--border); }
         .categories-container { display:flex;align-items:center;position:relative; }
@@ -282,7 +282,7 @@
         .cat-btn.active { background:var(--text);color:white;border-color:var(--text); }
         .cat-btn:hover:not(.active) { transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1);border-color:var(--dim); }
         .cat-btn:active { transform:scale(0.95); }
-        
+       
         /* ── PROMOTIONS BANNER ────────────────────────────────── */
         .promos-section { padding:14px 0 4px;background:var(--bg);overflow:hidden;display: block !important; }
         .promos-header { display:flex;align-items:center;justify-content:space-between;padding:0 16px 10px; }
@@ -319,7 +319,7 @@
         .promo-pink .promo-card-badge { background:#e91e63;color:white; }
         .promo-teal .promo-card-overlay { background:linear-gradient(to top, rgba(0,100,110,0.88) 0%, rgba(0,100,110,0.3) 60%, transparent 100%); }
         .promo-teal .promo-card-badge { background:#0891b2;color:white; }
-        
+       
         /* ── MAIN CONTENT ─────────────────────────────────────── */
         .main { padding:20px 16px 120px;flex:1; }
         .section-title { font-size:1.15rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:6px; }
@@ -363,7 +363,7 @@
         #emptyState { display:none;text-align:center;padding:60px 20px;color:var(--dim);animation:fadeIn 0.4s ease; }
         #emptyState i { width:60px;height:60px;margin-bottom:18px;opacity:0.4; }
         #emptyState p:first-of-type { font-size:1.05rem;font-weight:600;margin-bottom:8px;color:var(--text); }
-        
+       
         /* ── MODALS ───────────────────────────────────────────── */
         .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3000;display:none;opacity:0;transition:var(--transition);backdrop-filter:blur(4px); }
         .modal-overlay.active { display:block;opacity:1; }
@@ -405,7 +405,7 @@
         .modal-text{color:var(--dim);margin-bottom:22px;line-height:1.6;}
         .modal-actions{display:flex;gap:11px;margin-top:14px;}
         .modal-actions button{flex:1;}
-        
+       
         /* ── FLOATING CART BAR ────────────────────────────────── */
         .floating-cart-bar { position:fixed;bottom:0;left:0;right:0;z-index:1500;padding:8px 14px;padding-bottom:calc(10px + var(--safe-bottom));background:transparent;pointer-events:none;transition:var(--transition);transform:translateY(100%);opacity:0; }
         .floating-cart-bar.visible { transform:translateY(0);opacity:1;pointer-events:auto; }
@@ -417,7 +417,7 @@
         .floating-cart-right { display:flex;align-items:center;gap:4px; }
         .floating-cart-total { font-weight:800;font-size:0.86rem; }
         .floating-cart-arrow { width:15px;height:15px;opacity:0.85; }
-        
+       
         /* ── CART DRAWER ──────────────────────────────────────── */
         .cart-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1999;opacity:0;visibility:hidden;transition:var(--transition); }
         .cart-overlay.open { opacity:1;visibility:visible; }
@@ -457,7 +457,7 @@
         .cart-item:hover { background:var(--surface2); }
         .cart-item-img { width:48px;height:48px;border-radius:7px;object-fit:cover;flex-shrink:0;background:var(--surface2);border:1px solid var(--border-light);display:block; }
         .cart-item-img-placeholder { width:48px;height:48px;border-radius:7px;background:var(--surface2);border:1px solid var(--border-light);flex-shrink:0;display:flex;align-items:center;justify-content:center; }
-        .cart-item-img-placeholder i { width:18px;height:18px;color:var(--border); }
+        .cart-item-img-placeholder i { width:18px;height:18px;color:#ccc; }
         .cart-item-info { flex:1;min-width:0; }
         .cart-item-name { font-weight:700;font-size:0.79rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
         .cart-item-price { color:var(--dim);font-size:0.69rem;font-weight:500; }
@@ -481,7 +481,7 @@
         .checkout-btn:disabled { background:var(--border);cursor:not-allowed;color:var(--dim);transform:none;box-shadow:none; }
         .multi-restaurant-banner { background:#fff8e1;border:1px solid #ffe082;border-radius:var(--radius-xs);padding:9px 11px;font-size:0.73rem;font-weight:600;color:#7a5800;display:flex;align-items:flex-start;gap:7px;margin-bottom:2px; }
         .multi-restaurant-banner i { width:13px;height:13px;flex-shrink:0;margin-top:1px;color:#f59e0b; }
-        
+       
         /* ── TOASTS ───────────────────────────────────────────── */
         #locToast { position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--text);color:white;padding:8px 14px 8px 11px;border-radius:100px;z-index:9000;transition:transform 0.38s cubic-bezier(0.34,1.26,0.64,1),opacity 0.3s ease;opacity:0;pointer-events:none;display:flex;align-items:center;gap:7px;font-size:0.78rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,0.25);max-width:calc(100vw - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
         #locToast.show { transform:translateX(-50%) translateY(0);opacity:1; }
@@ -489,7 +489,7 @@
         #locToast .loc-toast-text { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1; }
         #toast { position:fixed;bottom:calc(68px + var(--safe-bottom));left:50%;transform:translateX(-50%) translateY(200px);background:var(--text);color:white;padding:13px 22px;border-radius:12px;z-index:4000;transition:transform 0.3s ease;font-weight:600;font-size:0.92rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);max-width:90vw;text-align:center; }
         #toast.show { transform:translateX(-50%) translateY(0); }
-        
+       
         /* ── CHECKOUT DRAWER ──────────────────────────────────── */
         .checkout-drawer { position:absolute;inset:0;background:var(--bg);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);display:flex;flex-direction:column;z-index:10;overflow:hidden; }
         .checkout-drawer.open { transform:translateX(0); }
@@ -570,7 +570,7 @@
         .co-track-btn:hover { background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 4px 16px rgba(6,193,103,0.3); }
         .co-done-btn { width:100%;background:transparent;color:var(--dim);border:1.5px solid var(--border);padding:11px;border-radius:var(--radius-xs);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;transition:var(--transition); }
         .co-done-btn:hover { background:var(--surface2); }
-        
+       
         /* ── PROFILE MODAL ────────────────────────────────────── */
         #profileModal {
             position:fixed;display:flex;flex-direction:column;overflow:hidden;background:var(--surface);z-index:3001;box-shadow:0 -10px 40px rgba(0,0,0,0.2);pointer-events:none;visibility:hidden;
@@ -741,7 +741,7 @@
         .sign-out-btn { width:100%;background:#ffebee;color:var(--danger);border:1.5px solid rgba(255,59,48,0.2);padding:11px;border-radius:var(--radius-sm);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:var(--transition);margin-top:14px; }
         .sign-out-btn:hover { background:var(--danger);color:white; }
         .sign-out-btn i { width:15px;height:15px; }
-        
+       
         /* ── RESPONSIVE ───────────────────────────────────────── */
         @media (max-width:767px){
             .header-pill-row { padding:0 12px 10px; }
@@ -863,14 +863,14 @@
         </header>
         <!-- MAIN CONTENT -->
         <main class="main">
-            <!-- PROMOTIONS BANNER - moved inside main so it always appears on top of Nearby Top Rated -->
+            <!-- PROMOTIONS BANNER -->
             <section class="promos-section" id="promosSection">
                 <div class="promos-header">
                     <span class="promos-title">🔥 Deals &amp; Specials</span>
                     <button class="promos-see-all">See all</button>
                 </div>
                 <div class="promos-scroll no-scrollbar" id="promosScroll">
-                    <!-- Cards injected by JS -->
+                    <!-- Dynamically populated from Firebase -->
                 </div>
             </section>
             <div id="emptyState">
@@ -999,7 +999,7 @@
                 <button class="location-edit-btn" onclick="toggleLocationEditForm()">Edit</button>
             </div>
             <div class="location-edit-form" id="locationEditForm">
-                <div class="form-group"><label class="form-label">Update Location</label><input type="text" class="form-input" id="profileLocationInput" placeholder="Enter new address..."></div>
+                <div class="form-group"><label class="form-label">Update Location</label><input type="text" class="form-input" id="profileLocationInput" placeholder="Enter new address…"></div>
                 <div style="display:flex;gap:7px;">
                     <button class="save-btn" style="flex:1;" onclick="saveProfileLocation()">Update</button>
                     <button onclick="detectAndSetLocation()" style="flex:1;padding:11px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-weight:700;font-size:0.81rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:var(--transition);" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
@@ -1060,7 +1060,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, set, push, remove, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
 const firebaseConfig = {
     apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
     authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -1074,7 +1073,6 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
 const MASTER_CATEGORIES = [
     {label:"Pizza",emoji:"🍕"},{label:"Burgers",emoji:"🍔"},{label:"Sushi",emoji:"🍣"},
@@ -1086,46 +1084,6 @@ const MASTER_CATEGORIES = [
 ];
 const categoryEmojiMap = {};
 MASTER_CATEGORIES.forEach(c => { categoryEmojiMap[c.label] = c.emoji; });
-
-// ── PROMOTIONS DATA ──────────────────────────────────────────
-const PROMOS = [
-    {
-        title:"Free Delivery All Day",
-        sub:"On orders over R150",
-        badge:"🚚 Free Delivery",
-        colorClass:"promo-green",
-        img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80"
-    },
-    {
-        title:"30% Off Your First Order",
-        sub:"New users only · Today only",
-        badge:"🎉 New User Deal",
-        colorClass:"promo-orange",
-        img:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80"
-    },
-    {
-        title:"2-for-1 Meals Tonight",
-        sub:"Selected restaurants · 6–9 PM",
-        badge:"🍽️ Limited Time",
-        colorClass:"promo-purple",
-        img:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80"
-    },
-    {
-        title:"R20 Off Desserts",
-        sub:"Use code: SWEET20",
-        badge:"🍰 Desserts",
-        colorClass:"promo-pink",
-        img:"https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80"
-    },
-    {
-        title:"Combo Meal Bundles",
-        sub:"Burger + fries + drink combos",
-        badge:"🍔 Bundle Deal",
-        colorClass:"promo-teal",
-        img:"https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80"
-    },
-];
-
 // ── DELIVERY FEE ENGINE ─────────────────────────────────────
 let deliveryFeeConfig = {
     ratePerKm: 10,
@@ -1133,65 +1091,60 @@ let deliveryFeeConfig = {
     maximumFee: 120,
     freeThreshold: 0,
 };
-
 function loadDeliveryFeeConfig() {
-    db.ref('deliveryFeeConfig').on('value', snap => {
+    const dbRef = ref(db, 'deliveryFeeConfig');
+    onValue(dbRef, snap => {
         const data = snap.val();
-        if (data) {
-            Object.assign(deliveryFeeConfig, data);
-        }
+        if (data) Object.assign(deliveryFeeConfig, data);
     });
 }
-
 function haversineDistanceKm(lat1, lng1, lat2, lng2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
 }
-
 function calcDeliveryFee(distanceKm, orderTotal = 0, cfg = deliveryFeeConfig) {
     const { ratePerKm, minimumFee, maximumFee, freeThreshold } = cfg;
-    
-    if (freeThreshold > 0 && orderTotal >= freeThreshold) {
-        return { fee: 0, isFree: true };
-    }
-    
+    if (freeThreshold > 0 && orderTotal >= freeThreshold) return { fee: 0, isFree: true };
     let raw = distanceKm * ratePerKm;
     let fee = raw;
-    
     if (minimumFee > 0 && fee < minimumFee) fee = minimumFee;
     if (maximumFee > 0 && fee > maximumFee) fee = maximumFee;
-    
     return { fee, isFree: false };
 }
-
-function calcDeliveryFeeByCoords(vendorLat, vendorLng, deliveryLat, deliveryLng, orderTotal = 0) {
-    const distanceKm = haversineDistanceKm(vendorLat, vendorLng, deliveryLat, deliveryLng);
-    const result = calcDeliveryFee(distanceKm, orderTotal);
-    return { distanceKm, ...result };
+// ── PROMOTIONS (real-time from Firebase) ─────────────────────
+let promosCache = {};
+function loadPromos() {
+    const promosRef = ref(db, 'promotions');
+    onValue(promosRef, snap => {
+        promosCache = snap.val() || {};
+        renderPromos();
+    });
 }
-
-// ── BUILD PROMO BANNER ──────────────────────────────────────
-function buildPromoBanner() {
+function renderPromos() {
     const scroll = document.getElementById('promosScroll');
-    scroll.innerHTML = PROMOS.map(p => `
-        <div class="promo-card ${p.colorClass}" onclick="showToast('Promo applied!')">
-            <img class="promo-card-bg" src="${p.img}" alt="${p.title}" loading="lazy">
-            <div class="promo-card-overlay">
-                <span class="promo-card-badge">${p.badge}</span>
-                <div class="promo-card-title">${p.title}</div>
-                <div class="promo-card-sub">${p.sub}</div>
-            </div>
-        </div>
-    `).join('');
+    let html = '';
+    Object.values(promosCache).forEach(p => {
+        html += `
+            <div class="promo-card ${p.colorClass || 'promo-green'}" onclick="showToast('Promo applied!')">
+                <img class="promo-card-bg" src="${p.img || 'https://via.placeholder.com/300x120?text=Promo'}" alt="${p.title}" loading="lazy">
+                <div class="promo-card-overlay">
+                    <span class="promo-card-badge">${p.badge || ''}</span>
+                    <div class="promo-card-title">${p.title || 'Deal'}</div>
+                    <div class="promo-card-sub">${p.sub || ''}</div>
+                </div>
+            </div>`;
+    });
+    if (!html) {
+        html = `<div style="text-align:center;padding:40px 20px;color:var(--dim);width:100%;"><i data-lucide="tag" style="width:44px;height:44px;opacity:0.3;"></i><p style="margin-top:12px;font-size:0.9rem;">No active deals right now</p></div>`;
+    }
+    scroll.innerHTML = html;
+    lucide.createIcons();
 }
-
+// ── REST OF THE CODE (unchanged except for the promo integration) ──
 let allVendors=[], cartGroups={}, expandedGroups=new Set();
 let currentStoreType='restaurant', currentFilter='all', searchTerm="";
 let currentUser=null, currentUserId=null, userLikes=new Set();
@@ -1201,8 +1154,6 @@ let searchRadius=10, selectedRadius=10;
 let coStep=0, selectedPayment='cash', coDeliveryAddress=null;
 let userProfile={name:'',phone:'',addresses:[],settings:{notif:true,loc:true,sms:false,promo:true}};
 let expandedOrders=new Set();
-
-// ── CART HELPERS ─────────────────────────────────────────────
 function getAllCartItems(){const a=[];Object.values(cartGroups).forEach(g=>{if(g.items)g.items.forEach(i=>a.push(i));});return a;}
 function getTotalItems(){return Object.values(cartGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.quantity,0),0);}
 function getTotalPrice(){return Object.values(cartGroups).reduce((s,g)=>{const sub=(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0);return s+sub+parseFloat(g.deliveryFee||0);},0);}
@@ -1245,8 +1196,6 @@ function subscribeToCart(){
         cartGroups={};updateCartUI();
     });
 }
-
-// ── CART UI ──────────────────────────────────────────────────
 function updateCartUI(){
     const body=document.getElementById('cartBody'),countEl=document.getElementById('cartCount');
     const checkoutBtn=document.getElementById('checkoutBtn'),summaryEl=document.getElementById('cartSummary');
@@ -1299,8 +1248,6 @@ window.toggleCart=()=>{
     if(isOpen){d.classList.remove('open');o.classList.remove('open');document.body.style.overflow='';}
     else{if(Object.keys(cartGroups).length===1)expandedGroups.add(Object.keys(cartGroups)[0]);d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';updateCartUI();}
 };
-
-// ── CHECKOUT ─────────────────────────────────────────────────
 window.openCheckoutDrawer=()=>{
     if(getTotalItems()===0)return;
     coStep=0;selectedPayment='cash';coDeliveryAddress=null;
@@ -1371,17 +1318,17 @@ window.handleCheckout=async()=>{
             showToast("Please set a delivery address");
             return;
         }
-        
+       
         const promises=Object.entries(cartGroups).map(([gVid,group])=>{
             const sub=(group.items||[]).reduce((s,i)=>s+i.price*i.quantity,0),fee=parseFloat(group.deliveryFee||0);
             const vendor = allVendors.find(v => v.key === gVid);
             let calculatedDeliveryFee = fee;
-            
+           
             if (vendor && vendor.lat && vendor.lng && userLocation.lat && userLocation.lng) {
                 const calc = calcDeliveryFeeByCoords(vendor.lat, vendor.lng, userLocation.lat, userLocation.lng, sub);
                 calculatedDeliveryFee = calc.fee;
             }
-            
+           
             return set(push(ref(db,'orders')),{
                 userId:currentUserId,
                 vendorId:gVid,
@@ -1409,7 +1356,6 @@ window.handleCheckout=async()=>{
         await clearCart();updateCartUI();
     }catch(e){console.error(e);showToast("Order failed");if(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="check-circle"></i> Place Order';lucide.createIcons();}}
 };
-
 // ── LOCATION TOAST ───────────────────────────────────────────
 function showLocToast(msg){
     const el=document.getElementById('locToast');
@@ -1417,7 +1363,6 @@ function showLocToast(msg){
     el.classList.add('show');
     setTimeout(()=>el.classList.remove('show'),3200);
 }
-
 // ── FILTERS & VENDORS ────────────────────────────────────────
 function buildCategoryFilters(){
     const c=document.getElementById('categoryFilters');
@@ -1487,7 +1432,6 @@ function displaySuggestions(suggestions){
 window.selectLocation=(lat,lng,address)=>{setUserLocation(lat,lng,address);closeLocationModal();};
 function calculateDistance(la1,lo1,la2,lo2){const R=6371,dL=(la2-la1)*Math.PI/180,dLo=(lo2-lo1)*Math.PI/180,a=Math.sin(dL/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 window.setStoreType=(type,btn)=>{currentStoreType=type;document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('foodFilters').style.display=type==='restaurant'?'block':'none';document.getElementById('searchInput').placeholder=`Search for ${type}…`;searchTerm="";document.getElementById('searchInput').value="";currentFilter="all";buildCategoryFilters();toggleSidebar();applyFilters();};
-
 // ── AUTH ─────────────────────────────────────────────────────
 onAuthStateChanged(auth,user=>{
     currentUser=user;currentUserId=user?user.uid:null;
@@ -1588,7 +1532,6 @@ function renderProfileAddresses(){
 window.setDefaultAddress=async(id)=>{if(!currentUserId)return;userProfile.addresses.forEach(a=>a.isDefault=(a.id===id));await set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();};
 window.deleteAddress=async(id)=>{if(!currentUserId)return;if(confirm("Delete this address?")){userProfile.addresses=userProfile.addresses.filter(a=>a.id!==id);if(userProfile.addresses.length>0&&!userProfile.addresses.some(a=>a.isDefault))userProfile.addresses[0].isDefault=true;await set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();}};
 window.addNewAddress=()=>{const addr=prompt("Enter delivery address:");if(addr&&currentUserId){const newAddr={id:Date.now().toString(),address:addr,isDefault:userProfile.addresses.length===0};userProfile.addresses.push(newAddr);set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();}};
-
 // ── ORDERS ───────────────────────────────────────────────────
 function getStatusClass(s){const m={pending:'status-pending',confirmed:'status-confirmed',preparing:'status-preparing',out_for_delivery:'status-out_for_delivery',delivered:'status-delivered',completed:'status-completed',cancelled:'status-cancelled'};return m[s]||'status-pending';}
 function getStatusLabel(s){const m={pending:'Pending',confirmed:'Confirmed',preparing:'Preparing',out_for_delivery:'Out for Delivery',delivered:'Delivered',completed:'Completed',cancelled:'Cancelled'};return m[s]||s;}
@@ -1652,7 +1595,6 @@ async function loadOrders(){
     try{const snap=await get(ref(db,'orders'));const orders=[];snap.forEach(child=>{const o=child.val();if(o.userId===currentUserId)orders.push({id:child.key,...o});});orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));renderOrders(orders.slice(0,20));loadTracking(orders);}
     catch(e){c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;}
 }
-
 // ── TRACKING ─────────────────────────────────────────────────
 function loadTracking(orders){
     const activeStatuses=['confirmed','preparing','out_for_delivery'];
@@ -1679,7 +1621,6 @@ function renderTrackingCard(o){
     ${o.status==='out_for_delivery'?`<div class="driver-card"><div class="driver-avatar">${driverName.charAt(0)}</div><div class="driver-info"><div class="driver-name">${driverName}</div><div class="driver-vehicle">${vehicle} · Delivering your order</div><div class="driver-rating"><i data-lucide="star" style="width:10px;height:10px;fill:currentColor;"></i> ${rating} rating</div></div><div class="driver-actions"><button class="driver-action-btn" onclick="showToast('Calling driver...')" title="Call driver"><i data-lucide="phone"></i></button><button class="driver-action-btn" onclick="showToast('Opening chat...')" title="Message driver"><i data-lucide="message-circle"></i></button></div></div>`:o.status==='preparing'?`<div style="margin:0 15px 15px;padding:9px 11px;background:var(--surface2);border-radius:var(--radius-xs);border:1px solid var(--border-light);display:flex;align-items:center;gap:7px;"><i data-lucide="chef-hat" style="width:15px;height:15px;color:var(--accent);flex-shrink:0;"></i><span style="font-size:0.73rem;color:var(--text);">The kitchen is working on your order. A driver will be assigned soon.</span></div>`:`<div style="margin:0 15px 15px;padding:9px 11px;background:var(--accent-light);border-radius:var(--radius-xs);border:1px solid rgba(6,193,103,0.2);display:flex;align-items:center;gap:7px;"><i data-lucide="clock" style="width:15px;height:15px;color:var(--accent-dark);flex-shrink:0;"></i><span style="font-size:0.73rem;color:var(--accent-dark);">Your order has been confirmed. Preparing to dispatch.</span></div>`}
     </div>`;
 }
-
 // ── PROFILE MODAL ────────────────────────────────────────────
 window.switchTab=(tab,btn)=>{
     document.querySelectorAll('.profile-tab-item').forEach(t=>t.classList.remove('active'));
@@ -1700,7 +1641,6 @@ window.signInWithGoogle=async()=>{try{showToast("Signing in...");const r=await s
 window.confirmSignOut=()=>{document.getElementById('signOutOverlay').classList.add('active');document.getElementById('signOutModal').classList.add('active');};
 window.doSignOut=()=>{signOut(auth).then(()=>{closeAuthModals();closeProfileModal();showToast("Signed out");}).catch(()=>showToast("Sign out failed"));};
 window.toggleSetting=async(key)=>{if(!currentUserId)return;const s=userProfile.settings||{};s[key]=!s[key];userProfile.settings=s;const el=document.getElementById(`toggle${key.charAt(0).toUpperCase()+key.slice(1)}`);if(el)el.classList.toggle('active',!!s[key]);try{await set(ref(db,`users/${currentUserId}`),userProfile);}catch(e){console.error(e);}};
-
 // ── VENDOR CARDS ─────────────────────────────────────────────
 window.toggleLike=async(vid,event)=>{
     event.stopPropagation();
@@ -1740,15 +1680,14 @@ function generateCardHTML(v){
     if (v.distance) {
         dist = `<div class="distance-badge"><i data-lucide="navigation" style="width:11px;height:11px;"></i>${v.distance.toFixed(1)} km</div>`;
     }
-    
-    // Calculate delivery fee based on distance if location is set
+   
     let deliveryFeeDisplay = `R${v.deliveryFee} delivery`;
     if (v.lat && v.lng && userLocation.lat && userLocation.lng) {
         const distance = calculateDistance(userLocation.lat, userLocation.lng, v.lat, v.lng);
         const { fee, isFree } = calcDeliveryFee(distance, 0);
         deliveryFeeDisplay = isFree ? 'Free delivery' : `R${fee.toFixed(2)} delivery`;
     }
-    
+   
     return`<div class="r-card ${v.isOpen?'':'closed'}" ${v.isOpen?`onclick="handleCardClick('${v.key}',${v.isOpen})"`:''}>
     <div class="r-img-wrap"><img src="${v.image}" alt="${v.name}" loading="lazy">
     ${!v.isOpen?`<div class="closed-overlay"><i data-lucide="moon" class="half-moon-icon"></i></div><div class="closed-badge">Closed</div>`:''}
@@ -1788,12 +1727,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(c)c.addEventListener('scroll',updateFilterArrows);
 });
 window.showToast=(msg)=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);};
-
 // ── INIT ─────────────────────────────────────────────────────
 lucide.createIcons();
 generateShimmerCards(6);
 buildCategoryFilters();
-buildPromoBanner();
+loadPromos(); // ← REAL PROMOS FROM FIREBASE (no mocks)
 loadVendors();
 loadDeliveryFeeConfig();
 updateCartUI();
