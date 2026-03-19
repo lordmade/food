@@ -290,7 +290,7 @@
         .promos-see-all { font-size:0.78rem;font-weight:700;color:var(--accent);cursor:pointer;transition:var(--transition);background:none;border:none;font-family:inherit; }
         .promos-see-all:hover { color:var(--accent-dark); }
         .promos-scroll {
-            overflow: hidden; /* required for marquee */
+            overflow: hidden;
             padding:4px 16px 12px;
         }
         .promo-marquee {
@@ -334,6 +334,44 @@
         .promo-pink .promo-card-badge { background:#e91e63;color:white; }
         .promo-teal .promo-card-overlay { background:linear-gradient(to top, rgba(0,100,110,0.88) 0%, rgba(0,100,110,0.3) 60%, transparent 100%); }
         .promo-teal .promo-card-badge { background:#0891b2;color:white; }
+      
+        /* ── BOTTOM NAV (MOBILE ONLY) ─────────────────────────── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: none;
+            z-index: 1600;
+            padding: 8px 0 12px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--dim);
+            transition: var(--transition);
+            padding: 4px 0;
+            touch-action: manipulation;
+        }
+        .bottom-nav-item i {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 2px;
+        }
+        .bottom-nav-item.active {
+            color: var(--accent);
+        }
+        .bottom-nav-item:active {
+            transform: scale(0.92);
+        }
       
         /* ── MAIN CONTENT ─────────────────────────────────────── */
         .main { padding:20px 16px 120px;flex:1; }
@@ -762,6 +800,8 @@
             .header-pill-row { padding:0 12px 10px; }
             .location-pill { max-width:160px; }
             .location-pill-value { max-width:80px; }
+            .bottom-nav { display:flex; }
+            .main { padding-bottom: 92px; }
         }
         @media (min-width:768px){
             :root { --header-height:68px; }
@@ -779,6 +819,7 @@
             .promos-header { padding:0 28px 9px; }
             .promos-scroll { padding:4px 28px 12px; }
             .cat-arrow { display:flex; }
+            .bottom-nav { display:none; }
         }
         @media (min-width:1024px){ .restaurants-grid { grid-template-columns:repeat(3,1fr); } }
     </style>
@@ -1071,6 +1112,15 @@
         </div>
     </div>
 </div>
+
+<!-- BOTTOM NAV (MOBILE ONLY) -->
+<div class="bottom-nav" id="bottomNav">
+    <div class="bottom-nav-item active" onclick="bottomNavClick(0)"><i data-lucide="home"></i><span>Home</span></div>
+    <div class="bottom-nav-item" onclick="bottomNavClick(1)"><i data-lucide="receipt"></i><span>Orders</span></div>
+    <div class="bottom-nav-item" onclick="bottomNavClick(2)"><i data-lucide="search"></i><span>Search</span></div>
+    <div class="bottom-nav-item" onclick="bottomNavClick(3)"><i data-lucide="user"></i><span>Profile</span></div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, set, push, remove, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -1155,7 +1205,7 @@ function renderPromos() {
                 </div>
             </div>`;
     });
-    marquee.innerHTML = html + html; // duplicate for seamless infinite loop
+    marquee.innerHTML = html + html;
     lucide.createIcons();
 }
 // ── REST OF THE CODE (unchanged except for the promo integration) ──
@@ -1741,11 +1791,35 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(c)c.addEventListener('scroll',updateFilterArrows);
 });
 window.showToast=(msg)=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);};
+
+// ── BOTTOM NAV FUNCTIONALITY ────────────────────────────────
+function bottomNavClick(idx) {
+    document.querySelectorAll('.bottom-nav-item').forEach((el, i) => {
+        el.classList.toggle('active', i === idx);
+    });
+    if (idx === 0) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (idx === 1) {
+        if (currentUser) {
+            openProfileModal();
+            const ordersTab = document.querySelectorAll('.profile-tab-item')[2];
+            if (ordersTab) switchTab('orders', ordersTab);
+        } else {
+            handleProfileClick();
+        }
+    } else if (idx === 2) {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) searchInput.focus();
+    } else if (idx === 3) {
+        handleProfileClick();
+    }
+}
+
 // ── INIT ─────────────────────────────────────────────────────
 lucide.createIcons();
 generateShimmerCards(6);
 buildCategoryFilters();
-loadPromos(); // ← REAL PROMOS FROM FIREBASE (no mocks)
+loadPromos();
 loadVendors();
 loadDeliveryFeeConfig();
 updateCartUI();
