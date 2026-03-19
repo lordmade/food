@@ -162,7 +162,6 @@
             border-radius:10px;min-width:17px;text-align:center;border:2px solid var(--surface);
             display:none;animation:pulse 2s infinite;
         }
-        .profile-avatar-small { width:26px;height:26px;border-radius:50%;object-fit:cover; }
       
         /* ── PILL ROW: location + search ─────────────────────── */
         .header-pill-row {
@@ -233,6 +232,16 @@
             pointer-events:none;
         }
         .search-pill-icon i { width:16px;height:16px; }
+      
+        /* ── MOBILE TOP SEARCH BAR (only appears when Search tab is active) ── */
+        .mobile-search-bar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 16px;
+            display: none;
+            z-index: 999;
+            box-shadow: 0 1px 0 var(--border);
+        }
       
         /* ── CATEGORY PILLS ───────────────────────────────────── */
         .categories-row { padding:0 0 10px;background:var(--surface);border-bottom:1px solid var(--border); }
@@ -798,10 +807,12 @@
         /* ── RESPONSIVE ───────────────────────────────────────── */
         @media (max-width:767px){
             .header-pill-row { padding:0 12px 10px; }
-            .location-pill { max-width:160px; }
-            .location-pill-value { max-width:80px; }
+            .location-pill { max-width: none; flex: 1; }
+            .search-pill { display: none; }
             .bottom-nav { display:flex; }
             .main { padding-bottom: 92px; }
+            #profileBtn { display: none; }
+            .mobile-search-bar { display: block; }
         }
         @media (min-width:768px){
             :root { --header-height:68px; }
@@ -820,6 +831,7 @@
             .promos-scroll { padding:4px 28px 12px; }
             .cat-arrow { display:flex; }
             .bottom-nav { display:none; }
+            .mobile-search-bar { display: none !important; }
         }
         @media (min-width:1024px){ .restaurants-grid { grid-template-columns:repeat(3,1fr); } }
     </style>
@@ -885,9 +897,6 @@
                         <i data-lucide="shopping-bag"></i>
                         <span class="cart-badge" id="cartCount">0</span>
                     </button>
-                    <button class="action-btn-compact" id="profileBtn" onclick="handleProfileClick()" aria-label="Profile">
-                        <i data-lucide="user"></i>
-                    </button>
                 </div>
             </div>
             <!-- Location + Search pill row -->
@@ -906,6 +915,13 @@
                 <div class="search-pill">
                     <div class="search-pill-icon"><i data-lucide="search"></i></div>
                     <input type="text" class="search-pill-input" id="searchInput" placeholder="Search restaurants, food…" oninput="handleSearch(this.value)">
+                </div>
+            </div>
+            <!-- MOBILE TOP SEARCH BAR (shown only when Search tab active) -->
+            <div class="mobile-search-bar" id="mobileSearchBar">
+                <div class="search-pill">
+                    <div class="search-pill-icon"><i data-lucide="search"></i></div>
+                    <input type="text" class="search-pill-input" id="mobileSearchInput" placeholder="Search restaurants, food…" oninput="handleSearch(this.value)">
                 </div>
             </div>
             <!-- Category pills -->
@@ -1208,7 +1224,7 @@ function renderPromos() {
     marquee.innerHTML = html + html;
     lucide.createIcons();
 }
-// ── REST OF THE CODE (unchanged except for the promo integration) ──
+// ── REST OF THE CODE ──
 let allVendors=[], cartGroups={}, expandedGroups=new Set();
 let currentStoreType='restaurant', currentFilter='all', searchTerm="";
 let currentUser=null, currentUserId=null, userLikes=new Set();
@@ -1499,12 +1515,9 @@ window.setStoreType=(type,btn)=>{currentStoreType=type;document.querySelectorAll
 // ── AUTH ─────────────────────────────────────────────────────
 onAuthStateChanged(auth,user=>{
     currentUser=user;currentUserId=user?user.uid:null;
-    const pb=document.getElementById('profileBtn');
     if(user){
-        pb.innerHTML=`<img src="${user.photoURL}" class="profile-avatar-small" alt="Profile" referrerpolicy="no-referrer">`;
         loadUserLikes(user.uid);loadUserProfile(user.uid);subscribeToCart();
     }else{
-        pb.innerHTML=`<i data-lucide="user"></i>`;
         userLikes.clear();cartGroups={};
         userProfile={name:'',phone:'',addresses:[],settings:{notif:true,loc:true,sms:false,promo:true}};
         updateCartUI();lucide.createIcons();
@@ -1792,11 +1805,14 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 window.showToast=(msg)=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);};
 
-// ── BOTTOM NAV FUNCTIONALITY ────────────────────────────────
+// ── BOTTOM NAV FUNCTIONALITY (fully functional on mobile only) ────────────────────────────────
 function bottomNavClick(idx) {
     document.querySelectorAll('.bottom-nav-item').forEach((el, i) => {
         el.classList.toggle('active', i === idx);
     });
+    // Hide mobile search bar by default
+    document.getElementById('mobileSearchBar').style.display = 'none';
+
     if (idx === 0) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (idx === 1) {
@@ -1808,8 +1824,12 @@ function bottomNavClick(idx) {
             handleProfileClick();
         }
     } else if (idx === 2) {
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput) searchInput.focus();
+        // Open the top search bar
+        document.getElementById('mobileSearchBar').style.display = 'block';
+        setTimeout(() => {
+            const mobileInput = document.getElementById('mobileSearchInput');
+            if (mobileInput) mobileInput.focus();
+        }, 50);
     } else if (idx === 3) {
         handleProfileClick();
     }
