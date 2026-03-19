@@ -145,6 +145,12 @@
         .menu-list-item { background: var(--surface); border-radius: var(--radius-xs); overflow: hidden; cursor: pointer; transition: transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s cubic-bezier(0.4,0,0.2,1); position: relative; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.07); border: 1px solid var(--border-light); }
         .menu-list-item:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
         .menu-list-item:active { transform: scale(0.96); box-shadow: none; }
+        /* unavailable item styling */
+        .menu-item-unavailable { opacity: 0.6; filter: grayscale(0.5); cursor: default; }
+        .menu-item-unavailable .menu-item-add-btn { background: var(--dim); pointer-events: none; }
+        .menu-item-unavailable .menu-item-qty-btn:last-child { opacity: 0.5; pointer-events: none; }
+        .menu-item-unavailable-badge { position: absolute; top: 5px; right: 5px; background: var(--dim); color: white; padding: 2px 6px; border-radius: 100px; font-size: 0.55rem; font-weight: 700; z-index: 2; }
+
         .menu-item-image-wrap { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; flex-shrink: 0; background: var(--surface2); }
         .menu-item-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
         .menu-list-item:hover .menu-item-image { transform: scale(1.07); }
@@ -726,7 +732,8 @@ function getSuggested(currentItem) {
 function sugCard(item) {
     const inCart = cart.some(c => c.itemId === item.id);
     const color  = BUCKET_COLOR[bucketOf(item)];
-    return `<div class="sug-card" onclick="openItemSheet('${item.id}')">
+    const onClick = item.status === 'available' ? `onclick="openItemSheet('${item.id}')"` : '';
+    return `<div class="sug-card" ${onClick}>
         <div class="sug-card-img-wrap">
             ${(item.imageURL&&item.imageApproved)?`<img class="sug-card-img" src="${item.imageURL}" alt="${item.name}" loading="lazy">`:`<div class="sug-card-no-img"><i data-lucide="image"></i></div>`}
             <span class="sug-card-badge" style="background:${color};">${item.category||'Item'}</span>
@@ -735,9 +742,11 @@ function sugCard(item) {
             <div class="sug-card-name">${item.name}</div>
             <div class="sug-card-bottom">
                 <span class="sug-card-price">R${item.price.toFixed(2)}</span>
-                <button class="sug-card-add ${inCart?'added':''}" id="sbtn-${item.id}" onclick="quickAddSuggested('${item.id}',event)" title="${inCart?'In cart':'Quick add'}">
-                    <i data-lucide="${inCart?'check':'plus'}"></i>
-                </button>
+                ${item.status === 'available' 
+                    ? `<button class="sug-card-add ${inCart?'added':''}" id="sbtn-${item.id}" onclick="quickAddSuggested('${item.id}',event)" title="${inCart?'In cart':'Quick add'}">
+                           <i data-lucide="${inCart?'check':'plus'}"></i>
+                       </button>`
+                    : `<div style="font-size:0.6rem;color:var(--dim);font-weight:600;">Unavailable</div>`}
             </div>
         </div>
     </div>`;
@@ -759,6 +768,8 @@ function renderSuggested(currentItem) {
 
 window.quickAddSuggested = async (itemId, e) => {
     e.stopPropagation();
+    const item = allMenuItems.find(i=>i.id===itemId);
+    if (item && item.status !== 'available') { showToast("Item unavailable"); return; }
     await addToCartById(itemId);
     const btn = document.getElementById(`sbtn-${itemId}`);
     if (btn) { btn.classList.add('added'); btn.innerHTML='<i data-lucide="check" style="width:11px;height:11px;"></i>'; lucide.createIcons(); }
@@ -818,7 +829,7 @@ function showShimmer() { document.getElementById('shimmerOverlay').classList.add
 function hideShimmer() { document.getElementById('shimmerOverlay').classList.remove('active'); document.body.style.overflow=''; }
 
 // ================================================================
-// LOAD MENU
+// LOAD MENU (modified to include all items regardless of status)
 // ================================================================
 async function loadMenu() {
     showShimmer();
@@ -849,13 +860,27 @@ function displayVendorInfo(v) {
     lucide.createIcons();
 }
 
+// MODIFIED: include all items, store status
 function processAndDisplayMenu(data) {
     allMenuItems=[]; categories=new Set(['all']);
     if (!data||typeof data!=='object') { showEmptyState(); return; }
     Object.entries(data).forEach(([id,item])=>{
-        if (item&&item.name&&item.status==='available') {
-            const cat=item.category||'Other'; categories.add(cat);
-            allMenuItems.push({id,name:item.name,category:cat,price:parseFloat(item.price)||0,description:item.description||'',imageURL:item.imageURL||'',imageApproved:item.imageApproved===true,calories:item.calories||'',prepTime:item.prepTime||'',featured:item.featured||false});
+        if (item && item.name) {
+            const cat = item.category || 'Other';
+            categories.add(cat);
+            allMenuItems.push({
+                id,
+                name: item.name,
+                category: cat,
+                price: parseFloat(item.price) || 0,
+                description: item.description || '',
+                imageURL: item.imageURL || '',
+                imageApproved: item.imageApproved === true,
+                calories: item.calories || '',
+                prepTime: item.prepTime || '',
+                featured: item.featured || false,
+                status: item.status || 'unavailable' // default if missing
+            });
         }
     });
     if (!allMenuItems.length) { showEmptyState(); return; }
@@ -868,7 +893,7 @@ function processAndDisplayMenu(data) {
 }
 
 // ================================================================
-// MENU RENDERING
+// MENU RENDERING (modified to show unavailable items but not clickable)
 // ================================================================
 function getItemCartQty(itemId) { const i=cart.find(c=>c.itemId===itemId); return i?i.quantity:0; }
 
@@ -883,10 +908,11 @@ function renderMenuItems(items,animate=true) {
             <div class="menu-list${animate?' animating':''}">
                 ${citems.map(item=>{
                     const qty=getItemCartQty(item.id);
-                    return `<div class="menu-list-item" id="menu-item-${item.id}" onclick="openItemSheet('${item.id}')">
+                    return `<div class="menu-list-item ${item.status !== 'available' ? 'menu-item-unavailable' : ''}" id="menu-item-${item.id}" ${item.status === 'available' ? `onclick="openItemSheet('${item.id}')"` : ''}>
                         <div class="menu-item-image-wrap">
                             ${(item.imageURL&&item.imageApproved)?`<img class="menu-item-image" src="${item.imageURL}" alt="${item.name}" loading="lazy">`:`<div class="menu-item-no-image"><i data-lucide="image"></i></div>`}
                             ${item.featured?'<span class="menu-item-badge">Popular</span>':''}
+                            ${item.status !== 'available' ? '<span class="menu-item-unavailable-badge">Unavailable</span>' : ''}
                         </div>
                         <div class="menu-item-info">
                             <div class="menu-item-top">
@@ -900,13 +926,27 @@ function renderMenuItems(items,animate=true) {
                             <div class="menu-item-bottom">
                                 <span class="menu-item-price"><span class="currency">R</span>${item.price.toFixed(2)}</span>
                                 <div id="add-control-${item.id}" onclick="event.stopPropagation()">
-                                    ${qty>0
-                                        ?`<div class="menu-item-qty-control pop-in">
-                                               <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
-                                               <span class="menu-item-qty-value">${qty}</span>
-                                               <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
-                                           </div>`
-                                        :`<button class="menu-item-add-btn" onclick="addToCartById('${item.id}')"><i data-lucide="plus"></i></button>`}
+                                    ${(() => {
+                                        if (item.status !== 'available') {
+                                            if (qty > 0) {
+                                                return `<div class="menu-item-qty-control pop-in">
+                                                           <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
+                                                           <span class="menu-item-qty-value">${qty}</span>
+                                                           <button class="menu-item-qty-btn" disabled style="opacity:0.5;pointer-events:none;"><i data-lucide="plus"></i></button>
+                                                       </div>`;
+                                            } else {
+                                                return `<div style="color:var(--dim);font-size:0.65rem;font-weight:600;background:var(--surface2);padding:2px 6px;border-radius:100px;">Unavailable</div>`;
+                                            }
+                                        } else {
+                                            return qty > 0
+                                                ? `<div class="menu-item-qty-control pop-in">
+                                                       <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
+                                                       <span class="menu-item-qty-value">${qty}</span>
+                                                       <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
+                                                   </div>`
+                                                : `<button class="menu-item-add-btn" onclick="addToCartById('${item.id}')"><i data-lucide="plus"></i></button>`;
+                                        }
+                                    })()}
                                 </div>
                             </div>
                         </div>
@@ -919,15 +959,30 @@ function renderMenuItems(items,animate=true) {
 }
 
 function refreshControl(itemId) {
-    const el=document.getElementById(`add-control-${itemId}`); if(!el) return;
-    const qty=getItemCartQty(itemId), item=allMenuItems.find(i=>i.id===itemId); if(!item) return;
-    el.innerHTML=qty>0
-        ?`<div class="menu-item-qty-control pop-in">
-               <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
-               <span class="menu-item-qty-value">${qty}</span>
-               <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
-           </div>`
-        :`<button class="menu-item-add-btn" onclick="addToCartById('${item.id}')"><i data-lucide="plus"></i></button>`;
+    const el = document.getElementById(`add-control-${itemId}`); if(!el) return;
+    const item = allMenuItems.find(i=>i.id===itemId); if(!item) return;
+    const qty = getItemCartQty(itemId);
+    if (item.status !== 'available') {
+        if (qty > 0) {
+            el.innerHTML = `<div class="menu-item-qty-control pop-in">
+                                <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
+                                <span class="menu-item-qty-value">${qty}</span>
+                                <button class="menu-item-qty-btn" disabled style="opacity:0.5;pointer-events:none;"><i data-lucide="plus"></i></button>
+                            </div>`;
+        } else {
+            el.innerHTML = `<div style="color:var(--dim);font-size:0.65rem;font-weight:600;background:var(--surface2);padding:2px 6px;border-radius:100px;">Unavailable</div>`;
+        }
+    } else {
+        if (qty > 0) {
+            el.innerHTML = `<div class="menu-item-qty-control pop-in">
+                                <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',-1)"><i data-lucide="minus"></i></button>
+                                <span class="menu-item-qty-value">${qty}</span>
+                                <button class="menu-item-qty-btn" onclick="changeItemQty('${item.id}',1)"><i data-lucide="plus"></i></button>
+                            </div>`;
+        } else {
+            el.innerHTML = `<button class="menu-item-add-btn" onclick="addToCartById('${item.id}')"><i data-lucide="plus"></i></button>`;
+        }
+    }
     lucide.createIcons();
 }
 
@@ -951,10 +1006,11 @@ window.toggleSearch=()=>{
 window.goBack=()=>{ window.location.href='index.html'; };
 
 // ================================================================
-// ITEM SHEET
+// ITEM SHEET (modified to block unavailable)
 // ================================================================
 window.openItemSheet=itemId=>{
     const item=allMenuItems.find(i=>i.id===itemId); if(!item) return;
+    if (item.status !== 'available') { showToast("This item is currently unavailable"); return; }
     activeSheetItem=item; sheetQty=Math.max(1,getItemCartQty(item.id));
     const imgWrap=document.getElementById('itemSheetImageWrap');
     imgWrap.innerHTML=(item.imageURL&&item.imageApproved)
