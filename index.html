@@ -49,7 +49,32 @@
         @keyframes tabSlideIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
         @keyframes bannerScroll { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
         @keyframes promoFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
-      
+     
+        /* ── BOTTOM NAV ANIMATIONS (MOBILE ONLY) ─────────────────────────── */
+        @media (max-width:767px) {
+            .bottom-nav-item {
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+            }
+            .bottom-nav-item.active {
+                animation: navPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .bottom-nav-item i {
+                transition: transform 0.3s ease;
+            }
+            .bottom-nav-item.active i {
+                animation: iconBounce 0.6s ease;
+            }
+        }
+        @keyframes navPop {
+            0% { transform: scale(0.85); }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-6px) scale(1.15); }
+        }
+     
         /* ── SHIMMER OVERLAY ───────────────────────────────────── */
         .shimmer-overlay { position:fixed;inset:0;background:var(--bg);z-index:5000;display:none;flex-direction:column;overflow-y:auto; }
         .shimmer-overlay.active { display:flex; }
@@ -79,7 +104,7 @@
         .shimmer-card-footer { display:flex;justify-content:space-between;align-items:center;margin-top:2px; }
         .shimmer-card-price { height:14px;width:56px;border-radius:4px; }
         .shimmer-card-likes { height:14px;width:36px;border-radius:4px; }
-      
+     
         /* ── APP LAYOUT ───────────────────────────────────────── */
         .app-container { display:flex;height:100vh;height:100dvh;width:100vw;position:relative; }
         .sidebar {
@@ -119,7 +144,7 @@
         }
         .sidebar-overlay.open { opacity:1;pointer-events:auto; }
         .main-wrapper { flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;position:relative;width:100%; }
-      
+     
         /* ── HEADER — Uber-style ──────────────────────────────── */
         .header {
             display:flex;
@@ -162,7 +187,7 @@
             border-radius:10px;min-width:17px;text-align:center;border:2px solid var(--surface);
             display:none;animation:pulse 2s infinite;
         }
-      
+     
         /* ── PILL ROW: location + search ─────────────────────── */
         .header-pill-row {
             display:flex;
@@ -232,7 +257,7 @@
             pointer-events:none;
         }
         .search-pill-icon i { width:16px;height:16px; }
-      
+     
         /* ── MOBILE TOP SEARCH BAR (only appears when Search tab is active) ── */
         .mobile-search-bar {
             background: var(--surface);
@@ -242,7 +267,7 @@
             z-index: 999;
             box-shadow: 0 1px 0 var(--border);
         }
-      
+     
         /* ── CATEGORY PILLS ───────────────────────────────────── */
         .categories-row { padding:0 0 10px;background:var(--surface);border-bottom:1px solid var(--border); }
         .categories-container { display:flex;align-items:center;position:relative; }
@@ -291,7 +316,7 @@
         .cat-btn.active { background:var(--text);color:white;border-color:var(--text); }
         .cat-btn:hover:not(.active) { transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1);border-color:var(--dim); }
         .cat-btn:active { transform:scale(0.95); }
-      
+     
         /* ── PROMOTIONS BANNER (INFINITE AUTO SCROLL) ─────────── */
         .promos-section { padding:14px 0 4px;background:var(--bg);overflow:hidden;display: block !important; }
         .promos-header { display:flex;align-items:center;justify-content:space-between;padding:0 16px 10px; }
@@ -343,7 +368,7 @@
         .promo-pink .promo-card-badge { background:#e91e63;color:white; }
         .promo-teal .promo-card-overlay { background:linear-gradient(to top, rgba(0,100,110,0.88) 0%, rgba(0,100,110,0.3) 60%, transparent 100%); }
         .promo-teal .promo-card-badge { background:#0891b2;color:white; }
-      
+     
         /* ── BOTTOM NAV (MOBILE ONLY) ─────────────────────────── */
         .bottom-nav {
             position: fixed;
@@ -381,7 +406,7 @@
         .bottom-nav-item:active {
             transform: scale(0.92);
         }
-      
+     
         /* ── MAIN CONTENT ─────────────────────────────────────── */
         .main { padding:20px 16px 120px;flex:1; }
         .section-title { font-size:1.15rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:6px; }
@@ -425,7 +450,7 @@
         #emptyState { display:none;text-align:center;padding:60px 20px;color:var(--dim);animation:fadeIn 0.4s ease; }
         #emptyState i { width:60px;height:60px;margin-bottom:18px;opacity:0.4; }
         #emptyState p:first-of-type { font-size:1.05rem;font-weight:600;margin-bottom:8px;color:var(--text); }
-      
+     
         /* ── MODALS ───────────────────────────────────────────── */
         .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3000;display:none;opacity:0;transition:var(--transition);backdrop-filter:blur(4px); }
         .modal-overlay.active { display:block;opacity:1; }
@@ -467,7 +492,7 @@
         .modal-text{color:var(--dim);margin-bottom:22px;line-height:1.6;}
         .modal-actions{display:flex;gap:11px;margin-top:14px;}
         .modal-actions button{flex:1;}
-      
+     
         /* ── FLOATING CART BAR ────────────────────────────────── */
         .floating-cart-bar { position:fixed;bottom:0;left:0;right:0;z-index:1500;padding:8px 14px;padding-bottom:calc(10px + var(--safe-bottom));background:transparent;pointer-events:none;transition:var(--transition);transform:translateY(100%);opacity:0; }
         .floating-cart-bar.visible { transform:translateY(0);opacity:1;pointer-events:auto; }
@@ -479,7 +504,7 @@
         .floating-cart-right { display:flex;align-items:center;gap:4px; }
         .floating-cart-total { font-weight:800;font-size:0.86rem; }
         .floating-cart-arrow { width:15px;height:15px;opacity:0.85; }
-      
+     
         /* ── CART DRAWER ──────────────────────────────────────── */
         .cart-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1999;opacity:0;visibility:hidden;transition:var(--transition); }
         .cart-overlay.open { opacity:1;visibility:visible; }
@@ -543,7 +568,7 @@
         .checkout-btn:disabled { background:var(--border);cursor:not-allowed;color:var(--dim);transform:none;box-shadow:none; }
         .multi-restaurant-banner { background:#fff8e1;border:1px solid #ffe082;border-radius:var(--radius-xs);padding:9px 11px;font-size:0.73rem;font-weight:600;color:#7a5800;display:flex;align-items:flex-start;gap:7px;margin-bottom:2px; }
         .multi-restaurant-banner i { width:13px;height:13px;flex-shrink:0;margin-top:1px;color:#f59e0b; }
-      
+     
         /* ── TOASTS ───────────────────────────────────────────── */
         #locToast { position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--text);color:white;padding:8px 14px 8px 11px;border-radius:100px;z-index:9000;transition:transform 0.38s cubic-bezier(0.34,1.26,0.64,1),opacity 0.3s ease;opacity:0;pointer-events:none;display:flex;align-items:center;gap:7px;font-size:0.78rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,0.25);max-width:calc(100vw - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
         #locToast.show { transform:translateX(-50%) translateY(0);opacity:1; }
@@ -551,7 +576,7 @@
         #locToast .loc-toast-text { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1; }
         #toast { position:fixed;bottom:calc(68px + var(--safe-bottom));left:50%;transform:translateX(-50%) translateY(200px);background:var(--text);color:white;padding:13px 22px;border-radius:12px;z-index:4000;transition:transform 0.3s ease;font-weight:600;font-size:0.92rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);max-width:90vw;text-align:center; }
         #toast.show { transform:translateX(-50%) translateY(0); }
-      
+     
         /* ── CHECKOUT DRAWER ──────────────────────────────────── */
         .checkout-drawer { position:absolute;inset:0;background:var(--bg);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);display:flex;flex-direction:column;z-index:10;overflow:hidden; }
         .checkout-drawer.open { transform:translateX(0); }
@@ -632,7 +657,7 @@
         .co-track-btn:hover { background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 4px 16px rgba(6,193,103,0.3); }
         .co-done-btn { width:100%;background:transparent;color:var(--dim);border:1.5px solid var(--border);padding:11px;border-radius:var(--radius-xs);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;transition:var(--transition); }
         .co-done-btn:hover { background:var(--surface2); }
-      
+     
         /* ── PROFILE MODAL ────────────────────────────────────── */
         #profileModal {
             position:fixed;display:flex;flex-direction:column;overflow:hidden;background:var(--surface);z-index:3001;box-shadow:0 -10px 40px rgba(0,0,0,0.2);pointer-events:none;visibility:hidden;
@@ -803,7 +828,7 @@
         .sign-out-btn { width:100%;background:#ffebee;color:var(--danger);border:1.5px solid rgba(255,59,48,0.2);padding:11px;border-radius:var(--radius-sm);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:var(--transition);margin-top:14px; }
         .sign-out-btn:hover { background:var(--danger);color:white; }
         .sign-out-btn i { width:15px;height:15px; }
-      
+     
         /* ── RESPONSIVE ───────────────────────────────────────── */
         @media (max-width:767px){
             .header-pill-row { padding:0 12px 10px; }
@@ -935,28 +960,37 @@
         </header>
         <!-- MAIN CONTENT -->
         <main class="main">
-            <!-- PROMOTIONS BANNER -->
-            <section class="promos-section" id="promosSection">
-                <div class="promos-header">
-                    <span class="promos-title">🔥 Deals &amp; Specials</span>
-                    <button class="promos-see-all">See all</button>
+            <!-- HOME VIEW (unchanged) -->
+            <div id="homeView">
+                <!-- PROMOTIONS BANNER -->
+                <section class="promos-section" id="promosSection">
+                    <div class="promos-header">
+                        <span class="promos-title">🔥 Deals &amp; Specials</span>
+                        <button class="promos-see-all">See all</button>
+                    </div>
+                    <div class="promos-scroll" id="promosScroll">
+                        <!-- Dynamically populated from Firebase with infinite marquee -->
+                    </div>
+                </section>
+                <div id="emptyState">
+                    <i data-lucide="package-open"></i>
+                    <p>No stores found nearby.</p>
+                    <p style="font-size:0.87rem;">Try increasing your search radius or changing location.</p>
                 </div>
-                <div class="promos-scroll" id="promosScroll">
-                    <!-- Dynamically populated from Firebase with infinite marquee -->
+                <div id="featuredSection" style="margin-bottom:28px;">
+                    <h2 class="section-title">Nearby Top Rated <span style="color:var(--yellow);">★</span></h2>
+                    <div class="restaurants-grid" id="featuredGrid"></div>
                 </div>
-            </section>
-            <div id="emptyState">
-                <i data-lucide="package-open"></i>
-                <p>No stores found nearby.</p>
-                <p style="font-size:0.87rem;">Try increasing your search radius or changing location.</p>
+                <div id="popularSection">
+                    <h2 class="section-title">More Nearby</h2>
+                    <div class="restaurants-grid" id="restaurantsGrid"></div>
+                </div>
             </div>
-            <div id="featuredSection" style="margin-bottom:28px;">
-                <h2 class="section-title">Nearby Top Rated <span style="color:var(--yellow);">★</span></h2>
-                <div class="restaurants-grid" id="featuredGrid"></div>
-            </div>
-            <div id="popularSection">
-                <h2 class="section-title">More Nearby</h2>
-                <div class="restaurants-grid" id="restaurantsGrid"></div>
+
+            <!-- MOBILE-ONLY ORDERS VIEW (new, only on mobile) -->
+            <div id="ordersView" style="display:none;">
+                <h2 class="section-title" style="margin-bottom:20px;padding:0 16px;">Your Orders</h2>
+                <div id="mobileOrdersList" style="padding:0 16px;"></div>
             </div>
         </main>
     </div>
@@ -1128,7 +1162,6 @@
         </div>
     </div>
 </div>
-
 <!-- BOTTOM NAV (MOBILE ONLY) -->
 <div class="bottom-nav" id="bottomNav">
     <div class="bottom-nav-item active" onclick="bottomNavClick(0)"><i data-lucide="home"></i><span>Home</span></div>
@@ -1136,7 +1169,6 @@
     <div class="bottom-nav-item" onclick="bottomNavClick(2)"><i data-lucide="search"></i><span>Search</span></div>
     <div class="bottom-nav-item" onclick="bottomNavClick(3)"><i data-lucide="user"></i><span>Profile</span></div>
 </div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, set, push, remove, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -1398,17 +1430,17 @@ window.handleCheckout=async()=>{
             showToast("Please set a delivery address");
             return;
         }
-      
+     
         const promises=Object.entries(cartGroups).map(([gVid,group])=>{
             const sub=(group.items||[]).reduce((s,i)=>s+i.price*i.quantity,0),fee=parseFloat(group.deliveryFee||0);
             const vendor = allVendors.find(v => v.key === gVid);
             let calculatedDeliveryFee = fee;
-          
+         
             if (vendor && vendor.lat && vendor.lng && userLocation.lat && userLocation.lng) {
                 const calc = calcDeliveryFeeByCoords(vendor.lat, vendor.lng, userLocation.lat, userLocation.lng, sub);
                 calculatedDeliveryFee = calc.fee;
             }
-          
+         
             return set(push(ref(db,'orders')),{
                 userId:currentUserId,
                 vendorId:gVid,
@@ -1612,8 +1644,8 @@ window.addNewAddress=()=>{const addr=prompt("Enter delivery address:");if(addr&&
 // ── ORDERS ───────────────────────────────────────────────────
 function getStatusClass(s){const m={pending:'status-pending',confirmed:'status-confirmed',preparing:'status-preparing',out_for_delivery:'status-out_for_delivery',delivered:'status-delivered',completed:'status-completed',cancelled:'status-cancelled'};return m[s]||'status-pending';}
 function getStatusLabel(s){const m={pending:'Pending',confirmed:'Confirmed',preparing:'Preparing',out_for_delivery:'Out for Delivery',delivered:'Delivered',completed:'Completed',cancelled:'Cancelled'};return m[s]||s;}
-function renderOrders(orders){
-    const c=document.getElementById('profileOrdersList');if(!c)return;
+function renderOrders(orders, containerId = 'profileOrdersList'){
+    const c=document.getElementById(containerId);if(!c)return;
     if(!orders||!orders.length){c.innerHTML=`<div style="text-align:center;padding:36px 18px;color:var(--dim);"><i data-lucide="receipt" style="width:36px;height:36px;opacity:0.25;margin-bottom:11px;"></i><p style="font-weight:600;font-size:0.87rem;color:var(--text);margin-bottom:3px;">No orders yet</p><small style="font-size:0.75rem;">Your order history will appear here</small></div>`;lucide.createIcons();return;}
     c.innerHTML=orders.map(o=>{
         const date=new Date(o.createdAt||Date.now());
@@ -1628,6 +1660,30 @@ function renderOrders(orders){
         const payIcon=o.paymentMethod==='card'?'credit-card':o.paymentMethod==='wallet'?'smartphone':'banknote';
         const payLabel=o.paymentMethod==='card'?'Card on Delivery':o.paymentMethod==='wallet'?'Digital Wallet':'Cash on Delivery';
         const orderId=o.orderNumber||o.id?.substring(0,8)||'—';
+
+        // DRIVER + DELIVERY INFO (only for preparing / out_for_delivery)
+        let deliverySection = '';
+        if (['preparing','out_for_delivery'].includes(o.status)) {
+            const driverNames = ['Sipho M.','Thabo K.','Lerato N.'];
+            const driverIdx = Math.abs((o.id || '').charCodeAt(0) || 0) % driverNames.length;
+            const driverName = driverNames[driverIdx];
+            const isOut = o.status === 'out_for_delivery';
+            deliverySection = `
+<div class="order-detail-section" style="margin-top:9px;">
+    <div class="order-detail-section-title">Delivery &amp; Driver</div>
+    <div class="order-detail-section-body">
+        <div class="driver-card" style="margin:0;padding:9px 13px;">
+            <div class="driver-avatar">${driverName.charAt(0)}</div>
+            <div class="driver-info">
+                <div class="driver-name">${driverName}</div>
+                <div class="driver-vehicle">${isOut ? 'Motorcycle • On the way' : 'Driver assigning soon'}</div>
+                ${isOut ? `<div class="driver-rating" style="margin-top:4px;"><i data-lucide="star" style="width:10px;height:10px;"></i> 4.9</div>` : ''}
+            </div>
+        </div>
+    </div>
+</div>`;
+        }
+
         return`<div class="order-card ${isExpanded?'expanded':''}" id="ocard-${o.id}">
             <div class="order-card-header" onclick="toggleOrder('${o.id}')">
                 ${vImgH}
@@ -1648,6 +1704,7 @@ function renderOrders(orders){
                     ${o.deliveryAddress?`<div class="order-details-row"><div class="order-details-icon"><i data-lucide="map-pin"></i></div><div><div class="order-details-label">Delivery Address</div><div class="order-details-value">${o.deliveryAddress}</div></div></div>`:''}
                     ${o.estimatedPrepTime?`<div class="order-details-row"><div class="order-details-icon"><i data-lucide="clock"></i></div><div><div class="order-details-label">Est. Prep Time</div><div class="order-details-value">~${o.estimatedPrepTime} min</div></div></div>`:''}
                 </div></div>
+                ${deliverySection}
                 <button class="reorder-btn" onclick="reorderItems('${o.id}','${o.vendorId}',event)"><i data-lucide="rotate-ccw"></i> Reorder</button>
             </div></div>
         </div>`;
@@ -1666,11 +1723,10 @@ window.reorderItems=async(orderId,vendorId,event)=>{
         await saveCart();updateCartUI();closeProfileModal();toggleCart();showToast("Items added to cart ✓");
     }catch(e){console.error(e);showToast("Reorder failed");}
 }
-async function loadOrders(){
+async function loadOrders(containerId = 'profileOrdersList'){
     if(!currentUserId)return;
-    const c=document.getElementById('profileOrdersList');if(!c)return;
-    try{const snap=await get(ref(db,'orders'));const orders=[];snap.forEach(child=>{const o=child.val();if(o.userId===currentUserId)orders.push({id:child.key,...o});});orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));renderOrders(orders.slice(0,20));loadTracking(orders);}
-    catch(e){c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;}
+    try{const snap=await get(ref(db,'orders'));const orders=[];snap.forEach(child=>{const o=child.val();if(o.userId===currentUserId)orders.push({id:child.key,...o});});orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));renderOrders(orders.slice(0,20), containerId);if(containerId === 'profileOrdersList') loadTracking(orders);}
+    catch(e){const c=document.getElementById(containerId);if(c)c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;}
 }
 // ── TRACKING ─────────────────────────────────────────────────
 function loadTracking(orders){
@@ -1757,14 +1813,14 @@ function generateCardHTML(v){
     if (v.distance) {
         dist = `<div class="distance-badge"><i data-lucide="navigation" style="width:11px;height:11px;"></i>${v.distance.toFixed(1)} km</div>`;
     }
-  
+ 
     let deliveryFeeDisplay = `R${v.deliveryFee} delivery`;
     if (v.lat && v.lng && userLocation.lat && userLocation.lng) {
         const distance = calculateDistance(userLocation.lat, userLocation.lng, v.lat, v.lng);
         const { fee, isFree } = calcDeliveryFee(distance, 0);
         deliveryFeeDisplay = isFree ? 'Free delivery' : `R${fee.toFixed(2)} delivery`;
     }
-  
+ 
     return`<div class="r-card ${v.isOpen?'':'closed'}" ${v.isOpen?`onclick="handleCardClick('${v.key}',${v.isOpen})"`:''}>
     <div class="r-img-wrap"><img src="${v.image}" alt="${v.name}" loading="lazy">
     ${!v.isOpen?`<div class="closed-overlay"><i data-lucide="moon" class="half-moon-icon"></i></div><div class="closed-badge">Closed</div>`:''}
@@ -1803,38 +1859,43 @@ document.addEventListener('DOMContentLoaded',()=>{
     const c=document.getElementById('categoryFilters');
     if(c)c.addEventListener('scroll',updateFilterArrows);
 });
-window.showToast=(msg)=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);};
-
 // ── BOTTOM NAV FUNCTIONALITY (fully functional on mobile only) ────────────────────────────────
 function bottomNavClick(idx) {
     document.querySelectorAll('.bottom-nav-item').forEach((el, i) => {
         el.classList.toggle('active', i === idx);
     });
-    // Hide mobile search bar by default
     document.getElementById('mobileSearchBar').style.display = 'none';
-
+    const homeView = document.getElementById('homeView');
+    const ordersView = document.getElementById('ordersView');
     if (idx === 0) {
+        homeView.style.display = 'block';
+        ordersView.style.display = 'none';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (idx === 1) {
+        homeView.style.display = 'none';
+        ordersView.style.display = 'block';
         if (currentUser) {
-            openProfileModal();
-            const ordersTab = document.querySelectorAll('.profile-tab-item')[2];
-            if (ordersTab) switchTab('orders', ordersTab);
+            loadOrders('mobileOrdersList');
         } else {
+            showToast("Sign in to view orders");
             handleProfileClick();
+            homeView.style.display = 'block';
+            ordersView.style.display = 'none';
         }
     } else if (idx === 2) {
-        // Open the top search bar
+        homeView.style.display = 'block';
+        ordersView.style.display = 'none';
         document.getElementById('mobileSearchBar').style.display = 'block';
         setTimeout(() => {
             const mobileInput = document.getElementById('mobileSearchInput');
             if (mobileInput) mobileInput.focus();
         }, 50);
     } else if (idx === 3) {
+        homeView.style.display = 'block';
+        ordersView.style.display = 'none';
         handleProfileClick();
     }
 }
-
 // ── INIT ─────────────────────────────────────────────────────
 lucide.createIcons();
 generateShimmerCards(6);
