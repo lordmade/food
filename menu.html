@@ -702,7 +702,7 @@
         <div class="co-footer" id="coFooter"></div>
     </div>
 </div>
-<!-- BOTTOM NAV (MOBILE ONLY) - MATCHED EXACTLY FROM INDEX -->
+<!-- BOTTOM NAV (MOBILE ONLY) -->
 <nav class="bottom-nav" id="bottomNav">
     <button class="bottom-nav-item active" id="bnav0" onclick="bottomNavClick(0)"><i data-lucide="home"></i><span>Home</span></button>
     <button class="bottom-nav-item" id="bnav1" onclick="bottomNavClick(1)"><i data-lucide="receipt"></i><span>Orders</span></button>
@@ -1446,7 +1446,7 @@ window.handleCheckout = async () => {
     }
 };
 window.showToast=msg=>{ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); };
-// ── BOTTOM NAV MATCH FROM INDEX ───────────────────────────────
+// ── BOTTOM NAV - MATCHED FROM INDEX BUT NO REDIRECT FOR ORDERS/SEARCH/PROFILE ───────────────────────────────
 window.bottomNavClick = function(idx) {
     // Update active state on all nav items
     for(let i=0;i<4;i++){
@@ -1454,19 +1454,22 @@ window.bottomNavClick = function(idx) {
         if(el)el.classList.toggle('active',i===idx);
     }
     if(idx===0){
+        // Home - redirect to main app (only this one redirects)
         window.location.href = 'index.html';
     } else if(idx===1){
-        window.location.href = 'index.html';
+        // Orders - open on this page (no redirect)
+        showToast("Orders view is available in the main Home screen");
     } else if(idx===2){
-        // SEARCH — show search bar on this page
+        // Search - show search bar on this page (already implemented)
         const searchSection = document.getElementById('searchSection');
-        if(searchSection) searchSection.style.display = 'block';
-        const mobileInput = document.getElementById('searchInput');
-        if(mobileInput){
-            mobileInput.focus();
+        if(searchSection) searchSection.style.display = searchSection.style.display === 'block' ? 'none' : 'block';
+        if (searchSection.style.display === 'block') {
+            const input = document.getElementById('searchInput');
+            if(input) input.focus();
         }
     } else if(idx===3){
-        window.location.href = 'index.html';
+        // Profile - open on this page (no redirect)
+        showToast("Profile is available in the main Home screen");
     }
 };
 onAuthStateChanged(auth,user=>{
