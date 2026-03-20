@@ -40,7 +40,6 @@
         body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
         /* ANIMATIONS */
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         @keyframes spin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
@@ -56,7 +55,6 @@
         @keyframes checkmarkDraw { 0%{stroke-dashoffset:50;} 100%{stroke-dashoffset:0;} }
         @keyframes ripple { 0%{transform:scale(0);opacity:0.4;} 100%{transform:scale(4);opacity:0;} }
         @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
-
         .shimmer { background: linear-gradient(90deg, var(--shimmer-base) 25%, var(--shimmer-highlight) 50%, var(--shimmer-base) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
         .shimmer-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 5000; display: none; flex-direction: column; overflow-y: auto; }
         .shimmer-overlay.active { display: flex; }
@@ -79,10 +77,8 @@
         .shimmer-card-body { padding: 6px 8px 8px; }
         .shimmer-card-title { height: 11px; width: 80%; border-radius: 3px; margin-bottom: 5px; }
         .shimmer-card-price { height: 11px; width: 45%; border-radius: 3px; }
-
         /* APP */
         .app-container { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; width: 100vw; position: relative; }
-
         /* HEADER */
         .header { display: flex; align-items: center; justify-content: space-between; padding: 6px 14px; height: var(--header-height); background: var(--surface); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-light); gap: 10px; }
         .header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
@@ -95,7 +91,6 @@
         .action-btn:active { transform: scale(0.9); background: var(--surface2); }
         .action-btn i { width: 20px; height: 20px; }
         .cart-badge { position: absolute; top: 0; right: -2px; background: var(--accent); color: white; font-size: 0.6rem; font-weight: 700; padding: 1px 4px; border-radius: 8px; min-width: 14px; text-align: center; border: 1.5px solid var(--surface); line-height: 1.2; animation: pulse 2s infinite; }
-
         /* RESTAURANT HERO */
         .restaurant-hero { background: var(--surface); margin-bottom: 6px; }
         .restaurant-banner-wrap { position: relative; width: 100%; height: 160px; overflow: hidden; }
@@ -117,7 +112,6 @@
         .delivery-info-item .info-label { font-size: 0.65rem; color: var(--dim); font-weight: 500; }
         .restaurant-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
         .tag { padding: 3px 8px; background: var(--surface2); border-radius: 100px; font-size: 0.68rem; font-weight: 600; color: var(--dim); }
-
         /* SEARCH */
         .search-section { padding: 8px 14px; background: var(--surface); border-bottom: 1px solid var(--border-light); animation: fadeSlideIn 0.25s ease; }
         .search-input-wrap { display: flex; align-items: center; gap: 8px; background: var(--surface2); border-radius: var(--radius-xs); padding: 8px 10px; border: 1px solid var(--border-light); transition: var(--transition); }
@@ -125,7 +119,6 @@
         .search-input-wrap i { width: 16px; height: 16px; color: var(--dim); flex-shrink: 0; }
         .search-input { flex: 1; border: none; background: transparent; font-family: inherit; font-size: 0.82rem; color: var(--text); outline: none; }
         .search-input::placeholder { color: var(--dim); }
-
         /* CATEGORY TABS */
         .category-tabs { background: var(--surface); padding: 8px 0; position: sticky; top: var(--header-height); z-index: 100; border-bottom: 1px solid var(--border-light); }
         .tabs-scroll { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; padding: 0 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -133,7 +126,6 @@
         .tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 2px 8px rgba(6,193,103,0.3); }
         .tab-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
         .tab-btn:active { opacity: 0.75; transform: scale(0.95); }
-
         /* MENU */
         .menu-content { padding: 0 0 80px; flex: 1; }
         .menu-section { margin-bottom: 4px; background: var(--bg); }
@@ -150,7 +142,6 @@
         .menu-item-unavailable .menu-item-add-btn { background: var(--dim); pointer-events: none; }
         .menu-item-unavailable .menu-item-qty-btn:last-child { opacity: 0.5; pointer-events: none; }
         .menu-item-unavailable-badge { position: absolute; top: 5px; right: 5px; background: var(--dim); color: white; padding: 2px 6px; border-radius: 100px; font-size: 0.55rem; font-weight: 700; z-index: 2; }
-
         .menu-item-image-wrap { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; flex-shrink: 0; background: var(--surface2); }
         .menu-item-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
         .menu-list-item:hover .menu-item-image { transform: scale(1.07); }
@@ -174,15 +165,12 @@
         .menu-item-add-btn:active::after { animation:ripple 0.4s ease; }
         .menu-item-add-btn i { width: 13px; height: 13px; }
         .menu-item-qty-control { display: flex; align-items: center; background: var(--accent); border-radius: 100px; padding: 1px; box-shadow: 0 2px 5px rgba(6,193,103,0.25); }
-        .menu-item-qty-btn { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border: none; background: transparent; color: white; cursor: pointer; border-radius: 50%; transition: var(--transition); }
+        .menu-item-qty-btn { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border: none; background: transparent; cursor: pointer; color: white; transition: var(--transition); }
         .menu-item-qty-btn:active { background: rgba(255,255,255,0.2); }
-        .menu-item-qty-btn i { width: 11px; height: 11px; }
         .menu-item-qty-value { color: white; font-weight: 700; font-size: 0.7rem; min-width: 15px; text-align: center; }
-
         /* OVERLAY */
         .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1999; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(2px); }
         .cart-overlay.open { opacity: 1; visibility: visible; }
-
         /* EMPTY / NO RESULTS */
         .empty-state { display: none; text-align: center; padding: 50px 20px; color: var(--dim); }
         .empty-state.active { display: block; animation: fadeIn 0.4s ease; }
@@ -191,11 +179,9 @@
         .no-results { text-align: center; padding: 30px 20px; color: var(--dim); display: none; }
         .no-results.active { display: block; animation: fadeIn 0.3s ease; }
         .no-results i { width: 40px; height: 40px; margin-bottom: 10px; opacity: 0.3; }
-
         /* TOAST */
         #toast { position: fixed; bottom: calc(72px + var(--safe-bottom)); left: 50%; transform: translateX(-50%) translateY(200px); background: var(--text); color: white; padding: 8px 18px; border-radius: 100px; z-index: 6000; transition: transform 0.35s cubic-bezier(0.34,1.26,0.64,1); font-weight: 600; font-size: 0.78rem; box-shadow: 0 6px 20px rgba(0,0,0,0.3); max-width: 90vw; text-align: center; white-space: nowrap; }
         #toast.show { transform: translateX(-50%) translateY(0); }
-
         /* FLOATING CART BAR */
         .floating-cart-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1500; padding: 8px 14px; padding-bottom: calc(10px + var(--safe-bottom)); background: transparent; pointer-events: none; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease; transform: translateY(100%); opacity: 0; }
         .floating-cart-bar.visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
@@ -208,7 +194,6 @@
         .floating-cart-right { display: flex; align-items: center; gap: 4px; }
         .floating-cart-total { font-weight: 800; font-size: 0.86rem; letter-spacing: -0.01em; }
         .floating-cart-arrow { width: 16px; height: 16px; opacity: 0.85; }
-
         /* ITEM DETAIL SHEET */
         .item-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.52); z-index: 3000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
         .item-backdrop.open { opacity: 1; visibility: visible; }
@@ -279,7 +264,6 @@
         .item-sheet-add-btn:hover { background: var(--accent-dark); box-shadow: 0 4px 16px rgba(6,193,103,0.3); }
         .item-sheet-add-btn-left { display: flex; align-items: center; gap: 8px; }
         .item-sheet-add-btn-qty { background: rgba(255,255,255,0.25); border: 1.5px solid rgba(255,255,255,0.35); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; }
-
         /* CART DRAWER */
         .cart-drawer { position: fixed; right: 0; top: 0; bottom: 0; width: 100%; max-width: 400px; background: var(--bg); z-index: 2000; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1); display: flex; flex-direction: column; box-shadow: var(--shadow-lg); }
         .cart-drawer.open { transform: translateX(0); }
@@ -344,7 +328,6 @@
         .checkout-btn:disabled { background: var(--border); cursor: not-allowed; color: var(--dim); }
         .multi-restaurant-banner { background:#fff8e1;border:1px solid #ffe082;border-radius:var(--radius-xs);padding:10px 12px;font-size:0.76rem;font-weight:600;color:#7a5800;display:flex;align-items:flex-start;gap:8px;margin-bottom:2px; }
         .multi-restaurant-banner i { width:14px;height:14px;flex-shrink:0;margin-top:1px;color:#f59e0b; }
-
         /* CHECKOUT DRAWER */
         .checkout-drawer { position:absolute;inset:0;background:var(--bg);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);display:flex;flex-direction:column;z-index:10;overflow:hidden; }
         .checkout-drawer.open { transform:translateX(0); }
@@ -435,7 +418,6 @@
         .co-done-btn { width:100%;background:transparent;color:var(--dim);border:1.5px solid var(--border);padding:12px;border-radius:var(--radius-xs);font-family:inherit;font-weight:700;font-size:0.88rem;cursor:pointer;transition:var(--transition); }
         .co-done-btn:hover { background:var(--surface2); }
         .pop-in { animation: popIn 0.2s ease forwards; }
-
         @media (min-width: 768px) {
             .item-sheet { left: 50%; right: auto; bottom: auto; top: 50%; transform: translate(-50%, -50%) scale(0.93); width: 540px; max-width: calc(100vw - 48px); max-height: min(700px, 92dvh); border-radius: 20px; opacity: 0; transition: transform 0.3s cubic-bezier(0.34, 1.26, 0.64, 1), opacity 0.25s ease; }
             .item-sheet.open { transform: translate(-50%, -50%) scale(1); opacity: 1; }
@@ -456,10 +438,77 @@
         @media (min-width: 540px) { .menu-list { grid-template-columns: repeat(3, 1fr); } }
         @media (min-width: 900px) { .menu-list { grid-template-columns: repeat(4, 1fr); } }
         @media (min-width: 1200px) { .menu-list { grid-template-columns: repeat(5, 1fr); } }
+
+        /* ── BOTTOM NAV (MOBILE ONLY) ─────────────────────────── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: none;
+            z-index: 1600;
+            padding: 8px 0 12px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--dim);
+            transition: var(--transition);
+            padding: 4px 0;
+            touch-action: manipulation;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+        }
+        .bottom-nav-item i {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 2px;
+        }
+        .bottom-nav-item.active {
+            color: var(--accent);
+        }
+        .bottom-nav-item:active {
+            transform: scale(0.92);
+        }
+        @media (max-width:767px) {
+            .bottom-nav {
+                display: flex;
+            }
+            .bottom-nav-item {
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+            }
+            .bottom-nav-item.active {
+                animation: navPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .bottom-nav-item i {
+                transition: transform 0.3s ease;
+            }
+            .bottom-nav-item.active i {
+                animation: iconBounce 0.6s ease;
+            }
+        }
+        @keyframes navPop {
+            0% { transform: scale(0.85); }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-6px) scale(1.15); }
+        }
     </style>
 </head>
 <body>
-
 <!-- SHIMMER -->
 <div class="shimmer-overlay" id="shimmerOverlay">
     <div class="shimmer-header">
@@ -495,9 +544,7 @@
         </div>
     </div>
 </div>
-
 <div id="toast">Message</div>
-
 <!-- ITEM DETAIL SHEET -->
 <div class="item-backdrop" id="itemBackdrop" onclick="closeItemSheet()"></div>
 <div class="item-sheet" id="itemSheet" role="dialog" aria-modal="true" aria-labelledby="itemSheetName">
@@ -548,7 +595,6 @@
         </button>
     </div>
 </div>
-
 <!-- MAIN APP -->
 <div class="app-container">
     <header class="header">
@@ -564,7 +610,6 @@
             </button>
         </div>
     </header>
-
     <div class="restaurant-hero" id="restaurantHero" style="display:none;">
         <div class="restaurant-banner-wrap">
             <img class="restaurant-image" id="restaurantImage" src="" alt="">
@@ -585,20 +630,17 @@
             <div class="restaurant-tags" id="restaurantTags"></div>
         </div>
     </div>
-
     <div class="search-section" id="searchSection" style="display:none;">
         <div class="search-input-wrap">
             <i data-lucide="search"></i>
             <input type="text" class="search-input" id="searchInput" placeholder="Search menu..." oninput="handleSearch(this.value)">
         </div>
     </div>
-
     <div class="category-tabs" id="categoryTabs" style="display:none;">
         <div class="tabs-scroll no-scrollbar" id="tabsContainer">
             <button class="tab-btn active" onclick="filterCategory('all', this)">All</button>
         </div>
     </div>
-
     <main class="menu-content">
         <div class="empty-state" id="emptyState">
             <i data-lucide="package-open"></i>
@@ -613,7 +655,6 @@
         <div id="menuContainer"></div>
     </main>
 </div>
-
 <!-- FLOATING CART BAR -->
 <div class="floating-cart-bar" id="floatingCartBar" onclick="toggleCart()">
     <div class="floating-cart-inner">
@@ -627,10 +668,8 @@
         </div>
     </div>
 </div>
-
 <!-- CART OVERLAY -->
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-
 <!-- CART DRAWER -->
 <div class="cart-drawer" id="cartDrawer">
     <div class="cart-header">
@@ -648,7 +687,6 @@
         <div id="cartSummary"></div>
         <button class="checkout-btn" id="checkoutBtn" disabled onclick="openCheckoutDrawer()">Place Order</button>
     </div>
-
     <!-- CHECKOUT DRAWER -->
     <div class="checkout-drawer" id="checkoutDrawer">
         <div class="co-header">
@@ -664,12 +702,17 @@
         <div class="co-footer" id="coFooter"></div>
     </div>
 </div>
-
+<!-- BOTTOM NAV (MOBILE ONLY) - MATCHED EXACTLY FROM INDEX -->
+<nav class="bottom-nav" id="bottomNav">
+    <button class="bottom-nav-item active" id="bnav0" onclick="bottomNavClick(0)"><i data-lucide="home"></i><span>Home</span></button>
+    <button class="bottom-nav-item" id="bnav1" onclick="bottomNavClick(1)"><i data-lucide="receipt"></i><span>Orders</span></button>
+    <button class="bottom-nav-item" id="bnav2" onclick="bottomNavClick(2)"><i data-lucide="search"></i><span>Search</span></button>
+    <button class="bottom-nav-item" id="bnav3" onclick="bottomNavClick(3)"><i data-lucide="user"></i><span>Profile</span></button>
+</nav>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, get, set, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
 const firebaseConfig = {
     apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
     authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -679,59 +722,51 @@ const firebaseConfig = {
     messagingSenderId: "708458917827",
     appId: "1:708458917827:web:375de278577df0adcf9776"
 };
-
-const app  = initializeApp(firebaseConfig);
-const db   = getDatabase(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 const auth = getAuth(app);
-
 const urlParams = new URLSearchParams(window.location.search);
-const vendorId  = urlParams.get('vendor');
+const vendorId = urlParams.get('vendor');
 if (!vendorId) { showToast("No restaurant selected"); setTimeout(() => window.location.href = 'index.html', 2000); }
-
-let cart             = [];
-let allGroups        = {};
-let currentUser      = null;
-let currentUserId    = null;
-let allMenuItems     = [];
-let categories       = new Set(['all']);
-let vendorInfo       = null;
-let searchQuery      = '';
-let currentCategory  = 'all';
-let expandedGroups   = new Set();
-let activeSheetItem  = null;
-let sheetQty         = 1;
-
+let cart = [];
+let allGroups = {};
+let currentUser = null;
+let currentUserId = null;
+let allMenuItems = [];
+let categories = new Set(['all']);
+let vendorInfo = null;
+let searchQuery = '';
+let currentCategory = 'all';
+let expandedGroups = new Set();
+let activeSheetItem = null;
+let sheetQty = 1;
 // Checkout state
-let coStep           = 0;
-let selectedPayment  = 'cash';
+let coStep = 0;
+let selectedPayment = 'cash';
 let coDeliveryAddress = null;
-let coAnimDir        = 'forward';
-
+let coAnimDir = 'forward';
 // ================================================================
 // SUGGESTED ITEMS
 // ================================================================
-const SIDE_KW  = ['side','sides','fries','salad','salads','soup','soups','starter','starters','appetizer','appetizers','extra','extras','bread','rice','wedges','chips','coleslaw','onion ring'];
+const SIDE_KW = ['side','sides','fries','salad','salads','soup','soups','starter','starters','appetizer','appetizers','extra','extras','bread','rice','wedges','chips','coleslaw','onion ring'];
 const DRINK_KW = ['drink','drinks','beverage','beverages','juice','juices','soda','water','milkshake','smoothie','smoothies','cocktail','cocktails','coffee','tea','alcohol','beer','cola','lemonade','shake'];
-
 function bucketOf(item) {
     const hay = ((item.category || '') + ' ' + (item.name || '')).toLowerCase();
     if (DRINK_KW.some(k => hay.includes(k))) return 'drink';
-    if (SIDE_KW.some(k => hay.includes(k)))  return 'side';
+    if (SIDE_KW.some(k => hay.includes(k))) return 'side';
     return 'other';
 }
 const BUCKET_COLOR = { drink: '#1565c0', side: '#2e7d32', other: '#6d4c41' };
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
-
 function getSuggested(currentItem) {
     const pool = allMenuItems.filter(i => i.id !== currentItem.id);
     const sides = [], drinks = [], others = [];
     pool.forEach(i => { const b = bucketOf(i); if (b==='drink') drinks.push(i); else if (b==='side') sides.push(i); else others.push(i); });
     return { sides: shuffle(sides).slice(0,8), drinks: shuffle(drinks).slice(0,8), others: (sides.length===0&&drinks.length===0)?shuffle(others).slice(0,8):shuffle(others).slice(0,6) };
 }
-
 function sugCard(item) {
     const inCart = cart.some(c => c.itemId === item.id);
-    const color  = BUCKET_COLOR[bucketOf(item)];
+    const color = BUCKET_COLOR[bucketOf(item)];
     const onClick = item.status === 'available' ? `onclick="openItemSheet('${item.id}')"` : '';
     return `<div class="sug-card" ${onClick}>
         <div class="sug-card-img-wrap">
@@ -742,7 +777,7 @@ function sugCard(item) {
             <div class="sug-card-name">${item.name}</div>
             <div class="sug-card-bottom">
                 <span class="sug-card-price">R${item.price.toFixed(2)}</span>
-                ${item.status === 'available' 
+                ${item.status === 'available'
                     ? `<button class="sug-card-add ${inCart?'added':''}" id="sbtn-${item.id}" onclick="quickAddSuggested('${item.id}',event)" title="${inCart?'In cart':'Quick add'}">
                            <i data-lucide="${inCart?'check':'plus'}"></i>
                        </button>`
@@ -751,21 +786,19 @@ function sugCard(item) {
         </div>
     </div>`;
 }
-
 function renderSuggested(currentItem) {
     const { sides, drinks, others } = getSuggested(currentItem);
     const block = document.getElementById('suggestedBlock');
     if (!sides.length && !drinks.length && !others.length) { block.style.display='none'; return; }
     block.style.display = 'block';
-    const sidesG  = document.getElementById('sugSidesGroup');
+    const sidesG = document.getElementById('sugSidesGroup');
     const drinksG = document.getElementById('sugDrinksGroup');
-    const otherG  = document.getElementById('sugOtherGroup');
-    if (sides.length)  { sidesG.style.display='block';  document.getElementById('sugSidesList').innerHTML=sides.map(sugCard).join(''); } else sidesG.style.display='none';
+    const otherG = document.getElementById('sugOtherGroup');
+    if (sides.length) { sidesG.style.display='block'; document.getElementById('sugSidesList').innerHTML=sides.map(sugCard).join(''); } else sidesG.style.display='none';
     if (drinks.length) { drinksG.style.display='block'; document.getElementById('sugDrinksList').innerHTML=drinks.map(sugCard).join(''); } else drinksG.style.display='none';
-    if (others.length) { otherG.style.display='block';  document.getElementById('sugOtherList').innerHTML=others.map(sugCard).join(''); } else otherG.style.display='none';
+    if (others.length) { otherG.style.display='block'; document.getElementById('sugOtherList').innerHTML=others.map(sugCard).join(''); } else otherG.style.display='none';
     lucide.createIcons();
 }
-
 window.quickAddSuggested = async (itemId, e) => {
     e.stopPropagation();
     const item = allMenuItems.find(i=>i.id===itemId);
@@ -774,7 +807,6 @@ window.quickAddSuggested = async (itemId, e) => {
     const btn = document.getElementById(`sbtn-${itemId}`);
     if (btn) { btn.classList.add('added'); btn.innerHTML='<i data-lucide="check" style="width:11px;height:11px;"></i>'; lucide.createIcons(); }
 };
-
 // ================================================================
 // DRAG-TO-CLOSE
 // ================================================================
@@ -821,13 +853,11 @@ document.addEventListener('keydown', e => {
         else if (document.getElementById('checkoutDrawer').classList.contains('open') && coStep < 2) closeCheckoutDrawer();
     }
 });
-
 // ================================================================
 // SHIMMER
 // ================================================================
 function showShimmer() { document.getElementById('shimmerOverlay').classList.add('active'); document.body.style.overflow='hidden'; }
 function hideShimmer() { document.getElementById('shimmerOverlay').classList.remove('active'); document.body.style.overflow=''; }
-
 // ================================================================
 // LOAD MENU (modified to include all items regardless of status)
 // ================================================================
@@ -843,7 +873,6 @@ async function loadMenu() {
     } catch(e) { console.error(e); showToast("Failed to load menu"); showEmptyState(); }
     finally { setTimeout(hideShimmer,500); }
 }
-
 function displayVendorInfo(v) {
     document.getElementById('headerTitle').textContent=v.name||'Menu';
     document.getElementById('restaurantName').textContent=v.name||'Unnamed';
@@ -859,7 +888,6 @@ function displayVendorInfo(v) {
     document.getElementById('restaurantHero').style.display='block';
     lucide.createIcons();
 }
-
 // MODIFIED: include all items, store status
 function processAndDisplayMenu(data) {
     allMenuItems=[]; categories=new Set(['all']);
@@ -891,12 +919,10 @@ function processAndDisplayMenu(data) {
     document.getElementById('categoryTabs').style.display='block';
     renderMenuItems(allMenuItems,false);
 }
-
 // ================================================================
 // MENU RENDERING (modified to show unavailable items but not clickable)
 // ================================================================
 function getItemCartQty(itemId) { const i=cart.find(c=>c.itemId===itemId); return i?i.quantity:0; }
-
 function renderMenuItems(items,animate=true) {
     const container=document.getElementById('menuContainer'), noResults=document.getElementById('noResults');
     if (!items.length) { container.innerHTML=''; noResults.classList.add('active'); return; }
@@ -957,7 +983,6 @@ function renderMenuItems(items,animate=true) {
     lucide.createIcons();
     if (animate) setTimeout(()=>{ document.querySelectorAll('.menu-list.animating').forEach(el=>el.classList.remove('animating')); },300);
 }
-
 function refreshControl(itemId) {
     const el = document.getElementById(`add-control-${itemId}`); if(!el) return;
     const item = allMenuItems.find(i=>i.id===itemId); if(!item) return;
@@ -985,7 +1010,6 @@ function refreshControl(itemId) {
     }
     lucide.createIcons();
 }
-
 function showEmptyState() { document.getElementById('emptyState').classList.add('active'); document.getElementById('categoryTabs').style.display='none'; }
 function getFilteredItems() {
     let items=allMenuItems;
@@ -993,7 +1017,6 @@ function getFilteredItems() {
     if (searchQuery) items=items.filter(i=>i.name.toLowerCase().includes(searchQuery)||(i.description&&i.description.toLowerCase().includes(searchQuery)));
     return items;
 }
-
 window.filterCategory=(cat,btn)=>{ document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentCategory=cat; renderMenuItems(getFilteredItems(),true); };
 window.handleSearch=val=>{ searchQuery=val.toLowerCase().trim(); renderMenuItems(getFilteredItems(),false); };
 window.toggleSearch=()=>{
@@ -1004,7 +1027,6 @@ window.toggleSearch=()=>{
     lucide.createIcons();
 };
 window.goBack=()=>{ window.location.href='index.html'; };
-
 // ================================================================
 // ITEM SHEET (modified to block unavailable)
 // ================================================================
@@ -1021,8 +1043,8 @@ window.openItemSheet=itemId=>{
     descEl.textContent=item.description||''; descEl.style.display=item.description?'':'none';
     const chips=[];
     if (item.category) chips.push(`<span class="item-meta-chip category"><i data-lucide="tag"></i>${item.category}</span>`);
-    if (item.calories)  chips.push(`<span class="item-meta-chip calories"><i data-lucide="flame"></i>${item.calories} cal</span>`);
-    if (item.prepTime)  chips.push(`<span class="item-meta-chip prep"><i data-lucide="clock"></i>${item.prepTime} min prep</span>`);
+    if (item.calories) chips.push(`<span class="item-meta-chip calories"><i data-lucide="flame"></i>${item.calories} cal</span>`);
+    if (item.prepTime) chips.push(`<span class="item-meta-chip prep"><i data-lucide="clock"></i>${item.prepTime} min prep</span>`);
     document.getElementById('itemSheetMeta').innerHTML=chips.join('');
     document.getElementById('itemSheetPriceVal').textContent=item.price.toFixed(2);
     updateSheetQty();
@@ -1033,7 +1055,6 @@ window.openItemSheet=itemId=>{
     document.body.style.overflow='hidden';
     lucide.createIcons();
 };
-
 function updateSheetQty() {
     if (!activeSheetItem) return;
     document.getElementById('itemQtyMinus').disabled=sheetQty<=1;
@@ -1060,7 +1081,6 @@ window.addFromSheet=async()=>{
     refreshControl(item.id); updateCartUI();
     showToast(`${item.name} added to cart`); closeItemSheet();
 };
-
 // ================================================================
 // CART LOGIC
 // ================================================================
@@ -1068,13 +1088,11 @@ function getAllCartItems() { const all=[]; Object.values(allGroups).forEach(g=>{
 function getTotalItems() { return Object.values(allGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.quantity,0),0); }
 function getTotalPrice() { return Object.values(allGroups).reduce((s,g)=>{ const sub=(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0); return s+sub+parseFloat(g.deliveryFee||0); },0); }
 function calcPrepTime() { const all=getAllCartItems(); if(!all.length) return 0; return Math.ceil(all.reduce((s,i)=>s+(i.prepTime||0),0)/all.length); }
-
 function generateOrderNumber() {
     const ts=Date.now().toString(36).toUpperCase();
     const rand=Math.random().toString(36).substring(2,5).toUpperCase();
     return `VYX-${ts}-${rand}`;
 }
-
 window.addToCartById=async itemId=>{
     const menuItem=allMenuItems.find(i=>i.id===itemId); if(!menuItem) return;
     const existing=cart.find(i=>i.itemId===itemId);
@@ -1086,7 +1104,6 @@ window.addToCartById=async itemId=>{
     showToast(`${menuItem.name} added`);
 };
 window.addToCart=window.addToCartById;
-
 window.changeItemQty=async(itemId,delta)=>{
     const existing=cart.find(i=>i.itemId===itemId); if(!existing) return;
     existing.quantity+=delta;
@@ -1095,13 +1112,11 @@ window.changeItemQty=async(itemId,delta)=>{
     if (currentUserId) await saveCart();
     refreshControl(itemId); updateCartUI();
 };
-
 function syncCartToGroups() {
     if (cart.length>0) {
         allGroups[vendorId]={ vendorId, vendorName:vendorInfo?.name||'', vendorImage:vendorInfo?.imageURL||'', deliveryFee:parseFloat(vendorInfo?.deliveryFee||0), items:cart };
     } else { delete allGroups[vendorId]; }
 }
-
 // ================================================================
 // FIREBASE CART
 // ================================================================
@@ -1118,7 +1133,6 @@ async function saveCart() {
         allGroups=existingGroups;
     } catch(e) { console.error("Save cart error:",e); }
 }
-
 async function loadCart() {
     if (!currentUserId) return;
     try {
@@ -1135,7 +1149,6 @@ async function loadCart() {
         }
     } catch(e) { console.error("Load cart error:",e); }
 }
-
 // ================================================================
 // CART UI
 // ================================================================
@@ -1176,14 +1189,12 @@ function updateCartUI() {
     summaryEl.innerHTML=`${pt>0?`<div class="prep-time-badge"><i data-lucide="clock" style="width:12px;height:12px;"></i> ~${pt} min prep</div>`:''}<div class="cart-summary"><div class="cart-summary-row"><span>Subtotal (${totalItems} items)</span><span>R ${totalSub.toFixed(2)}</span></div><div class="cart-summary-row"><span>Delivery fee${vendorCount>1?'s':''}</span><span>${totalFees>0?`R ${totalFees.toFixed(2)}`:'Free'}</span></div>${vendorCount>1?`<div class="cart-summary-row"><span style="color:var(--dim);">${vendorCount} separate orders</span><span></span></div>`:''}<div class="cart-summary-row"><span>Total</span><span>R ${totalPrice.toFixed(2)}</span></div></div>`;
     lucide.createIcons();
 }
-
 window.toggleVendorGroup=gVendorId=>{
     if (expandedGroups.has(gVendorId)) expandedGroups.delete(gVendorId); else expandedGroups.add(gVendorId);
     const el=document.getElementById(`vgroup-${gVendorId}`); if(el) el.classList.toggle('expanded',expandedGroups.has(gVendorId));
     lucide.createIcons();
 };
 window.toggleCartGroup=()=>window.toggleVendorGroup(vendorId);
-
 window.updateCartItemQty=async(gVendorId,idx,qty)=>{
     if (!allGroups[gVendorId]) return;
     const itemId=allGroups[gVendorId].items[idx]?.itemId||null;
@@ -1195,7 +1206,6 @@ window.updateCartItemQty=async(gVendorId,idx,qty)=>{
     updateCartUI();
 };
 window.updateCartItemQuantity=async(idx,qty)=>window.updateCartItemQty(vendorId,idx,qty);
-
 window.toggleCart=()=>{
     const d=document.getElementById('cartDrawer'), o=document.getElementById('cartOverlay');
     const isOpen=d.classList.contains('open');
@@ -1206,7 +1216,6 @@ window.toggleCart=()=>{
     }
     else { Object.keys(allGroups).forEach(gid=>expandedGroups.add(gid)); d.classList.add('open'); o.classList.add('open'); document.body.style.overflow='hidden'; updateCartUI(); }
 };
-
 // ================================================================
 // CHECKOUT DRAWER
 // ================================================================
@@ -1217,12 +1226,10 @@ window.openCheckoutDrawer = () => {
     document.getElementById('checkoutDrawer').classList.add('open');
     lucide.createIcons();
 };
-
 window.closeCheckoutDrawer = () => {
     if(coStep===2) return;
     document.getElementById('checkoutDrawer').classList.remove('open');
 };
-
 window.coHandleBack = () => {
     if(coStep===0) { closeCheckoutDrawer(); return; }
     if(coStep===2) return;
@@ -1231,7 +1238,6 @@ window.coHandleBack = () => {
     renderCoStep();
     lucide.createIcons();
 };
-
 function animateCoBody() {
     const body=document.getElementById('coBody');
     body.classList.remove('step-enter','step-enter-back');
@@ -1239,7 +1245,6 @@ function animateCoBody() {
     body.classList.add(coAnimDir==='back'?'step-enter-back':'step-enter');
     setTimeout(()=>body.classList.remove('step-enter','step-enter-back'),350);
 }
-
 function renderCoStep() {
     const titles=['Review Order','Payment & Delivery','Order Placed!'];
     document.getElementById('coHeaderTitle').textContent=titles[coStep];
@@ -1258,7 +1263,6 @@ function renderCoStep() {
     else if(coStep===1) renderCoPayment();
     else renderCoSuccess();
 }
-
 function renderCoReview() {
     const body=document.getElementById('coBody'), footer=document.getElementById('coFooter');
     const ts=Object.values(allGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0),0);
@@ -1292,15 +1296,14 @@ function renderCoReview() {
     `;
     footer.innerHTML=`<button class="co-confirm-btn" onclick="coGoNext()"><i data-lucide="arrow-right"></i> Continue to Payment</button>`;
 }
-
 function renderCoPayment() {
     const body=document.getElementById('coBody'), footer=document.getElementById('coFooter');
     const ts=Object.values(allGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0),0);
     const tf=Object.values(allGroups).reduce((s,g)=>s+parseFloat(g.deliveryFee||0),0), total=ts+tf;
     const pays=[
-        {id:'cash',   icon:'banknote',     name:'Cash on Delivery',  sub:'Pay when your order arrives'},
-        {id:'card',   icon:'credit-card',  name:'Card on Delivery',  sub:'Swipe or tap at the door'},
-        {id:'wallet', icon:'smartphone',   name:'Digital Wallet',    sub:'SnapScan, Ozow & more'}
+        {id:'cash', icon:'banknote', name:'Cash on Delivery', sub:'Pay when your order arrives'},
+        {id:'card', icon:'credit-card', name:'Card on Delivery', sub:'Swipe or tap at the door'},
+        {id:'wallet', icon:'smartphone', name:'Digital Wallet', sub:'SnapScan, Ozow & more'}
     ];
     const defaultAddr=coDeliveryAddress||(currentUser?'':null);
     const addrH=`<div class="co-address-row">
@@ -1313,7 +1316,6 @@ function renderCoPayment() {
     <input type="text" class="co-addr-input" id="coAddrInput" placeholder="Enter delivery address…"
         value="${coDeliveryAddress||''}"
         oninput="coDeliveryAddress=this.value;const m=document.getElementById('coAddrMain');if(m)m.textContent=this.value||'Enter delivery address below'">`;
-
     body.innerHTML=`
         <div class="co-card">
             <div class="co-card-header"><div class="co-card-icon"><i data-lucide="map-pin"></i></div><span class="co-card-label">Delivery Address</span><span class="co-card-edit" id="coAddrEditBtn">Change</span></div>
@@ -1343,7 +1345,6 @@ function renderCoPayment() {
         <p class="co-terms">By placing your order you agree to our Terms of Service and Privacy Policy.</p>
     `;
     footer.innerHTML=`<button class="co-confirm-btn" id="coPlaceBtn" onclick="handleCheckout()"><i data-lucide="check-circle"></i> Place Order · R${total.toFixed(2)}</button>`;
-
     const eb=document.getElementById('coAddrEditBtn');
     if(eb) eb.addEventListener('click',()=>{
         const inp=document.getElementById('coAddrInput');
@@ -1353,13 +1354,11 @@ function renderCoPayment() {
             if(isHidden) { inp.focus(); inp.style.animation='fadeSlideIn 0.2s ease'; }
         }
     });
-
     if(!coDeliveryAddress) {
         const inp=document.getElementById('coAddrInput');
         if(inp) { inp.style.display='block'; }
     }
 }
-
 window.selectPayment = id => {
     selectedPayment=id;
     document.querySelectorAll('.co-pay-option').forEach(el=>{
@@ -1368,14 +1367,12 @@ window.selectPayment = id => {
     });
     lucide.createIcons();
 };
-
 window.coGoNext = () => {
     coAnimDir='forward';
     coStep=1;
     renderCoStep();
     lucide.createIcons();
 };
-
 function renderCoSuccess() {
     const body=document.getElementById('coBody'), footer=document.getElementById('coFooter');
     const total=getTotalPrice(), vc=Object.keys(allGroups).length||1;
@@ -1399,12 +1396,10 @@ function renderCoSuccess() {
         </div>`;
     footer.innerHTML=`<button class="co-track-btn" onclick="dismissCheckout()">Done</button>`;
 }
-
 window.dismissCheckout = () => {
     document.getElementById('checkoutDrawer').classList.remove('open');
     toggleCart();
 };
-
 window.handleCheckout = async () => {
     if (!currentUser) { showToast("Please sign in to place an order"); return; }
     if (getTotalItems()===0) { showToast("Cart is empty"); return; }
@@ -1416,32 +1411,30 @@ window.handleCheckout = async () => {
             const fee=parseFloat(group.deliveryFee||0);
             const orderNumber=generateOrderNumber();
             return set(push(ref(db,'orders')),{
-                vendorId:    gVendorId,
-                vendorKey:   gVendorId,
-                vendorName:  group.vendorName||'',
-                userId:      currentUserId,
+                vendorId: gVendorId,
+                vendorKey: gVendorId,
+                vendorName: group.vendorName||'',
+                userId: currentUserId,
                 customerName: currentUser.displayName||currentUser.email?.split('@')[0]||'Customer',
-                userEmail:   currentUser.email||'',
+                userEmail: currentUser.email||'',
                 orderNumber,
-                items:       group.items,
-                subtotal:    sub,
+                items: group.items,
+                subtotal: sub,
                 deliveryFee: fee,
-                total:       sub+fee,
+                total: sub+fee,
                 paymentMethod: selectedPayment,
                 deliveryAddress: coDeliveryAddress||'',
-                status:      'pending',
-                createdAt:   Date.now(),
-                updatedAt:   Date.now(),
+                status: 'pending',
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
                 estimatedPrepTime: calcPrepTime()
             });
         });
         await Promise.all(promises);
-
         coAnimDir='forward';
         coStep=2;
         renderCoStep();
         lucide.createIcons();
-
         allGroups={}; cart=[]; expandedGroups.clear();
         await set(ref(db,`carts/${currentUserId}`),{groups:{},updatedAt:Date.now()});
         updateCartUI();
@@ -1452,15 +1445,35 @@ window.handleCheckout = async () => {
         if(btn){ btn.disabled=false; btn.innerHTML='<i data-lucide="check-circle"></i> Place Order'; lucide.createIcons(); }
     }
 };
-
 window.showToast=msg=>{ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); };
-
+// ── BOTTOM NAV MATCH FROM INDEX ───────────────────────────────
+window.bottomNavClick = function(idx) {
+    // Update active state on all nav items
+    for(let i=0;i<4;i++){
+        const el=document.getElementById(`bnav${i}`);
+        if(el)el.classList.toggle('active',i===idx);
+    }
+    if(idx===0){
+        window.location.href = 'index.html';
+    } else if(idx===1){
+        window.location.href = 'index.html';
+    } else if(idx===2){
+        // SEARCH — show search bar on this page
+        const searchSection = document.getElementById('searchSection');
+        if(searchSection) searchSection.style.display = 'block';
+        const mobileInput = document.getElementById('searchInput');
+        if(mobileInput){
+            mobileInput.focus();
+        }
+    } else if(idx===3){
+        window.location.href = 'index.html';
+    }
+};
 onAuthStateChanged(auth,user=>{
     currentUser=user;
     if (user) { currentUserId=user.uid; loadCart(); }
     else { currentUserId=null; cart=[]; updateCartUI(); }
 });
-
 lucide.createIcons();
 loadMenu();
 </script>
