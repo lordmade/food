@@ -753,7 +753,8 @@ position:fixed;display:flex;flex-direction:column;overflow:hidden;background:var
 .main { padding:28px;padding-bottom:28px; }
 .restaurants-grid { grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px; }
 .cart-drawer { max-width:400px;border-left:1px solid var(--border); }
-.floating-cart-bar { left:var(--sidebar-width);padding:8px 22px;padding-bottom:calc(10px + var(--safe-bottom)); }
+/* ── FIX: floating cart bar left=0 on desktop (sidebar is always present in layout) ── */
+.floating-cart-bar { left:0;padding:8px 22px;padding-bottom:calc(10px + var(--safe-bottom)); }
 .promos-header { padding:0 28px 9px; }
 .promos-scroll { padding:4px 28px 12px; }
 .cat-arrow { display:flex; }
@@ -764,11 +765,11 @@ position:fixed;display:flex;flex-direction:column;overflow:hidden;background:var
 }
 @media (min-width:1024px){ .restaurants-grid { grid-template-columns:repeat(3,1fr); } }
 /* ── DESKTOP ACCOUNT BUTTON ─────────────────────────────── */
+/* FIX: Removed conflicting duplicate display:none — only display:flex here */
 #desktopAccountBtn {
-display: none;
+display: flex;
 width: 40px;
 height: 40px;
-display: flex;
 align-items: center;
 justify-content: center;
 background: var(--surface2);
@@ -778,6 +779,10 @@ cursor: pointer;
 color: var(--text);
 position: relative;
 transition: var(--transition);
+}
+/* Hide on mobile by default, show on desktop via media query above */
+@media (max-width:767px) {
+#desktopAccountBtn { display: none !important; }
 }
 #desktopAccountBtn:hover {
 background: var(--border);
@@ -1139,7 +1144,7 @@ justify-content: center;
 gap: 7px;
 margin-top: 14px;
 }
-/* Tracking steps (used inside delivery block) */
+/* Tracking steps */
 .tracking-step {
 display: flex;
 gap: 14px;
@@ -1245,24 +1250,11 @@ transition: var(--transition);
 z-index: 12;
 box-shadow: 0 2px 10px rgba(0,0,0,0.15);
 }
-.fav-like-btn:hover {
-transform: scale(1.1);
-}
-.fav-like-btn:active {
-transform: scale(0.9);
-}
-.fav-like-btn.liked {
-background: var(--heart);
-}
-.fav-like-btn.liked i {
-color: white;
-fill: white;
-}
-.fav-like-btn i {
-width: 20px;
-height: 20px;
-color: var(--dim);
-}
+.fav-like-btn:hover { transform: scale(1.1); }
+.fav-like-btn:active { transform: scale(0.9); }
+.fav-like-btn.liked { background: var(--heart); }
+.fav-like-btn.liked i { color: white; fill: white; }
+.fav-like-btn i { width: 20px; height: 20px; color: var(--dim); }
 .fav-eta {
 position: absolute;
 bottom: 10px;
@@ -1300,85 +1292,21 @@ align-items: center;
 justify-content: space-between;
 gap: 8px;
 }
-.fav-meta {
-color: var(--dim);
-font-size: 0.82rem;
-font-weight: 500;
-}
-.fav-rating-display {
-display: flex;
-align-items: center;
-gap: 4px;
-font-weight: 700;
-color: var(--yellow);
-font-size: 0.85rem;
-}
-.fav-likes-count {
-display: flex;
-align-items: center;
-gap: 4px;
-font-size: 0.76rem;
-color: var(--dim);
-font-weight: 600;
-}
-.fav-categories {
-display: flex;
-flex-wrap: wrap;
-gap: 4px;
-margin-top: 1px;
-}
-.fav-cat-tag {
-font-size: 0.67rem;
-font-weight: 600;
-padding: 2px 7px;
-border-radius: 6px;
-background: var(--surface2);
-color: var(--dim);
-border: 1px solid var(--border);
-}
+.fav-meta { color: var(--dim); font-size: 0.82rem; font-weight: 500; }
+.fav-rating-display { display: flex; align-items: center; gap: 4px; font-weight: 700; color: var(--yellow); font-size: 0.85rem; }
+.fav-likes-count { display: flex; align-items: center; gap: 4px; font-size: 0.76rem; color: var(--dim); font-weight: 600; }
+.fav-categories { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 1px; }
+.fav-cat-tag { font-size: 0.67rem; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: var(--surface2); color: var(--dim); border: 1px solid var(--border); }
 /* Loading State */
-.loading-state {
-text-align: center;
-padding: 36px 18px;
-color: var(--dim);
-}
-.loading-state i {
-width: 36px;
-height: 36px;
-opacity: 0.25;
-margin-bottom: 11px;
-animation: spin 1s linear infinite;
-}
-.loading-state p {
-font-weight: 600;
-font-size: 0.87rem;
-color: var(--text);
-margin-bottom: 3px;
-}
-.loading-state small {
-font-size: 0.75rem;
-}
+.loading-state { text-align: center; padding: 36px 18px; color: var(--dim); }
+.loading-state i { width: 36px; height: 36px; opacity: 0.25; margin-bottom: 11px; animation: spin 1s linear infinite; }
+.loading-state p { font-weight: 600; font-size: 0.87rem; color: var(--text); margin-bottom: 3px; }
+.loading-state small { font-size: 0.75rem; }
 /* Empty State */
-.empty-state {
-text-align: center;
-padding: 36px 18px;
-color: var(--dim);
-}
-.empty-state i {
-width: 36px;
-height: 36px;
-opacity: 0.25;
-margin-bottom: 11px;
-}
-.empty-state p {
-font-weight: 600;
-font-size: 0.87rem;
-color: var(--text);
-margin-bottom: 3px;
-}
-.empty-state small {
-font-size: 0.75rem;
-}
+.empty-state { text-align: center; padding: 36px 18px; color: var(--dim); }
+.empty-state i { width: 36px; height: 36px; opacity: 0.25; margin-bottom: 11px; }
+.empty-state p { font-weight: 600; font-size: 0.87rem; color: var(--text); margin-bottom: 3px; }
+.empty-state small { font-size: 0.75rem; }
 </style>
 </head>
 <body>
@@ -2243,25 +2171,11 @@ window.deleteAddress = async(id)=>{if(!currentUserId)return;if(confirm("Delete t
 window.addNewAddress = ()=>{const addr=prompt("Enter delivery address:");if(addr&&currentUserId){const newAddr={id:Date.now().toString(),address:addr,isDefault:userProfile.addresses.length===0};userProfile.addresses.push(newAddr);set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();}};
 // ── STATUS HELPERS ──
 function getStatusClass(status) {
-const map = {
-'pending': 'pending',
-'confirmed': 'confirmed',
-'preparing': 'preparing',
-'out_for_delivery': 'out-for-delivery',
-'delivered': 'delivered',
-'cancelled': 'cancelled'
-};
+const map = {'pending':'pending','confirmed':'confirmed','preparing':'preparing','out_for_delivery':'out-for-delivery','delivered':'delivered','cancelled':'cancelled'};
 return map[status] || 'pending';
 }
 function getStatusLabel(status) {
-const map = {
-'pending': 'Pending',
-'confirmed': 'Confirmed',
-'preparing': 'Preparing',
-'out_for_delivery': 'On the way',
-'delivered': 'Delivered',
-'cancelled': 'Cancelled'
-};
+const map = {'pending':'Pending','confirmed':'Confirmed','preparing':'Preparing','out_for_delivery':'On the way','delivered':'Delivered','cancelled':'Cancelled'};
 return map[status] || status.charAt(0).toUpperCase() + status.slice(1);
 }
 // ── BUILD DELIVERY BLOCK ───────────────────────
@@ -2345,50 +2259,15 @@ driverHTML = `
 </div>
 </div>`;
 } else if (o.status === 'preparing') {
-driverHTML = `
-<div style="margin:0 13px 13px;padding:10px 13px;background:rgba(6,193,103,0.06);border-radius:var(--radius-sm);border:1px solid rgba(6,193,103,0.18);display:flex;align-items:center;gap:9px;">
-<i data-lucide="chef-hat" style="width:18px;height:18px;color:var(--accent);flex-shrink:0;"></i>
-<div>
-<div style="font-size:0.78rem;font-weight:700;color:var(--text);">Kitchen is preparing your order</div>
-<div style="font-size:0.67rem;color:var(--dim);margin-top:2px;">A driver will be assigned shortly</div>
-</div>
-</div>`;
+driverHTML = `<div style="margin:0 13px 13px;padding:10px 13px;background:rgba(6,193,103,0.06);border-radius:var(--radius-sm);border:1px solid rgba(6,193,103,0.18);display:flex;align-items:center;gap:9px;"><i data-lucide="chef-hat" style="width:18px;height:18px;color:var(--accent);flex-shrink:0;"></i><div><div style="font-size:0.78rem;font-weight:700;color:var(--text);">Kitchen is preparing your order</div><div style="font-size:0.67rem;color:var(--dim);margin-top:2px;">A driver will be assigned shortly</div></div></div>`;
 } else if (o.status === 'confirmed') {
-driverHTML = `
-<div style="margin:0 13px 13px;padding:10px 13px;background:#e3f2fd;border-radius:var(--radius-sm);border:1px solid #90caf9;display:flex;align-items:center;gap:9px;">
-<i data-lucide="thumbs-up" style="width:18px;height:18px;color:#1565c0;flex-shrink:0;"></i>
-<div>
-<div style="font-size:0.78rem;font-weight:700;color:#1565c0;">Order confirmed by restaurant</div>
-<div style="font-size:0.67rem;color:#1565c0;opacity:0.75;margin-top:2px;">Getting ready to start cooking</div>
-</div>
-</div>`;
+driverHTML = `<div style="margin:0 13px 13px;padding:10px 13px;background:#e3f2fd;border-radius:var(--radius-sm);border:1px solid #90caf9;display:flex;align-items:center;gap:9px;"><i data-lucide="thumbs-up" style="width:18px;height:18px;color:#1565c0;flex-shrink:0;"></i><div><div style="font-size:0.78rem;font-weight:700;color:#1565c0;">Order confirmed by restaurant</div><div style="font-size:0.67rem;color:#1565c0;opacity:0.75;margin-top:2px;">Getting ready to start cooking</div></div></div>`;
 } else if (o.status === 'pending') {
-driverHTML = `
-<div style="margin:0 13px 13px;padding:10px 13px;background:#fff8e1;border-radius:var(--radius-sm);border:1px solid #ffe082;display:flex;align-items:center;gap:9px;">
-<i data-lucide="clock" style="width:18px;height:18px;color:#c07000;flex-shrink:0;animation:spin 3s linear infinite;"></i>
-<div>
-<div style="font-size:0.78rem;font-weight:700;color:#c07000;">Waiting for restaurant to confirm</div>
-<div style="font-size:0.67rem;color:#c07000;opacity:0.75;margin-top:2px;">This usually takes 1–3 minutes</div>
-</div>
-</div>`;
+driverHTML = `<div style="margin:0 13px 13px;padding:10px 13px;background:#fff8e1;border-radius:var(--radius-sm);border:1px solid #ffe082;display:flex;align-items:center;gap:9px;"><i data-lucide="clock" style="width:18px;height:18px;color:#c07000;flex-shrink:0;animation:spin 3s linear infinite;"></i><div><div style="font-size:0.78rem;font-weight:700;color:#c07000;">Waiting for restaurant to confirm</div><div style="font-size:0.67rem;color:#c07000;opacity:0.75;margin-top:2px;">This usually takes 1–3 minutes</div></div></div>`;
 } else if (isCompleted) {
-driverHTML = `
-<div style="margin:0 13px 13px;padding:10px 13px;background:#e8f5e9;border-radius:var(--radius-sm);border:1px solid #a5d6a7;display:flex;align-items:center;gap:9px;">
-<i data-lucide="package-check" style="width:18px;height:18px;color:#2e7d32;flex-shrink:0;"></i>
-<div>
-<div style="font-size:0.78rem;font-weight:700;color:#2e7d32;">Order delivered successfully</div>
-<div style="font-size:0.67rem;color:#2e7d32;opacity:0.75;margin-top:2px;">Delivered by ${driverName} · ${vehicle}</div>
-</div>
-</div>`;
+driverHTML = `<div style="margin:0 13px 13px;padding:10px 13px;background:#e8f5e9;border-radius:var(--radius-sm);border:1px solid #a5d6a7;display:flex;align-items:center;gap:9px;"><i data-lucide="package-check" style="width:18px;height:18px;color:#2e7d32;flex-shrink:0;"></i><div><div style="font-size:0.78rem;font-weight:700;color:#2e7d32;">Order delivered successfully</div><div style="font-size:0.67rem;color:#2e7d32;opacity:0.75;margin-top:2px;">Delivered by ${driverName} · ${vehicle}</div></div></div>`;
 } else if (isCancelled) {
-driverHTML = `
-<div style="margin:0 13px 13px;padding:10px 13px;background:#ffebee;border-radius:var(--radius-sm);border:1px solid #ef9a9a;display:flex;align-items:center;gap:9px;">
-<i data-lucide="x-circle" style="width:18px;height:18px;color:#c62828;flex-shrink:0;"></i>
-<div>
-<div style="font-size:0.78rem;font-weight:700;color:#c62828;">Order cancelled</div>
-<div style="font-size:0.67rem;color:#c62828;opacity:0.75;margin-top:2px;">Contact support if you were charged</div>
-</div>
-</div>`;
+driverHTML = `<div style="margin:0 13px 13px;padding:10px 13px;background:#ffebee;border-radius:var(--radius-sm);border:1px solid #ef9a9a;display:flex;align-items:center;gap:9px;"><i data-lucide="x-circle" style="width:18px;height:18px;color:#c62828;flex-shrink:0;"></i><div><div style="font-size:0.78rem;font-weight:700;color:#c62828;">Order cancelled</div><div style="font-size:0.67rem;color:#c62828;opacity:0.75;margin-top:2px;">Contact support if you were charged</div></div></div>`;
 }
 const sectionTitle = isCancelled ? 'Order Status' : (isCompleted ? 'Delivery Summary' : '🚀 Live Delivery Tracking');
 return `
@@ -2398,9 +2277,7 @@ ${sectionTitle}
 ${isActive?`<span style="display:inline-flex;align-items:center;gap:3px;margin-left:auto;font-size:0.6rem;background:var(--accent);color:white;padding:2px 7px;border-radius:100px;font-weight:700;"><span style="width:5px;height:5px;border-radius:50%;background:white;animation:pulse 1.5s infinite;display:inline-block;"></span> LIVE</span>`:''}
 </div>
 ${etaBarHTML}
-<div style="padding:13px 13px 4px;">
-${stepperHTML}
-</div>
+<div style="padding:13px 13px 4px;">${stepperHTML}</div>
 ${driverHTML}
 </div>`;
 }
@@ -2544,11 +2421,7 @@ window.doSignOut = ()=>{signOut(auth).then(()=>{closeAuthModals();closeProfileMo
 window.toggleSetting = async(key)=>{if(!currentUserId)return;const s=userProfile.settings||{};s[key]=!s[key];userProfile.settings=s;const el=document.getElementById(`toggle${key.charAt(0).toUpperCase()+key.slice(1)}`);if(el)el.classList.toggle('active',!!s[key]);try{await set(ref(db,`users/${currentUserId}`),userProfile);}catch(e){console.error(e);}};
 // ── SIDEBAR DATA MODAL FUNCTIONS ─────────────────────────────────────────────
 window.openSidebarOrders = ()=>{
-if(!currentUser){
-showToast("Sign in to view your orders");
-handleProfileClick();
-return;
-}
+if(!currentUser){showToast("Sign in to view your orders");handleProfileClick();return;}
 document.getElementById('sidebarDataModalTitle').textContent = 'My Orders';
 document.getElementById('sidebarDataModalOverlay').classList.add('active');
 document.getElementById('sidebarDataModal').classList.add('active');
@@ -2558,11 +2431,7 @@ renderOrders(allUserOrders, 'sidebarOrdersList');
 lucide.createIcons();
 };
 window.openSidebarFavorites = ()=>{
-if(!currentUser){
-showToast("Sign in to view your favorites");
-handleProfileClick();
-return;
-}
+if(!currentUser){showToast("Sign in to view your favorites");handleProfileClick();return;}
 document.getElementById('sidebarDataModalTitle').textContent = 'My Favorites';
 document.getElementById('sidebarDataModalOverlay').classList.add('active');
 document.getElementById('sidebarDataModal').classList.add('active');
@@ -2572,11 +2441,7 @@ renderFavorites();
 lucide.createIcons();
 };
 window.openSidebarWallet = ()=>{
-if(!currentUser){
-showToast("Sign in to access your wallet");
-handleProfileClick();
-return;
-}
+if(!currentUser){showToast("Sign in to access your wallet");handleProfileClick();return;}
 showToast("Wallet feature coming soon!");
 };
 window.switchSidebarDataTab = (tab, btn) => {
