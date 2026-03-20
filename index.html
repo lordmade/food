@@ -759,252 +759,9 @@
             .cat-arrow { display:flex; }
             .bottom-nav { display:none; }
             .mobile-search-bar { display: none !important; }
+            #profileBtn { display: flex; } /* ensure visible on desktop */
         }
         @media (min-width:1024px){ .restaurants-grid { grid-template-columns:repeat(3,1fr); } }
-
-        /* ── ORDERS LIST (MOBILE) ───────────────────────────────────── */
-        .order-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            margin-bottom: 16px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-        .order-card-header {
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-        }
-        .order-card-vendor-img {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        .order-card-vendor-placeholder {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: var(--surface2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .order-card-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .order-card-vendor-name {
-            font-size: 0.95rem;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-        .order-card-meta {
-            font-size: 0.78rem;
-            color: var(--dim);
-            margin-top: 2px;
-        }
-        .order-status-badge {
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 100px;
-            margin-left: auto;
-            align-self: flex-start;
-        }
-        .order-status-badge.pending { background: #fff3cd; color: #856404; }
-        .order-status-badge.confirmed { background: #d1fae5; color: #065f46; }
-        .order-status-badge.preparing { background: #dbeafe; color: #1e40af; }
-        .order-status-badge.out-for-delivery { background: #fef3c7; color: #854d0e; }
-        .order-status-badge.delivered { background: #d1fae5; color: #065f46; }
-        .order-status-badge.cancelled { background: #fee2e2; color: #991b1b; }
-        .order-card-right {
-            text-align: right;
-        }
-        .order-card-total {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: var(--text);
-        }
-        .order-card-chevron {
-            width: 20px;
-            height: 20px;
-            color: var(--dim);
-            transition: var(--transition);
-            margin-left: 8px;
-        }
-        .order-card.expanded .order-card-chevron {
-            transform: rotate(180deg);
-        }
-        .order-collapse {
-            display: none;
-            padding: 0 16px 16px;
-        }
-        .order-card.expanded .order-collapse {
-            display: block;
-        }
-        .order-collapse-inner {
-            border-top: 1px solid var(--border-light);
-            padding-top: 14px;
-        }
-        .order-item-row {
-            display: flex;
-            gap: 12px;
-            padding: 9px 0;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .order-item-row:last-child { border-bottom: none; }
-        .order-item-img {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-        .order-item-placeholder {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
-            background: var(--surface2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .order-item-info {
-            flex: 1;
-        }
-        .order-item-name {
-            font-weight: 600;
-            font-size: 0.82rem;
-        }
-        .order-item-desc {
-            font-size: 0.71rem;
-            color: var(--dim);
-        }
-        .order-item-qty-price {
-            text-align: right;
-            font-size: 0.8rem;
-        }
-        .order-item-qty {
-            font-weight: 600;
-            color: var(--accent);
-        }
-        .order-item-price {
-            font-weight: 700;
-        }
-        .order-summary-footer {
-            background: var(--surface2);
-            border-radius: var(--radius-xs);
-            padding: 11px 13px;
-            margin: 14px 0;
-        }
-        .order-summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.78rem;
-            margin-bottom: 4px;
-        }
-        .order-summary-row.total {
-            font-weight: 800;
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border);
-            padding-top: 8px;
-            margin-top: 8px;
-        }
-        .order-detail-section {
-            margin-top: 14px;
-        }
-        .order-detail-section-title {
-            font-size: 0.68rem;
-            font-weight: 700;
-            color: var(--dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 7px;
-        }
-        .order-detail-section-body {
-            background: var(--surface2);
-            border-radius: var(--radius-xs);
-            padding: 9px 0;
-        }
-        .order-details-row {
-            display: flex;
-            gap: 11px;
-            padding: 8px 13px;
-        }
-        .order-details-icon {
-            color: var(--accent);
-            width: 18px;
-        }
-        .order-details-label {
-            font-size: 0.71rem;
-            color: var(--dim);
-            font-weight: 600;
-        }
-        .order-details-value {
-            font-size: 0.82rem;
-            font-weight: 600;
-        }
-        .reorder-btn {
-            width: 100%;
-            background: var(--accent-light);
-            color: var(--accent-dark);
-            border: none;
-            padding: 11px;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            margin-top: 14px;
-        }
-        /* Tracking steps (used inside delivery block) */
-        .tracking-step {
-            display: flex;
-            gap: 14px;
-            margin-bottom: 14px;
-            position: relative;
-        }
-        .tracking-step:last-child { margin-bottom: 0; }
-        .tracking-step-dot {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--surface2);
-            border: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            z-index: 2;
-        }
-        .tracking-step.done .tracking-step-dot {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-        .tracking-step.active .tracking-step-dot {
-            background: var(--accent-light);
-            border-color: var(--accent);
-            animation: pulse 2s infinite;
-        }
-        .tracking-step-body {
-            flex: 1;
-        }
-        .tracking-step-label {
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-        .tracking-step-time {
-            font-size: 0.73rem;
-            color: var(--dim);
-        }
     </style>
 </head>
 <body>
@@ -1066,6 +823,10 @@
                     <button class="action-btn-compact" onclick="toggleCart()" aria-label="Cart">
                         <i data-lucide="shopping-bag"></i>
                         <span class="cart-badge" id="cartCount">0</span>
+                    </button>
+                    <!-- My Profile button - only visible on desktop -->
+                    <button class="action-btn-compact" onclick="handleProfileClick()" aria-label="Profile" id="profileBtn">
+                        <i data-lucide="user"></i>
                     </button>
                 </div>
             </div>
@@ -2113,7 +1874,7 @@ window.handleProfileClick = ()=>{if(currentUser){openProfileModal();}else{docume
 window.signInWithGoogle = async()=>{try{showToast("Signing in...");const r=await signInWithPopup(auth,googleProvider);closeAuthModals();showToast(`Welcome, ${r.user.displayName}!`);}catch{showToast("Sign in failed");}};
 window.confirmSignOut = ()=>{document.getElementById('signOutOverlay').classList.add('active');document.getElementById('signOutModal').classList.add('active');};
 window.doSignOut = ()=>{signOut(auth).then(()=>{closeAuthModals();closeProfileModal();showToast("Signed out");}).catch(()=>showToast("Sign out failed"));};
-window.toggleSetting = async(key)=>{if(!currentUserId)return;const s=userProfile.settings||{};s[key]=!s[key];userProfile.settings=s;const el=document.getElementById(`toggle${k.charAt(0).toUpperCase()+k.slice(1)}`);if(el)el.classList.toggle('active',!!s[key]);try{await set(ref(db,`users/${currentUserId}`),userProfile);}catch(e){console.error(e);}};
+window.toggleSetting = async(key)=>{if(!currentUserId)return;const s=userProfile.settings||{};s[key]=!s[key];userProfile.settings=s;const el=document.getElementById(`toggle${key.charAt(0).toUpperCase()+key.slice(1)}`);if(el)el.classList.toggle('active',!!s[key]);try{await set(ref(db,`users/${currentUserId}`),userProfile);}catch(e){console.error(e);}};
 // ── VENDOR CARDS ──────────────────────────────────────────────
 window.toggleLike = async(vid,event)=>{
     event.stopPropagation();
@@ -2201,7 +1962,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const c=document.getElementById('categoryFilters');
     if(c)c.addEventListener('scroll',updateFilterArrows);
 });
-// ── BOTTOM NAV — THE FIX: assigned to window so onclick="" can reach it ──────
+// ── BOTTOM NAV ───────────────────────────────────────────────
 window.bottomNavClick = function(idx) {
     for(let i=0;i<4;i++){
         const el=document.getElementById(`bnav${i}`);
