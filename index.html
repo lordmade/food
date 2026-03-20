@@ -987,7 +987,7 @@
                 </div>
             </div>
 
-            <!-- MOBILE-ONLY ORDERS VIEW (new, only on mobile) -->
+            <!-- MOBILE-ONLY ORDERS VIEW -->
             <div id="ordersView" style="display:none;">
                 <h2 class="section-title" style="margin-bottom:20px;padding:0 16px;">Your Orders</h2>
                 <div id="mobileOrdersList" style="padding:0 16px;"></div>
@@ -1646,7 +1646,10 @@ function getStatusClass(s){const m={pending:'status-pending',confirmed:'status-c
 function getStatusLabel(s){const m={pending:'Pending',confirmed:'Confirmed',preparing:'Preparing',out_for_delivery:'Out for Delivery',delivered:'Delivered',completed:'Completed',cancelled:'Cancelled'};return m[s]||s;}
 function renderOrders(orders, containerId = 'profileOrdersList'){
     const c=document.getElementById(containerId);if(!c)return;
-    if(!orders||!orders.length){c.innerHTML=`<div style="text-align:center;padding:36px 18px;color:var(--dim);"><i data-lucide="receipt" style="width:36px;height:36px;opacity:0.25;margin-bottom:11px;"></i><p style="font-weight:600;font-size:0.87rem;color:var(--text);margin-bottom:3px;">No orders yet</p><small style="font-size:0.75rem;">Your order history will appear here</small></div>`;lucide.createIcons();return;}
+    if(!orders||!orders.length){
+        c.innerHTML=`<div style="text-align:center;padding:60px 20px;color:var(--dim);"><i data-lucide="receipt" style="width:48px;height:48px;opacity:0.3;margin-bottom:16px;"></i><p style="font-weight:600;font-size:1.05rem;color:var(--text);">No orders yet</p><small style="font-size:0.82rem;">Your order history will appear here</small></div>`;
+        lucide.createIcons();return;
+    }
     c.innerHTML=orders.map(o=>{
         const date=new Date(o.createdAt||Date.now());
         const dateStr=date.toLocaleDateString('en-ZA',{day:'numeric',month:'short',year:'numeric'});
@@ -1661,7 +1664,6 @@ function renderOrders(orders, containerId = 'profileOrdersList'){
         const payLabel=o.paymentMethod==='card'?'Card on Delivery':o.paymentMethod==='wallet'?'Digital Wallet':'Cash on Delivery';
         const orderId=o.orderNumber||o.id?.substring(0,8)||'—';
 
-        // DRIVER + DELIVERY INFO (only for preparing / out_for_delivery)
         let deliverySection = '';
         if (['preparing','out_for_delivery'].includes(o.status)) {
             const driverNames = ['Sipho M.','Thabo K.','Lerato N.'];
@@ -1669,10 +1671,10 @@ function renderOrders(orders, containerId = 'profileOrdersList'){
             const driverName = driverNames[driverIdx];
             const isOut = o.status === 'out_for_delivery';
             deliverySection = `
-<div class="order-detail-section" style="margin-top:9px;">
+<div class="order-detail-section" style="margin-top:12px;">
     <div class="order-detail-section-title">Delivery &amp; Driver</div>
     <div class="order-detail-section-body">
-        <div class="driver-card" style="margin:0;padding:9px 13px;">
+        <div class="driver-card" style="margin:0;padding:11px 13px;">
             <div class="driver-avatar">${driverName.charAt(0)}</div>
             <div class="driver-info">
                 <div class="driver-name">${driverName}</div>
@@ -1724,9 +1726,25 @@ window.reorderItems=async(orderId,vendorId,event)=>{
     }catch(e){console.error(e);showToast("Reorder failed");}
 }
 async function loadOrders(containerId = 'profileOrdersList'){
-    if(!currentUserId)return;
-    try{const snap=await get(ref(db,'orders'));const orders=[];snap.forEach(child=>{const o=child.val();if(o.userId===currentUserId)orders.push({id:child.key,...o});});orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));renderOrders(orders.slice(0,20), containerId);if(containerId === 'profileOrdersList') loadTracking(orders);}
-    catch(e){const c=document.getElementById(containerId);if(c)c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;}
+    if(!currentUserId){
+        const c=document.getElementById(containerId);
+        if(c){
+            c.innerHTML=`<div style="text-align:center;padding:60px 20px;color:var(--dim);"><i data-lucide="log-in" style="width:48px;height:48px;opacity:0.3;margin-bottom:16px;"></i><p style="font-weight:600;font-size:1.05rem;color:var(--text);">Sign in to see your orders</p><button onclick="handleProfileClick()" style="margin-top:16px;padding:12px 24px;background:var(--accent);color:white;border:none;border-radius:12px;font-weight:700;">Sign In</button></div>`;
+            lucide.createIcons();
+        }
+        return;
+    }
+    try{
+        const snap=await get(ref(db,'orders'));
+        const orders=[];
+        snap.forEach(child=>{const o=child.val();if(o.userId===currentUserId)orders.push({id:child.key,...o});});
+        orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+        renderOrders(orders.slice(0,20), containerId);
+        if(containerId === 'profileOrdersList') loadTracking(orders);
+    }catch(e){
+        const c=document.getElementById(containerId);
+        if(c)c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;
+    }
 }
 // ── TRACKING ─────────────────────────────────────────────────
 function loadTracking(orders){
@@ -1867,6 +1885,7 @@ function bottomNavClick(idx) {
     document.getElementById('mobileSearchBar').style.display = 'none';
     const homeView = document.getElementById('homeView');
     const ordersView = document.getElementById('ordersView');
+
     if (idx === 0) {
         homeView.style.display = 'block';
         ordersView.style.display = 'none';
@@ -1874,14 +1893,7 @@ function bottomNavClick(idx) {
     } else if (idx === 1) {
         homeView.style.display = 'none';
         ordersView.style.display = 'block';
-        if (currentUser) {
-            loadOrders('mobileOrdersList');
-        } else {
-            showToast("Sign in to view orders");
-            handleProfileClick();
-            homeView.style.display = 'block';
-            ordersView.style.display = 'none';
-        }
+        loadOrders('mobileOrdersList');   // always called – handles logged-out state inside loadOrders
     } else if (idx === 2) {
         homeView.style.display = 'block';
         ordersView.style.display = 'none';
