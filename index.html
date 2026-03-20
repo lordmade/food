@@ -2021,43 +2021,45 @@ window.bottomNavClick = function(idx) {
     const homeView=document.getElementById('homeView');
     const ordersView=document.getElementById('ordersView');
     const mobileSearchBar=document.getElementById('mobileSearchBar');
+    const foodFilters=document.getElementById('foodFilters');
 
-    // Hide search bar by default; show only for Search tab
+    // Reset bars — re-shown selectively below
     mobileSearchBar.style.display='none';
 
     if(idx===0){
-        // HOME
+        // HOME — show food filters
         homeView.style.display='block';
         ordersView.style.display='none';
+        if(currentStoreType==='restaurant') foodFilters.style.display='block';
         window.scrollTo({top:0,behavior:'smooth'});
     } else if(idx===1){
-        // ORDERS
+        // ORDERS — hide food filters
         if(!currentUser){
             showToast("Sign in to view your orders");
             handleProfileClick();
-            // revert nav selection back to home
             for(let i=0;i<4;i++){const el=document.getElementById(`bnav${i}`);if(el)el.classList.toggle('active',i===0);}
             return;
         }
+        foodFilters.style.display='none';
         homeView.style.display='none';
         ordersView.style.display='block';
         loadOrders('mobileOrdersList');
         window.scrollTo({top:0,behavior:'smooth'});
     } else if(idx===2){
-        // SEARCH
+        // SEARCH — show food filters + search bar
         homeView.style.display='block';
         ordersView.style.display='none';
+        if(currentStoreType==='restaurant') foodFilters.style.display='block';
         mobileSearchBar.style.display='block';
-        // sync search value
         const mobileInput=document.getElementById('mobileSearchInput');
         if(mobileInput){
             mobileInput.value=searchTerm;
             setTimeout(()=>mobileInput.focus(),80);
         }
     } else if(idx===3){
-        // PROFILE
+        // PROFILE — modal overlay, restore food filters behind it
+        if(currentStoreType==='restaurant') foodFilters.style.display='block';
         handleProfileClick();
-        // revert nav back to previous state since profile is a modal
         for(let i=0;i<4;i++){const el=document.getElementById(`bnav${i}`);if(el)el.classList.toggle('active',i===idx);}
     }
 };
