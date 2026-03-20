@@ -49,7 +49,7 @@
         @keyframes tabSlideIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
         @keyframes bannerScroll { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
         @keyframes promoFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
-     
+
         /* ── BOTTOM NAV ANIMATIONS (MOBILE ONLY) ─────────────────────────── */
         @media (max-width:767px) {
             .bottom-nav-item {
@@ -74,7 +74,7 @@
             0%, 100% { transform: translateY(0px) scale(1); }
             50% { transform: translateY(-6px) scale(1.15); }
         }
-     
+
         /* ── SHIMMER OVERLAY ───────────────────────────────────── */
         .shimmer-overlay { position:fixed;inset:0;background:var(--bg);z-index:5000;display:none;flex-direction:column;overflow-y:auto; }
         .shimmer-overlay.active { display:flex; }
@@ -104,7 +104,7 @@
         .shimmer-card-footer { display:flex;justify-content:space-between;align-items:center;margin-top:2px; }
         .shimmer-card-price { height:14px;width:56px;border-radius:4px; }
         .shimmer-card-likes { height:14px;width:36px;border-radius:4px; }
-     
+
         /* ── APP LAYOUT ───────────────────────────────────────── */
         .app-container { display:flex;height:100vh;height:100dvh;width:100vw;position:relative; }
         .sidebar {
@@ -144,7 +144,7 @@
         }
         .sidebar-overlay.open { opacity:1;pointer-events:auto; }
         .main-wrapper { flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;position:relative;width:100%; }
-     
+
         /* ── HEADER — Uber-style ──────────────────────────────── */
         .header {
             display:flex;
@@ -187,7 +187,7 @@
             border-radius:10px;min-width:17px;text-align:center;border:2px solid var(--surface);
             display:none;animation:pulse 2s infinite;
         }
-     
+
         /* ── PILL ROW: location + search ─────────────────────── */
         .header-pill-row {
             display:flex;
@@ -257,7 +257,7 @@
             pointer-events:none;
         }
         .search-pill-icon i { width:16px;height:16px; }
-     
+
         /* ── MOBILE TOP SEARCH BAR (only appears when Search tab is active) ── */
         .mobile-search-bar {
             background: var(--surface);
@@ -267,7 +267,7 @@
             z-index: 999;
             box-shadow: 0 1px 0 var(--border);
         }
-     
+
         /* ── CATEGORY PILLS ───────────────────────────────────── */
         .categories-row { padding:0 0 10px;background:var(--surface);border-bottom:1px solid var(--border); }
         .categories-container { display:flex;align-items:center;position:relative; }
@@ -316,7 +316,7 @@
         .cat-btn.active { background:var(--text);color:white;border-color:var(--text); }
         .cat-btn:hover:not(.active) { transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.1);border-color:var(--dim); }
         .cat-btn:active { transform:scale(0.95); }
-     
+
         /* ── PROMOTIONS BANNER (INFINITE AUTO SCROLL) ─────────── */
         .promos-section { padding:14px 0 4px;background:var(--bg);overflow:hidden;display: block !important; }
         .promos-header { display:flex;align-items:center;justify-content:space-between;padding:0 16px 10px; }
@@ -368,7 +368,7 @@
         .promo-pink .promo-card-badge { background:#e91e63;color:white; }
         .promo-teal .promo-card-overlay { background:linear-gradient(to top, rgba(0,100,110,0.88) 0%, rgba(0,100,110,0.3) 60%, transparent 100%); }
         .promo-teal .promo-card-badge { background:#0891b2;color:white; }
-     
+
         /* ── BOTTOM NAV (MOBILE ONLY) ─────────────────────────── */
         .bottom-nav {
             position: fixed;
@@ -394,6 +394,10 @@
             transition: var(--transition);
             padding: 4px 0;
             touch-action: manipulation;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-family: inherit;
         }
         .bottom-nav-item i {
             width: 24px;
@@ -406,7 +410,7 @@
         .bottom-nav-item:active {
             transform: scale(0.92);
         }
-     
+
         /* ── MAIN CONTENT ─────────────────────────────────────── */
         .main { padding:20px 16px 120px;flex:1; }
         .section-title { font-size:1.15rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:6px; }
@@ -450,7 +454,7 @@
         #emptyState { display:none;text-align:center;padding:60px 20px;color:var(--dim);animation:fadeIn 0.4s ease; }
         #emptyState i { width:60px;height:60px;margin-bottom:18px;opacity:0.4; }
         #emptyState p:first-of-type { font-size:1.05rem;font-weight:600;margin-bottom:8px;color:var(--text); }
-     
+
         /* ── MODALS ───────────────────────────────────────────── */
         .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3000;display:none;opacity:0;transition:var(--transition);backdrop-filter:blur(4px); }
         .modal-overlay.active { display:block;opacity:1; }
@@ -492,7 +496,7 @@
         .modal-text{color:var(--dim);margin-bottom:22px;line-height:1.6;}
         .modal-actions{display:flex;gap:11px;margin-top:14px;}
         .modal-actions button{flex:1;}
-     
+
         /* ── FLOATING CART BAR ────────────────────────────────── */
         .floating-cart-bar { position:fixed;bottom:0;left:0;right:0;z-index:1500;padding:8px 14px;padding-bottom:calc(10px + var(--safe-bottom));background:transparent;pointer-events:none;transition:var(--transition);transform:translateY(100%);opacity:0; }
         .floating-cart-bar.visible { transform:translateY(0);opacity:1;pointer-events:auto; }
@@ -504,7 +508,7 @@
         .floating-cart-right { display:flex;align-items:center;gap:4px; }
         .floating-cart-total { font-weight:800;font-size:0.86rem; }
         .floating-cart-arrow { width:15px;height:15px;opacity:0.85; }
-     
+
         /* ── CART DRAWER ──────────────────────────────────────── */
         .cart-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1999;opacity:0;visibility:hidden;transition:var(--transition); }
         .cart-overlay.open { opacity:1;visibility:visible; }
@@ -568,7 +572,7 @@
         .checkout-btn:disabled { background:var(--border);cursor:not-allowed;color:var(--dim);transform:none;box-shadow:none; }
         .multi-restaurant-banner { background:#fff8e1;border:1px solid #ffe082;border-radius:var(--radius-xs);padding:9px 11px;font-size:0.73rem;font-weight:600;color:#7a5800;display:flex;align-items:flex-start;gap:7px;margin-bottom:2px; }
         .multi-restaurant-banner i { width:13px;height:13px;flex-shrink:0;margin-top:1px;color:#f59e0b; }
-     
+
         /* ── TOASTS ───────────────────────────────────────────── */
         #locToast { position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--text);color:white;padding:8px 14px 8px 11px;border-radius:100px;z-index:9000;transition:transform 0.38s cubic-bezier(0.34,1.26,0.64,1),opacity 0.3s ease;opacity:0;pointer-events:none;display:flex;align-items:center;gap:7px;font-size:0.78rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,0.25);max-width:calc(100vw - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
         #locToast.show { transform:translateX(-50%) translateY(0);opacity:1; }
@@ -576,7 +580,7 @@
         #locToast .loc-toast-text { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1; }
         #toast { position:fixed;bottom:calc(68px + var(--safe-bottom));left:50%;transform:translateX(-50%) translateY(200px);background:var(--text);color:white;padding:13px 22px;border-radius:12px;z-index:4000;transition:transform 0.3s ease;font-weight:600;font-size:0.92rem;box-shadow:0 8px 24px rgba(0,0,0,0.3);max-width:90vw;text-align:center; }
         #toast.show { transform:translateX(-50%) translateY(0); }
-     
+
         /* ── CHECKOUT DRAWER ──────────────────────────────────── */
         .checkout-drawer { position:absolute;inset:0;background:var(--bg);transform:translateX(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);display:flex;flex-direction:column;z-index:10;overflow:hidden; }
         .checkout-drawer.open { transform:translateX(0); }
@@ -657,7 +661,7 @@
         .co-track-btn:hover { background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 4px 16px rgba(6,193,103,0.3); }
         .co-done-btn { width:100%;background:transparent;color:var(--dim);border:1.5px solid var(--border);padding:11px;border-radius:var(--radius-xs);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;transition:var(--transition); }
         .co-done-btn:hover { background:var(--surface2); }
-     
+
         /* ── PROFILE MODAL ────────────────────────────────────── */
         #profileModal {
             position:fixed;display:flex;flex-direction:column;overflow:hidden;background:var(--surface);z-index:3001;box-shadow:0 -10px 40px rgba(0,0,0,0.2);pointer-events:none;visibility:hidden;
@@ -828,7 +832,7 @@
         .sign-out-btn { width:100%;background:#ffebee;color:var(--danger);border:1.5px solid rgba(255,59,48,0.2);padding:11px;border-radius:var(--radius-sm);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:var(--transition);margin-top:14px; }
         .sign-out-btn:hover { background:var(--danger);color:white; }
         .sign-out-btn i { width:15px;height:15px; }
-     
+
         /* ── RESPONSIVE ───────────────────────────────────────── */
         @media (max-width:767px){
             .header-pill-row { padding:0 12px 10px; }
@@ -837,7 +841,7 @@
             .bottom-nav { display:flex; }
             .main { padding-bottom: 92px; }
             #profileBtn { display: none; }
-            .mobile-search-bar { display: block; }
+            .mobile-search-bar { display: none; }
         }
         @media (min-width:768px){
             :root { --header-height:68px; }
@@ -846,7 +850,6 @@
             .menu-btn { display:none; }
             .header-topbar { padding:14px 28px; }
             .header-pill-row { padding:0 28px 13px;gap:10px; }
-            .categories-row { }
             .categories-scroll { padding:4px 28px; }
             .main { padding:28px;padding-bottom:28px; }
             .restaurants-grid { grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px; }
@@ -911,7 +914,6 @@
     <div class="main-wrapper">
         <!-- HEADER -->
         <header class="header">
-            <!-- Top bar -->
             <div class="header-topbar">
                 <div class="header-topbar-left">
                     <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu"><i data-lucide="menu"></i></button>
@@ -942,9 +944,9 @@
                     <input type="text" class="search-pill-input" id="searchInput" placeholder="Search restaurants, food…" oninput="handleSearch(this.value)">
                 </div>
             </div>
-            <!-- MOBILE TOP SEARCH BAR (shown only when Search tab active) -->
+            <!-- MOBILE TOP SEARCH BAR -->
             <div class="mobile-search-bar" id="mobileSearchBar">
-                <div class="search-pill">
+                <div class="search-pill" style="display:flex;">
                     <div class="search-pill-icon"><i data-lucide="search"></i></div>
                     <input type="text" class="search-pill-input" id="mobileSearchInput" placeholder="Search restaurants, food…" oninput="handleSearch(this.value)">
                 </div>
@@ -960,17 +962,14 @@
         </header>
         <!-- MAIN CONTENT -->
         <main class="main">
-            <!-- HOME VIEW (unchanged) -->
+            <!-- HOME VIEW -->
             <div id="homeView">
-                <!-- PROMOTIONS BANNER -->
                 <section class="promos-section" id="promosSection">
                     <div class="promos-header">
                         <span class="promos-title">🔥 Deals &amp; Specials</span>
                         <button class="promos-see-all">See all</button>
                     </div>
-                    <div class="promos-scroll" id="promosScroll">
-                        <!-- Dynamically populated from Firebase with infinite marquee -->
-                    </div>
+                    <div class="promos-scroll" id="promosScroll"></div>
                 </section>
                 <div id="emptyState">
                     <i data-lucide="package-open"></i>
@@ -986,11 +985,10 @@
                     <div class="restaurants-grid" id="restaurantsGrid"></div>
                 </div>
             </div>
-
             <!-- MOBILE-ONLY ORDERS VIEW -->
             <div id="ordersView" style="display:none;">
-                <h2 class="section-title" style="margin-bottom:20px;padding:0 16px;">Your Orders</h2>
-                <div id="mobileOrdersList" style="padding:0 16px;"></div>
+                <h2 class="section-title" style="margin-bottom:20px;">Your Orders</h2>
+                <div id="mobileOrdersList"></div>
             </div>
         </main>
     </div>
@@ -1163,16 +1161,18 @@
     </div>
 </div>
 <!-- BOTTOM NAV (MOBILE ONLY) -->
-<div class="bottom-nav" id="bottomNav">
-    <div class="bottom-nav-item active" onclick="bottomNavClick(0)"><i data-lucide="home"></i><span>Home</span></div>
-    <div class="bottom-nav-item" onclick="bottomNavClick(1)"><i data-lucide="receipt"></i><span>Orders</span></div>
-    <div class="bottom-nav-item" onclick="bottomNavClick(2)"><i data-lucide="search"></i><span>Search</span></div>
-    <div class="bottom-nav-item" onclick="bottomNavClick(3)"><i data-lucide="user"></i><span>Profile</span></div>
-</div>
+<nav class="bottom-nav" id="bottomNav">
+    <button class="bottom-nav-item active" id="bnav0" onclick="bottomNavClick(0)"><i data-lucide="home"></i><span>Home</span></button>
+    <button class="bottom-nav-item" id="bnav1" onclick="bottomNavClick(1)"><i data-lucide="receipt"></i><span>Orders</span></button>
+    <button class="bottom-nav-item" id="bnav2" onclick="bottomNavClick(2)"><i data-lucide="search"></i><span>Search</span></button>
+    <button class="bottom-nav-item" id="bnav3" onclick="bottomNavClick(3)"><i data-lucide="user"></i><span>Profile</span></button>
+</nav>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, set, push, remove, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
     authDomain: "pinotp-d7ef5.firebaseapp.com",
@@ -1187,6 +1187,7 @@ const db = getDatabase(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
+
 const MASTER_CATEGORIES = [
     {label:"Pizza",emoji:"🍕"},{label:"Burgers",emoji:"🍔"},{label:"Sushi",emoji:"🍣"},
     {label:"Healthy",emoji:"🥗"},{label:"Desserts",emoji:"🍰"},{label:"Coffee",emoji:"☕"},
@@ -1197,42 +1198,41 @@ const MASTER_CATEGORIES = [
 ];
 const categoryEmojiMap = {};
 MASTER_CATEGORIES.forEach(c => { categoryEmojiMap[c.label] = c.emoji; });
+
 // ── DELIVERY FEE ENGINE ─────────────────────────────────────
-let deliveryFeeConfig = {
-    ratePerKm: 10,
-    minimumFee: 15,
-    maximumFee: 120,
-    freeThreshold: 0,
-};
+let deliveryFeeConfig = { ratePerKm: 10, minimumFee: 15, maximumFee: 120, freeThreshold: 0 };
+
 function loadDeliveryFeeConfig() {
-    const dbRef = ref(db, 'deliveryFeeConfig');
-    onValue(dbRef, snap => {
+    onValue(ref(db, 'deliveryFeeConfig'), snap => {
         const data = snap.val();
         if (data) Object.assign(deliveryFeeConfig, data);
     });
 }
+
 function haversineDistanceKm(lat1, lng1, lat2, lng2) {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+    const R = 6371, dLat = (lat2 - lat1) * Math.PI / 180, dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
+
 function calcDeliveryFee(distanceKm, orderTotal = 0, cfg = deliveryFeeConfig) {
     const { ratePerKm, minimumFee, maximumFee, freeThreshold } = cfg;
     if (freeThreshold > 0 && orderTotal >= freeThreshold) return { fee: 0, isFree: true };
-    let raw = distanceKm * ratePerKm;
-    let fee = raw;
+    let fee = distanceKm * ratePerKm;
     if (minimumFee > 0 && fee < minimumFee) fee = minimumFee;
     if (maximumFee > 0 && fee > maximumFee) fee = maximumFee;
     return { fee, isFree: false };
 }
-// ── PROMOTIONS (real-time from Firebase) ─────────────────────
+
+function calcDeliveryFeeByCoords(vLat, vLng, uLat, uLng, orderTotal = 0) {
+    const dist = haversineDistanceKm(vLat, vLng, uLat, uLng);
+    return calcDeliveryFee(dist, orderTotal);
+}
+
+// ── PROMOTIONS ─────────────────────────────────────────────
 let promosCache = {};
 function loadPromos() {
-    const promosRef = ref(db, 'promotions');
-    onValue(promosRef, snap => {
+    onValue(ref(db, 'promotions'), snap => {
         promosCache = snap.val() || {};
         renderPromos();
     });
@@ -1243,20 +1243,19 @@ function renderPromos() {
     const marquee = document.getElementById('promoMarquee');
     let html = '';
     Object.values(promosCache).forEach(p => {
-        html += `
-            <div class="promo-card ${p.colorClass || 'promo-green'}" onclick="showToast('Promo applied!')">
-                <img class="promo-card-bg" src="${p.img || 'https://via.placeholder.com/300x120?text=Promo'}" alt="${p.title}" loading="lazy">
-                <div class="promo-card-overlay">
-                    <span class="promo-card-badge">${p.badge || ''}</span>
-                    <div class="promo-card-title">${p.title || 'Deal'}</div>
-                    <div class="promo-card-sub">${p.sub || ''}</div>
-                </div>
-            </div>`;
+        html += `<div class="promo-card ${p.colorClass||'promo-green'}" onclick="showToast('Promo applied!')">
+            <img class="promo-card-bg" src="${p.img||'https://via.placeholder.com/300x120?text=Promo'}" alt="${p.title}" loading="lazy">
+            <div class="promo-card-overlay">
+                <span class="promo-card-badge">${p.badge||''}</span>
+                <div class="promo-card-title">${p.title||'Deal'}</div>
+                <div class="promo-card-sub">${p.sub||''}</div>
+            </div></div>`;
     });
     marquee.innerHTML = html + html;
     lucide.createIcons();
 }
-// ── REST OF THE CODE ──
+
+// ── STATE ──────────────────────────────────────────────────
 let allVendors=[], cartGroups={}, expandedGroups=new Set();
 let currentStoreType='restaurant', currentFilter='all', searchTerm="";
 let currentUser=null, currentUserId=null, userLikes=new Set();
@@ -1266,12 +1265,33 @@ let searchRadius=10, selectedRadius=10;
 let coStep=0, selectedPayment='cash', coDeliveryAddress=null;
 let userProfile={name:'',phone:'',addresses:[],settings:{notif:true,loc:true,sms:false,promo:true}};
 let expandedOrders=new Set();
+
+// ── TOAST ──────────────────────────────────────────────────
+let toastTimer;
+window.showToast = (msg) => {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+};
+
+function showLocToast(msg) {
+    const el = document.getElementById('locToast');
+    document.getElementById('locToastText').textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+// ── CART HELPERS ───────────────────────────────────────────
 function getAllCartItems(){const a=[];Object.values(cartGroups).forEach(g=>{if(g.items)g.items.forEach(i=>a.push(i));});return a;}
 function getTotalItems(){return Object.values(cartGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.quantity,0),0);}
 function getTotalPrice(){return Object.values(cartGroups).reduce((s,g)=>{const sub=(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0);return s+sub+parseFloat(g.deliveryFee||0);},0);}
 function calcPrepTime(){const a=getAllCartItems();if(!a.length)return 0;return Math.ceil(a.reduce((s,i)=>s+(i.prepTime||0),0)/a.length);}
+
 async function saveCart(){if(!currentUserId)return;try{await set(ref(db,`carts/${currentUserId}`),{groups:JSON.parse(JSON.stringify(cartGroups)),updatedAt:Date.now()});}catch(e){console.error(e);}}
 async function clearCart(){if(!currentUserId)return;try{await set(ref(db,`carts/${currentUserId}`),{groups:{},updatedAt:Date.now()});}catch(e){console.error(e);}}
+
 async function fetchMenuItemsMap(vid){
     try{const snap=await get(ref(db,`vendors/${vid}/menu`));if(!snap.exists())return{};const d=snap.val(),map={};
     const proc=cat=>{if(!cat||!cat.items)return;const its=Array.isArray(cat.items)?cat.items:Object.values(cat.items);its.forEach(item=>{if(item&&item.name)map[item.name.toLowerCase().trim()]=item;});};
@@ -1287,6 +1307,7 @@ async function ensureVendorInfo(vid){
     try{const s=await get(ref(db,`vendors/${vid}`));if(s.exists()){vendorInfoCache[vid]=s.val();return vendorInfoCache[vid];}}catch(e){}
     return null;
 }
+
 function subscribeToCart(){
     if(!currentUserId)return;
     onValue(ref(db,`carts/${currentUserId}`),async snap=>{
@@ -1308,6 +1329,7 @@ function subscribeToCart(){
         cartGroups={};updateCartUI();
     });
 }
+
 function updateCartUI(){
     const body=document.getElementById('cartBody'),countEl=document.getElementById('cartCount');
     const checkoutBtn=document.getElementById('checkoutBtn'),summaryEl=document.getElementById('cartSummary');
@@ -1343,34 +1365,36 @@ function updateCartUI(){
     summaryEl.innerHTML=`${pt>0?`<div class="prep-time-badge"><i data-lucide="clock" style="width:11px;height:11px;"></i> ~${pt} min prep</div>`:''}<div class="cart-summary"><div class="cart-summary-row"><span>Subtotal (${totalItems} items)</span><span>R ${ts.toFixed(2)}</span></div><div class="cart-summary-row"><span>Delivery fee${vendorCount>1?'s':''}</span><span>${tf>0?`R ${tf.toFixed(2)}`:'Free'}</span></div>${vendorCount>1?`<div class="cart-summary-row"><span style="color:var(--dim);">${vendorCount} separate orders</span><span></span></div>`:''}<div class="cart-summary-row"><span>Total</span><span>R ${totalPrice.toFixed(2)}</span></div></div>`;
     lucide.createIcons();
 }
-window.toggleVendorGroup=vid=>{
+
+window.toggleVendorGroup = vid => {
     if(expandedGroups.has(vid))expandedGroups.delete(vid);else expandedGroups.add(vid);
     const el=document.getElementById(`vgroup-${vid}`);
     if(el)el.classList.toggle('expanded',expandedGroups.has(vid));
     lucide.createIcons();
 };
-window.updateCartItemQty=async(vid,idx,qty)=>{
+window.updateCartItemQty = async(vid,idx,qty)=>{
     if(!cartGroups[vid])return;
     if(qty<1){cartGroups[vid].items.splice(idx,1);if(cartGroups[vid].items.length===0){delete cartGroups[vid];expandedGroups.delete(vid);}}
     else{cartGroups[vid].items[idx].quantity=qty;}
     await saveCart();updateCartUI();
 };
-window.toggleCart=()=>{
+window.toggleCart = ()=>{
     const d=document.getElementById('cartDrawer'),o=document.getElementById('cartOverlay'),isOpen=d.classList.contains('open');
     if(isOpen){d.classList.remove('open');o.classList.remove('open');document.body.style.overflow='';}
     else{if(Object.keys(cartGroups).length===1)expandedGroups.add(Object.keys(cartGroups)[0]);d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';updateCartUI();}
 };
-window.openCheckoutDrawer=()=>{
+window.openCheckoutDrawer = ()=>{
     if(getTotalItems()===0)return;
     coStep=0;selectedPayment='cash';coDeliveryAddress=null;
     renderCoStep();
     document.getElementById('checkoutDrawer').classList.add('open');
     lucide.createIcons();
 };
-window.closeCheckoutDrawer=()=>{
+window.closeCheckoutDrawer = ()=>{
     if(coStep===2)return;
     document.getElementById('checkoutDrawer').classList.remove('open');
 };
+
 function renderCoStep(){
     const body=document.getElementById('coBody'),footer=document.getElementById('coFooter');
     const titles=['Review Order','Payment & Delivery','Order Placed!'];
@@ -1406,7 +1430,7 @@ function renderCoPayment(body,footer){
     const eb=document.getElementById('coAddrEditBtn');
     if(eb)eb.addEventListener('click',()=>{const inp=document.getElementById('coAddrInput');if(inp){inp.style.display=inp.style.display==='none'?'block':'none';if(inp.style.display==='block')inp.focus();}});
 }
-window.selectPayment=id=>{
+window.selectPayment = id=>{
     selectedPayment=id;
     document.querySelectorAll('.co-pay-option').forEach(el=>el.classList.toggle('selected',el.getAttribute('onclick').includes(`'${id}'`)));
     lucide.createIcons();
@@ -1418,49 +1442,24 @@ function renderCoSuccess(body,footer){
     body.innerHTML=`<div class="co-success"><div class="co-success-ring"><i data-lucide="check"></i></div><div class="co-success-title">Order Confirmed!</div><div class="co-success-sub">${vc>1?`Your ${vc} orders have`:'Your order has'} been placed successfully.<br>The restaurant${vc>1?'s are':'is'} preparing your food.</div><div class="co-success-id">Order ${orderId}</div><div class="co-success-items">${rows}</div><div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:9px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:0.75rem;color:var(--dim);">Total charged</span><span style="font-size:0.88rem;font-weight:800;color:var(--text);">R${total.toFixed(2)}</span></div><div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:9px 13px;display:flex;gap:7px;align-items:center;"><i data-lucide="clock" style="width:13px;height:13px;color:var(--accent);flex-shrink:0;"></i><span style="font-size:0.75rem;color:var(--text);">Estimated delivery: <strong>25–40 min</strong></span></div></div>`;
     footer.innerHTML=`<button class="co-track-btn" onclick="dismissCheckout()">Done</button>`;
 }
-window.dismissCheckout=()=>{document.getElementById('checkoutDrawer').classList.remove('open');toggleCart();};
-window.handleCheckout=async()=>{
+window.dismissCheckout = ()=>{document.getElementById('checkoutDrawer').classList.remove('open');toggleCart();};
+window.handleCheckout = async()=>{
     if(!currentUser){showToast("Please sign in");handleProfileClick();return;}
     if(getTotalItems()===0){showToast("Cart is empty");return;}
     const btn=document.getElementById('coPlaceBtn');
     if(btn){btn.disabled=true;btn.innerHTML='<i data-lucide="loader-2" style="animation:spin 1s linear infinite;"></i> Placing order…';lucide.createIcons();}
     try{
-        const deliveryAddress = coDeliveryAddress || userProfile.addresses.find(a=>a.isDefault)?.address || userLocation.address || '';
-        if (!deliveryAddress) {
-            showToast("Please set a delivery address");
-            return;
-        }
-     
+        const deliveryAddress=coDeliveryAddress||userProfile.addresses.find(a=>a.isDefault)?.address||userLocation.address||'';
+        if(!deliveryAddress){showToast("Please set a delivery address");if(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="check-circle"></i> Place Order';lucide.createIcons();}return;}
         const promises=Object.entries(cartGroups).map(([gVid,group])=>{
             const sub=(group.items||[]).reduce((s,i)=>s+i.price*i.quantity,0),fee=parseFloat(group.deliveryFee||0);
-            const vendor = allVendors.find(v => v.key === gVid);
-            let calculatedDeliveryFee = fee;
-         
-            if (vendor && vendor.lat && vendor.lng && userLocation.lat && userLocation.lng) {
-                const calc = calcDeliveryFeeByCoords(vendor.lat, vendor.lng, userLocation.lat, userLocation.lng, sub);
-                calculatedDeliveryFee = calc.fee;
+            const vendor=allVendors.find(v=>v.key===gVid);
+            let calculatedDeliveryFee=fee;
+            if(vendor&&vendor.lat&&vendor.lng&&userLocation.lat&&userLocation.lng){
+                const calc=calcDeliveryFeeByCoords(vendor.lat,vendor.lng,userLocation.lat,userLocation.lng,sub);
+                calculatedDeliveryFee=calc.fee;
             }
-         
-            return set(push(ref(db,'orders')),{
-                userId:currentUserId,
-                vendorId:gVid,
-                vendorKey:gVid,
-                vendorName:group.vendorName||'',
-                vendorImage:group.vendorImage||'',
-                vendorLat:vendor?.lat || null,
-                vendorLng:vendor?.lng || null,
-                items:group.items,
-                subtotal:sub,
-                deliveryFee:calculatedDeliveryFee,
-                total:sub+calculatedDeliveryFee,
-                paymentMethod:selectedPayment,
-                deliveryAddress,
-                deliveryLat:userLocation.lat,
-                deliveryLng:userLocation.lng,
-                status:'pending',
-                createdAt:Date.now(),
-                estimatedPrepTime:calcPrepTime()
-            });
+            return set(push(ref(db,'orders')),{userId:currentUserId,vendorId:gVid,vendorKey:gVid,vendorName:group.vendorName||'',vendorImage:group.vendorImage||'',vendorLat:vendor?.lat||null,vendorLng:vendor?.lng||null,items:group.items,subtotal:sub,deliveryFee:calculatedDeliveryFee,total:sub+calculatedDeliveryFee,paymentMethod:selectedPayment,deliveryAddress,deliveryLat:userLocation.lat,deliveryLng:userLocation.lng,status:'pending',createdAt:Date.now(),estimatedPrepTime:calcPrepTime()});
         });
         await Promise.all(promises);
         coStep=2;renderCoStep();lucide.createIcons();
@@ -1468,13 +1467,7 @@ window.handleCheckout=async()=>{
         await clearCart();updateCartUI();
     }catch(e){console.error(e);showToast("Order failed");if(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="check-circle"></i> Place Order';lucide.createIcons();}}
 };
-// ── LOCATION TOAST ───────────────────────────────────────────
-function showLocToast(msg){
-    const el=document.getElementById('locToast');
-    document.getElementById('locToastText').textContent=msg;
-    el.classList.add('show');
-    setTimeout(()=>el.classList.remove('show'),3200);
-}
+
 // ── FILTERS & VENDORS ────────────────────────────────────────
 function buildCategoryFilters(){
     const c=document.getElementById('categoryFilters');
@@ -1492,14 +1485,15 @@ function vendorMatchesCategory(vendor,fc){
     if(fc==='all')return true;
     return getVendorCategories(vendor).some(cat=>cat.toLowerCase()===fc.toLowerCase());
 }
-function generateShimmerCards(n=6){const g=document.getElementById('shimmerGrid');g.innerHTML='';for(let i=0;i<n;i++){const c=document.createElement('div');c.className='shimmer-card';c.innerHTML=`<div class="shimmer shimmer-card-image"></div><div class="shimmer-card-content"><div class="shimmer-card-header"><div class="shimmer shimmer-card-title"></div><div class="shimmer shimmer-card-rating"></div></div><div class="shimmer shimmer-card-meta"></div><div class="shimmer-card-footer"><div class="shimmer shimmer-card-price"></div><div class="shimmer shimmer-card-likes"></div></div></div>`;g.appendChild(c);}}
+function generateShimmerCards(n=6){const g=document.getElementById('shimmerGrid');if(!g)return;g.innerHTML='';for(let i=0;i<n;i++){const c=document.createElement('div');c.className='shimmer-card';c.innerHTML=`<div class="shimmer shimmer-card-image"></div><div class="shimmer-card-content"><div class="shimmer-card-header"><div class="shimmer shimmer-card-title"></div><div class="shimmer shimmer-card-rating"></div></div><div class="shimmer shimmer-card-meta"></div><div class="shimmer-card-footer"><div class="shimmer shimmer-card-price"></div><div class="shimmer shimmer-card-likes"></div></div></div>`;g.appendChild(c);}}
 function showShimmer(){generateShimmerCards(6);document.getElementById('shimmerOverlay').classList.add('active');document.body.style.overflow='hidden';}
 function hideShimmer(){document.getElementById('shimmerOverlay').classList.remove('active');document.body.style.overflow='';}
-window.toggleSidebar=()=>{document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('open');};
-window.openLocationModal=()=>{document.getElementById('locationModalOverlay').classList.add('active');document.getElementById('locationModal').classList.add('active');document.getElementById('modalLocationInput').focus();};
-window.closeLocationModal=()=>{document.getElementById('locationModalOverlay').classList.remove('active');document.getElementById('locationModal').classList.remove('active');};
-window.selectRadius=(r)=>{selectedRadius=r;document.querySelectorAll('.radius-option').forEach(o=>o.classList.toggle('selected',parseInt(o.dataset.value)===r));updateRadius(r);};
-window.detectCurrentLocation=async()=>{
+
+window.toggleSidebar = ()=>{document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('open');};
+window.openLocationModal = ()=>{document.getElementById('locationModalOverlay').classList.add('active');document.getElementById('locationModal').classList.add('active');document.getElementById('modalLocationInput').focus();};
+window.closeLocationModal = ()=>{document.getElementById('locationModalOverlay').classList.remove('active');document.getElementById('locationModal').classList.remove('active');};
+window.selectRadius = (r)=>{selectedRadius=r;document.querySelectorAll('.radius-option').forEach(o=>o.classList.toggle('selected',parseInt(o.dataset.value)===r));updateRadius(r);};
+window.detectCurrentLocation = async()=>{
     const btn=document.getElementById('detectBtn');
     if(!navigator.geolocation){showToast("Geolocation not supported");return;}
     btn.classList.add('loading');
@@ -1514,18 +1508,18 @@ window.detectCurrentLocation=async()=>{
         finally{btn.classList.remove('loading');}
     },(err)=>{btn.classList.remove('loading');showToast(err.code===err.PERMISSION_DENIED?"Location permission denied":"Unable to get location");},{enableHighAccuracy:true,timeout:10000,maximumAge:0});
 };
+
 function setUserLocation(lat,lng,address){
     userLocation={lat,lng,address};
     document.getElementById('locationDisplay').textContent=address;
     document.getElementById('modalLocationInput').value=address;
-    const plv=document.getElementById('profileLocationValue');
-    if(plv)plv.textContent=address;
-    const pli=document.getElementById('profileLocationInput');
-    if(pli)pli.value=address;
+    const plv=document.getElementById('profileLocationValue');if(plv)plv.textContent=address;
+    const pli=document.getElementById('profileLocationInput');if(pli)pli.value=address;
     showLocToast(`📍 ${address}`);
     applyFilters();
 }
-window.updateRadius=(r)=>{searchRadius=parseInt(r);showLocToast(`Radius set to ${r} km`);applyFilters();};
+window.updateRadius = (r)=>{searchRadius=parseInt(r);showLocToast(`Radius set to ${r} km`);applyFilters();};
+
 let debounceTimer;
 document.getElementById('modalLocationInput').addEventListener('input',e=>{
     clearTimeout(debounceTimer);const q=e.target.value;
@@ -1541,19 +1535,25 @@ function displaySuggestions(suggestions){
     c.innerHTML=suggestions.map(f=>{const addr=f.properties?.full_address||f.properties?.name||'Unknown';const[lng,lat]=f.geometry.coordinates;return`<div class="suggestion-item" onclick="selectLocation(${lat},${lng},'${addr.replace(/'/g,"\\'")}')"><i data-lucide="map-pin"></i><span>${addr}</span></div>`;}).join('');
     lucide.createIcons();
 }
-window.selectLocation=(lat,lng,address)=>{setUserLocation(lat,lng,address);closeLocationModal();};
+window.selectLocation = (lat,lng,address)=>{setUserLocation(lat,lng,address);closeLocationModal();};
+
 function calculateDistance(la1,lo1,la2,lo2){const R=6371,dL=(la2-la1)*Math.PI/180,dLo=(lo2-lo1)*Math.PI/180,a=Math.sin(dL/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
-window.setStoreType=(type,btn)=>{currentStoreType=type;document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('foodFilters').style.display=type==='restaurant'?'block':'none';document.getElementById('searchInput').placeholder=`Search for ${type}…`;searchTerm="";document.getElementById('searchInput').value="";currentFilter="all";buildCategoryFilters();toggleSidebar();applyFilters();};
+
+window.setStoreType = (type,btn)=>{
+    currentStoreType=type;
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('foodFilters').style.display=type==='restaurant'?'block':'none';
+    document.getElementById('searchInput').placeholder=`Search for ${type}…`;
+    searchTerm="";document.getElementById('searchInput').value="";
+    currentFilter="all";buildCategoryFilters();toggleSidebar();applyFilters();
+};
+
 // ── AUTH ─────────────────────────────────────────────────────
 onAuthStateChanged(auth,user=>{
     currentUser=user;currentUserId=user?user.uid:null;
-    if(user){
-        loadUserLikes(user.uid);loadUserProfile(user.uid);subscribeToCart();
-    }else{
-        userLikes.clear();cartGroups={};
-        userProfile={name:'',phone:'',addresses:[],settings:{notif:true,loc:true,sms:false,promo:true}};
-        updateCartUI();lucide.createIcons();
-    }
+    if(user){loadUserLikes(user.uid);loadUserProfile(user.uid);subscribeToCart();}
+    else{userLikes.clear();cartGroups={};userProfile={name:'',phone:'',addresses:[],settings:{notif:true,loc:true,sms:false,promo:true}};updateCartUI();lucide.createIcons();}
 });
 function loadUserLikes(uid){onValue(ref(db,`userLikes/${uid}`),snap=>{userLikes.clear();if(snap.exists())Object.keys(snap.val()).forEach(v=>userLikes.add(v));applyFilters();});}
 function loadUserProfile(uid){
@@ -1582,22 +1582,20 @@ function updateProfileHero(){
     ['notif','loc','sms','promo'].forEach(k=>{const el=document.getElementById(`toggle${k.charAt(0).toUpperCase()+k.slice(1)}`);if(el)el.classList.toggle('active',!!s[k]);});
     renderProfileAddresses();
 }
-window.saveProfileDetails=async()=>{
+window.saveProfileDetails = async()=>{
     if(!currentUserId)return;
     userProfile.name=document.getElementById('profileNameInput').value;
     userProfile.phone=document.getElementById('profilePhoneInput').value;
     try{await set(ref(db,`users/${currentUserId}`),userProfile);document.getElementById('profileHeroName').textContent=userProfile.name;showToast("Profile updated ✓");}
     catch(e){showToast("Failed to update");}
 };
-window.toggleLocationEditForm=()=>{
-    const form=document.getElementById('locationEditForm');
-    form.classList.toggle('open');
+window.toggleLocationEditForm = ()=>{
+    const form=document.getElementById('locationEditForm');form.classList.toggle('open');
     if(form.classList.contains('open')){const inp=document.getElementById('profileLocationInput');if(inp){inp.value=userLocation.address||'';inp.focus();}}
     lucide.createIcons();
 };
-window.saveProfileLocation=async()=>{
-    const inp=document.getElementById('profileLocationInput');
-    const addr=inp?.value?.trim();
+window.saveProfileLocation = async()=>{
+    const inp=document.getElementById('profileLocationInput');const addr=inp?.value?.trim();
     if(!addr){showToast("Please enter an address");return;}
     document.getElementById('profileLocationValue').textContent=addr;
     document.getElementById('locationDisplay').textContent=addr;
@@ -1605,24 +1603,21 @@ window.saveProfileLocation=async()=>{
     document.getElementById('locationEditForm').classList.remove('open');
     showToast("Location updated ✓");applyFilters();
 };
-window.detectAndSetLocation=async()=>{
+window.detectAndSetLocation = async()=>{
     if(!navigator.geolocation){showToast("Geolocation not supported");return;}
     showToast("Detecting location...");
     navigator.geolocation.getCurrentPosition(async pos=>{
         const{latitude:lat,longitude:lng}=pos.coords;
         try{
             const res=await fetch(`https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&access_token=${MAPBOX_TOKEN}&limit=1`);
-            const d=await res.json();
-            const addr=d.features?.[0]?.properties?.full_address||'Current Location';
+            const d=await res.json();const addr=d.features?.[0]?.properties?.full_address||'Current Location';
             setUserLocation(lat,lng,addr);
-            const inp=document.getElementById('profileLocationInput');
-            if(inp)inp.value=addr;
+            const inp=document.getElementById('profileLocationInput');if(inp)inp.value=addr;
         }catch{showToast("Could not get address");}
     },()=>showToast("Location denied"),{enableHighAccuracy:true,timeout:8000});
 };
 function renderProfileAddresses(){
-    const c=document.getElementById('profileAddressesList');
-    if(!c)return;
+    const c=document.getElementById('profileAddressesList');if(!c)return;
     if(!userProfile.addresses||!userProfile.addresses.length){c.innerHTML=`<p style="text-align:center;color:var(--dim);font-size:0.79rem;padding:11px 0 3px;">No saved addresses yet.</p>`;return;}
     c.innerHTML=userProfile.addresses.map(addr=>`
     <div class="address-card ${addr.isDefault?'selected':''}">
@@ -1638,18 +1633,17 @@ function renderProfileAddresses(){
     </div>`).join('');
     lucide.createIcons();
 }
-window.setDefaultAddress=async(id)=>{if(!currentUserId)return;userProfile.addresses.forEach(a=>a.isDefault=(a.id===id));await set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();};
-window.deleteAddress=async(id)=>{if(!currentUserId)return;if(confirm("Delete this address?")){userProfile.addresses=userProfile.addresses.filter(a=>a.id!==id);if(userProfile.addresses.length>0&&!userProfile.addresses.some(a=>a.isDefault))userProfile.addresses[0].isDefault=true;await set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();}};
-window.addNewAddress=()=>{const addr=prompt("Enter delivery address:");if(addr&&currentUserId){const newAddr={id:Date.now().toString(),address:addr,isDefault:userProfile.addresses.length===0};userProfile.addresses.push(newAddr);set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();}};
-// ── ORDERS ───────────────────────────────────────────────────
+window.setDefaultAddress = async(id)=>{if(!currentUserId)return;userProfile.addresses.forEach(a=>a.isDefault=(a.id===id));await set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();};
+window.deleteAddress = async(id)=>{if(!currentUserId)return;if(confirm("Delete this address?")){userProfile.addresses=userProfile.addresses.filter(a=>a.id!==id);if(userProfile.addresses.length>0&&!userProfile.addresses.some(a=>a.isDefault))userProfile.addresses[0].isDefault=true;await set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();}};
+window.addNewAddress = ()=>{const addr=prompt("Enter delivery address:");if(addr&&currentUserId){const newAddr={id:Date.now().toString(),address:addr,isDefault:userProfile.addresses.length===0};userProfile.addresses.push(newAddr);set(ref(db,`users/${currentUserId}`),userProfile);renderProfileAddresses();}};
+
+// ── ORDERS ────────────────────────────────────────────────────
 function getStatusClass(s){const m={pending:'status-pending',confirmed:'status-confirmed',preparing:'status-preparing',out_for_delivery:'status-out_for_delivery',delivered:'status-delivered',completed:'status-completed',cancelled:'status-cancelled'};return m[s]||'status-pending';}
 function getStatusLabel(s){const m={pending:'Pending',confirmed:'Confirmed',preparing:'Preparing',out_for_delivery:'Out for Delivery',delivered:'Delivered',completed:'Completed',cancelled:'Cancelled'};return m[s]||s;}
-function renderOrders(orders, containerId = 'profileOrdersList'){
+
+function renderOrders(orders, containerId='profileOrdersList'){
     const c=document.getElementById(containerId);if(!c)return;
-    if(!orders||!orders.length){
-        c.innerHTML=`<div style="text-align:center;padding:60px 20px;color:var(--dim);"><i data-lucide="receipt" style="width:48px;height:48px;opacity:0.3;margin-bottom:16px;"></i><p style="font-weight:600;font-size:1.05rem;color:var(--text);">No orders yet</p><small style="font-size:0.82rem;">Your order history will appear here</small></div>`;
-        lucide.createIcons();return;
-    }
+    if(!orders||!orders.length){c.innerHTML=`<div style="text-align:center;padding:36px 18px;color:var(--dim);"><i data-lucide="receipt" style="width:36px;height:36px;opacity:0.25;margin-bottom:11px;"></i><p style="font-weight:600;font-size:0.87rem;color:var(--text);margin-bottom:3px;">No orders yet</p><small style="font-size:0.75rem;">Your order history will appear here</small></div>`;lucide.createIcons();return;}
     c.innerHTML=orders.map(o=>{
         const date=new Date(o.createdAt||Date.now());
         const dateStr=date.toLocaleDateString('en-ZA',{day:'numeric',month:'short',year:'numeric'});
@@ -1663,29 +1657,13 @@ function renderOrders(orders, containerId = 'profileOrdersList'){
         const payIcon=o.paymentMethod==='card'?'credit-card':o.paymentMethod==='wallet'?'smartphone':'banknote';
         const payLabel=o.paymentMethod==='card'?'Card on Delivery':o.paymentMethod==='wallet'?'Digital Wallet':'Cash on Delivery';
         const orderId=o.orderNumber||o.id?.substring(0,8)||'—';
-
-        let deliverySection = '';
-        if (['preparing','out_for_delivery'].includes(o.status)) {
-            const driverNames = ['Sipho M.','Thabo K.','Lerato N.'];
-            const driverIdx = Math.abs((o.id || '').charCodeAt(0) || 0) % driverNames.length;
-            const driverName = driverNames[driverIdx];
-            const isOut = o.status === 'out_for_delivery';
-            deliverySection = `
-<div class="order-detail-section" style="margin-top:12px;">
-    <div class="order-detail-section-title">Delivery &amp; Driver</div>
-    <div class="order-detail-section-body">
-        <div class="driver-card" style="margin:0;padding:11px 13px;">
-            <div class="driver-avatar">${driverName.charAt(0)}</div>
-            <div class="driver-info">
-                <div class="driver-name">${driverName}</div>
-                <div class="driver-vehicle">${isOut ? 'Motorcycle • On the way' : 'Driver assigning soon'}</div>
-                ${isOut ? `<div class="driver-rating" style="margin-top:4px;"><i data-lucide="star" style="width:10px;height:10px;"></i> 4.9</div>` : ''}
-            </div>
-        </div>
-    </div>
-</div>`;
+        let deliverySection='';
+        if(['preparing','out_for_delivery'].includes(o.status)){
+            const driverNames=['Sipho M.','Thabo K.','Lerato N.'];
+            const driverIdx=Math.abs((o.id||'').charCodeAt(0)||0)%driverNames.length;
+            const driverName=driverNames[driverIdx],isOut=o.status==='out_for_delivery';
+            deliverySection=`<div class="order-detail-section" style="margin-top:9px;"><div class="order-detail-section-title">Delivery &amp; Driver</div><div class="order-detail-section-body"><div class="driver-card" style="margin:0;padding:9px 13px;"><div class="driver-avatar">${driverName.charAt(0)}</div><div class="driver-info"><div class="driver-name">${driverName}</div><div class="driver-vehicle">${isOut?'Motorcycle · On the way':'Driver assigning soon'}</div>${isOut?`<div class="driver-rating" style="margin-top:4px;"><i data-lucide="star" style="width:10px;height:10px;"></i> 4.9</div>`:''}</div></div></div></div>`;
         }
-
         return`<div class="order-card ${isExpanded?'expanded':''}" id="ocard-${o.id}">
             <div class="order-card-header" onclick="toggleOrder('${o.id}')">
                 ${vImgH}
@@ -1713,8 +1691,9 @@ function renderOrders(orders, containerId = 'profileOrdersList'){
     }).join('');
     lucide.createIcons();
 }
-window.toggleOrder=(id)=>{if(expandedOrders.has(id))expandedOrders.delete(id);else expandedOrders.add(id);const card=document.getElementById(`ocard-${id}`);if(card)card.classList.toggle('expanded',expandedOrders.has(id));lucide.createIcons();};
-window.reorderItems=async(orderId,vendorId,event)=>{
+
+window.toggleOrder = (id)=>{if(expandedOrders.has(id))expandedOrders.delete(id);else expandedOrders.add(id);const card=document.getElementById(`ocard-${id}`);if(card)card.classList.toggle('expanded',expandedOrders.has(id));lucide.createIcons();};
+window.reorderItems = async(orderId,vendorId,event)=>{
     event.stopPropagation();showToast("Adding items to cart...");
     try{
         const snap=await get(ref(db,'orders'));let orderData=null;
@@ -1724,28 +1703,22 @@ window.reorderItems=async(orderId,vendorId,event)=>{
         cartGroups[vendorId]={vendorId,vendorName:vInfo?.name||orderData.vendorName||'',vendorImage:vInfo?.imageURL||orderData.vendorImage||'',deliveryFee:parseFloat(vInfo?.deliveryFee||orderData.deliveryFee||0),items:orderData.items.map(i=>({...i,addedAt:Date.now()}))};
         await saveCart();updateCartUI();closeProfileModal();toggleCart();showToast("Items added to cart ✓");
     }catch(e){console.error(e);showToast("Reorder failed");}
-}
-async function loadOrders(containerId = 'profileOrdersList'){
-    if(!currentUserId){
-        const c=document.getElementById(containerId);
-        if(c){
-            c.innerHTML=`<div style="text-align:center;padding:60px 20px;color:var(--dim);"><i data-lucide="log-in" style="width:48px;height:48px;opacity:0.3;margin-bottom:16px;"></i><p style="font-weight:600;font-size:1.05rem;color:var(--text);">Sign in to see your orders</p><button onclick="handleProfileClick()" style="margin-top:16px;padding:12px 24px;background:var(--accent);color:white;border:none;border-radius:12px;font-weight:700;">Sign In</button></div>`;
-            lucide.createIcons();
-        }
-        return;
-    }
+};
+
+async function loadOrders(containerId='profileOrdersList'){
+    if(!currentUserId)return;
+    const c=document.getElementById(containerId);
+    if(c)c.innerHTML=`<div style="text-align:center;padding:28px 18px;color:var(--dim);"><i data-lucide="loader-2" style="width:26px;height:26px;animation:spin 1s linear infinite;opacity:0.4;margin-bottom:7px;"></i><p style="font-size:0.81rem;">Loading orders...</p></div>`;
+    lucide.createIcons();
     try{
-        const snap=await get(ref(db,'orders'));
-        const orders=[];
+        const snap=await get(ref(db,'orders'));const orders=[];
         snap.forEach(child=>{const o=child.val();if(o.userId===currentUserId)orders.push({id:child.key,...o});});
         orders.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-        renderOrders(orders.slice(0,20), containerId);
-        if(containerId === 'profileOrdersList') loadTracking(orders);
-    }catch(e){
-        const c=document.getElementById(containerId);
-        if(c)c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;
-    }
+        renderOrders(orders.slice(0,20),containerId);
+        if(containerId==='profileOrdersList')loadTracking(orders);
+    }catch(e){const c=document.getElementById(containerId);if(c)c.innerHTML=`<p style="text-align:center;color:var(--dim);padding:18px;font-size:0.79rem;">Could not load orders.</p>`;}
 }
+
 // ── TRACKING ─────────────────────────────────────────────────
 function loadTracking(orders){
     const activeStatuses=['confirmed','preparing','out_for_delivery'];
@@ -1760,9 +1733,7 @@ function renderTrackingCard(o){
     const currentIdx=statusOrder.indexOf(o.status);
     const etaMins=Math.max(5,40-(currentIdx*8));
     const progressPct=Math.round((currentIdx/(statusOrder.length-1))*100);
-    const drivers=['Sipho M.','Thabo K.','Lerato N.','Kgosi D.','Nomsa B.'];
-    const vehicles=['Motorcycle','Bicycle','Car','Motorcycle','Bicycle'];
-    const ratings=['4.9','4.7','4.8','4.6','5.0'];
+    const drivers=['Sipho M.','Thabo K.','Lerato N.','Kgosi D.','Nomsa B.'],vehicles=['Motorcycle','Bicycle','Car','Motorcycle','Bicycle'],ratings=['4.9','4.7','4.8','4.6','5.0'];
     const driverIdx=Math.abs(o.id?.charCodeAt(0)||0)%drivers.length;
     const driverName=drivers[driverIdx],vehicle=vehicles[driverIdx],rating=ratings[driverIdx];
     const distanceKm=(Math.random()*3+0.5).toFixed(1);
@@ -1772,36 +1743,37 @@ function renderTrackingCard(o){
     ${o.status==='out_for_delivery'?`<div class="driver-card"><div class="driver-avatar">${driverName.charAt(0)}</div><div class="driver-info"><div class="driver-name">${driverName}</div><div class="driver-vehicle">${vehicle} · Delivering your order</div><div class="driver-rating"><i data-lucide="star" style="width:10px;height:10px;fill:currentColor;"></i> ${rating} rating</div></div><div class="driver-actions"><button class="driver-action-btn" onclick="showToast('Calling driver...')" title="Call driver"><i data-lucide="phone"></i></button><button class="driver-action-btn" onclick="showToast('Opening chat...')" title="Message driver"><i data-lucide="message-circle"></i></button></div></div>`:o.status==='preparing'?`<div style="margin:0 15px 15px;padding:9px 11px;background:var(--surface2);border-radius:var(--radius-xs);border:1px solid var(--border-light);display:flex;align-items:center;gap:7px;"><i data-lucide="chef-hat" style="width:15px;height:15px;color:var(--accent);flex-shrink:0;"></i><span style="font-size:0.73rem;color:var(--text);">The kitchen is working on your order. A driver will be assigned soon.</span></div>`:`<div style="margin:0 15px 15px;padding:9px 11px;background:var(--accent-light);border-radius:var(--radius-xs);border:1px solid rgba(6,193,103,0.2);display:flex;align-items:center;gap:7px;"><i data-lucide="clock" style="width:15px;height:15px;color:var(--accent-dark);flex-shrink:0;"></i><span style="font-size:0.73rem;color:var(--accent-dark);">Your order has been confirmed. Preparing to dispatch.</span></div>`}
     </div>`;
 }
-// ── PROFILE MODAL ────────────────────────────────────────────
-window.switchTab=(tab,btn)=>{
+
+// ── PROFILE MODAL ─────────────────────────────────────────────
+window.switchTab = (tab,btn)=>{
     document.querySelectorAll('.profile-tab-item').forEach(t=>t.classList.remove('active'));
     document.querySelectorAll('.profile-pane').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
-    const pane=document.getElementById(`pane-${tab}`);
-    if(pane)pane.classList.add('active');
-    const content=document.getElementById('profileTabContent');
-    if(content)content.scrollTop=0;
+    const pane=document.getElementById(`pane-${tab}`);if(pane)pane.classList.add('active');
+    const content=document.getElementById('profileTabContent');if(content)content.scrollTop=0;
     if(tab==='orders'||tab==='tracking')loadOrders();
     lucide.createIcons();
 };
-window.openProfileModal=()=>{if(!currentUser){handleProfileClick();return;}document.getElementById('profileOverlay').classList.add('active');document.getElementById('profileModal').classList.add('active');document.body.style.overflow='hidden';updateProfileHero();lucide.createIcons();};
-window.closeProfileModal=()=>{document.getElementById('profileOverlay').classList.remove('active');document.getElementById('profileModal').classList.remove('active');document.body.style.overflow='';};
-window.closeAuthModals=()=>{document.querySelectorAll('.modal-overlay').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.modal').forEach(el=>el.classList.remove('active'));document.body.style.overflow='';};
-window.handleProfileClick=()=>{if(currentUser){openProfileModal();}else{document.getElementById('signInOverlay').classList.add('active');document.getElementById('signInModal').classList.add('active');}};
-window.signInWithGoogle=async()=>{try{showToast("Signing in...");const r=await signInWithPopup(auth,googleProvider);closeAuthModals();showToast(`Welcome, ${r.user.displayName}!`);}catch{showToast("Sign in failed");}};
-window.confirmSignOut=()=>{document.getElementById('signOutOverlay').classList.add('active');document.getElementById('signOutModal').classList.add('active');};
-window.doSignOut=()=>{signOut(auth).then(()=>{closeAuthModals();closeProfileModal();showToast("Signed out");}).catch(()=>showToast("Sign out failed"));};
-window.toggleSetting=async(key)=>{if(!currentUserId)return;const s=userProfile.settings||{};s[key]=!s[key];userProfile.settings=s;const el=document.getElementById(`toggle${key.charAt(0).toUpperCase()+key.slice(1)}`);if(el)el.classList.toggle('active',!!s[key]);try{await set(ref(db,`users/${currentUserId}`),userProfile);}catch(e){console.error(e);}};
-// ── VENDOR CARDS ─────────────────────────────────────────────
-window.toggleLike=async(vid,event)=>{
+window.openProfileModal = ()=>{if(!currentUser){handleProfileClick();return;}document.getElementById('profileOverlay').classList.add('active');document.getElementById('profileModal').classList.add('active');document.body.style.overflow='hidden';updateProfileHero();lucide.createIcons();};
+window.closeProfileModal = ()=>{document.getElementById('profileOverlay').classList.remove('active');document.getElementById('profileModal').classList.remove('active');document.body.style.overflow='';};
+window.closeAuthModals = ()=>{document.querySelectorAll('.modal-overlay').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.modal').forEach(el=>el.classList.remove('active'));document.body.style.overflow='';};
+window.handleProfileClick = ()=>{if(currentUser){openProfileModal();}else{document.getElementById('signInOverlay').classList.add('active');document.getElementById('signInModal').classList.add('active');}};
+window.signInWithGoogle = async()=>{try{showToast("Signing in...");const r=await signInWithPopup(auth,googleProvider);closeAuthModals();showToast(`Welcome, ${r.user.displayName}!`);}catch{showToast("Sign in failed");}};
+window.confirmSignOut = ()=>{document.getElementById('signOutOverlay').classList.add('active');document.getElementById('signOutModal').classList.add('active');};
+window.doSignOut = ()=>{signOut(auth).then(()=>{closeAuthModals();closeProfileModal();showToast("Signed out");}).catch(()=>showToast("Sign out failed"));};
+window.toggleSetting = async(key)=>{if(!currentUserId)return;const s=userProfile.settings||{};s[key]=!s[key];userProfile.settings=s;const el=document.getElementById(`toggle${key.charAt(0).toUpperCase()+key.slice(1)}`);if(el)el.classList.toggle('active',!!s[key]);try{await set(ref(db,`users/${currentUserId}`),userProfile);}catch(e){console.error(e);}};
+
+// ── VENDOR CARDS ──────────────────────────────────────────────
+window.toggleLike = async(vid,event)=>{
     event.stopPropagation();
     if(!currentUser){showToast("Sign in to like");handleProfileClick();return;}
     const lRef=ref(db,`userLikes/${currentUser.uid}/${vid}`),vlRef=ref(db,`vendorLikes/${vid}`);
     try{if(userLikes.has(vid)){await remove(lRef);const s=await get(vlRef);const c=s.exists()?s.val().count:0;if(c>0)await set(vlRef,{count:c-1});showToast("Removed from favorites");}
-    else{await set(lRef,true);const s=await get(vlRef);const c=s.exists()?s.val().count:0;await set(vlRef,{count:c+1});showToast("Added to favorites!");}
-    }catch{showToast("Failed to update");}
+    else{await set(lRef,true);const s=await get(vlRef);const c=s.exists()?s.val().count:0;await set(vlRef,{count:c+1});showToast("Added to favorites!");}}
+    catch{showToast("Failed to update");}
 };
-window.handleCardClick=(vid,isOpen)=>{if(!isOpen){showToast("Store is closed");return;}window.location.href=`menu.html?vendor=${vid}`;};
+window.handleCardClick = (vid,isOpen)=>{if(!isOpen){showToast("Store is closed");return;}window.location.href=`menu.html?vendor=${vid}`;};
+
 function loadVendors(){
     showShimmer();
     onValue(ref(db,"vendors"),snap=>{
@@ -1823,22 +1795,19 @@ function loadVendors(){
     });
 }
 function loadLikeCounts(){onValue(ref(db,"vendorLikes"),snap=>{if(snap.exists()){const d=snap.val();allVendors.forEach(v=>{if(d[v.key])v.likes=d[v.key].count||0;});applyFilters();}});}
+
 function generateCardHTML(v){
     const isLiked=userLikes.has(v.key),vCats=getVendorCategories(v);
     const catDisp=vCats.length>0?vCats.join(' · '):v.cuisine;
     const catTags=vCats.slice(0,4).map(cat=>`<span class="r-cat-tag">${categoryEmojiMap[cat]||''} ${cat}</span>`).join('');
-    let dist = '';
-    if (v.distance) {
-        dist = `<div class="distance-badge"><i data-lucide="navigation" style="width:11px;height:11px;"></i>${v.distance.toFixed(1)} km</div>`;
+    let dist='';
+    if(v.distance)dist=`<div class="distance-badge"><i data-lucide="navigation" style="width:11px;height:11px;"></i>${v.distance.toFixed(1)} km</div>`;
+    let deliveryFeeDisplay=`R${v.deliveryFee} delivery`;
+    if(v.lat&&v.lng&&userLocation.lat&&userLocation.lng){
+        const distance=calculateDistance(userLocation.lat,userLocation.lng,v.lat,v.lng);
+        const{fee,isFree}=calcDeliveryFee(distance,0);
+        deliveryFeeDisplay=isFree?'Free delivery':`R${fee.toFixed(2)} delivery`;
     }
- 
-    let deliveryFeeDisplay = `R${v.deliveryFee} delivery`;
-    if (v.lat && v.lng && userLocation.lat && userLocation.lng) {
-        const distance = calculateDistance(userLocation.lat, userLocation.lng, v.lat, v.lng);
-        const { fee, isFree } = calcDeliveryFee(distance, 0);
-        deliveryFeeDisplay = isFree ? 'Free delivery' : `R${fee.toFixed(2)} delivery`;
-    }
- 
     return`<div class="r-card ${v.isOpen?'':'closed'}" ${v.isOpen?`onclick="handleCardClick('${v.key}',${v.isOpen})"`:''}>
     <div class="r-img-wrap"><img src="${v.image}" alt="${v.name}" loading="lazy">
     ${!v.isOpen?`<div class="closed-overlay"><i data-lucide="moon" class="half-moon-icon"></i></div><div class="closed-badge">Closed</div>`:''}
@@ -1849,6 +1818,7 @@ function generateCardHTML(v){
     ${vCats.length>0?`<div class="r-categories">${catTags}</div>`:''}
     <div class="r-meta-row"><span class="r-meta">${catDisp} • ${deliveryFeeDisplay}</span><span class="likes-count"><i data-lucide="heart" style="width:11px;height:11px;"></i>${v.likes||0}</span></div></div></div>`;
 }
+
 function applyFilters(){
     let filtered=allVendors.filter(v=>v.storeType===currentStoreType);
     if(userLocation.lat&&userLocation.lng){filtered=filtered.map(v=>{if(v.lat&&v.lng)return{...v,distance:calculateDistance(userLocation.lat,userLocation.lng,v.lat,v.lng)};return{...v,distance:null};}).filter(v=>v.distance===null||v.distance<=searchRadius);}
@@ -1863,9 +1833,17 @@ function applyFilters(){
     ps.style.display=pop.length?"block":"none";document.getElementById("restaurantsGrid").innerHTML=pop.map(generateCardHTML).join('');
     lucide.createIcons();updateFilterArrows();
 }
-window.filterCategory=(cat,btn)=>{document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=cat;applyFilters();};
-window.handleSearch=(v)=>{searchTerm=v;applyFilters();};
-window.scrollFilters=(d)=>{document.getElementById('categoryFilters').scrollBy({left:d,behavior:'smooth'});};
+window.filterCategory = (cat,btn)=>{document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=cat;applyFilters();};
+window.handleSearch = (v)=>{
+    searchTerm=v;
+    // keep both search inputs in sync
+    const si=document.getElementById('searchInput'),mi=document.getElementById('mobileSearchInput');
+    if(document.activeElement!==si&&si)si.value=v;
+    if(document.activeElement!==mi&&mi)mi.value=v;
+    applyFilters();
+};
+window.scrollFilters = (d)=>{document.getElementById('categoryFilters').scrollBy({left:d,behavior:'smooth'});};
+
 function updateFilterArrows(){
     const c=document.getElementById('categoryFilters'),la=document.getElementById('filterArrowLeft'),ra=document.getElementById('filterArrowRight');
     if(!c||!la||!ra)return;
@@ -1873,42 +1851,65 @@ function updateFilterArrows(){
     la.classList.toggle('hidden',c.scrollLeft<=0||!sc);
     ra.classList.toggle('hidden',c.scrollLeft+c.clientWidth>=c.scrollWidth-1||!sc);
 }
+
 document.addEventListener('DOMContentLoaded',()=>{
     const c=document.getElementById('categoryFilters');
     if(c)c.addEventListener('scroll',updateFilterArrows);
 });
-// ── BOTTOM NAV FUNCTIONALITY (fully functional on mobile only) ────────────────────────────────
-function bottomNavClick(idx) {
-    document.querySelectorAll('.bottom-nav-item').forEach((el, i) => {
-        el.classList.toggle('active', i === idx);
-    });
-    document.getElementById('mobileSearchBar').style.display = 'none';
-    const homeView = document.getElementById('homeView');
-    const ordersView = document.getElementById('ordersView');
 
-    if (idx === 0) {
-        homeView.style.display = 'block';
-        ordersView.style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (idx === 1) {
-        homeView.style.display = 'none';
-        ordersView.style.display = 'block';
-        loadOrders('mobileOrdersList');   // always called – handles logged-out state inside loadOrders
-    } else if (idx === 2) {
-        homeView.style.display = 'block';
-        ordersView.style.display = 'none';
-        document.getElementById('mobileSearchBar').style.display = 'block';
-        setTimeout(() => {
-            const mobileInput = document.getElementById('mobileSearchInput');
-            if (mobileInput) mobileInput.focus();
-        }, 50);
-    } else if (idx === 3) {
-        homeView.style.display = 'block';
-        ordersView.style.display = 'none';
-        handleProfileClick();
+// ── BOTTOM NAV — THE FIX: assigned to window so onclick="" can reach it ──────
+window.bottomNavClick = function(idx) {
+    // Update active state on all nav items
+    for(let i=0;i<4;i++){
+        const el=document.getElementById(`bnav${i}`);
+        if(el)el.classList.toggle('active',i===idx);
     }
-}
-// ── INIT ─────────────────────────────────────────────────────
+
+    const homeView=document.getElementById('homeView');
+    const ordersView=document.getElementById('ordersView');
+    const mobileSearchBar=document.getElementById('mobileSearchBar');
+
+    // Hide search bar by default; show only for Search tab
+    mobileSearchBar.style.display='none';
+
+    if(idx===0){
+        // HOME
+        homeView.style.display='block';
+        ordersView.style.display='none';
+        window.scrollTo({top:0,behavior:'smooth'});
+    } else if(idx===1){
+        // ORDERS
+        if(!currentUser){
+            showToast("Sign in to view your orders");
+            handleProfileClick();
+            // revert nav selection back to home
+            for(let i=0;i<4;i++){const el=document.getElementById(`bnav${i}`);if(el)el.classList.toggle('active',i===0);}
+            return;
+        }
+        homeView.style.display='none';
+        ordersView.style.display='block';
+        loadOrders('mobileOrdersList');
+        window.scrollTo({top:0,behavior:'smooth'});
+    } else if(idx===2){
+        // SEARCH
+        homeView.style.display='block';
+        ordersView.style.display='none';
+        mobileSearchBar.style.display='block';
+        // sync search value
+        const mobileInput=document.getElementById('mobileSearchInput');
+        if(mobileInput){
+            mobileInput.value=searchTerm;
+            setTimeout(()=>mobileInput.focus(),80);
+        }
+    } else if(idx===3){
+        // PROFILE
+        handleProfileClick();
+        // revert nav back to previous state since profile is a modal
+        for(let i=0;i<4;i++){const el=document.getElementById(`bnav${i}`);if(el)el.classList.toggle('active',i===idx);}
+    }
+};
+
+// ── INIT ──────────────────────────────────────────────────────
 lucide.createIcons();
 generateShimmerCards(6);
 buildCategoryFilters();
