@@ -788,7 +788,7 @@ let currentUser = null;
 let currentUserId = null;
 let activeSheetProduct = null;
 let sheetQty = 1;
-let coStep=0, selPayment='cash', coAddr=null, coDir='forward';
+let coStep=0, selPayment='cash', coAddr="Pretoria, Gauteng, South Africa", coDir='forward';
 let cartRef = null;
 onAuthStateChanged(auth, u=>{
   currentUser=u;
@@ -1291,7 +1291,7 @@ window.toggleCart=function(){
 /* ═══ CHECKOUT ═════════════════════════════════════════════════ */
 window.openCheckout=function(){
   if(totalQty()===0) return;
-  coStep=0; selPayment='cash'; coAddr=null; coDir='forward';
+  coStep=0; selPayment='cash'; coAddr="Pretoria, Gauteng, South Africa"; coDir='forward';
   renderCoStep();
   document.getElementById('checkoutDrawer').classList.add('open');
   lucide.createIcons();
@@ -1360,17 +1360,27 @@ function coPayment(){
     {id:'card',icon:'credit-card',name:'Card on Delivery',sub:'Swipe or tap at the door'},
     {id:'wallet',icon:'smartphone',name:'Digital Wallet',sub:'SnapScan, Ozow & more'},
   ];
-  const defAddr=coAddr||'';
+  const defAddr=coAddr||'Enter delivery address below';
   body.innerHTML=`
     <div class="co-card">
       <div class="co-card-hd"><div class="co-card-icon"><i data-lucide="map-pin"></i></div><span class="co-card-lbl">Delivery Address</span><span class="co-edit" id="addrEdit">Change</span></div>
       <div class="co-card-body">
         <div class="co-addr-row">
           <div class="co-addr-icon"><i data-lucide="map-pin"></i></div>
-          <div><div class="co-addr-main" id="addrDisplay">${defAddr||'Enter delivery address below'}</div><div class="co-addr-sub">Delivery to this address</div></div>
+          <div><div class="co-addr-main" id="addrDisplay">${defAddr}</div><div class="co-addr-sub">Delivery to this address</div></div>
         </div>
-        <input type="text" class="co-addr-input" id="addrInput" placeholder="Enter delivery address…" value="${defAddr}"
+        <input type="text" class="co-addr-input" id="addrInput" list="deliverySuggestions" placeholder="Search or edit delivery address…" value="${defAddr}"
                oninput="coAddr=this.value;const el=document.getElementById('addrDisplay');if(el)el.textContent=this.value||'Enter delivery address below'">
+        <datalist id="deliverySuggestions">
+          <option value="Pretoria, Gauteng, South Africa">
+          <option value="Centurion, Gauteng">
+          <option value="Hatfield, Pretoria, Gauteng">
+          <option value="Brooklyn, Pretoria, Gauteng">
+          <option value="Menlyn Park, Pretoria">
+          <option value="Silver Lakes Estate, Pretoria">
+          <option value="Johannesburg CBD, Gauteng">
+          <option value="Sandton, Johannesburg">
+        </datalist>
       </div>
     </div>
     <div class="co-card">
