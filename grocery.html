@@ -1338,7 +1338,7 @@ function coReview(){
   body.innerHTML=`
     <div class="co-card">
       <div class="co-card-hd"><div class="co-card-icon"><i data-lucide="shopping-bag"></i></div><span class="co-card-lbl">Order Items (${qty})</span><span class="co-edit" onclick="document.getElementById('checkoutDrawer').classList.remove('open')">Edit</span></div>
-      <div class="co-card-body">${itemsH}</div>
+      <div class="co-card-body" style="max-height:260px;overflow-y:auto;">${itemsH}</div>
     </div>
     <div class="co-card">
       <div class="co-card-hd"><div class="co-card-icon"><i data-lucide="receipt"></i></div><span class="co-card-lbl">Price Breakdown</span></div>
