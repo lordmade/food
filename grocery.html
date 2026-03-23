@@ -491,6 +491,37 @@ body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif
   .item-sheet-close{background:rgba(0,0,0,.35);color:white;width:34px;height:34px}
   .item-sheet-close:hover{background:rgba(0,0,0,.55)}
 }
+
+/* ── MOBILE OPTIMIZATIONS (only for screens ≤ 480px) ─────────────────────── */
+@media (max-width: 480px) {
+  .page { padding-bottom: 110px; }
+  .section { padding: 16px 12px 0; }
+  .hero { padding: 22px 16px 24px; }
+  .hero-title { font-size: 1.35rem; line-height: 1.2; }
+  .hero-sub { font-size: .8rem; }
+  .hero-chip { padding: 3px 9px; font-size: .7rem; }
+  .cat-grid { gap: 7px; }
+  .cat-tile { padding: 10px 5px 9px; }
+  .cat-icon-wrap { width: 40px; height: 40px; font-size: 1.35rem; border-radius: 11px; }
+  .cat-label { font-size: .6rem; }
+  .products-grid { gap: 9px; padding: 0 10px; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+  .product-card { width: 132px; border-radius: 11px; }
+  .p-name { font-size: .74rem; min-height: 2em; }
+  .p-brand { font-size: .58rem; }
+  .p-weight { font-size: .64rem; }
+  .p-price { font-size: .86rem; }
+  .products-row { padding: 4px 10px 12px; gap: 9px; }
+  .item-sheet-image-wrap { height: 210px; }
+  .item-sheet-content { padding: 14px 14px 0; }
+  .item-sheet-name { font-size: 1.05rem; }
+  .suggested-scroll { gap: 8px; padding: 0 12px 2px; }
+  .sug-card { flex: 0 0 118px; }
+  .sug-card-img-wrap { height: 78px; }
+  .cart-item { padding: 9px 10px; }
+  .co-card-body { padding: 10px 11px; }
+  .co-addr-input { padding: 8px 10px; font-size: .8rem; }
+  .co-item-name { font-size: .72rem; }
+}
 </style>
 </head>
 <body>
