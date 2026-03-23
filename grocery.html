@@ -789,7 +789,23 @@ let currentUserId = null;
 let activeSheetProduct = null;
 let sheetQty = 1;
 let coStep=0, selPayment='cash', coAddr=null, coDir='forward';
-onAuthStateChanged(auth, u=>{ currentUser=u; currentUserId=u?.uid||null; });
+let cartRef = null;
+onAuthStateChanged(auth, u=>{
+  currentUser=u;
+  currentUserId=u?.uid||null;
+  if(currentUserId){
+    cartRef = ref(db, `users/${currentUserId}/cart`);
+    onValue(cartRef, (snap)=>{
+      cartItems = snap.val() || {};
+      updateCartUI();
+      Object.keys(cartItems).forEach(id => refreshAction(id));
+    });
+  } else {
+    cartRef = null;
+    cartItems = {};
+    updateCartUI();
+  }
+});
 /* ═══ HERO CYCLE ═══════════════════════════════════════════════ */
 const HERO_EMOJIS=['🛒','🥦','🥛','🥩','🍞','🧃','🍿','🧴','🌿','🍎'];
 let heroIdx=0;
@@ -1074,6 +1090,7 @@ window.addFromSheet=function(){
   if(cartItems[p.id].qty<=0) delete cartItems[p.id];
   refreshAction(p.id);
   updateCartUI();
+  saveCartToDB();
   showToast(`${p.name} added 🛒`);
   closeItemSheet();
 };
@@ -1139,6 +1156,7 @@ window.quickAddSuggested=function(productId,e){
   if(btn){ btn.classList.add('added'); btn.innerHTML='<i data-lucide="check" style="width:11px;height:11px;"></i>'; lucide.createIcons(); }
   refreshAction(productId);
   updateCartUI();
+  saveCartToDB();
   showToast(`${p.name} added 🛒`);
 };
 /* ═══ DRAG TO CLOSE (identical to menu.html) ═══════════════════ */
@@ -1188,6 +1206,10 @@ document.addEventListener('keydown',e=>{
   }
 });
 /* ═══ CART LOGIC ═══════════════════════════════════════════════ */
+function saveCartToDB(){
+  if(!cartRef) return;
+  set(cartRef, cartItems).catch(e => console.error('Cart save failed:', e));
+}
 window.addItem=function(productId,event){
   event?.stopPropagation();
   const p=allProducts.find(x=>x.id===productId);
@@ -1196,6 +1218,7 @@ window.addItem=function(productId,event){
   cartItems[productId].qty++;
   refreshAction(productId);
   updateCartUI();
+  saveCartToDB();
   showToast(`${p.name} added 🛒`);
 };
 window.cQty=function(productId,delta,event){
@@ -1205,6 +1228,7 @@ window.cQty=function(productId,delta,event){
   if(cartItems[productId].qty<=0) delete cartItems[productId];
   refreshAction(productId);
   updateCartUI();
+  saveCartToDB();
 };
 function totalQty(){ return Object.values(cartItems).reduce((s,i)=>s+i.qty,0); }
 function subtotal(){ return Object.values(cartItems).reduce((s,i)=>s+i.product.price*i.qty,0); }
@@ -1424,6 +1448,7 @@ window.placeOrder=async function(){
     coDir='forward'; coStep=2; renderCoStep(); lucide.createIcons();
     cartItems={};
     updateCartUI();
+    saveCartToDB();
   } catch(e){
     console.error(e); showToast('Order failed. Please try again.');
     if(btn){ btn.disabled=false; btn.innerHTML=`<i data-lucide="check-circle"></i> Place Order · R${grandTotal().toFixed(2)}`; lucide.createIcons(); }
