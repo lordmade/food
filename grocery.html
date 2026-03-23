@@ -1213,7 +1213,7 @@ function grandTotal(){ return subtotal()+deliveryFee(); }
 function updateCartUI(){
   const qty=totalQty(), tot=grandTotal();
   const badge=document.getElementById('cartCount');
-  badge.textContent=qty; badge.style.display=qty>0?'':'none';
+  badge.textContent=qty; badge.style.display=qty>0?'inline-block':'none';
   const bar=document.getElementById('floatingCartBar');
   if(qty>0){ bar.classList.add('visible'); document.getElementById('fcCount').textContent=qty; document.getElementById('fcTotal').textContent=`R ${tot.toFixed(2)}`; }
   else bar.classList.remove('visible');
