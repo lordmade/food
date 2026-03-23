@@ -435,7 +435,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif
 .co-item-name{font-size:.75rem;font-weight:600;flex:1;color:var(--text);line-height:1.3}
 .co-item-qty{font-size:.7rem;color:var(--dim)}
 .co-item-price{font-size:.75rem;font-weight:700;color:var(--text);white-space:nowrap}
-.co-addr-input{width:100%;margin-top:10px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-xs);font-family:inherit;font-size:.82rem;background:var(--surface2);outline:none;transition:var(--tr);display:none;list:deliverySuggestions}
+.co-addr-input{width:100%;margin-top:10px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-xs);font-family:inherit;font-size:.82rem;background:var(--surface2);outline:none;transition:var(--tr);display:none}
 .co-addr-input:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 2px rgba(6,193,103,.1)}
 .co-addr-row{display:flex;align-items:flex-start;gap:9px;padding:3px 0}
 .co-addr-icon{color:var(--accent);flex-shrink:0;margin-top:1px}
@@ -719,21 +719,6 @@ body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif
 </div>
 <!-- ══ TOAST ═══════════════════════════════════════════════════ -->
 <div id="toast">Item added</div>
-
-<!-- DELIVERY ADDRESS SUGGESTIONS DATALIST -->
-<datalist id="deliverySuggestions">
-  <option value="Pretoria, Gauteng (Current location)">
-  <option value="123 Rivonia Road, Sandton, Johannesburg, 2196">
-  <option value="45 Commissioner Street, Johannesburg CBD, 2001">
-  <option value="67 Jan Smuts Avenue, Rosebank, Johannesburg">
-  <option value="The Leonardo, Sandton, Johannesburg">
-  <option value="Rosebank Mall, Johannesburg">
-  <option value="15 Oxford Road, Illovo, Johannesburg">
-  <option value="Flat 12, The Michelangelo, Sandton">
-  <option value="Centurion, Pretoria">
-  <option value="Hatfield, Pretoria">
-</datalist>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, onValue, get, set, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -983,6 +968,7 @@ function buildCard(product,flex=true){
         <div id="act-${safeId}">${buildAction(product,qty,safeId)}</div>
       </div>
     </div>`;
+  // Click opens sheet (same as menu.html) unless unavailable
   card.onclick=e=>{
     if(e.target.closest('.add-btn,.qty-ctrl')) return;
     if(unavail){ showToast('This item is currently unavailable'); return; }
@@ -1022,6 +1008,7 @@ window.openItemSheet=function(productId){
   if(product.status==='unavailable'){ showToast('This item is currently unavailable'); return; }
   activeSheetProduct=product;
   sheetQty=Math.max(1,cartItems[productId]?.qty||1);
+  // Image
   const imgWrap=document.getElementById('itemSheetImageWrap');
   if(product.imageURL){
     imgWrap.innerHTML=`<img class="item-sheet-image" src="${product.imageURL}" alt="${product.name}">
@@ -1032,10 +1019,12 @@ window.openItemSheet=function(productId){
     imgWrap.innerHTML=`<div class="item-sheet-no-image" style="background:${cat.bg};">${cat.emoji}</div>
       ${product.featured?'<span class="item-sheet-badge">⭐ Popular</span>':''}`;
   }
+  // Content
   document.getElementById('itemSheetName').textContent=product.name;
   const descEl=document.getElementById('itemSheetDesc');
   descEl.textContent=product.description||'';
   descEl.style.display=product.description?'':'none';
+  // Chips
   const chips=[];
   const cat=getCatDef(getCatKey(product.category));
   chips.push(`<span class="item-meta-chip category"><i data-lucide="tag"></i>${cat.label}</span>`);
@@ -1043,6 +1032,7 @@ window.openItemSheet=function(productId){
   if(product.weight) chips.push(`<span class="item-meta-chip weight"><i data-lucide="package"></i>${product.weight}</span>`);
   if(product.vendorName) chips.push(`<span class="item-meta-chip"><i data-lucide="store"></i>${product.vendorName}</span>`);
   document.getElementById('itemSheetMeta').innerHTML=chips.join('');
+  // Price
   document.getElementById('itemSheetPriceVal').textContent=product.price.toFixed(2);
   const oldEl=document.getElementById('itemSheetPriceOld');
   if(product.originalPrice&&product.originalPrice>product.price){
@@ -1151,7 +1141,7 @@ window.quickAddSuggested=function(productId,e){
   updateCartUI();
   showToast(`${p.name} added 🛒`);
 };
-/* ═══ DRAG TO CLOSE */
+/* ═══ DRAG TO CLOSE (identical to menu.html) ═══════════════════ */
 (function initDrag(){
   const sheet=document.getElementById('itemSheet');
   const dragZone=document.getElementById('sheetDragZone');
@@ -1223,8 +1213,7 @@ function grandTotal(){ return subtotal()+deliveryFee(); }
 function updateCartUI(){
   const qty=totalQty(), tot=grandTotal();
   const badge=document.getElementById('cartCount');
-  badge.textContent=qty; 
-  badge.style.display=qty>0?'':'none';   /* cart badge always shows counter when >0 */
+  badge.textContent=qty; badge.style.display=qty>0?'':'none';
   const bar=document.getElementById('floatingCartBar');
   if(qty>0){ bar.classList.add('visible'); document.getElementById('fcCount').textContent=qty; document.getElementById('fcTotal').textContent=`R ${tot.toFixed(2)}`; }
   else bar.classList.remove('visible');
@@ -1347,18 +1336,17 @@ function coPayment(){
     {id:'card',icon:'credit-card',name:'Card on Delivery',sub:'Swipe or tap at the door'},
     {id:'wallet',icon:'smartphone',name:'Digital Wallet',sub:'SnapScan, Ozow & more'},
   ];
-  /* use current location by default */
-  const defAddr = coAddr || 'Pretoria, Gauteng (Current location)';
+  const defAddr=coAddr||'';
   body.innerHTML=`
     <div class="co-card">
       <div class="co-card-hd"><div class="co-card-icon"><i data-lucide="map-pin"></i></div><span class="co-card-lbl">Delivery Address</span><span class="co-edit" id="addrEdit">Change</span></div>
       <div class="co-card-body">
         <div class="co-addr-row">
           <div class="co-addr-icon"><i data-lucide="map-pin"></i></div>
-          <div><div class="co-addr-main" id="addrDisplay">${defAddr}</div><div class="co-addr-sub">Delivery to this address</div></div>
+          <div><div class="co-addr-main" id="addrDisplay">${defAddr||'Enter delivery address below'}</div><div class="co-addr-sub">Delivery to this address</div></div>
         </div>
-        <input type="text" class="co-addr-input" id="addrInput" placeholder="Enter delivery address…" value="${defAddr}" list="deliverySuggestions"
-               oninput="coAddr=this.value;const el=document.getElementById('addrDisplay');if(el)el.textContent=this.value||'Pretoria, Gauteng (Current location)'">
+        <input type="text" class="co-addr-input" id="addrInput" placeholder="Enter delivery address…" value="${defAddr}"
+               oninput="coAddr=this.value;const el=document.getElementById('addrDisplay');if(el)el.textContent=this.value||'Enter delivery address below'">
       </div>
     </div>
     <div class="co-card">
@@ -1389,7 +1377,7 @@ function coPayment(){
     const inp=document.getElementById('addrInput');
     if(inp){ const h=inp.style.display==='none'||!inp.style.display; inp.style.display=h?'block':'none'; if(h) inp.focus(); }
   });
-  if(!coAddr){ const inp=document.getElementById('addrInput'); if(inp) inp.style.display='block'; }
+  if(!defAddr){ const inp=document.getElementById('addrInput'); if(inp) inp.style.display='block'; }
 }
 window.selPay=function(id){
   selPayment=id;
@@ -1402,7 +1390,13 @@ window.placeOrder=async function(){
   const btn=document.getElementById('coPlaceBtn');
   if(btn){ btn.disabled=true; btn.innerHTML='<i data-lucide="loader-2" style="animation:spin 1s linear infinite;width:17px;height:17px;"></i> Placing order…'; lucide.createIcons(); }
   try {
-    const deliveryAddress=coAddr||'Pretoria, Gauteng (Current location)';
+    const deliveryAddress=coAddr||'';
+    if(!deliveryAddress){
+      showToast('Please enter a delivery address');
+      if(btn){ btn.disabled=false; btn.innerHTML=`<i data-lucide="check-circle"></i> Place Order · R${grandTotal().toFixed(2)}`; lucide.createIcons(); }
+      const inp=document.getElementById('addrInput'); if(inp){ inp.style.display='block'; inp.focus(); }
+      return;
+    }
     const byVendor={};
     Object.values(cartItems).forEach(({product,qty})=>{
       if(!byVendor[product.vendorId]) byVendor[product.vendorId]={vendorId:product.vendorId,vendorName:product.vendorName,items:[]};
