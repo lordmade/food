@@ -1922,18 +1922,18 @@ ${vc>1?`<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:va
 <div class="co-card"><div class="co-card-header"><div class="co-card-icon"><i data-lucide="receipt"></i></div><span class="co-card-label">Price Breakdown</span></div><div class="co-card-body"><div class="co-price-row"><span>Subtotal</span><span>R${ts.toFixed(2)}</span></div><div class="co-price-row"><span>Delivery fee${vc>1?'s':''}</span><span>${tf>0?`R ${tf.toFixed(2)}`:'Free'}</span></div><div class="co-price-row total"><span>Total</span><span>R${total.toFixed(2)}</span></div></div></div>
 ${pt>0?`<div style="padding:2px 0;"><div class="co-eta-badge"><i data-lucide="clock"></i> Estimated prep: ~${pt} min</div></div>`:''}
 `;
-/* ONLY CHANGE REQUESTED: redirect to new payment page instead of advancing step */
+/* REDIRECT TO SEPARATE PAYMENT PAGE WHEN USER CLICKS "Continue to Payment" */
 footer.innerHTML=`<button class="co-confirm-btn" onclick="window.location.href='checkout-payment.html'"><i data-lucide="arrow-right"></i> Continue to Payment</button>`;
 }
 function renderCoPayment(body,footer){
-/* kept for completeness but never reached because of redirect */
+/* never reached because of redirect */
 }
 function renderCoSuccess(body,footer){
-/* kept for completeness but never reached because of redirect */
+/* never reached because of redirect */
 }
 window.dismissCheckout = ()=>{document.getElementById('checkoutDrawer').classList.remove('open');toggleCart();};
 window.handleCheckout = async()=>{
-/* kept for completeness but never reached because of redirect */
+/* never reached because of redirect */
 };
 // ── FILTERS & VENDORS ────────────────────────────────────────
 function buildCategoryFilters(){
@@ -2534,6 +2534,14 @@ loadVendors();
 loadDeliveryFeeConfig();
 updateCartUI();
 if(navigator.geolocation)setTimeout(()=>detectCurrentLocation(),1000);
+
+/* SAFETY FIX: shimmer always disappears after max 3 seconds even if Firebase is slow */
+setTimeout(() => {
+  const shimmer = document.getElementById('shimmerOverlay');
+  if (shimmer && shimmer.classList.contains('active')) {
+    hideShimmer();
+  }
+}, 3000);
 </script>
 </body>
 </html>
