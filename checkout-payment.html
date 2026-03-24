@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#06C167">
+<title>Vynix Eats | Payment</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root{--bg:#f8f9fa;--surface:#ffffff;--surface2:#f1f3f5;--border:#e9ecef;--border-light:#f0f0f0;--text:#1a1d23;--dim:#6c757d;--accent:#06C167;--accent-dark:#05a357;--accent-light:#e8f8ef;--radius:20px;--radius-sm:12px;--radius-xs:6px;--shadow:0 4px 20px rgba(0,0,0,0.08);--transition:all .25s cubic-bezier(.4,0,.2,1);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.co-header{padding:13px 15px;background:var(--surface);border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:9px}
+.co-back-btn{width:30px;height:30px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--dim)}
+.co-header-title{font-weight:800;font-size:.95rem;flex:1}
+.co-body{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:11px;background:var(--bg)}
+.co-card{background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);overflow:hidden;box-shadow:var(--shadow)}
+.co-card-header{display:flex;align-items:center;gap:9px;padding:10px 13px;border-bottom:1px solid var(--border-light)}
+.co-card-icon{width:28px;height:28px;border-radius:7px;background:var(--accent-light);display:flex;align-items:center;justify-content:center}
+.co-card-icon i{width:13px;height:13px;color:var(--accent-dark)}
+.co-card-label{font-size:.79rem;font-weight:700;color:var(--text);flex:1}
+.co-card-body{padding:11px 13px}
+.co-addr-input{width:100%;margin-top:10px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-xs);font-family:inherit;font-size:.82rem;background:var(--surface2);outline:none;display:none}
+.co-addr-input:focus{border-color:var(--accent)}
+.co-payment-options{display:flex;flex-direction:column;gap:7px}
+.co-pay-option{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:var(--radius-xs);border:1.5px solid var(--border);background:var(--surface);cursor:pointer}
+.co-pay-option:hover{border-color:var(--accent)}
+.co-pay-option.selected{border-color:var(--accent);background:var(--accent-light)}
+.co-pay-icon{width:30px;height:30px;border-radius:7px;background:var(--surface2);display:flex;align-items:center;justify-content:center}
+.co-pay-option.selected .co-pay-icon{background:rgba(6,193,103,.15)}
+.co-pay-icon i{width:14px;height:14px;color:var(--dim)}
+.co-pay-option.selected .co-pay-icon i{color:var(--accent-dark)}
+.co-pay-info{flex:1}
+.co-pay-name{font-size:.79rem;font-weight:700;color:var(--text)}
+.co-pay-sub{font-size:.65rem;color:var(--dim)}
+.co-pay-check{width:17px;height:17px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center}
+.co-pay-option.selected .co-pay-check{background:var(--accent);border-color:var(--accent)}
+.co-pay-option.selected .co-pay-check::after{content:"";display:block;width:5px;height:3px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(-45deg) translate(0,-1px)}
+.co-price-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:.75rem;color:var(--dim)}
+.co-price-row.total{font-size:.88rem;font-weight:800;color:var(--text);padding-top:7px;border-top:1px solid var(--border)}
+.co-confirm-btn{width:100%;background:var(--accent);color:white;border:none;padding:13px;border-radius:var(--radius-xs);font-weight:800;font-size:.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.co-confirm-btn:hover{background:var(--accent-dark)}
+.co-success{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 18px;text-align:center}
+.co-success-ring{width:74px;height:74px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.co-success-ring i{width:33px;height:33px;color:var(--accent)}
+.co-success-title{font-size:1.2rem;font-weight:800;color:var(--text)}
+.co-success-sub{font-size:.82rem;color:var(--dim);margin-bottom:18px}
+.co-success-id{font-size:.7rem;color:var(--dim);margin-bottom:22px;font-family:monospace;background:var(--surface2);padding:4px 9px;border-radius:6px}
+.co-success-items{width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);overflow:hidden;margin-bottom:14px}
+.co-success-item-row{display:flex;justify-content:space-between;padding:8px 13px;font-size:.75rem;border-bottom:1px solid var(--border-light)}
+.co-success-item-name{font-weight:600}
+.co-success-item-price{color:var(--dim)}
+.co-track-btn{width:100%;background:var(--accent);color:white;border:none;padding:13px;border-radius:var(--radius-xs);font-weight:800;font-size:.92rem;cursor:pointer}
+.co-done-btn{width:100%;background:transparent;color:var(--dim);border:1.5px solid var(--border);padding:11px;border-radius:var(--radius-xs);font-weight:700;margin-top:8px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="co-header">
+<button class="co-back-btn" onclick="window.location.href='index.html'"><i data-lucide="arrow-left"></i></button>
+<span class="co-header-title">Payment &amp; Delivery</span>
+</div>
+
+<div class="co-body" id="coBody">
+<!-- Payment content will be rendered here -->
+</div>
+
+<div class="co-footer" id="coFooter"></div>
+
+<script>
+let selectedPayment = 'cash';
+let coDeliveryAddress = null;
+
+// Demo data from cart (same as before)
+const demoCartGroups = {
+  "v1": {vendorName:"Pizza Palace",deliveryFee:25,items:[{name:"Margherita Pizza",price:89,quantity:2},{name:"Garlic Bread",price:35,quantity:1}]},
+  "v2": {vendorName:"Burger Haven",deliveryFee:18,items:[{name:"Classic Cheeseburger",price:75,quantity:1}]}
+};
+
+function getTotalPrice(){
+  return Object.values(demoCartGroups).reduce((s,g)=>{
+    const sub = (g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0);
+    return s + sub + parseFloat(g.deliveryFee||0);
+  },0);
+}
+
+function renderPaymentPage(){
+  const body = document.getElementById('coBody');
+  const footer = document.getElementById('coFooter');
+  const ts = Object.values(demoCartGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0),0);
+  const tf = Object.values(demoCartGroups).reduce((s,g)=>s+parseFloat(g.deliveryFee||0),0);
+  const total = ts + tf;
+
+  const pays = [
+    {id:'cash',icon:'banknote',name:'Cash on Delivery',sub:'Pay when your order arrives'},
+    {id:'card',icon:'credit-card',name:'Card on Delivery',sub:'Swipe or tap at the door'},
+    {id:'wallet',icon:'smartphone',name:'Digital Wallet',sub:'SnapScan, Ozow & more'}
+  ];
+
+  const defaultAddr = coDeliveryAddress || "123 Example Street, Johannesburg";
+
+  body.innerHTML = `
+    <div class="co-card">
+      <div class="co-card-header">
+        <div class="co-card-icon"><i data-lucide="map-pin"></i></div>
+        <span class="co-card-label">Delivery Address</span>
+        <span class="co-card-edit" id="coAddrEditBtn" style="cursor:pointer">Change</span>
+      </div>
+      <div class="co-card-body">
+        <div class="co-address-row">
+          <div class="co-address-icon"><i data-lucide="map-pin"></i></div>
+          <div class="co-address-text">
+            <div class="co-address-main" id="coAddrMain">${defaultAddr}</div>
+            <div class="co-address-sub">Delivery to this address</div>
+          </div>
+        </div>
+        <input type="text" class="co-addr-input" id="coAddrInput" placeholder="Enter delivery address…" value="${defaultAddr}" 
+               oninput="coDeliveryAddress=this.value;document.getElementById('coAddrMain').textContent=this.value||'Enter delivery address below'">
+      </div>
+    </div>
+
+    <div class="co-card">
+      <div class="co-card-header">
+        <div class="co-card-icon"><i data-lucide="credit-card"></i></div>
+        <span class="co-card-label">Payment Method</span>
+      </div>
+      <div class="co-card-body">
+        <div class="co-payment-options" id="coPayOptions">
+          ${pays.map(p => `
+            <div class="co-pay-option ${selectedPayment===p.id?'selected':''}" onclick="selectPayment('${p.id}')">
+              <div class="co-pay-icon"><i data-lucide="${p.icon}"></i></div>
+              <div class="co-pay-info">
+                <div class="co-pay-name">${p.name}</div>
+                <div class="co-pay-sub">${p.sub}</div>
+              </div>
+              <div class="co-pay-check"></div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="co-card">
+      <div class="co-card-header">
+        <div class="co-card-icon"><i data-lucide="receipt"></i></div>
+        <span class="co-card-label">Order Total</span>
+      </div>
+      <div class="co-card-body">
+        <div class="co-price-row"><span>Subtotal</span><span>R${ts.toFixed(2)}</span></div>
+        <div class="co-price-row"><span>Delivery fee</span><span>${tf>0?`R${tf.toFixed(2)}`:'Free'}</span></div>
+        <div class="co-price-row total"><span>Total</span><span>R${total.toFixed(2)}</span></div>
+      </div>
+    </div>
+
+    <p class="co-terms" style="margin-top:10px;text-align:center">By placing your order you agree to our Terms of Service and Privacy Policy.</p>
+  `;
+
+  footer.innerHTML = `<button class="co-confirm-btn" onclick="placeOrder()">Place Order • R${total.toFixed(2)}</button>`;
+
+  // Make address editable
+  document.getElementById('coAddrEditBtn').addEventListener('click', () => {
+    const inp = document.getElementById('coAddrInput');
+    inp.style.display = inp.style.display === 'block' ? 'none' : 'block';
+    if (inp.style.display === 'block') inp.focus();
+  });
+
+  lucide.createIcons();
+}
+
+window.selectPayment = (id) => {
+  selectedPayment = id;
+  document.querySelectorAll('.co-pay-option').forEach(el => {
+    el.classList.toggle('selected', el.getAttribute('onclick').includes(`'${id}'`));
+  });
+  lucide.createIcons();
+};
+
+window.placeOrder = () => {
+  const btn = document.querySelector('.co-confirm-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i data-lucide="loader-2" style="animation:spin 1s linear infinite;width:17px;height:17px"></i> Placing order…';
+  lucide.createIcons();
+
+  setTimeout(() => {
+    const body = document.getElementById('coBody');
+    const footer = document.getElementById('coFooter');
+    const orderId = 'VYX-' + Date.now().toString(36).toUpperCase();
+    body.innerHTML = `
+      <div class="co-success">
+        <div class="co-success-ring"><i data-lucide="check"></i></div>
+        <div class="co-success-title">Order Confirmed!</div>
+        <div class="co-success-sub">Your order has been placed successfully.<br>The restaurants are preparing your food.</div>
+        <div class="co-success-id">Order ${orderId}</div>
+        <div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:9px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:0.78rem;color:var(--dim);">Total charged</span>
+          <span style="font-size:0.92rem;font-weight:800;color:var(--text);">R${getTotalPrice().toFixed(2)}</span>
+        </div>
+        <div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:9px 13px;display:flex;gap:8px;align-items:center;">
+          <i data-lucide="clock" style="width:14px;height:14px;color:var(--accent)"></i>
+          <span style="font-size:0.78rem;color:var(--text);">Estimated delivery: <strong>25–40 min</strong></span>
+        </div>
+      </div>`;
+    footer.innerHTML = `<button class="co-track-btn" onclick="window.location.href='index.html'">Track Order</button>
+                        <button class="co-done-btn" onclick="window.location.href='index.html'">Back to Home</button>`;
+    lucide.createIcons();
+  }, 1400);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  lucide.createIcons();
+  renderPaymentPage();
+});
+</script>
+</body>
+</html>
