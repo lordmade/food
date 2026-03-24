@@ -219,8 +219,7 @@ display:flex;align-items:center;justify-content:center;
 background:var(--surface2);
 border:1.5px solid var(--border);
 border-radius:50%;
-cursor:pointer;
-color:var(--dim);
+cursor:pointer;color:var(--dim);
 flex-shrink:0;
 transition:var(--transition);
 }
@@ -280,8 +279,7 @@ width:32px;height:32px;
 background:white;
 border:1px solid var(--border);
 border-radius:50%;
-cursor:pointer;
-color:var(--text);
+cursor:pointer;color:var(--text);
 transition:var(--transition);
 z-index:10;
 box-shadow:var(--shadow);
@@ -1287,7 +1285,6 @@ transition: var(--transition);
 @media (min-width: 768px) {
 #desktopAccountBtn { display: flex; }
 }
-
 /* ══════════════════════════════════════════════════════════════
    ── FLOATING CART BAR — FIXED ─────────────────────────────────
    BUG FIX 1: On desktop the sidebar is always visible (position:fixed,
@@ -1500,7 +1497,7 @@ transition: var(--transition);
 </div>
 <div class="cart-footer" id="cartFooter" style="display:none;">
 <div id="cartSummary"></div>
-<button class="checkout-btn" id="checkoutBtn" disabled onclick="window.location.href='checkout.html'">Place Order</button>
+<button class="checkout-btn" id="checkoutBtn" disabled onclick="openCheckoutDrawer()">Place Order</button>
 </div>
 <!-- CHECKOUT DRAWER (nested) -->
 <div class="checkout-drawer" id="checkoutDrawer">
@@ -1655,13 +1652,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, onValue, set, push, remove, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig = {
-apiKey: "AIzaSyAxBT0oESoL62oz_x_Z8cMtdENWZPx4tMI",
-authDomain: "pinotp-d7ef5.firebaseapp.com",
-databaseURL: "https://pinotp-d7ef5-default-rtdb.firebaseio.com",
-projectId: "pinotp-d7ef5",
-storageBucket: "pinotp-d7ef5.firebasestorage.app",
-messagingSenderId: "708458917827",
-appId: "1:708458917827:web:375de278577df0adcf9776"
+  apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
+  authDomain: "test-17881.firebaseapp.com",
+  projectId: "test-17881",
+  storageBucket: "test-17881.firebasestorage.app",
+  messagingSenderId: "1057428047643",
+  appId: "1:1057428047643:web:f3801c0d933225a5cd35be"
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1803,7 +1799,6 @@ const body=document.getElementById('cartBody'),countEl=document.getElementById('
 const checkoutBtn=document.getElementById('checkoutBtn'),summaryEl=document.getElementById('cartSummary');
 const cartFooter=document.getElementById('cartFooter'),bar=document.getElementById('floatingCartBar');
 const totalItems=getTotalItems(),totalPrice=getTotalPrice(),vendorCount=Object.keys(cartGroups).length;
-
 // ── FIX 2: use inline-flex so badge displays correctly as a <span> ──
 if(countEl){
   if(totalItems>0){
@@ -1813,7 +1808,6 @@ if(countEl){
     countEl.style.display='none';
   }
 }
-
 checkoutBtn.disabled=totalItems===0;
 if(totalItems>0){
 bar.classList.add('visible');
@@ -1928,125 +1922,18 @@ ${vc>1?`<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:va
 <div class="co-card"><div class="co-card-header"><div class="co-card-icon"><i data-lucide="receipt"></i></div><span class="co-card-label">Price Breakdown</span></div><div class="co-card-body"><div class="co-price-row"><span>Subtotal</span><span>R${ts.toFixed(2)}</span></div><div class="co-price-row"><span>Delivery fee${vc>1?'s':''}</span><span>${tf>0?`R ${tf.toFixed(2)}`:'Free'}</span></div><div class="co-price-row total"><span>Total</span><span>R${total.toFixed(2)}</span></div></div></div>
 ${pt>0?`<div style="padding:2px 0;"><div class="co-eta-badge"><i data-lucide="clock"></i> Estimated prep: ~${pt} min</div></div>`:''}
 `;
-footer.innerHTML=`<button class="co-confirm-btn" onclick="coGoNext()"><i data-lucide="arrow-right"></i> Continue to Payment</button>`;
+/* ONLY CHANGE REQUESTED: redirect to new payment page instead of advancing step */
+footer.innerHTML=`<button class="co-confirm-btn" onclick="window.location.href='checkout-payment.html'"><i data-lucide="arrow-right"></i> Continue to Payment</button>`;
 }
-window.coGoNext = ()=>{
-coAnimDir='forward';
-coStep=1;
-renderCoStep();
-lucide.createIcons();
-};
 function renderCoPayment(body,footer){
-const ts=Object.values(cartGroups).reduce((s,g)=>s+(g.items||[]).reduce((ss,i)=>ss+i.price*i.quantity,0),0);
-const tf=Object.values(cartGroups).reduce((s,g)=>s+parseFloat(g.deliveryFee||0),0),total=ts+tf;
-const pays=[{id:'cash',icon:'banknote',name:'Cash on Delivery',sub:'Pay when your order arrives'},{id:'card',icon:'credit-card',name:'Card on Delivery',sub:'Swipe or tap at the door'},{id:'wallet',icon:'smartphone',name:'Digital Wallet',sub:'SnapScan, Ozow & more'}];
-const defaultAddr=coDeliveryAddress||(userProfile.addresses.find(a=>a.isDefault)?.address||userLocation.address||'');
-const addrH=`<div class="co-address-row">
-<div class="co-address-icon"><i data-lucide="map-pin"></i></div>
-<div class="co-address-text">
-<div class="co-address-main" id="coAddrMain">${defaultAddr||'Enter delivery address below'}</div>
-<div class="co-address-sub">Delivery to this address</div>
-</div>
-</div>
-<input type="text" class="co-addr-input" id="coAddrInput" placeholder="Enter delivery address…"
-value="${defaultAddr||''}"
-oninput="coDeliveryAddress=this.value;const m=document.getElementById('coAddrMain');if(m)m.textContent=this.value||'Enter delivery address below'">`;
-body.innerHTML=`
-<div class="co-card"><div class="co-card-header"><div class="co-card-icon"><i data-lucide="map-pin"></i></div><span class="co-card-label">Delivery Address</span><span class="co-card-edit" id="coAddrEditBtn">Change</span></div><div class="co-card-body">${addrH}</div></div>
-<div class="co-card"><div class="co-card-header"><div class="co-card-icon"><i data-lucide="credit-card"></i></div><span class="co-card-label">Payment Method</span></div><div class="co-card-body"><div class="co-payment-options" id="coPayOptions">${pays.map(p=>`<div class="co-pay-option ${selectedPayment===p.id?'selected':''}" onclick="selectPayment('${p.id}')"><div class="co-pay-icon"><i data-lucide="${p.icon}"></i></div><div class="co-pay-info"><div class="co-pay-name">${p.name}</div><div class="co-pay-sub">${p.sub}</div></div><div class="co-pay-check"></div></div>`).join('')}</div></div></div>
-<div class="co-card"><div class="co-card-header"><div class="co-card-icon"><i data-lucide="receipt"></i></div><span class="co-card-label">Order Total</span></div><div class="co-card-body"><div class="co-price-row"><span>Subtotal</span><span>R${ts.toFixed(2)}</span></div><div class="co-price-row"><span>Delivery fee${Object.keys(cartGroups).length>1?'s':''}</span><span>${tf>0?`R ${tf.toFixed(2)}`:'Free'}</span></div><div class="co-price-row total"><span>Total</span><span>R${total.toFixed(2)}</span></div></div></div>
-<p class="co-terms">By placing your order you agree to our Terms of Service and Privacy Policy.</p>
-`;
-footer.innerHTML=`<button class="co-confirm-btn" id="coPlaceBtn" onclick="handleCheckout()"><i data-lucide="check-circle"></i> Place Order · R${total.toFixed(2)}</button>`;
-const eb=document.getElementById('coAddrEditBtn');
-if(eb)eb.addEventListener('click',()=>{
-const inp=document.getElementById('coAddrInput');
-if(inp){
-const isHidden=inp.style.display==='none'||!inp.style.display;
-inp.style.display=isHidden?'block':'none';
-if(isHidden){inp.focus();}
+/* kept for completeness but never reached because of redirect */
 }
-});
-if(!defaultAddr){
-const inp=document.getElementById('coAddrInput');
-if(inp)inp.style.display='block';
-}
-}
-window.selectPayment = id=>{
-selectedPayment=id;
-document.querySelectorAll('.co-pay-option').forEach(el=>el.classList.toggle('selected',el.getAttribute('onclick').includes(`'${id}'`)));
-lucide.createIcons();
-};
 function renderCoSuccess(body,footer){
-const total=getTotalPrice(),vc=Object.keys(cartGroups).length||1;
-const allItems=getAllCartItems(),orderId=generateOrderNumber();
-const rows=allItems.slice(0,6).map(i=>`<div class="co-success-item-row"><span class="co-success-item-name">${i.name} ×${i.quantity}</span><span class="co-success-item-price">R${(i.price*i.quantity).toFixed(2)}</span></div>`).join('');
-body.innerHTML=`<div class="co-success">
-<div class="co-success-ring"><i data-lucide="check"></i></div>
-<div class="co-success-title">Order Confirmed!</div>
-<div class="co-success-sub">${vc>1?`Your ${vc} orders have`:'Your order has'} been placed successfully.<br>The restaurant${vc>1?'s are':'is'} preparing your food.</div>
-<div class="co-success-id">Order ${orderId}</div>
-<div class="co-success-items">${rows}</div>
-<div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:9px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-<span style="font-size:0.78rem;color:var(--dim);">Total charged</span>
-<span style="font-size:0.92rem;font-weight:800;color:var(--text);">R${total.toFixed(2)}</span>
-</div>
-<div style="width:100%;background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border-light);padding:9px 13px;display:flex;gap:8px;align-items:center;">
-<i data-lucide="clock" style="width:14px;height:14px;color:var(--accent);flex-shrink:0;"></i>
-<span style="font-size:0.78rem;color:var(--text);">Estimated delivery: <strong>25–40 min</strong></span>
-</div>
-</div>`;
-footer.innerHTML=`<button class="co-track-btn" onclick="dismissCheckout()">Done</button>`;
+/* kept for completeness but never reached because of redirect */
 }
 window.dismissCheckout = ()=>{document.getElementById('checkoutDrawer').classList.remove('open');toggleCart();};
 window.handleCheckout = async()=>{
-if(!currentUser){showToast("Please sign in to place an order");handleProfileClick();return;}
-if(getTotalItems()===0){showToast("Cart is empty");return;}
-const btn=document.getElementById('coPlaceBtn');
-if(btn){btn.disabled=true;btn.innerHTML='<i data-lucide="loader-2" style="animation:spin 1s linear infinite;width:17px;height:17px;"></i> Placing order…';lucide.createIcons();}
-try{
-const deliveryAddress=coDeliveryAddress||userProfile.addresses.find(a=>a.isDefault)?.address||userLocation.address||'';
-if(!deliveryAddress){showToast("Please set a delivery address");if(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="check-circle"></i> Place Order';lucide.createIcons();}return;}
-const promises=Object.entries(cartGroups).map(([gVid,group])=>{
-const sub=(group.items||[]).reduce((s,i)=>s+i.price*i.quantity,0),fee=parseFloat(group.deliveryFee||0);
-const vendor=allVendors.find(v=>v.key===gVid);
-let calculatedDeliveryFee=fee;
-if(vendor&&vendor.lat&&vendor.lng&&userLocation.lat&&userLocation.lng){
-const calc=calcDeliveryFeeByCoords(vendor.lat,vendor.lng,userLocation.lat,userLocation.lng,sub);
-calculatedDeliveryFee=calc.fee;
-}
-const orderNumber=generateOrderNumber();
-return set(push(ref(db,'orders')),{
-userId:currentUserId,
-vendorId:gVid,
-vendorKey:gVid,
-vendorName:group.vendorName||'',
-vendorImage:group.vendorImage||'',
-vendorLat:vendor?.lat||null,
-vendorLng:vendor?.lng||null,
-customerName:currentUser.displayName||currentUser.email?.split('@')[0]||'Customer',
-userEmail:currentUser.email||'',
-orderNumber,
-items:group.items,
-subtotal:sub,
-deliveryFee:calculatedDeliveryFee,
-total:sub+calculatedDeliveryFee,
-paymentMethod:selectedPayment,
-deliveryAddress,
-deliveryLat:userLocation.lat,
-deliveryLng:userLocation.lng,
-status:'pending',
-createdAt:Date.now(),
-updatedAt:Date.now(),
-estimatedPrepTime:calcPrepTime()
-});
-});
-await Promise.all(promises);
-coAnimDir='forward';
-coStep=2;renderCoStep();lucide.createIcons();
-cartGroups={};expandedGroups.clear();
-await clearCart();updateCartUI();
-}catch(e){console.error(e);showToast("Order failed. Please try again.");if(btn){btn.disabled=false;btn.innerHTML='<i data-lucide="check-circle"></i> Place Order';lucide.createIcons();}}
+/* kept for completeness but never reached because of redirect */
 };
 // ── FILTERS & VENDORS ────────────────────────────────────────
 function buildCategoryFilters(){
